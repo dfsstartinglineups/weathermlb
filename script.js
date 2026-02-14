@@ -73,7 +73,7 @@ async function init(dateToFetch) {
             let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${venueId}</span></div>`;
             
             if (stadium) {
-                // Fetch Weather Data (Now includes hourly slice)
+                // Fetch Weather Data
                 const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
                 
                 if (weather.temp !== '--') {
@@ -92,31 +92,44 @@ async function init(dateToFetch) {
                         weather.windSpeed = 0; 
                     }
 
-                    // --- NEW: GENERATE HOURLY RAIN BARS ---
-                    // We iterate through the 'hourly' array returned by fetchGameWeather
+                    // --- NEW: HORIZONTAL RAIN HEAT MAP ---
                     let hourlyHtml = '';
-                    if (weather.hourly && weather.hourly.length > 0) {
-                        const bars = weather.hourly.map(h => {
-                            // Calculate height (cap at 100%)
-                            const height = Math.min(h.precipChance, 100);
-                            // Only show % number if it's significant (>20%) or if it's the demo data
-                            const showLabel = h.precipChance >= 10 ? `${Math.round(h.precipChance)}%` : '';
+                    
+                    if (isRoofClosed) {
+                        // If roof closed, don't show the bar
+                        hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
+                    } else if (weather.hourly && weather.hourly.length > 0) {
+                        
+                        // 1. Build the colored segments
+                        const segments = weather.hourly.map(h => {
+                            let colorClass = 'risk-low'; // Default Green (<15%)
+                            if (h.precipChance >= 50) colorClass = 'risk-high'; // Red
+                            else if (h.precipChance >= 15) colorClass = 'risk-med'; // Yellow
                             
-                            // Format Time (e.g., 19 -> 7p)
-                            let timeLabel = new Date(`2000-01-01T${h.hour}:00:00`).toLocaleTimeString([], {hour: 'numeric'}).replace(':00 ', '').replace(' PM','p').replace(' AM','a');
-                            
-                            return `
-                                <div class="rain-slot">
-                                    ${showLabel ? `<div class="rain-val">${showLabel}</div>` : ''}
-                                    <div class="rain-bar-bg" title="${h.precipChance}% chance at ${timeLabel}">
-                                        <div class="rain-bar-fill" style="height: ${height}%;"></div>
-                                    </div>
-                                    <div class="rain-label">${timeLabel}</div>
-                                </div>
-                            `;
+                            // Tooltip for exact %
+                            return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain"></div>`;
                         }).join('');
                         
-                        hourlyHtml = `<div class="rain-timeline">${bars}</div>`;
+                        // 2. Build the time labels below
+                        const labels = weather.hourly.map(h => {
+                             // Format Time (e.g., 19 -> 7p)
+                             let timeLabel = new Date(`2000-01-01T${h.hour}:00:00`).toLocaleTimeString([], {hour: 'numeric'}).replace(':00 ', '').replace(' PM','p').replace(' AM','a');
+                             return `<div class="rain-time-label">${timeLabel}</div>`;
+                        }).join('');
+
+                        hourlyHtml = `
+                            <div class="rain-container">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span style="font-size: 0.65rem; color: #adb5bd; font-weight: bold;">HOURLY RAIN RISK</span>
+                                </div>
+                                <div class="rain-track">
+                                    ${segments}
+                                </div>
+                                <div class="rain-labels">
+                                    ${labels}
+                                </div>
+                            </div>
+                        `;
                     }
 
                     weatherHtml = `
@@ -141,7 +154,7 @@ async function init(dateToFetch) {
                             </span>
                         </div>
 
-                        ${isRoofClosed ? '' : hourlyHtml} 
+                        ${hourlyHtml}
                     `;
                 }
             }
@@ -198,25 +211,19 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        
-        // Game Hour (0-23)
         const gameHour = new Date(gameDateIso).getHours();
         
-        // --- NEW: Extract Hourly Slice (Hour-1 to Hour+4) ---
+        // --- Extract Hourly Slice (Hour-1 to Hour+4) ---
         const hourlySlice = [];
-        // Loop from 1 hour before to 4 hours after (total 6 hours)
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
-            // Ensure we stay within the 0-23 range of the day's data
             if (i >= 0 && i < 24) {
                 let chance = 0;
                 
-                // Normalizing Data:
-                // If Historical: API gives "inches". We mock % for the visual (if >0.01 inch, assume wet).
-                // If Forecast: API gives "probability" (0-100).
+                // Normalize Data
                 if (data.hourly.precipitation_probability) {
                     chance = data.hourly.precipitation_probability[i];
                 } else if (data.hourly.precipitation) {
-                    // Mock logic for demo date: 0.01 inch = 30%, 0.1 inch = 80%, etc.
+                    // Mock logic for demo date
                     const amount = data.hourly.precipitation[i];
                     if(amount > 0.05) chance = 80;
                     else if(amount > 0.01) chance = 40;
@@ -230,22 +237,20 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
             }
         }
 
-        // Get snapshot data for the main display
         const temps = data.hourly.temperature_2m;
         const winds = data.hourly.wind_speed_10m;
         const dirs = data.hourly.wind_direction_10m;
         
-        // Get generic precip for the "Rain Risk" main number
         let currentPrecipVal = 0;
         if (data.hourly.precipitation_probability) currentPrecipVal = data.hourly.precipitation_probability[gameHour] / 100;
-        else if (data.hourly.precipitation) currentPrecipVal = data.hourly.precipitation[gameHour]; // raw inches for hist
+        else if (data.hourly.precipitation) currentPrecipVal = data.hourly.precipitation[gameHour]; 
 
         return {
             temp: Math.round(temps[gameHour]),
             currentPrecip: currentPrecipVal, 
             windSpeed: Math.round(winds[gameHour]),
             windDir: dirs[gameHour],
-            hourly: hourlySlice // Return the array for the bar chart
+            hourly: hourlySlice 
         };
     } catch (e) {
         console.error("⚠️ Weather fetch failed:", e);

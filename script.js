@@ -121,7 +121,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
     }
 }
 
-// 3. CALCULATE WIND DIRECTION (The Moneyball Math)
+// 3. CALCULATE WIND DIRECTION (Corrected Logic)
 function calculateWind(windDirection, stadiumBearing) {
     // windDirection: Where wind is coming FROM (0=N, 90=E)
     // stadiumBearing: Angle from Home Plate to Center Field
@@ -133,10 +133,13 @@ function calculateWind(windDirection, stadiumBearing) {
     // 0 deg diff = Wind coming from Center Field direction (Blowing IN)
     // 180 deg diff = Wind coming from Home Plate direction (Blowing OUT)
     
+    // Positive Diff (0-180) means wind is to the RIGHT of Center Field
+    // Negative Diff (180-360) means wind is to the LEFT of Center Field
+    
     if (diff >= 337.5 || diff < 22.5) {
         return { text: "Blowing IN ⬇️", cssClass: "bg-in", arrow: "⬇" };
     } else if (diff >= 22.5 && diff < 67.5) {
-        return { text: "In from Left ↘️", cssClass: "bg-in", arrow: "↘" };
+        return { text: "In from Right ↙️", cssClass: "bg-in", arrow: "↙" }; // FIXED
     } else if (diff >= 67.5 && diff < 112.5) {
         return { text: "Cross (R to L) ⬅️", cssClass: "bg-cross", arrow: "⬅" };
     } else if (diff >= 112.5 && diff < 157.5) {
@@ -148,9 +151,8 @@ function calculateWind(windDirection, stadiumBearing) {
     } else if (diff >= 247.5 && diff < 292.5) {
         return { text: "Cross (L to R) ➡️", cssClass: "bg-cross", arrow: "➡" };
     } else { // 292.5 to 337.5
-        return { text: "In from Right ↙️", cssClass: "bg-in", arrow: "↙" };
+        return { text: "In from Left ↘️", cssClass: "bg-in", arrow: "↘" }; // FIXED
     }
 }
-
 // Run the script
 init();

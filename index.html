@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeatherMLB - Game Day Forecasts</title>
+    
+    <title>WeatherMLB | MLB Weather Forecasts, Wind Direction & Stadium Data</title>
+    <meta name="description" content="Daily MLB weather forecasts, wind speed, and direction relative to every stadium. The ultimate tool for fantasy baseball and sports betting.">
+    <meta name="keywords" content="MLB weather, baseball weather, wind direction Wrigley Field, fantasy baseball weather, MLB wind forecasts, sports betting weather, baseball stadium wind">
+    <meta name="author" content="WeatherMLB">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://weathermlb.com/">
+    <meta property="og:title" content="WeatherMLB - Daily Baseball Weather & Wind Analysis">
+    <meta property="og:description" content="Is the wind blowing out? Check hourly forecasts and field-relative wind direction for every MLB game today.">
+    <meta property="og:image" content="https://weathermlb.com/social-share.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://weathermlb.com/">
+    <meta property="twitter:title" content="WeatherMLB - Daily Baseball Weather">
+    <meta property="twitter:description" content="Don't set your lineup without checking the wind. Precise weather data for all 30 MLB stadiums.">
+    <meta property="twitter:image" content="https://weathermlb.com/social-share.jpg">
+
+    <link rel="canonical" href="https://weathermlb.com/">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         body { background-color: #f4f6f9; }
         .game-card { border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; transition: transform 0.2s; }
@@ -13,9 +34,12 @@
         .weather-row { font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
         .stadium-name { color: #6c757d; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
         .wind-badge { font-size: 0.8rem; padding: 5px 10px; border-radius: 20px; }
-        .bg-out { background-color: #d4edda; color: #155724; } /* Green for Blowing Out (Hitters) */
-        .bg-in { background-color: #f8d7da; color: #721c24; } /* Red for Blowing In (Pitchers) */
-        .bg-cross { background-color: #fff3cd; color: #856404; } /* Yellow for Crosswinds */
+        
+        /* Wind Direction Colors */
+        .bg-out { background-color: #d4edda; color: #155724; } 
+        .bg-in { background-color: #f8d7da; color: #721c24; }
+        .bg-cross { background-color: #fff3cd; color: #856404; }
+        .bg-dome { background-color: #e2e3e5; color: #383d41; }
     </style>
 </head>
 <body>

@@ -1,6 +1,8 @@
 // ==========================================
 // CONFIGURATION
 // ==========================================
+// Automatically sets the date to TODAY (YYYY-MM-DD format)
+// The 'en-CA' locale is a trick to get YYYY-MM-DD consistently
 const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 
 // ==========================================
@@ -13,6 +15,7 @@ async function init(dateToFetch) {
     const container = document.getElementById('games-container');
     const datePicker = document.getElementById('date-picker');
 
+    // Update the picker to show the date we are fetching
     if (datePicker) datePicker.value = dateToFetch;
 
     if (container) {
@@ -43,6 +46,7 @@ async function init(dateToFetch) {
                 <div class="col-12 text-center mt-5">
                     <div class="alert alert-light shadow-sm py-4">
                         <h4 class="text-muted">No games scheduled for ${dateToFetch}</h4>
+                        <p class="small text-muted mb-0">Spring Training starts Feb 20!</p>
                     </div>
                 </div>`;
             return;
@@ -68,13 +72,24 @@ async function init(dateToFetch) {
             const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
             const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
+            // Default State
             let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${venueId}</span></div>`;
             
             if (stadium) {
                 // Fetch Weather Data
                 const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
                 
-                if (weather.temp !== '--') {
+                // --- CASE 1: Forecast too far in future ---
+                if (weather.status === "too_early") {
+                    weatherHtml = `
+                        <div class="text-center p-4">
+                            <h5 class="text-muted">🔭 Too Early to Forecast</h5>
+                            <p class="small text-muted mb-0">Forecasts are only available ~14 days in advance.</p>
+                        </div>
+                    `;
+                }
+                // --- CASE 2: Valid Weather Data ---
+                else if (weather.temp !== '--') {
                     // Wind Logic
                     let windInfo = calculateWind(weather.windDir, stadium.bearing);
                     
@@ -90,11 +105,10 @@ async function init(dateToFetch) {
                         weather.windSpeed = 0; 
                     }
 
-                    // --- GENERATE AI ANALYSIS BLURB ---
+                    // Generate Analysis
                     const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
 
-
-                    // --- HORIZONTAL RAIN HEAT MAP ---
+                    // Horizontal Rain Heat Map
                     let hourlyHtml = '';
                     if (isRoofClosed) {
                         hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
@@ -103,8 +117,6 @@ async function init(dateToFetch) {
                             let colorClass = 'risk-low'; 
                             if (h.precipChance >= 50) colorClass = 'risk-high'; 
                             else if (h.precipChance >= 15) colorClass = 'risk-med'; 
-                            
-                            // Only show text if > 0
                             const textLabel = h.precipChance > 0 ? `${h.precipChance}%` : '';
                             return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${textLabel}</div>`;
                         }).join('');
@@ -129,7 +141,6 @@ async function init(dateToFetch) {
 
                     const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
 
-                    // --- UPDATE: Moved Wind Badge into the 3rd Column ---
                     weatherHtml = `
                         <div class="weather-row row text-center align-items-center">
                             <div class="col-4 border-end">
@@ -193,7 +204,6 @@ async function init(dateToFetch) {
 // 2. HELPER FUNCTIONS
 // ==========================================
 
-// --- ANALYSIS BLURB GENERATOR ---
 function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     if (isRoofClosed) {
         return "Roof closed. Controlled environment with zero weather impact.";
@@ -241,18 +251,41 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
 async function fetchGameWeather(lat, lon, gameDateIso) {
     const dateStr = gameDateIso.split('T')[0];
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toLocaleDateString('en-CA'); // Force YYYY-MM-DD local
     const isHistorical = dateStr < today; 
 
+    // Calculate days away to decide which API mode to use
+    const daysDiff = (new Date(dateStr) - new Date(today)) / (1000 * 60 * 60 * 24);
+
+    // If more than 16 days out, we can't do anything
+    if (!isHistorical && daysDiff > 16) {
+        return { status: "too_early", temp: '--' };
+    }
+
     let url = "";
+
+    // A. HISTORICAL: Use Archive API (Pre-2025 or past dates)
     if (isHistorical || dateStr === "2024-09-25") {
          url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
-    } else {
+    } 
+    // B. SHORT RANGE (0-3 Days): Use Best Match (High accuracy)
+    else if (daysDiff <= 3) {
          url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+    }
+    // C. MEDIUM RANGE (4-16 Days): Use GFS Model explicitly (Reliable longer range)
+    else {
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
 
     try {
         const response = await fetch(url);
+        
+        if (!response.ok) {
+            console.warn(`Weather API Error ${response.status} for ${dateStr}`);
+            if (response.status === 400) return { status: "too_early", temp: '--' };
+            return { temp: '--', hourly: [] };
+        }
+
         const data = await response.json();
         const gameHour = new Date(gameDateIso).getHours();
         
@@ -291,6 +324,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const dirs = data.hourly.wind_direction_10m;
 
         return {
+            status: "ok",
             temp: Math.round(temps[gameHour]),
             maxPrecipChance: maxChanceInWindow, 
             windSpeed: Math.round(winds[gameHour]),

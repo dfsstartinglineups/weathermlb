@@ -31,107 +31,35 @@ async function init() {
             const venueId = game.venue.id;
             const stadium = stadiums.find(s => s.id === venueId);
 
-            // Create Card HTML
+            // Create Card HTML Wrapper
             const gameCard = document.createElement('div');
             gameCard.className = 'col-md-6 col-lg-4';
             
-            // Basic Game Info
-            const awayTeam = game.teams.away.team.name;
-            const homeTeam = game.teams.home.team.name;
-            const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-            let weatherHtml = `<div class="text-muted p-3">Weather data unavailable for this stadium.</div>`;
-
-            // If we have stadium data, fetch weather
-            if (stadium) {
-                const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
-                let windInfo = calculateWind(weather.windDir, stadium.bearing);
-                
-                // ROOF LOGIC:
-                // If the stadium has a roof, check if we should assume it's closed.
-                // Logic: If Precip > 0.1 inch OR Temp < 50F OR Temp > 95F -> Assume Closed
-                let isRoofClosed = false;
-                
-                if (stadium.dome) {
-                    isRoofClosed = true; // Tropicana Field is always a dome
-                } else if (stadium.roof) {
-                    if (weather.precip > 0.05 || weather.temp < 50 || weather.temp > 95) {
-                        isRoofClosed = true;
-                    }
-                }
-                
-                // Override display if roof is closed
-                if (isRoofClosed) {
-                    windInfo = { text: "Roof Closed 🏟️", cssClass: "bg-secondary text-white", arrow: "" };
-                }
-                weatherHtml = `
-                    <div class="weather-row row text-center">
-                        <div class="col-4 border-end">
-                            <div class="fw-bold">${weather.temp}°F</div>
-                            <div class="small text-muted">Temp</div>
-                        </div>
-                        <div class="col-4 border-end">
-                            <div class="fw-bold">${weather.precip > 0 ? Math.round(weather.precip * 100) + '%' : '0%'}</div>
-                            <div class="small text-muted">Rain Risk</div>
-                        </div>
-                        <div class="col-4">
-                            <div class="fw-bold">${weather.windSpeed} mph</div>
-                            <div class="small text-muted">Wind</div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-3">
-                        <span class="wind-badge ${windInfo.cssClass}">
-                            ${windInfo.arrow} ${windInfo.text}
-                        </span>
-                    </div>
-                `;
-            }
-
-            gameCard.innerHTML = `
-                <div class="card game-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-secondary">${gameTime}</span>
-                            <span class="stadium-name">${game.venue.name}</span>
-                        </div>
-                        <h5 class="card-title text-center mb-3">
-                            ${awayTeam} <span class="text-muted">at</span> ${homeTeam}
-                        </h5>
-                        ${weatherHtml}
-                    </div>
-                </div>
-            `;
-            containe// ... inside init() function, inside the loop ...
-
-        // Step C: Process Each Game
-        for (const game of games) {
-            const venueId = game.venue.id;
-            const stadium = stadiums.find(s => s.id === venueId);
-
-            // Create Card HTML
-            const gameCard = document.createElement('div');
-            gameCard.className = 'col-md-6 col-lg-4';
-            
-            // --- NEW: Get Team IDs and Logos ---
+            // --- Get Team IDs and Logos ---
             const awayId = game.teams.away.team.id;
             const homeId = game.teams.home.team.id;
+            const awayName = game.teams.away.team.name;
+            const homeName = game.teams.home.team.name;
             
-            // Official MLB Vector Logos (SVG)
+            // Official MLB Vector Logos
             const awayLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${awayId}.svg`;
             const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
 
-            const awayTeam = game.teams.away.team.name;
-            const homeTeam = game.teams.home.team.name;
+            // Format Game Time
             const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-            let weatherHtml = `<div class="text-muted p-3">Weather data unavailable for this stadium.</div>`;
+            let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable for this stadium.<br>(Venue ID: ${venueId})</div>`;
 
             // If we have stadium data, fetch weather
             if (stadium) {
                 const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
+                
+                // Calculate Wind Vector
                 let windInfo = calculateWind(weather.windDir, stadium.bearing);
 
-                // Roof Logic
+                // --- ROOF LOGIC ---
+                // 1. Permanent Dome (Rays) -> Always Closed
+                // 2. Retractable Roof -> Closed if Raining OR Cold (<50F) OR Hot (>95F)
                 let isRoofClosed = false;
                 if (stadium.dome) {
                     isRoofClosed = true; 
@@ -141,8 +69,11 @@ async function init() {
                     }
                 }
 
+                // If Roof is Closed, Override Wind Display
                 if (isRoofClosed) {
                     windInfo = { text: "Roof Closed 🏟️", cssClass: "bg-secondary text-white", arrow: "" };
+                    // Optionally set wind speed to 0 for clarity
+                    weather.windSpeed = 0; 
                 }
                 
                 weatherHtml = `
@@ -168,24 +99,23 @@ async function init() {
                 `;
             }
 
-            // --- UPDATED HTML TEMPLATE WITH LOGOS ---
             gameCard.innerHTML = `
                 <div class="card game-card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="badge bg-secondary">${gameTime}</span>
-                            <span class="stadium-name">${game.venue.name}</span>
+                            <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center mb-3 px-2">
                             <div class="text-center" style="width: 45%;">
-                                <img src="${awayLogo}" alt="${awayTeam}" class="team-logo mb-2" onerror="this.style.display='none'">
-                                <div class="fw-bold small">${awayTeam}</div>
+                                <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
+                                <div class="fw-bold small lh-1">${awayName}</div>
                             </div>
-                            <div class="text-muted small">@</div>
+                            <div class="text-muted small fw-bold">@</div>
                             <div class="text-center" style="width: 45%;">
-                                <img src="${homeLogo}" alt="${homeTeam}" class="team-logo mb-2" onerror="this.style.display='none'">
-                                <div class="fw-bold small">${homeTeam}</div>
+                                <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
+                                <div class="fw-bold small lh-1">${homeName}</div>
                             </div>
                         </div>
 
@@ -195,6 +125,7 @@ async function init() {
             `;
             container.appendChild(gameCard);
         }
+
     } catch (error) {
         console.error("Error fetching data:", error);
         container.innerHTML = `<div class="alert alert-danger">Error loading data. Check console for details.</div>`;
@@ -215,52 +146,22 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         
         // Find the hour nearest to game time
         const gameHour = new Date(gameDateIso).getHours();
-        const index = gameHour; // Open-Meteo returns 0-23 hours index mapped perfectly
+        
+        // Open-Meteo returns 0-23 hours index mapped perfectly
+        // Use simpler variable names for clarity
+        const temps = data.hourly.temperature_2m;
+        const precips = data.hourly.precipitation;
+        const winds = data.hourly.wind_speed_10m;
+        const dirs = data.hourly.wind_direction_10m;
 
         return {
-            temp: Math.round(data.hourly.temperature_2m[index]),
-            precip: data.hourly.precipitation[index], // In inches (archive data)
-            windSpeed: Math.round(data.hourly.wind_speed_10m[index]),
-            windDir: data.hourly.wind_direction_10m[index]
+            temp: Math.round(temps[gameHour]),
+            precip: precips[gameHour], 
+            windSpeed: Math.round(winds[gameHour]),
+            windDir: dirs[gameHour]
         };
     } catch (e) {
         console.error("Weather fetch failed", e);
         return { temp: '--', precip: 0, windSpeed: '--', windDir: 0 };
     }
 }
-
-// 3. CALCULATE WIND DIRECTION (Corrected Logic)
-function calculateWind(windDirection, stadiumBearing) {
-    // windDirection: Where wind is coming FROM (0=N, 90=E)
-    // stadiumBearing: Angle from Home Plate to Center Field
-    
-    // Calculate difference
-    let diff = (windDirection - stadiumBearing + 360) % 360;
-
-    // Determine Logic
-    // 0 deg diff = Wind coming from Center Field direction (Blowing IN)
-    // 180 deg diff = Wind coming from Home Plate direction (Blowing OUT)
-    
-    // Positive Diff (0-180) means wind is to the RIGHT of Center Field
-    // Negative Diff (180-360) means wind is to the LEFT of Center Field
-    
-    if (diff >= 337.5 || diff < 22.5) {
-        return { text: "Blowing IN ⬇️", cssClass: "bg-in", arrow: "⬇" };
-    } else if (diff >= 22.5 && diff < 67.5) {
-        return { text: "In from Right ↙️", cssClass: "bg-in", arrow: "↙" }; // FIXED
-    } else if (diff >= 67.5 && diff < 112.5) {
-        return { text: "Cross (R to L) ⬅️", cssClass: "bg-cross", arrow: "⬅" };
-    } else if (diff >= 112.5 && diff < 157.5) {
-        return { text: "Out to Left ↖️", cssClass: "bg-out", arrow: "↖" };
-    } else if (diff >= 157.5 && diff < 202.5) {
-        return { text: "Blowing OUT ⬆️", cssClass: "bg-out", arrow: "⬆" };
-    } else if (diff >= 202.5 && diff < 247.5) {
-        return { text: "Out to Right ↗️", cssClass: "bg-out", arrow: "↗" };
-    } else if (diff >= 247.5 && diff < 292.5) {
-        return { text: "Cross (L to R) ➡️", cssClass: "bg-cross", arrow: "➡" };
-    } else { // 292.5 to 337.5
-        return { text: "In from Left ↘️", cssClass: "bg-in", arrow: "↘" }; // FIXED
-    }
-}
-// Run the script
-init();

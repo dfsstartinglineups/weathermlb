@@ -229,15 +229,26 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     if (weather.windSpeed >= 8) {
         const dir = windInfo.text;
         
+        // --- WIND BLOWING OUT (Power Boost) ---
         if (dir.includes("Blowing OUT")) {
             notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
-        } else if (dir.includes("Blowing IN")) {
-            notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
         } else if (dir.includes("Out to Right")) {
             notes.push("↗️ <b>Lefty Advantage:</b> Wind blowing out to Right Field favors <b>Left-Handed</b> power.");
         } else if (dir.includes("Out to Left")) {
             notes.push("↖️ <b>Righty Advantage:</b> Wind blowing out to Left Field favors <b>Right-Handed</b> power.");
-        } else if (dir.includes("Cross")) {
+        } 
+        
+        // --- WIND BLOWING IN (Power Suppression) ---
+        else if (dir.includes("Blowing IN")) {
+            notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
+        } else if (dir.includes("In from Right")) {
+            notes.push("📉 <b>Lefty Nightmare:</b> Wind blowing in from Right knocks down Lefty power. Advantage pitchers.");
+        } else if (dir.includes("In from Left")) {
+            notes.push("📉 <b>Righty Nightmare:</b> Wind blowing in from Left knocks down Righty power. Advantage pitchers.");
+        } 
+        
+        // --- CROSS WINDS ---
+        else if (dir.includes("Cross")) {
             notes.push("↔️ <b>Tricky:</b> Crosswinds may affect outfield defense and breaking balls.");
         }
     }

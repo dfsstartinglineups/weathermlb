@@ -90,8 +90,7 @@ async function init(dateToFetch) {
                         weather.windSpeed = 0; 
                     }
 
-                    // --- NEW: GENERATE AI ANALYSIS BLURB ---
-                    // We pass the roof status so the AI knows if the wind matters
+                    // --- GENERATE AI ANALYSIS BLURB ---
                     const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
 
 
@@ -104,6 +103,8 @@ async function init(dateToFetch) {
                             let colorClass = 'risk-low'; 
                             if (h.precipChance >= 50) colorClass = 'risk-high'; 
                             else if (h.precipChance >= 15) colorClass = 'risk-med'; 
+                            
+                            // Only show text if > 0
                             const textLabel = h.precipChance > 0 ? `${h.precipChance}%` : '';
                             return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${textLabel}</div>`;
                         }).join('');
@@ -150,12 +151,12 @@ async function init(dateToFetch) {
                             </span>
                         </div>
                         
+                        ${hourlyHtml}
+
                         <div class="analysis-box">
                             <span class="analysis-title">✨ Weather Impact</span>
                             ${analysisText}
                         </div>
-
-                        ${hourlyHtml}
                     `;
                 }
             }
@@ -195,7 +196,7 @@ async function init(dateToFetch) {
 // 2. HELPER FUNCTIONS
 // ==========================================
 
-// --- NEW FUNCTION: GENERATE ANALYSIS BLURB ---
+// --- ANALYSIS BLURB GENERATOR ---
 function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     if (isRoofClosed) {
         return "Roof closed. Controlled environment with zero weather impact.";

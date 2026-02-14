@@ -19,7 +19,7 @@ async function init(dateToFetch) {
         container.innerHTML = `
             <div class="col-12 text-center mt-5 pt-5">
                 <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-3 text-muted">Analyzing hourly forecasts...</p>
+                <p class="mt-3 text-muted">Analyzing matchups...</p>
             </div>`;
     }
     
@@ -68,7 +68,6 @@ async function init(dateToFetch) {
             const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
             const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-            // Default State
             let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${venueId}</span></div>`;
             
             if (stadium) {
@@ -91,26 +90,24 @@ async function init(dateToFetch) {
                         weather.windSpeed = 0; 
                     }
 
+                    // --- NEW: GENERATE AI ANALYSIS BLURB ---
+                    // We pass the roof status so the AI knows if the wind matters
+                    const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
+
+
                     // --- HORIZONTAL RAIN HEAT MAP ---
                     let hourlyHtml = '';
-                    
                     if (isRoofClosed) {
                         hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
                     } else if (weather.hourly && weather.hourly.length > 0) {
-                        
-                        // 1. Build segments
                         const segments = weather.hourly.map(h => {
                             let colorClass = 'risk-low'; 
                             if (h.precipChance >= 50) colorClass = 'risk-high'; 
                             else if (h.precipChance >= 15) colorClass = 'risk-med'; 
-                            
-                            // NEW: Show Text if chance > 0
                             const textLabel = h.precipChance > 0 ? `${h.precipChance}%` : '';
-
                             return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${textLabel}</div>`;
                         }).join('');
                         
-                        // 2. Build time labels
                         const labels = weather.hourly.map(h => {
                              let timeLabel = new Date(`2000-01-01T${h.hour}:00:00`)
                                 .toLocaleTimeString([], {hour: 'numeric'})
@@ -123,17 +120,12 @@ async function init(dateToFetch) {
                                 <div class="d-flex justify-content-between mb-1">
                                     <span style="font-size: 0.65rem; color: #adb5bd; font-weight: bold;">HOURLY RAIN RISK</span>
                                 </div>
-                                <div class="rain-track">
-                                    ${segments}
-                                </div>
-                                <div class="rain-labels">
-                                    ${labels}
-                                </div>
+                                <div class="rain-track">${segments}</div>
+                                <div class="rain-labels">${labels}</div>
                             </div>
                         `;
                     }
 
-                    // --- DISPLAY ---
                     const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
 
                     weatherHtml = `
@@ -157,13 +149,17 @@ async function init(dateToFetch) {
                                 ${windInfo.arrow} ${windInfo.text}
                             </span>
                         </div>
+                        
+                        <div class="analysis-box">
+                            <span class="analysis-title">✨ Weather Impact</span>
+                            ${analysisText}
+                        </div>
 
                         ${hourlyHtml}
                     `;
                 }
             }
 
-            // Build Card HTML
             gameCard.innerHTML = `
                 <div class="card game-card h-100">
                     <div class="card-body pb-2">
@@ -199,12 +195,57 @@ async function init(dateToFetch) {
 // 2. HELPER FUNCTIONS
 // ==========================================
 
+// --- NEW FUNCTION: GENERATE ANALYSIS BLURB ---
+function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
+    if (isRoofClosed) {
+        return "Roof closed. Controlled environment with zero weather impact.";
+    }
+
+    let notes = [];
+
+    // 1. Rain Analysis
+    if (weather.maxPrecipChance >= 70) {
+        notes.push("⚠️ <b>Delay Risk:</b> High probability of rain delay or postponement.");
+    } else if (weather.maxPrecipChance >= 40) {
+        notes.push("⚠️ <b>Delay Risk:</b> Scattered storms could interrupt play.");
+    }
+
+    // 2. Temp Analysis
+    if (weather.temp >= 85) {
+        notes.push("🔥 <b>Hitter Friendly:</b> High temps reduce air density, helping fly balls carry.");
+    } else if (weather.temp <= 50) {
+        notes.push("❄️ <b>Pitcher Friendly:</b> Cold, dense air suppresses ball flight and scoring.");
+    }
+
+    // 3. Wind Analysis (Only if speed > 8mph)
+    if (weather.windSpeed >= 8) {
+        const dir = windInfo.text;
+        
+        if (dir.includes("Blowing OUT")) {
+            notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
+        } else if (dir.includes("Blowing IN")) {
+            notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
+        } else if (dir.includes("Out to Right")) {
+            notes.push("↗️ <b>Lefty Advantage:</b> Wind blowing out to Right Field favors <b>Left-Handed</b> power.");
+        } else if (dir.includes("Out to Left")) {
+            notes.push("↖️ <b>Righty Advantage:</b> Wind blowing out to Left Field favors <b>Right-Handed</b> power.");
+        } else if (dir.includes("Cross")) {
+            notes.push("↔️ <b>Tricky:</b> Crosswinds may affect outfield defense and breaking balls.");
+        }
+    }
+
+    if (notes.length === 0) {
+        return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
+    }
+
+    return notes.join("<br>");
+}
+
 async function fetchGameWeather(lat, lon, gameDateIso) {
     const dateStr = gameDateIso.split('T')[0];
     const today = new Date().toISOString().split('T')[0];
     const isHistorical = dateStr < today; 
 
-    // Determine API Endpoint
     let url = "";
     if (isHistorical || dateStr === "2024-09-25") {
          url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
@@ -217,7 +258,6 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const data = await response.json();
         const gameHour = new Date(gameDateIso).getHours();
         
-        // --- Helper to normalize rain data ---
         const normalizePrecip = (index) => {
             let chance = 0;
             if (data.hourly.precipitation_probability) {
@@ -232,18 +272,15 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
             return chance;
         };
 
-        // --- Extract Hourly Slice ---
         const hourlySlice = [];
         let maxChanceInWindow = 0;
 
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
             if (i >= 0 && i < 24) {
                 let chance = normalizePrecip(i);
-                
                 if (i >= gameHour && i <= gameHour + 3) {
                     if (chance > maxChanceInWindow) maxChanceInWindow = chance;
                 }
-
                 hourlySlice.push({
                     hour: i,
                     precipChance: chance

@@ -29,7 +29,6 @@ async function init(dateToFetch) {
         // --- STEP A: Load Data ---
         let stadiumResponse = await fetch('data/stadiums.json');
         if (!stadiumResponse.ok) {
-            console.warn("⚠️ data/stadiums.json not found. Trying root folder...");
             stadiumResponse = await fetch('stadiums.json');
         }
         const stadiums = await stadiumResponse.json();
@@ -84,7 +83,8 @@ async function init(dateToFetch) {
                     let isRoofClosed = false;
                     if (stadium.dome) isRoofClosed = true;
                     else if (stadium.roof) {
-                        if (weather.currentPrecip > 0.05 || weather.temp < 50 || weather.temp > 95) isRoofClosed = true;
+                        // Use maxPrecipChance to decide roof status, not just current
+                        if (weather.maxPrecipChance > 30 || weather.temp < 50 || weather.temp > 95) isRoofClosed = true;
                     }
 
                     if (isRoofClosed) {
@@ -92,28 +92,27 @@ async function init(dateToFetch) {
                         weather.windSpeed = 0; 
                     }
 
-                    // --- NEW: HORIZONTAL RAIN HEAT MAP ---
+                    // --- HORIZONTAL RAIN HEAT MAP ---
                     let hourlyHtml = '';
                     
                     if (isRoofClosed) {
-                        // If roof closed, don't show the bar
                         hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
                     } else if (weather.hourly && weather.hourly.length > 0) {
                         
-                        // 1. Build the colored segments
+                        // 1. Build segments
                         const segments = weather.hourly.map(h => {
-                            let colorClass = 'risk-low'; // Default Green (<15%)
+                            let colorClass = 'risk-low'; 
                             if (h.precipChance >= 50) colorClass = 'risk-high'; // Red
                             else if (h.precipChance >= 15) colorClass = 'risk-med'; // Yellow
                             
-                            // Tooltip for exact %
                             return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain"></div>`;
                         }).join('');
                         
-                        // 2. Build the time labels below
+                        // 2. Build time labels
                         const labels = weather.hourly.map(h => {
-                             // Format Time (e.g., 19 -> 7p)
-                             let timeLabel = new Date(`2000-01-01T${h.hour}:00:00`).toLocaleTimeString([], {hour: 'numeric'}).replace(':00 ', '').replace(' PM','p').replace(' AM','a');
+                             let timeLabel = new Date(`2000-01-01T${h.hour}:00:00`)
+                                .toLocaleTimeString([], {hour: 'numeric'})
+                                .replace(':00 ', '').replace(' PM','p').replace(' AM','a');
                              return `<div class="rain-time-label">${timeLabel}</div>`;
                         }).join('');
 
@@ -132,6 +131,11 @@ async function init(dateToFetch) {
                         `;
                     }
 
+                    // --- DISPLAY ---
+                    // Important: Use 'maxPrecipChance' for the main number so it matches the red bars
+                    // If roof is closed, force 0%
+                    const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
+
                     weatherHtml = `
                         <div class="weather-row row text-center">
                             <div class="col-4 border-end">
@@ -139,8 +143,8 @@ async function init(dateToFetch) {
                                 <div class="small text-muted">Temp</div>
                             </div>
                             <div class="col-4 border-end">
-                                <div class="fw-bold text-primary">${weather.currentPrecip > 0 ? Math.round(weather.currentPrecip * 100) + '%' : '0%'}</div>
-                                <div class="small text-muted">Rain Risk</div>
+                                <div class="fw-bold text-primary">${displayRain}%</div>
+                                <div class="small text-muted">Max Rain</div>
                             </div>
                             <div class="col-4">
                                 <div class="fw-bold">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
@@ -213,23 +217,38 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const data = await response.json();
         const gameHour = new Date(gameDateIso).getHours();
         
+        // --- Helper to normalize rain data ---
+        // Converts either raw inches OR raw probability into a clean 0-100% integer
+        const normalizePrecip = (index) => {
+            let chance = 0;
+            if (data.hourly.precipitation_probability) {
+                // Forecast API: Direct percentage (0-100)
+                chance = data.hourly.precipitation_probability[index];
+            } else if (data.hourly.precipitation) {
+                // Historical API: Inches (0.00, 0.05, etc.)
+                const amount = data.hourly.precipitation[index];
+                if (amount >= 0.10) chance = 80;      // Heavy
+                else if (amount >= 0.05) chance = 60; // Moderate
+                else if (amount >= 0.01) chance = 30; // Light
+                else chance = 0;
+            }
+            return chance;
+        };
+
         // --- Extract Hourly Slice (Hour-1 to Hour+4) ---
         const hourlySlice = [];
+        let maxChanceInWindow = 0;
+
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
             if (i >= 0 && i < 24) {
-                let chance = 0;
+                let chance = normalizePrecip(i);
                 
-                // Normalize Data
-                if (data.hourly.precipitation_probability) {
-                    chance = data.hourly.precipitation_probability[i];
-                } else if (data.hourly.precipitation) {
-                    // Mock logic for demo date
-                    const amount = data.hourly.precipitation[i];
-                    if(amount > 0.05) chance = 80;
-                    else if(amount > 0.01) chance = 40;
-                    else chance = 0;
+                // Track the HIGHEST chance of rain during the game window
+                // (Only count the actual game hours: Start to Start+3)
+                if (i >= gameHour && i <= gameHour + 3) {
+                    if (chance > maxChanceInWindow) maxChanceInWindow = chance;
                 }
-                
+
                 hourlySlice.push({
                     hour: i,
                     precipChance: chance
@@ -240,14 +259,10 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const temps = data.hourly.temperature_2m;
         const winds = data.hourly.wind_speed_10m;
         const dirs = data.hourly.wind_direction_10m;
-        
-        let currentPrecipVal = 0;
-        if (data.hourly.precipitation_probability) currentPrecipVal = data.hourly.precipitation_probability[gameHour] / 100;
-        else if (data.hourly.precipitation) currentPrecipVal = data.hourly.precipitation[gameHour]; 
 
         return {
             temp: Math.round(temps[gameHour]),
-            currentPrecip: currentPrecipVal, 
+            maxPrecipChance: maxChanceInWindow, // Used for main display
             windSpeed: Math.round(winds[gameHour]),
             windDir: dirs[gameHour],
             hourly: hourlySlice 

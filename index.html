@@ -20,23 +20,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
-        body { background-color: #e9ecef; } /* Slightly darker background for contrast */
+        body { background-color: #e9ecef; } /* Slightly darker background for contrast with white cards */
         
-        /* --- Header Styles --- */
-        .banner-container {
-            background-color: #0f172a; /* Match the dark blue of the image */
-            overflow: hidden;
-        }
-        .banner-image {
-            width: 100%;
-            /* Constrain height on desktop so it doesn't take up the whole screen */
-            max-height: 350px; 
-            /* 'cover' ensures the image fills the space without stretching, cropping if necessary */
-            object-fit: cover; 
-            /* Center the image focus */
-            object-position: center;
-        }
-
         /* --- Game Card Styles --- */
         .game-card { 
             border: none; 
@@ -61,15 +46,15 @@
         /* Style for Roof Closed / No Data */
         .bg-secondary.text-white { background-color: #adb5bd !important; color: #fff !important; }
 
-        /* Adjust date bar to blend with header */
+        /* Adjust date bar to blend with header image dark theme */
         .date-bar { background-color: #1a2537; border-top: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
 
-<header class="banner-container">
-    <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather" class="banner-image img-fluid">
-</header>
+<div class="container-fluid p-0" style="background-color: #0f172a;">
+    <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather" class="img-fluid w-100">
+</div>
 
 <nav class="navbar navbar-dark date-bar shadow-sm py-1">
     <div class="container justify-content-center">

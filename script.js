@@ -86,7 +86,7 @@ async function init(dateToFetch) {
                     }
 
                     if (isRoofClosed) {
-                        windInfo = { text: "Roof Closed 🏟️", cssClass: "bg-secondary text-white", arrow: "" };
+                        windInfo = { text: "Roof Closed", cssClass: "bg-secondary text-white", arrow: "" };
                         weather.windSpeed = 0; 
                     }
 
@@ -129,8 +129,9 @@ async function init(dateToFetch) {
 
                     const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
 
+                    // --- UPDATE: Moved Wind Badge into the 3rd Column ---
                     weatherHtml = `
-                        <div class="weather-row row text-center">
+                        <div class="weather-row row text-center align-items-center">
                             <div class="col-4 border-end">
                                 <div class="fw-bold">${weather.temp}°F</div>
                                 <div class="small text-muted">Temp</div>
@@ -140,15 +141,11 @@ async function init(dateToFetch) {
                                 <div class="small text-muted">Max Rain</div>
                             </div>
                             <div class="col-4">
-                                <div class="fw-bold">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
-                                <div class="small text-muted">Wind</div>
+                                <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
+                                <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.65rem; white-space: nowrap; display: inline-block;">
+                                    ${windInfo.arrow} ${windInfo.text}
+                                </span>
                             </div>
-                        </div>
-                        
-                        <div class="text-center mt-3 mb-2">
-                            <span class="wind-badge ${windInfo.cssClass}">
-                                ${windInfo.arrow} ${windInfo.text}
-                            </span>
                         </div>
                         
                         ${hourlyHtml}
@@ -309,14 +306,14 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 function calculateWind(windDirection, stadiumBearing) {
     let diff = (windDirection - stadiumBearing + 360) % 360;
     
-    if (diff >= 337.5 || diff < 22.5) return { text: "Blowing IN ⬇️", cssClass: "bg-in", arrow: "⬇" };
-    if (diff >= 22.5 && diff < 67.5) return { text: "In from Right ↙️", cssClass: "bg-in", arrow: "↙" };
-    if (diff >= 67.5 && diff < 112.5) return { text: "Cross (R to L) ⬅️", cssClass: "bg-cross", arrow: "⬅" };
-    if (diff >= 112.5 && diff < 157.5) return { text: "Out to Left ↖️", cssClass: "bg-out", arrow: "↖" };
-    if (diff >= 157.5 && diff < 202.5) return { text: "Blowing OUT ⬆️", cssClass: "bg-out", arrow: "⬆" };
-    if (diff >= 202.5 && diff < 247.5) return { text: "Out to Right ↗️", cssClass: "bg-out", arrow: "↗" };
-    if (diff >= 247.5 && diff < 292.5) return { text: "Cross (L to R) ➡️", cssClass: "bg-cross", arrow: "➡" };
-    return { text: "In from Left ↘️", cssClass: "bg-in", arrow: "↘" };
+    if (diff >= 337.5 || diff < 22.5) return { text: "Blowing IN", cssClass: "bg-in", arrow: "⬇" };
+    if (diff >= 22.5 && diff < 67.5) return { text: "In from Right", cssClass: "bg-in", arrow: "↙" };
+    if (diff >= 67.5 && diff < 112.5) return { text: "Cross (R to L)", cssClass: "bg-cross", arrow: "⬅" };
+    if (diff >= 112.5 && diff < 157.5) return { text: "Out to Left", cssClass: "bg-out", arrow: "↖" };
+    if (diff >= 157.5 && diff < 202.5) return { text: "Blowing OUT", cssClass: "bg-out", arrow: "⬆" };
+    if (diff >= 202.5 && diff < 247.5) return { text: "Out to Right", cssClass: "bg-out", arrow: "↗" };
+    if (diff >= 247.5 && diff < 292.5) return { text: "Cross (L to R)", cssClass: "bg-cross", arrow: "➡" };
+    return { text: "In from Left", cssClass: "bg-in", arrow: "↘" };
 }
 
 // ==========================================

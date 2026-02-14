@@ -56,54 +56,64 @@
             object-fit: contain;
             filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1)); /* Adds a nice subtle pop */
         }
-        /* NEW: Hourly Rain Bar Styles */
-        .rain-timeline {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            height: 60px;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px dashed #e9ecef;
-        }
-        .rain-slot {
-            text-align: center;
-            width: 15%;
-            position: relative;
-        }
-        .rain-bar-bg {
-            width: 6px;
-            height: 35px;
-            background-color: #f1f3f5;
-            margin: 0 auto 4px auto;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-        .rain-bar-fill {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #0d6efd; /* Rain Blue */
-            border-radius: 10px;
-            transition: height 0.5s ease;
-        }
-        .rain-label {
-            font-size: 0.65rem;
-            color: #868e96;
-            font-weight: 600;
-        }
-        .rain-val {
-            font-size: 0.65rem;
-            color: #0d6efd;
-            font-weight: bold;
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-        }
+        This is a great design choice—a "Heat Map" style bar is much easier to scan quickly than vertical charts when checking multiple games.
+
+We will create a single horizontal track divided into 6 segments (hours). Each segment will change color based on the risk:
+
+Green: < 15% (Safe)
+
+Yellow: 15% - 50% (Risk)
+
+Red: > 50% (Danger)
+
+1. Update index.html (CSS)
+Replace the previous "Rain Bar" styles in your <head> with these new "Heat Map" styles.
+
+HTML
+<style>
+    /* ... keep your existing body/card styles ... */
+
+    /* NEW: Horizontal Rain Heat Map Styles */
+    .rain-container {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px dashed #e9ecef;
+    }
+    .rain-track {
+        display: flex;
+        width: 100%;
+        height: 12px;
+        border-radius: 6px;
+        overflow: hidden; /* Keeps the corners rounded */
+        background-color: #e9ecef;
+    }
+    .rain-segment {
+        flex: 1; /* Distribute space equally */
+        border-right: 1px solid #fff; /* White separator line */
+        position: relative;
+        transition: background-color 0.3s;
+    }
+    .rain-segment:last-child {
+        border-right: none;
+    }
+    .rain-labels {
+        display: flex;
+        width: 100%;
+        margin-top: 5px;
+    }
+    .rain-time-label {
+        flex: 1;
+        text-align: center;
+        font-size: 0.65rem;
+        color: #adb5bd;
+        font-weight: 600;
+    }
+    
+    /* Color coding for risk levels */
+    .risk-low { background-color: #20c997; } /* Teal/Green */
+    .risk-med { background-color: #ffc107; } /* Yellow */
+    .risk-high { background-color: #dc3545; } /* Red */
+    .risk-none { background-color: #e9ecef; } /* Grey (No Data/Dome) */
     </style>
 </head>
 <body>

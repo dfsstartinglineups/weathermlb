@@ -1,5 +1,51 @@
-<html>
-<h1>Hello World!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherMLB - Game Day Forecasts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f6f9; }
+        .game-card { border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; transition: transform 0.2s; }
+        .game-card:hover { transform: translateY(-5px); }
+        .wind-arrow { display: inline-block; font-size: 1.5rem; font-weight: bold; }
+        .weather-row { font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
+        .stadium-name { color: #6c757d; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+        .wind-badge { font-size: 0.8rem; padding: 5px 10px; border-radius: 20px; }
+        .bg-out { background-color: #d4edda; color: #155724; } /* Green for Blowing Out (Hitters) */
+        .bg-in { background-color: #f8d7da; color: #721c24; } /* Red for Blowing In (Pitchers) */
+        .bg-cross { background-color: #fff3cd; color: #856404; } /* Yellow for Crosswinds */
+    </style>
+</head>
+<body>
 
-  
+<nav class="navbar navbar-dark bg-primary mb-4">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">⚾ WeatherMLB</span>
+        <span class="navbar-text text-white" id="current-date">Fetching Data...</span>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="alert alert-info text-center" role="alert">
+        <strong>Demo Mode:</strong> Showing historical data for <strong>September 25, 2024</strong>
+    </div>
+
+    <div id="games-container" class="row">
+        <div class="col-12 text-center mt-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading Schedule & Weather...</p>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center py-4 text-muted mt-5">
+    <small>Data provided by MLB Stats API & Open-Meteo Historical Weather</small>
+</footer>
+
+<script src="script.js"></script>
+</body>
 </html>

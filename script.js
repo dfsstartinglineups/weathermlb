@@ -45,8 +45,25 @@ async function init() {
             // If we have stadium data, fetch weather
             if (stadium) {
                 const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
-                const windInfo = calculateWind(weather.windDir, stadium.bearing);
+                let windInfo = calculateWind(weather.windDir, stadium.bearing);
                 
+                // ROOF LOGIC:
+                // If the stadium has a roof, check if we should assume it's closed.
+                // Logic: If Precip > 0.1 inch OR Temp < 50F OR Temp > 95F -> Assume Closed
+                let isRoofClosed = false;
+                
+                if (stadium.dome) {
+                    isRoofClosed = true; // Tropicana Field is always a dome
+                } else if (stadium.roof) {
+                    if (weather.precip > 0.05 || weather.temp < 50 || weather.temp > 95) {
+                        isRoofClosed = true;
+                    }
+                }
+                
+                // Override display if roof is closed
+                if (isRoofClosed) {
+                    windInfo = { text: "Roof Closed 🏟️", cssClass: "bg-secondary text-white", arrow: "" };
+                }
                 weatherHtml = `
                     <div class="weather-row row text-center">
                         <div class="col-4 border-end">

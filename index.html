@@ -64,11 +64,14 @@
     <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather" class="img-fluid w-100">
 </div>
 
-<nav class="navbar navbar-dark date-bar shadow-sm py-1">
+<nav class="navbar navbar-dark date-bar shadow-sm py-2">
     <div class="container justify-content-center">
-        <span class="navbar-text text-light small fw-bold" id="current-date">
-            Fetching Data...
-        </span>
+        <div class="d-flex align-items-center gap-3">
+            <span class="text-light small fw-bold text-uppercase d-none d-sm-inline">Game Day:</span>
+            <input type="date" id="date-picker" class="form-control form-control-sm" 
+                   style="width: auto; background-color: #2c3e50; color: white; border: 1px solid #4a5568;">
+            <button id="refresh-btn" class="btn btn-sm btn-outline-light">Load Games</button>
+        </div>
     </div>
 </nav>
 

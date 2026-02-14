@@ -19,61 +19,36 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <style>
-        body { background-color: #e9ecef; } /* Slightly darker background for contrast with white cards */
-        
-        /* --- Game Card Styles --- */
-        .game-card { 
-            border: none; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-            margin-bottom: 25px; 
-            transition: transform 0.2s, box-shadow 0.2s; 
-            background: white;
-        }
-        .game-card:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-        }
-        .weather-row { font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; }
-        .stadium-name { color: #6c757d; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        /* Wind Badges */
-        .wind-badge { font-size: 0.85rem; padding: 6px 12px; border-radius: 20px; font-weight: 600; }
-        .bg-out { background-color: #d1e7dd; color: #0f5132; } 
-        .bg-in { background-color: #f8d7da; color: #842029; }
-        .bg-cross { background-color: #fff3cd; color: #664d03; }
-        /* Style for Roof Closed / No Data */
-        .bg-secondary.text-white { background-color: #adb5bd !important; color: #fff !important; }
+   <style>
+    body { background-color: #e9ecef; }
+    
+    /* --- Game Card Styles --- */
+    .game-card { 
+        border: none; 
+        border-radius: 12px; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+        margin-bottom: 25px; 
+        transition: transform 0.2s, box-shadow 0.2s; 
+        background: white;
+    }
+    .game-card:hover { 
+        transform: translateY(-3px); 
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+    .weather-row { font-size: 0.9rem; border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; }
+    .stadium-name { color: #6c757d; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* Wind Badges */
+    .wind-badge { font-size: 0.85rem; padding: 6px 12px; border-radius: 20px; font-weight: 600; }
+    .bg-out { background-color: #d1e7dd; color: #0f5132; } 
+    .bg-in { background-color: #f8d7da; color: #842029; }
+    .bg-cross { background-color: #fff3cd; color: #664d03; }
+    .bg-secondary.text-white { background-color: #adb5bd !important; color: #fff !important; }
 
-        /* Adjust date bar to blend with header image dark theme */
-        .date-bar { background-color: #1a2537; border-top: 1px solid rgba(255,255,255,0.1); }
+    /* Date Bar */
+    .date-bar { background-color: #1a2537; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        /* Add this to your existing styles */
-        .team-logo {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1)); /* Adds a nice subtle pop */
-        }
-        This is a great design choice—a "Heat Map" style bar is much easier to scan quickly than vertical charts when checking multiple games.
-
-We will create a single horizontal track divided into 6 segments (hours). Each segment will change color based on the risk:
-
-Green: < 15% (Safe)
-
-Yellow: 15% - 50% (Risk)
-
-Red: > 50% (Danger)
-
-1. Update index.html (CSS)
-Replace the previous "Rain Bar" styles in your <head> with these new "Heat Map" styles.
-
-HTML
-<style>
-    /* ... keep your existing body/card styles ... */
-
-    /* NEW: Horizontal Rain Heat Map Styles */
+    /* --- NEW: Horizontal Rain Heat Map Styles --- */
     .rain-container {
         margin-top: 15px;
         padding-top: 10px;
@@ -82,24 +57,30 @@ HTML
     .rain-track {
         display: flex;
         width: 100%;
-        height: 12px;
+        height: 18px; /* Slightly taller to fit text */
         border-radius: 6px;
-        overflow: hidden; /* Keeps the corners rounded */
+        overflow: hidden; 
         background-color: #e9ecef;
     }
     .rain-segment {
-        flex: 1; /* Distribute space equally */
-        border-right: 1px solid #fff; /* White separator line */
+        flex: 1; 
+        border-right: 1px solid rgba(255,255,255,0.4); 
         position: relative;
-        transition: background-color 0.3s;
+        
+        /* Centering Text */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        cursor: help;
     }
-    .rain-segment:last-child {
-        border-right: none;
-    }
+    .rain-segment:last-child { border-right: none; }
+    
     .rain-labels {
         display: flex;
         width: 100%;
-        margin-top: 5px;
+        margin-top: 4px;
     }
     .rain-time-label {
         flex: 1;
@@ -109,12 +90,11 @@ HTML
         font-weight: 600;
     }
     
-    /* Color coding for risk levels */
-    .risk-low { background-color: #20c997; } /* Teal/Green */
-    .risk-med { background-color: #ffc107; } /* Yellow */
-    .risk-high { background-color: #dc3545; } /* Red */
-    .risk-none { background-color: #e9ecef; } /* Grey (No Data/Dome) */
-    </style>
+    /* Color coding & Text Contrast */
+    .risk-low { background-color: #20c997; color: white; } 
+    .risk-med { background-color: #ffc107; color: #333; } /* Dark text for contrast on yellow */
+    .risk-high { background-color: #dc3545; color: white; } 
+</style>
 </head>
 <body>
 

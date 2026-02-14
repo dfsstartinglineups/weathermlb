@@ -1,9 +1,6 @@
 // ==========================================
 // CONFIGURATION
 // ==========================================
-
-// The date to show when the page first loads.
-// Once the 2026 season starts, you can change this to: new Date().toISOString().split('T')[0]
 const DEFAULT_DATE = "2024-09-25"; 
 
 // ==========================================
@@ -16,25 +13,26 @@ async function init(dateToFetch) {
     // UI References
     const container = document.getElementById('games-container');
     const datePicker = document.getElementById('date-picker');
-    const displayDate = document.getElementById('current-date');
 
-    // 1. Update UI Elements
-    if (datePicker) datePicker.value = dateToFetch;
-    if (displayDate) displayDate.innerText = "Loading...";
+    // 1. Update the Date Picker Input to match the date we are fetching
+    if (datePicker) {
+        datePicker.value = dateToFetch;
+    }
 
     // 2. Show Loading Spinner
-    container.innerHTML = `
-        <div class="col-12 text-center mt-5 pt-5">
-            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-            <p class="mt-3 text-muted">Scouting the skies...</p>
-        </div>`;
+    if (container) {
+        container.innerHTML = `
+            <div class="col-12 text-center mt-5 pt-5">
+                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+                <p class="mt-3 text-muted">Scouting the skies...</p>
+            </div>`;
+    }
     
     // 3. Construct API URL
     const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue`;
 
     try {
         // --- STEP A: Load Stadium Data ---
-        // Try looking in 'data/' folder first, fallback to root if needed
         let stadiumResponse = await fetch('data/stadiums.json');
         if (!stadiumResponse.ok) {
             console.warn("⚠️ data/stadiums.json not found. Trying root folder...");
@@ -92,7 +90,6 @@ async function init(dateToFetch) {
             
             // If we have stadium data, fetch weather
             if (stadium) {
-                // Fetch Historical or Forecast Weather
                 const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
                 
                 // Only proceed if we got a valid temp
@@ -102,9 +99,7 @@ async function init(dateToFetch) {
 
                     // --- ROOF LOGIC ---
                     let isRoofClosed = false;
-                    // 1. Permanent Dome?
                     if (stadium.dome) isRoofClosed = true;
-                    // 2. Retractable Roof + Bad Weather?
                     else if (stadium.roof) {
                         if (weather.precip > 0.05 || weather.temp < 50 || weather.temp > 95) {
                             isRoofClosed = true;
@@ -187,29 +182,17 @@ async function init(dateToFetch) {
 // ==========================================
 
 async function fetchGameWeather(lat, lon, gameDateIso) {
-    // Open-Meteo works for both Historical (Archive) and Future (Forecast)
-    // We need to check if the date is in the past or future to choose the right API endpoint?
-    // Actually, for simplicity, the Archive API works for past dates. 
-    // For future dates, we would need the Forecast API.
-    // For this demo, we assume Historical. 
-    
-    // NOTE: If you want this to work for LIVE games in 2025, you need to switch logic here:
-    // If date < today -> Use Archive API
-    // If date >= today -> Use Forecast API
-    
     const dateStr = gameDateIso.split('T')[0];
     const today = new Date().toISOString().split('T')[0];
     
-    let url = "";
-    
-    // Simple logic: If the requested date is older than 5 days ago, use Archive.
-    // Otherwise use Forecast.
-    const isHistorical = dateStr < today; // Rough check
+    // Logic: Use Archive for past dates, Forecast for future dates
+    // For demo purposes with 2024 dates, we force Archive if date is old
+    const isHistorical = dateStr < today; 
 
+    let url = "";
     if (isHistorical || dateStr === "2024-09-25") {
          url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
     } else {
-         // Forecast API for current/future games
          url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
 
@@ -217,7 +200,6 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const response = await fetch(url);
         const data = await response.json();
         
-        // Find the hour nearest to game time
         const gameHour = new Date(gameDateIso).getHours();
         
         // Map API data (Forecast API uses 'precipitation_probability', Archive uses 'precipitation')
@@ -268,12 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const refreshBtn = document.getElementById('refresh-btn');
 
     if (refreshBtn && datePicker) {
-        // Load when button clicked
         refreshBtn.addEventListener('click', () => {
             if (datePicker.value) init(datePicker.value);
         });
 
-        // Load when date changes (optional, but nice UX)
         datePicker.addEventListener('change', (e) => {
             if (e.target.value) init(e.target.value);
         });

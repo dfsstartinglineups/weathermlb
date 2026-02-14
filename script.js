@@ -1,7 +1,7 @@
 // ==========================================
 // CONFIGURATION
 // ==========================================
-const DEFAULT_DATE = "2024-09-25"; 
+const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 
 // ==========================================
 // 1. MAIN APP LOGIC

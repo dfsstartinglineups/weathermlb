@@ -41,25 +41,24 @@ async function init() {
             const awayName = game.teams.away.team.name;
             const homeName = game.teams.home.team.name;
             
-            // Official MLB Vector Logos
             const awayLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${awayId}.svg`;
             const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
-
-            // Format Game Time
             const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
+            // --- BUG FIX: Define default values HERE, before the 'if' block ---
             let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable for this stadium.<br>(Venue ID: ${venueId})</div>`;
+            
+            // Define a default 'windInfo' so the code doesn't crash if stadium is missing
+            let windInfo = { text: "N/A", cssClass: "bg-secondary text-white", arrow: "-" };
 
             // If we have stadium data, fetch weather
             if (stadium) {
                 const weather = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
                 
-                // Calculate Wind Vector
-                let windInfo = calculateWind(weather.windDir, stadium.bearing);
+                // Update windInfo with real calculations
+                windInfo = calculateWind(weather.windDir, stadium.bearing);
 
-                // --- ROOF LOGIC ---
-                // 1. Permanent Dome (Rays) -> Always Closed
-                // 2. Retractable Roof -> Closed if Raining OR Cold (<50F) OR Hot (>95F)
+                // Roof Logic
                 let isRoofClosed = false;
                 if (stadium.dome) {
                     isRoofClosed = true; 
@@ -69,10 +68,8 @@ async function init() {
                     }
                 }
 
-                // If Roof is Closed, Override Wind Display
                 if (isRoofClosed) {
                     windInfo = { text: "Roof Closed 🏟️", cssClass: "bg-secondary text-white", arrow: "" };
-                    // Optionally set wind speed to 0 for clarity
                     weather.windSpeed = 0; 
                 }
                 

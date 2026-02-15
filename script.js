@@ -194,10 +194,17 @@ function createGameCard(data) {
         } else if (weather.temp !== '--') {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
             
-            // --- Main Rain Display (Bolt + %) ---
+            // --- Main Precip Display (Bolt > Snow > Rain) ---
             let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
-            if (weather.isThunderstorm && !isRoofClosed) {
-                displayRain += " ⚡"; 
+            let precipLabel = "Rain"; // Default label
+
+            if (!isRoofClosed) {
+                if (weather.isThunderstorm) {
+                    displayRain += " ⚡";
+                } else if (weather.isSnow) {
+                    displayRain += " ❄️";
+                    precipLabel = "Snow"; // Change label text
+                }
             }
             
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
@@ -211,16 +218,14 @@ function createGameCard(data) {
                     if (h.precipChance >= 50) colorClass = 'risk-high'; 
                     else if (h.precipChance >= 30) colorClass = 'risk-med'; 
                     
-                    // --- UPDATED: Show BOTH % and Bolt ---
+                    // --- Hourly Icon Logic ---
                     let content = "";
-                    if (h.precipChance > 0) {
-                        content = `${h.precipChance}%`;
-                    }
-                    if (h.isThunderstorm) {
-                        content += " ⚡"; // Appends bolt next to number
-                    }
+                    if (h.precipChance > 0) content = `${h.precipChance}%`;
+                    
+                    if (h.isThunderstorm) content += " ⚡";
+                    else if (h.isSnow) content += " ❄️"; // Add flake if snow & no thunder
 
-                    return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${content}</div>`;
+                    return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% precip">${content}</div>`;
                 }).join('');
                 
                 const labels = weather.hourly.map(h => {
@@ -232,7 +237,7 @@ function createGameCard(data) {
                 hourlyHtml = `
                     <div class="rain-container">
                         <div class="d-flex justify-content-between mb-1">
-                            <span style="font-size: 0.65rem; color: #adb5bd; font-weight: bold;">HOURLY RAIN RISK</span>
+                            <span style="font-size: 0.65rem; color: #adb5bd; font-weight: bold;">HOURLY PRECIP RISK</span>
                         </div>
                         <div class="rain-track">${segments}</div>
                         <div class="rain-labels">${labels}</div>
@@ -251,7 +256,7 @@ function createGameCard(data) {
                     </div>
                     <div class="col-3 border-end">
                         <div class="fw-bold text-primary" style="white-space: nowrap;">${displayRain}</div>
-                        <div class="small text-muted">Rain</div>
+                        <div class="small text-muted">${precipLabel}</div>
                     </div>
                     <div class="col-3">
                         <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
@@ -343,9 +348,12 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
     let notes = [];
 
-    // 1. Lightning Analysis (Highest Priority)
+    // 1. Safety Hazards (Lightning & Snow)
     if (weather.isThunderstorm) {
         notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");
+    }
+    if (weather.isSnow) {
+        notes.push("❄️ <b>Snow Risk:</b> Low visibility and slippery field conditions could delay play.");
     }
 
     // 2. Rain Analysis
@@ -384,7 +392,6 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     if (notes.length === 0) return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
     return notes.join("<br>");
 }
-
 async function fetchGameWeather(lat, lon, gameDateIso) {
     const dateStr = gameDateIso.split('T')[0];
     const today = new Date().toLocaleDateString('en-CA'); 
@@ -428,23 +435,30 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const hourlySlice = [];
         let maxChanceInWindow = 0;
         let isGameThunderstorm = false;
+        let isGameSnow = false; // NEW FLAG
 
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
             if (i >= 0 && i < 24) {
                 let chance = normalizePrecip(i);
                 
-                // Check specific hour for storm
                 const code = data.hourly.weather_code[i];
+                
+                // Thunderstorm Codes: 95, 96, 99
                 const isHourThunderstorm = (code === 95 || code === 96 || code === 99);
                 
+                // Snow Codes: 71, 73, 75 (Snow), 77 (Grains), 85, 86 (Showers)
+                const isHourSnow = (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86);
+
                 if (isHourThunderstorm) isGameThunderstorm = true;
+                if (isHourSnow) isGameSnow = true;
 
                 if (i >= gameHour && i <= gameHour + 3 && chance > maxChanceInWindow) maxChanceInWindow = chance;
                 
                 hourlySlice.push({ 
                     hour: i, 
                     precipChance: chance,
-                    isThunderstorm: isHourThunderstorm // Save hourly status
+                    isThunderstorm: isHourThunderstorm,
+                    isSnow: isHourSnow // Save per hour
                 });
             }
         }
@@ -454,7 +468,8 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
             temp: Math.round(data.hourly.temperature_2m[gameHour]),
             humidity: Math.round(data.hourly.relative_humidity_2m[gameHour]),
             maxPrecipChance: maxChanceInWindow, 
-            isThunderstorm: isGameThunderstorm, 
+            isThunderstorm: isGameThunderstorm,
+            isSnow: isGameSnow, // Pass flag to main logic
             windSpeed: Math.round(data.hourly.wind_speed_10m[gameHour]),
             windDir: data.hourly.wind_direction_10m[gameHour],
             hourly: hourlySlice

@@ -104,11 +104,11 @@ async function init(dateToFetch) {
                             return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${textLabel}</div>`;
                         }).join('');
                         
+                        // --- FIX: ROBUST TIME FORMATTING (No Date Parsing) ---
                         const labels = weather.hourly.map(h => {
-                             let timeLabel = new Date(`2000-01-01T${h.hour}:00:00`)
-                                .toLocaleTimeString([], {hour: 'numeric'})
-                                .replace(':00 ', '').replace(' PM','p').replace(' AM','a');
-                             return `<div class="rain-time-label">${timeLabel}</div>`;
+                             const ampm = h.hour >= 12 ? 'p' : 'a';
+                             const hour12 = h.hour % 12 || 12; // Converts 0, 13, etc to 12, 1, etc.
+                             return `<div class="rain-time-label">${hour12}${ampm}</div>`;
                         }).join('');
 
                         hourlyHtml = `
@@ -125,7 +125,6 @@ async function init(dateToFetch) {
                     const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
                     
                     // RADAR LINK GENERATION (Windy.com Embed)
-                    // We point to the stadium lat/lon
                     const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
                     weatherHtml = `

@@ -194,16 +194,16 @@ function createGameCard(data) {
         } else if (weather.temp !== '--') {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
             
-            // --- Main Precip Display (Bolt > Snow > Rain) ---
+            // --- Main Precip Display ---
             let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
-            let precipLabel = "Rain"; // Default label
+            let precipLabel = "Rain"; 
 
             if (!isRoofClosed) {
                 if (weather.isThunderstorm) {
                     displayRain += " ⚡";
                 } else if (weather.isSnow) {
                     displayRain += " ❄️";
-                    precipLabel = "Snow"; // Change label text
+                    precipLabel = "Snow"; 
                 }
             }
             
@@ -218,12 +218,10 @@ function createGameCard(data) {
                     if (h.precipChance >= 50) colorClass = 'risk-high'; 
                     else if (h.precipChance >= 30) colorClass = 'risk-med'; 
                     
-                    // --- Hourly Icon Logic ---
                     let content = "";
                     if (h.precipChance > 0) content = `${h.precipChance}%`;
-                    
                     if (h.isThunderstorm) content += " ⚡";
-                    else if (h.isSnow) content += " ❄️"; // Add flake if snow & no thunder
+                    else if (h.isSnow) content += " ❄️"; 
 
                     return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% precip">${content}</div>`;
                 }).join('');
@@ -243,6 +241,10 @@ function createGameCard(data) {
                         <div class="rain-labels">${labels}</div>
                     </div>`;
             }
+
+            // --- Button Logic: Store data in data-attributes to pass to Tweet function ---
+            // We encode the data so we can rebuild the tweet later
+            const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
             weatherHtml = `
                 <div class="weather-row row text-center align-items-center">
@@ -266,11 +268,21 @@ function createGameCard(data) {
                     </div>
                 </div>
                 ${hourlyHtml}
-                <div class="text-center mt-3">
-                    <button class="btn btn-sm btn-outline-primary w-100" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
-                        🗺️ View Radar Map
-                    </button>
+                
+                <div class="row g-2 mt-3">
+                    <div class="col-8">
+                        <button class="btn btn-sm btn-outline-primary w-100" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
+                            🗺️ View Radar
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center" onclick="shareGameTweet('${gameDataSafe}')">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="white" class="me-1"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                            Tweet
+                        </button>
+                    </div>
                 </div>
+
                 <div class="analysis-box">
                     <span class="analysis-title">✨ Weather Impact</span>
                     ${analysisText}
@@ -489,4 +501,63 @@ function calculateWind(windDirection, stadiumBearing) {
     if (diff >= 202.5 && diff < 247.5) return { text: "Out to Right", cssClass: "bg-out", arrow: "↗" };
     if (diff >= 247.5 && diff < 292.5) return { text: "Cross (L to R)", cssClass: "bg-cross", arrow: "➡" };
     return { text: "In from Left", cssClass: "bg-in", arrow: "↘" };
+}
+window.shareGameTweet = function(encodedData) {
+    const data = JSON.parse(decodeURIComponent(encodedData));
+    const g = data.gameRaw;
+    const w = data.weather;
+    const s = data.stadium;
+    const wind = data.wind;
+
+    const away = g.teams.away.team.name;
+    const home = g.teams.home.team.name;
+    const venue = g.venue.name;
+
+    let tweet = "";
+
+    // --- 1. DETECT MODE ---
+    const isHazard = w.maxPrecipChance >= 30 || w.isThunderstorm || w.isSnow;
+    const isHitterFriendly = w.temp >= 85 || (w.windSpeed >= 10 && wind.text.includes("OUT"));
+    const isPitcherFriendly = w.temp <= 50 || (w.windSpeed >= 10 && wind.text.includes("IN"));
+
+    // --- 2. BUILD HEADER ---
+    if (isHazard) {
+        tweet += `⚠️ WEATHER ALERT: ${away} @ ${home}\n`;
+        tweet += `🏟️ ${venue}\n\n`;
+        
+        // Hazard Line
+        if (w.isThunderstorm) tweet += `⚡ LIGHTNING RISK DETECTED\n`;
+        else if (w.isSnow) tweet += `❄️ SNOW RISK DETECTED\n`;
+        else tweet += `☔ RAIN DELAY RISK (${w.maxPrecipChance}%)\n`;
+    } else {
+        tweet += `⚾ ${away} @ ${home}\n`;
+        tweet += `🏟️ ${venue}\n\n`;
+    }
+
+    // --- 3. CONDITIONS ---
+    tweet += `🌡️ Temp: ${w.temp}°F\n`;
+    tweet += `💧 Hum: ${w.humidity}%\n`;
+    tweet += `💨 Wind: ${w.windSpeed}mph (${wind.text} ${wind.arrow})\n`;
+    
+    // Only show Rain % if it's not a hazard (hazards already showed it at top)
+    if (!isHazard) {
+        tweet += `☔ Rain: ${w.maxPrecipChance}%\n`;
+    }
+
+    // --- 4. SMART ANALYSIS ---
+    tweet += `\n`;
+    if (isHitterFriendly) {
+        tweet += `🔥 IMPACT: Hitter Friendly! Ball carrying farther.\n`;
+    } else if (isPitcherFriendly) {
+        tweet += `❄️ IMPACT: Pitcher Friendly! Air density suppressing runs.\n`;
+    } else if (w.humidity <= 30) {
+        tweet += `🌵 IMPACT: Dry Air! Breaking balls sharp, but fly balls carry.\n`;
+    }
+
+    // --- 5. FOOTER ---
+    tweet += `\n🔗 weathermlb.com\n#MLB #FantasyBaseball`;
+
+    // --- 6. LAUNCH ---
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
+    window.open(twitterUrl, '_blank');
 }

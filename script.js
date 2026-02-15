@@ -317,7 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (datePicker.value) init(datePicker.value);
         });
         datePicker.addEventListener('change', (e) => {
-            if (e.target.value) init(e.target.value);
+            if (e.target.value) {
+                e.target.blur(); // <--- THIS forces the mobile picker to close
+                init(e.target.value);
+            }
         });
     }
 });

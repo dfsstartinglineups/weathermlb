@@ -571,10 +571,9 @@ window.shareGameTweet = function(encodedData) {
     window.open(twitterUrl, '_blank');
 }
 // ==========================================
-// REPORT GENERATOR
+// REPORT GENERATOR (Concise Version)
 // ==========================================
 window.generateDailyReport = function() {
-    // 1. Check if data exists
     if (!ALL_GAMES_DATA || ALL_GAMES_DATA.length === 0) {
         alert("Please wait for games to load first.");
         return;
@@ -582,74 +581,44 @@ window.generateDailyReport = function() {
 
     const dateVal = document.getElementById('date-picker').value;
     
-    // 2. Sort Games: Hazards First
-    const sortedGames = [...ALL_GAMES_DATA].sort((a, b) => {
-        const getScore = (item) => {
-            const w = item.weather;
-            if (!w || item.roof) return 0; 
-            if (w.isThunderstorm) return 100; 
-            if (w.isSnow) return 90;
-            if (w.maxPrecipChance >= 30) return 70;
-            if (w.windSpeed >= 12) return 50; 
-            if (w.temp >= 90 || w.temp <= 45) return 40; 
-            return 10; 
-        };
-        return getScore(b) - getScore(a);
+    // 1. Filter ONLY Risky Games
+    const riskyGames = ALL_GAMES_DATA.filter(item => {
+        const w = item.weather;
+        if (!w || item.roof) return false; // Ignore roof/no-data
+        
+        // Risk Criteria
+        return (w.isThunderstorm || w.isSnow || w.maxPrecipChance >= 30);
     });
 
-    // 3. Build the Text
-    let report = `⚾ MLB Weather Report (${dateVal})\n🔗 weathermlb.com\n\n`;
+    // 2. Build the Tweet
+    let report = `⚾ MLB Weather Update (${dateVal})\n\n`;
 
-    sortedGames.forEach(data => {
-        const g = data.gameRaw;
-        const w = data.weather;
-        const wind = data.wind;
-        const isRoof = data.roof;
+    if (riskyGames.length === 0) {
+        report += `✅ ALL CLEAR! No significant weather risks across the league today.\n`;
+    } else {
+        report += `⚠️ RISKS DETECTED:\n`;
         
-        // Skip games with no weather data (unless roof closed)
-        if (!w && !isRoof) return;
+        riskyGames.forEach(data => {
+            const g = data.gameRaw;
+            const w = data.weather;
+            
+            // Name Shortener
+            const shortName = (name) => name.replace("New York ", "").replace("Los Angeles ", "").replace("Chicago ", "").replace("San Francisco ", "").replace("Tampa Bay ", "").replace("Kansas City ", "").replace("St. Louis ", "");
+            const matchup = `${shortName(g.teams.away.team.name)} @ ${shortName(g.teams.home.team.name)}`;
 
-        // FIX: Use Name, and strip "New York" etc to keep it short
-        const shortName = (name) => {
-            return name.replace("New York ", "").replace("Los Angeles ", "").replace("Chicago ", "").replace("San Francisco ", "").replace("Tampa Bay ", "").replace("Kansas City ", "").replace("St. Louis ", "");
-        };
+            let condition = "";
+            if (w.isThunderstorm) condition = "⚡ LIGHTNING (Delay Likely)";
+            else if (w.isSnow) condition = "❄️ SNOW RISK";
+            else condition = `☔ ${w.maxPrecipChance}% Rain`;
 
-        const away = shortName(g.teams.away.team.name);
-        const home = shortName(g.teams.home.team.name);
-        const matchup = `${away} @ ${home}`;
-        
-        let icon = "☁️";
-        let condition = "Neutral";
+            report += `${matchup}: ${condition}\n`;
+        });
 
-        if (isRoof) {
-            icon = "🏟️";
-            condition = "Roof Closed";
-        } else if (w.isThunderstorm) {
-            icon = "⚡";
-            condition = "LIGHTNING RISK";
-        } else if (w.isSnow) {
-            icon = "❄️";
-            condition = "SNOW RISK";
-        } else if (w.maxPrecipChance >= 30) {
-            icon = "⚠️";
-            condition = `${w.maxPrecipChance}% Rain Risk`;
-        } else if (w.windSpeed >= 10 && wind.text.includes("OUT")) {
-            icon = "🚀";
-            condition = `Blowing OUT ${w.windSpeed}mph`;
-        } else if (w.temp >= 90) {
-            icon = "🔥";
-            condition = `Hot (${w.temp}°F)`;
-        } else if (w.temp <= 50) {
-            icon = "❄️";
-            condition = `Cold (${w.temp}°F)`;
-        } else {
-            condition = `Fair (${w.temp}°F)`;
-        }
+        report += `\n✅ All other games: Good to play.\n`;
+    }
 
-        report += `${icon} ${matchup}: ${condition}\n`;
-    });
-
-    report += `\n#MLB #FantasyBaseball #Weather`;
+    // 3. Call to Action
+    report += `\nFor details visit: weathermlb.com\n#MLB #FantasyBaseball`;
 
     // 4. Open Modal
     const modalEl = document.getElementById('tweetModal');
@@ -661,7 +630,5 @@ window.generateDailyReport = function() {
         
         const myModal = new bootstrap.Modal(modalEl);
         myModal.show();
-    } else {
-        console.error("Error: Tweet Modal not found in HTML");
     }
 }

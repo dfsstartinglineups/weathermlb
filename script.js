@@ -3,7 +3,7 @@
 // ==========================================
 const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 
-// Global State to hold game data for sorting/filtering
+// Global State
 let ALL_GAMES_DATA = []; 
 
 // ==========================================
@@ -13,7 +13,6 @@ let ALL_GAMES_DATA = [];
 async function init(dateToFetch) {
     console.log(`🚀 Starting App. Fetching games for: ${dateToFetch}`);
     
-    // UI Elements
     const container = document.getElementById('games-container');
     const datePicker = document.getElementById('date-picker');
     
@@ -21,7 +20,6 @@ async function init(dateToFetch) {
     ALL_GAMES_DATA = [];
     if (datePicker) datePicker.value = dateToFetch;
 
-    // Loading State
     if (container) {
         container.innerHTML = `
             <div class="col-12 text-center mt-5 pt-5">
@@ -33,7 +31,6 @@ async function init(dateToFetch) {
     const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue`;
 
     try {
-        // --- STEP A: Load Reference Data ---
         let stadiumResponse = await fetch('data/stadiums.json');
         if (!stadiumResponse.ok) stadiumResponse = await fetch('stadiums.json');
         const stadiums = await stadiumResponse.json();
@@ -55,12 +52,9 @@ async function init(dateToFetch) {
         const rawGames = scheduleData.dates[0].games;
         const totalGames = rawGames.length;
         
-        // --- STEP B: Fetch Weather for ALL Games ---
-        // We do this sequentially to update the progress bar and avoid rate limits
+        // Loop through games
         for (let i = 0; i < totalGames; i++) {
             const game = rawGames[i];
-            
-            // Update Loading Text
             document.getElementById('loading-text').innerText = `Analyzing game ${i+1} of ${totalGames}...`;
 
             const venueId = game.venue.id;
@@ -71,14 +65,11 @@ async function init(dateToFetch) {
             let isRoofClosed = false;
 
             if (stadium) {
-                // Fetch Weather
                 weatherData = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
                 
-                // Process Logic
                 if (weatherData.status !== "too_early" && weatherData.temp !== '--') {
                     windData = calculateWind(weatherData.windDir, stadium.bearing);
                     
-                    // Roof Logic
                     if (stadium.dome) isRoofClosed = true;
                     else if (stadium.roof) {
                         if (weatherData.maxPrecipChance > 30 || weatherData.temp < 50 || weatherData.temp > 95) isRoofClosed = true;
@@ -88,11 +79,8 @@ async function init(dateToFetch) {
                         weatherData.windSpeed = 0; 
                     }
                 }
-            } else {
-                console.warn(`⚠️ Missing Venue ID: ${venueId} for ${game.venue.name}`);
             }
 
-            // Save to Global Array
             ALL_GAMES_DATA.push({
                 gameRaw: game,
                 stadium: stadium,
@@ -102,7 +90,6 @@ async function init(dateToFetch) {
             });
         }
 
-        // --- STEP C: Initial Render ---
         renderGames();
 
     } catch (error) {
@@ -112,28 +99,24 @@ async function init(dateToFetch) {
 }
 
 // ==========================================
-// 2. RENDERING ENGINE (Handles Sorting/Filtering)
+// 2. RENDERING ENGINE
 // ==========================================
 
 function renderGames() {
     const container = document.getElementById('games-container');
     container.innerHTML = '';
 
-    // 1. Get Filter Values
     const searchText = document.getElementById('team-search').value.toLowerCase();
     const sortMode = document.getElementById('sort-filter').value;
     const risksOnly = document.getElementById('risk-only').checked;
 
-    // 2. Filter Data
     let filteredGames = ALL_GAMES_DATA.filter(item => {
         const g = item.gameRaw;
-        // Search Filter
         const teams = (g.teams.away.team.name + " " + g.teams.home.team.name).toLowerCase();
         if (!teams.includes(searchText)) return false;
 
-        // Risk Filter
         if (risksOnly) {
-            if (!item.weather || item.weather.temp === '--') return false; // Hide unknown
+            if (!item.weather || item.weather.temp === '--') return false; 
             const isRainy = item.weather.maxPrecipChance >= 30;
             const isWindy = item.weather.windSpeed >= 12;
             const isExtremeTemp = item.weather.temp <= 45 || item.weather.temp >= 90;
@@ -142,26 +125,20 @@ function renderGames() {
         return true;
     });
 
-    // 3. Sort Data
     filteredGames.sort((a, b) => {
-        // Handle missing weather data by pushing to bottom
         const aValid = a.weather && a.weather.temp !== '--';
         const bValid = b.weather && b.weather.temp !== '--';
         if (!aValid && bValid) return 1;
         if (aValid && !bValid) return -1;
 
-        if (sortMode === 'wind') {
-            return (b.weather?.windSpeed || 0) - (a.weather?.windSpeed || 0);
-        } else if (sortMode === 'rain') {
-            return (b.weather?.maxPrecipChance || 0) - (a.weather?.maxPrecipChance || 0);
-        } else if (sortMode === 'temp') {
-            return (b.weather?.temp || 0) - (a.weather?.temp || 0);
-        }
-        // Default: Time
+        if (sortMode === 'wind') return (b.weather?.windSpeed || 0) - (a.weather?.windSpeed || 0);
+        if (sortMode === 'rain') return (b.weather?.maxPrecipChance || 0) - (a.weather?.maxPrecipChance || 0);
+        if (sortMode === 'temp') return (b.weather?.temp || 0) - (a.weather?.temp || 0);
+        if (sortMode === 'humidity') return (b.weather?.humidity || 0) - (a.weather?.humidity || 0); // NEW SORT
+        
         return new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate);
     });
 
-    // 4. Draw Cards
     if (filteredGames.length === 0) {
         container.innerHTML = `<div class="col-12 text-center py-5 text-muted">No games match your filters.</div>`;
         return;
@@ -180,9 +157,8 @@ function createGameCard(data) {
     const isRoofClosed = data.roof;
 
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-4 animate-card'; // Add animation class if you want css fade-in
+    gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
-    // Basic Info
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -204,10 +180,8 @@ function createGameCard(data) {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
             const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
             
-            // Radar URL
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
-            // Build Hourly Rain Bar
             let hourlyHtml = '';
             if (isRoofClosed) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
@@ -236,20 +210,25 @@ function createGameCard(data) {
                     </div>`;
             }
 
+            // --- 4-COLUMN LAYOUT TO INCLUDE HUMIDITY ---
             weatherHtml = `
                 <div class="weather-row row text-center align-items-center">
-                    <div class="col-4 border-end">
+                    <div class="col-3 border-end">
                         <div class="fw-bold">${weather.temp}°F</div>
                         <div class="small text-muted">Temp</div>
                     </div>
-                    <div class="col-4 border-end">
-                        <div class="fw-bold text-primary">${displayRain}%</div>
-                        <div class="small text-muted">Max Rain</div>
+                    <div class="col-3 border-end">
+                        <div class="fw-bold text-dark">${weather.humidity}%</div>
+                        <div class="small text-muted">Hum</div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3 border-end">
+                        <div class="fw-bold text-primary">${displayRain}%</div>
+                        <div class="small text-muted">Rain</div>
+                    </div>
+                    <div class="col-3">
                         <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
-                        <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.65rem; white-space: nowrap; display: inline-block;">
-                            ${windInfo.arrow} ${windInfo.text}
+                        <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.6rem; white-space: nowrap; display: inline-block; padding: 2px 6px;">
+                            ${windInfo.arrow}
                         </span>
                     </div>
                 </div>
@@ -298,7 +277,6 @@ function createGameCard(data) {
 document.addEventListener('DOMContentLoaded', () => {
     init(DEFAULT_DATE);
 
-    // Filter Inputs
     document.getElementById('team-search').addEventListener('input', renderGames);
     document.getElementById('sort-filter').addEventListener('change', renderGames);
     document.getElementById('risk-only').addEventListener('change', renderGames);
@@ -320,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // 4. HELPER FUNCTIONS
 // ==========================================
 
-// Radar Logic
 window.showRadar = function(url, venueName) {
     const modalTitle = document.querySelector('#radarModal .modal-title');
     const iframe = document.getElementById('radarFrame');
@@ -335,15 +312,12 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
     let notes = [];
 
-    // Rain
     if (weather.maxPrecipChance >= 70) notes.push("⚠️ <b>Delay Risk:</b> High probability of rain delay or postponement.");
     else if (weather.maxPrecipChance >= 40) notes.push("⚠️ <b>Delay Risk:</b> Scattered storms could interrupt play.");
 
-    // Temp
     if (weather.temp >= 85) notes.push("🔥 <b>Hitter Friendly:</b> High temps reduce air density, helping fly balls carry.");
     else if (weather.temp <= 50) notes.push("❄️ <b>Pitcher Friendly:</b> Cold, dense air suppresses ball flight and scoring.");
 
-    // Wind
     if (weather.windSpeed >= 8) {
         const dir = windInfo.text;
         if (dir.includes("Blowing OUT")) notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
@@ -368,14 +342,15 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
     if (!isHistorical && daysDiff > 16) return { status: "too_early", temp: '--' };
 
     let url = "";
+    // ADDED relative_humidity_2m TO ALL URLS
     if (isHistorical || dateStr === "2024-09-25") {
-         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
+         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
     } 
     else if (daysDiff <= 3) {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
     else {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
 
     try {
@@ -412,6 +387,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         return {
             status: "ok",
             temp: Math.round(data.hourly.temperature_2m[gameHour]),
+            humidity: Math.round(data.hourly.relative_humidity_2m[gameHour]), // NEW FIELD
             maxPrecipChance: maxChanceInWindow, 
             windSpeed: Math.round(data.hourly.wind_speed_10m[gameHour]),
             windDir: data.hourly.wind_direction_10m[gameHour],

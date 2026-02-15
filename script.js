@@ -312,24 +312,59 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
     let notes = [];
 
-    if (weather.maxPrecipChance >= 70) notes.push("⚠️ <b>Delay Risk:</b> High probability of rain delay or postponement.");
-    else if (weather.maxPrecipChance >= 40) notes.push("⚠️ <b>Delay Risk:</b> Scattered storms could interrupt play.");
-
-    if (weather.temp >= 85) notes.push("🔥 <b>Hitter Friendly:</b> High temps reduce air density, helping fly balls carry.");
-    else if (weather.temp <= 50) notes.push("❄️ <b>Pitcher Friendly:</b> Cold, dense air suppresses ball flight and scoring.");
-
-    if (weather.windSpeed >= 8) {
-        const dir = windInfo.text;
-        if (dir.includes("Blowing OUT")) notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
-        else if (dir.includes("Blowing IN")) notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
-        else if (dir.includes("Out to Right")) notes.push("↗️ <b>Lefty Advantage:</b> Wind blowing out to Right Field favors <b>Left-Handed</b> power.");
-        else if (dir.includes("Out to Left")) notes.push("↖️ <b>Righty Advantage:</b> Wind blowing out to Left Field favors <b>Right-Handed</b> power.");
-        else if (dir.includes("In from Right")) notes.push("📉 <b>Lefty Nightmare:</b> Wind blowing in from Right knocks down Lefty power.");
-        else if (dir.includes("In from Left")) notes.push("📉 <b>Righty Nightmare:</b> Wind blowing in from Left knocks down Righty power.");
-        else if (dir.includes("Cross")) notes.push("↔️ <b>Tricky:</b> Crosswinds may affect outfield defense and breaking balls.");
+    // 1. Humidity Analysis (Based on your Chart)
+    if (weather.humidity <= 30) {
+        notes.push("🌵 <b>Dry Air (<30%):</b> Sharp breaking balls (Pitcher Adv), but the ball travels up to 4.5ft farther (Hitter Adv).");
+    } else if (weather.humidity >= 70) {
+        notes.push("💧 <b>High Humidity (>70%):</b> Breaking balls hang/flatten (Hitter Adv), but the ball travels shorter distances (Pitcher Adv).");
     }
 
-    if (notes.length === 0) return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
+    // 2. Temp Analysis
+    if (weather.temp >= 85) {
+        notes.push("🔥 <b>Hitter Friendly:</b> High temps reduce air density, helping fly balls carry.");
+    } else if (weather.temp <= 50) {
+        notes.push("❄️ <b>Pitcher Friendly:</b> Cold, dense air suppresses ball flight and scoring.");
+    }
+
+    // 3. Wind Analysis (Only if speed > 8mph)
+    if (weather.windSpeed >= 8) {
+        const dir = windInfo.text;
+        
+        // Power Boosts
+        if (dir.includes("Blowing OUT")) {
+            notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
+        } else if (dir.includes("Out to Right")) {
+            notes.push("↗️ <b>Lefty Advantage:</b> Wind blowing out to Right favors <b>Left-Handed</b> power.");
+        } else if (dir.includes("Out to Left")) {
+            notes.push("↖️ <b>Righty Advantage:</b> Wind blowing out to Left favors <b>Right-Handed</b> power.");
+        } 
+        
+        // Power Suppression
+        else if (dir.includes("Blowing IN")) {
+            notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
+        } else if (dir.includes("In from Right")) {
+            notes.push("📉 <b>Lefty Nightmare:</b> Wind blowing in from Right knocks down Lefty power.");
+        } else if (dir.includes("In from Left")) {
+            notes.push("📉 <b>Righty Nightmare:</b> Wind blowing in from Left knocks down Righty power.");
+        } 
+        
+        // Neutral/Tricky
+        else if (dir.includes("Cross")) {
+            notes.push("↔️ <b>Tricky:</b> Crosswinds may affect outfield defense and breaking balls.");
+        }
+    }
+
+    // 4. Rain Analysis
+    if (weather.maxPrecipChance >= 70) {
+        notes.push("⚠️ <b>Delay Risk:</b> High probability of rain delay or postponement.");
+    } else if (weather.maxPrecipChance >= 40) {
+        notes.push("⚠️ <b>Delay Risk:</b> Scattered storms could interrupt play.");
+    }
+
+    if (notes.length === 0) {
+        return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
+    }
+
     return notes.join("<br>");
 }
 

@@ -564,7 +564,7 @@ window.shareGameTweet = function(encodedData) {
     }
 
     // --- 5. FOOTER ---
-    tweet += `\n🔗 weathermlb.com\n#MLB #FantasyBaseball`;
+    tweet += `\n🔗 https://weathermlb.com\n#MLB #FantasyBaseball`;
 
     // --- 6. LAUNCH ---
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
@@ -618,7 +618,7 @@ window.generateDailyReport = function() {
     }
 
     // 3. Call to Action
-    report += `\nFor details visit: weathermlb.com\n#MLB #FantasyBaseball`;
+    report += `\nFor details visit: https://weathermlb.com\n#MLB #FantasyBaseball`;
 
     // 4. Open Modal
     const modalEl = document.getElementById('tweetModal');

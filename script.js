@@ -163,28 +163,17 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- UPDATED: Risk Border Logic ---
+    // --- Risk Border Logic ---
     let borderClass = ""; 
-    
     if (weather && !isRoofClosed) {
-        // 1. LIGHTNING (Highest Priority - Mandatory Delay)
-        if (weather.isThunderstorm) {
-             borderClass = "border-danger border-3"; 
-        } 
-        // 2. Heavy Rain
-        else if (weather.maxPrecipChance >= 70) {
-            borderClass = "border-danger border-3"; 
-        } 
-        // 3. Scattered Rain
-        else if (weather.maxPrecipChance >= 30) {
-            borderClass = "border-warning border-3"; 
-        }
+        if (weather.isThunderstorm) borderClass = "border-danger border-3"; 
+        else if (weather.maxPrecipChance >= 70) borderClass = "border-danger border-3"; 
+        else if (weather.maxPrecipChance >= 30) borderClass = "border-warning border-3"; 
     }
 
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
-    // Basic Info
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -204,7 +193,12 @@ function createGameCard(data) {
                 </div>`;
         } else if (weather.temp !== '--') {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
-            const displayRain = isRoofClosed ? 0 : weather.maxPrecipChance;
+            
+            // --- Main Rain Display (Bolt + %) ---
+            let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
+            if (weather.isThunderstorm && !isRoofClosed) {
+                displayRain += " ⚡"; 
+            }
             
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
@@ -216,8 +210,17 @@ function createGameCard(data) {
                     let colorClass = 'risk-low'; 
                     if (h.precipChance >= 50) colorClass = 'risk-high'; 
                     else if (h.precipChance >= 30) colorClass = 'risk-med'; 
-                    const textLabel = h.precipChance > 0 ? `${h.precipChance}%` : '';
-                    return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${textLabel}</div>`;
+                    
+                    // --- UPDATED: Show BOTH % and Bolt ---
+                    let content = "";
+                    if (h.precipChance > 0) {
+                        content = `${h.precipChance}%`;
+                    }
+                    if (h.isThunderstorm) {
+                        content += " ⚡"; // Appends bolt next to number
+                    }
+
+                    return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${content}</div>`;
                 }).join('');
                 
                 const labels = weather.hourly.map(h => {
@@ -247,7 +250,7 @@ function createGameCard(data) {
                         <div class="small text-muted">Hum</div>
                     </div>
                     <div class="col-3 border-end">
-                        <div class="fw-bold text-primary">${displayRain}%</div>
+                        <div class="fw-bold text-primary" style="white-space: nowrap;">${displayRain}</div>
                         <div class="small text-muted">Rain</div>
                     </div>
                     <div class="col-3">
@@ -388,7 +391,6 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
     if (!isHistorical && daysDiff > 16) return { status: "too_early", temp: '--' };
 
     let url = "";
-    // ADDED weather_code TO ALL URLS
     if (isHistorical || dateStr === "2024-09-25") {
          url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
     } 
@@ -422,20 +424,25 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
         const hourlySlice = [];
         let maxChanceInWindow = 0;
-        let isThunderstorm = false; // NEW FLAG
+        let isGameThunderstorm = false;
 
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
             if (i >= 0 && i < 24) {
                 let chance = normalizePrecip(i);
                 
-                // CHECK FOR THUNDERSTORM CODES (95, 96, 99)
+                // Check specific hour for storm
                 const code = data.hourly.weather_code[i];
-                if (code === 95 || code === 96 || code === 99) {
-                    isThunderstorm = true;
-                }
+                const isHourThunderstorm = (code === 95 || code === 96 || code === 99);
+                
+                if (isHourThunderstorm) isGameThunderstorm = true;
 
                 if (i >= gameHour && i <= gameHour + 3 && chance > maxChanceInWindow) maxChanceInWindow = chance;
-                hourlySlice.push({ hour: i, precipChance: chance });
+                
+                hourlySlice.push({ 
+                    hour: i, 
+                    precipChance: chance,
+                    isThunderstorm: isHourThunderstorm // Save hourly status
+                });
             }
         }
 
@@ -444,7 +451,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
             temp: Math.round(data.hourly.temperature_2m[gameHour]),
             humidity: Math.round(data.hourly.relative_humidity_2m[gameHour]),
             maxPrecipChance: maxChanceInWindow, 
-            isThunderstorm: isThunderstorm, // RETURN THE FLAG
+            isThunderstorm: isGameThunderstorm, 
             windSpeed: Math.round(data.hourly.wind_speed_10m[gameHour]),
             windDir: data.hourly.wind_direction_10m[gameHour],
             hourly: hourlySlice
@@ -454,7 +461,6 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         return { temp: '--', hourly: [] };
     }
 }
-
 function calculateWind(windDirection, stadiumBearing) {
     let diff = (windDirection - stadiumBearing + 360) % 360;
     if (diff >= 337.5 || diff < 22.5) return { text: "Blowing IN", cssClass: "bg-in", arrow: "⬇" };

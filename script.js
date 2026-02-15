@@ -113,18 +113,25 @@ function renderGames() {
     let filteredGames = ALL_GAMES_DATA.filter(item => {
         const g = item.gameRaw;
         const teams = (g.teams.away.team.name + " " + g.teams.home.team.name).toLowerCase();
+        
+        // 1. Search Filter
         if (!teams.includes(searchText)) return false;
 
+        // 2. Risk Filter (UPDATED: RAIN ONLY)
         if (risksOnly) {
+            // If no weather data, hide it
             if (!item.weather || item.weather.temp === '--') return false; 
-            const isRainy = item.weather.maxPrecipChance >= 30;
-            const isWindy = item.weather.windSpeed >= 12;
-            const isExtremeTemp = item.weather.temp <= 45 || item.weather.temp >= 90;
-            if (!isRainy && !isWindy && !isExtremeTemp) return false;
+            
+            // If roof is closed, it's never a risk
+            if (item.roof) return false;
+
+            // STRICT RULE: Only show if Rain >= 30%
+            if (item.weather.maxPrecipChance < 30) return false;
         }
         return true;
     });
 
+    // 3. Sorting
     filteredGames.sort((a, b) => {
         const aValid = a.weather && a.weather.temp !== '--';
         const bValid = b.weather && b.weather.temp !== '--';
@@ -134,7 +141,7 @@ function renderGames() {
         if (sortMode === 'wind') return (b.weather?.windSpeed || 0) - (a.weather?.windSpeed || 0);
         if (sortMode === 'rain') return (b.weather?.maxPrecipChance || 0) - (a.weather?.maxPrecipChance || 0);
         if (sortMode === 'temp') return (b.weather?.temp || 0) - (a.weather?.temp || 0);
-        if (sortMode === 'humidity') return (b.weather?.humidity || 0) - (a.weather?.humidity || 0); // NEW SORT
+        if (sortMode === 'humidity') return (b.weather?.humidity || 0) - (a.weather?.humidity || 0);
         
         return new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate);
     });

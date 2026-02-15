@@ -324,7 +324,7 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
     let notes = [];
 
-    // 1. Humidity Analysis (Based on your Chart)
+    // 1. Humidity Analysis
     if (weather.humidity <= 30) {
         notes.push("🌵 <b>Dry Air (<30%):</b> Sharp breaking balls (Pitcher Adv), but the ball travels up to 4.5ft farther (Hitter Adv).");
     } else if (weather.humidity >= 70) {
@@ -366,10 +366,10 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
         }
     }
 
-    // 4. Rain Analysis
+    // 4. Rain Analysis (UPDATED: Now starts at 30%)
     if (weather.maxPrecipChance >= 70) {
         notes.push("⚠️ <b>Delay Risk:</b> High probability of rain delay or postponement.");
-    } else if (weather.maxPrecipChance >= 40) {
+    } else if (weather.maxPrecipChance >= 30) { // Changed from 40
         notes.push("⚠️ <b>Delay Risk:</b> Scattered storms could interrupt play.");
     }
 

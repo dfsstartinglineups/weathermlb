@@ -561,3 +561,103 @@ window.shareGameTweet = function(encodedData) {
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
     window.open(twitterUrl, '_blank');
 }
+// ==========================================
+// DAILY REPORT GENERATOR (Smart Sorting)
+// ==========================================
+
+function generateDailyReport() {
+    const dateVal = document.getElementById('date-picker').value;
+    
+    // 1. Sort Games: Hazards First, then Interesting, then Neutral
+    const sortedGames = [...ALL_GAMES_DATA].sort((a, b) => {
+        const getScore = (item) => {
+            const w = item.weather;
+            if (!w || item.roof) return 0; // Roof/NoData = Lowest priority
+            
+            // Score Logic
+            if (w.isThunderstorm) return 100; // Top Priority
+            if (w.isSnow) return 90;
+            if (w.maxPrecipChance >= 50) return 80;
+            if (w.maxPrecipChance >= 30) return 70;
+            if (w.windSpeed >= 12) return 50; // High Wind
+            if (w.temp >= 90 || w.temp <= 45) return 40; // Extreme Temp
+            return 10; // Neutral
+        };
+        return getScore(b) - getScore(a);
+    });
+
+    // 2. Build the Text
+    let report = `⚾ MLB Weather Report (${dateVal})\n🔗 weathermlb.com\n\n`;
+    
+    // Track categories for visual separation
+    let hasListedHazards = false;
+
+    sortedGames.forEach(data => {
+        const g = data.gameRaw;
+        const w = data.weather;
+        const wind = data.wind;
+        const isRoof = data.roof;
+        
+        const matchup = `${g.teams.away.team.abbreviation}@${g.teams.home.team.abbreviation}`;
+        
+        // A. Roof / No Data
+        if (isRoof || !w || w.temp === '--') {
+            // Optional: Skip roof games to save space, or list briefly
+            // report += `✅ ${matchup}: Roof Closed / Dome\n`; 
+            return;
+        }
+
+        // B. Determine Status Line
+        let icon = "✅";
+        let condition = "";
+        
+        // Check Hazards
+        if (w.isThunderstorm) {
+            icon = "⚡";
+            condition = "LIGHTNING RISK (Mandatory Delay)";
+            hasListedHazards = true;
+        } else if (w.isSnow) {
+            icon = "❄️";
+            condition = "SNOW RISK";
+            hasListedHazards = true;
+        } else if (w.maxPrecipChance >= 30) {
+            icon = "⚠️";
+            condition = `${w.maxPrecipChance}% Rain Delay Risk`;
+            hasListedHazards = true;
+        } 
+        // Check Advantages
+        else if (w.windSpeed >= 10 && wind.text.includes("OUT")) {
+            icon = "🚀";
+            condition = `Blowing OUT ${w.windSpeed}mph (Hitter Friendly)`;
+        } else if (w.windSpeed >= 10 && wind.text.includes("IN")) {
+            icon = "🛑";
+            condition = `Blowing IN ${w.windSpeed}mph (Pitcher Friendly)`;
+        } else if (w.temp >= 90) {
+            icon = "🔥";
+            condition = `Hot (${w.temp}°F) - Ball Carrying`;
+        } else if (w.temp <= 50) {
+            icon = "❄️";
+            condition = `Cold (${w.temp}°F) - Air Dense`;
+        } else {
+            icon = "☁️";
+            condition = `Neutral (${w.temp}°F, ${w.windSpeed}mph)`;
+        }
+
+        // Add line
+        report += `${icon} ${matchup}: ${condition}\n`;
+    });
+
+    report += `\n#MLB #FantasyBaseball #Weather`;
+
+    // 3. Open Modal
+    document.getElementById('tweet-text').value = report;
+    
+    // Update the "Open X" button link
+    // Note: If report is too long, this link might truncate, but the Copy button always works.
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(report)}`;
+    const twitterBtn = document.getElementById('twitter-link');
+    if (twitterBtn) twitterBtn.href = twitterUrl;
+    
+    const myModal = new bootstrap.Modal(document.getElementById('tweetModal'));
+    myModal.show();
+}

@@ -320,22 +320,31 @@ function createGameCard(data) {
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Start App
     init(DEFAULT_DATE);
 
-    document.getElementById('team-search').addEventListener('input', renderGames);
-    document.getElementById('sort-filter').addEventListener('change', renderGames);
-    document.getElementById('risk-only').addEventListener('change', renderGames);
+    // 2. Filter Listeners
+    const searchInput = document.getElementById('team-search');
+    const sortSelect = document.getElementById('sort-filter');
+    const riskToggle = document.getElementById('risk-only');
+    
+    if(searchInput) searchInput.addEventListener('input', renderGames);
+    if(sortSelect) sortSelect.addEventListener('change', renderGames);
+    if(riskToggle) riskToggle.addEventListener('change', renderGames);
 
+    // 3. Date Picker Listener (UPDATED)
     const datePicker = document.getElementById('date-picker');
-    const refreshBtn = document.getElementById('refresh-btn');
+    
+    if (datePicker) {
+        // Set initial value
+        datePicker.value = DEFAULT_DATE;
 
-    if (refreshBtn && datePicker) {
-        refreshBtn.addEventListener('click', () => {
-            if (datePicker.value) init(datePicker.value);
-        });
+        // Listen for changes
         datePicker.addEventListener('change', (e) => {
             if (e.target.value) {
-                e.target.blur(); // <--- THIS forces the mobile picker to close
+                // Close keyboard on mobile
+                e.target.blur(); 
+                // Fetch new games
                 init(e.target.value);
             }
         });

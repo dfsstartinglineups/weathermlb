@@ -576,7 +576,7 @@ window.shareGameTweet = function(encodedData) {
 window.generateDailyReport = function() {
     // 1. Check if data exists
     if (!ALL_GAMES_DATA || ALL_GAMES_DATA.length === 0) {
-        alert("Please load the games first!");
+        alert("Please wait for games to load first.");
         return;
     }
 
@@ -609,7 +609,14 @@ window.generateDailyReport = function() {
         // Skip games with no weather data (unless roof closed)
         if (!w && !isRoof) return;
 
-        const matchup = `${g.teams.away.team.abbreviation}@${g.teams.home.team.abbreviation}`;
+        // FIX: Use Name, and strip "New York" etc to keep it short
+        const shortName = (name) => {
+            return name.replace("New York ", "").replace("Los Angeles ", "").replace("Chicago ", "").replace("San Francisco ", "").replace("Tampa Bay ", "").replace("Kansas City ", "").replace("St. Louis ", "");
+        };
+
+        const away = shortName(g.teams.away.team.name);
+        const home = shortName(g.teams.home.team.name);
+        const matchup = `${away} @ ${home}`;
         
         let icon = "☁️";
         let condition = "Neutral";
@@ -644,7 +651,7 @@ window.generateDailyReport = function() {
 
     report += `\n#MLB #FantasyBaseball #Weather`;
 
-    // 4. Open Modal (Ensure you have the modal HTML in index.html)
+    // 4. Open Modal
     const modalEl = document.getElementById('tweetModal');
     if (modalEl) {
         document.getElementById('tweet-text').value = report;

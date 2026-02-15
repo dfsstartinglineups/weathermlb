@@ -156,9 +156,22 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
+    // --- NEW: Risk Border Logic ---
+    let borderClass = ""; // Default grey border
+    let borderStyle = ""; // Custom width if needed
+    
+    if (weather && !isRoofClosed) {
+        if (weather.maxPrecipChance >= 70) {
+            borderClass = "border-danger border-3"; // Red Border (High Risk)
+        } else if (weather.maxPrecipChance >= 40) {
+            borderClass = "border-warning border-3"; // Yellow Border (Medium Risk)
+        }
+    }
+
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
+    // Basic Info
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -210,7 +223,6 @@ function createGameCard(data) {
                     </div>`;
             }
 
-            // --- 4-COLUMN LAYOUT TO INCLUDE HUMIDITY ---
             weatherHtml = `
                 <div class="weather-row row text-center align-items-center">
                     <div class="col-3 border-end">
@@ -245,8 +257,9 @@ function createGameCard(data) {
         }
     }
 
+    // Apply the border class here
     gameCard.innerHTML = `
-        <div class="card game-card h-100">
+        <div class="card game-card h-100 ${borderClass}">
             <div class="card-body pb-2">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="badge bg-light text-dark border">${gameTime}</span>

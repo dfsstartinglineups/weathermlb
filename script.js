@@ -331,59 +331,45 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
     let notes = [];
 
-    // 1. Humidity Analysis
+    // 1. Lightning Analysis (Highest Priority)
+    if (weather.isThunderstorm) {
+        notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");
+    }
+
+    // 2. Rain Analysis
+    if (weather.maxPrecipChance >= 70) {
+        notes.push("🌧️ <b>Rainout Risk:</b> High probability of postponement.");
+    } else if (weather.maxPrecipChance >= 30) {
+        notes.push("☔ <b>Delay Risk:</b> Scattered showers could interrupt play.");
+    }
+
+    // 3. Humidity Analysis
     if (weather.humidity <= 30) {
         notes.push("🌵 <b>Dry Air (<30%):</b> Sharp breaking balls (Pitcher Adv), but the ball travels up to 4.5ft farther (Hitter Adv).");
     } else if (weather.humidity >= 70) {
         notes.push("💧 <b>High Humidity (>70%):</b> Breaking balls hang/flatten (Hitter Adv), but the ball travels shorter distances (Pitcher Adv).");
     }
 
-    // 2. Temp Analysis
+    // 4. Temp Analysis
     if (weather.temp >= 85) {
         notes.push("🔥 <b>Hitter Friendly:</b> High temps reduce air density, helping fly balls carry.");
     } else if (weather.temp <= 50) {
         notes.push("❄️ <b>Pitcher Friendly:</b> Cold, dense air suppresses ball flight and scoring.");
     }
 
-    // 3. Wind Analysis (Only if speed > 8mph)
+    // 5. Wind Analysis
     if (weather.windSpeed >= 8) {
         const dir = windInfo.text;
-        
-        // Power Boosts
-        if (dir.includes("Blowing OUT")) {
-            notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
-        } else if (dir.includes("Out to Right")) {
-            notes.push("↗️ <b>Lefty Advantage:</b> Wind blowing out to Right favors <b>Left-Handed</b> power.");
-        } else if (dir.includes("Out to Left")) {
-            notes.push("↖️ <b>Righty Advantage:</b> Wind blowing out to Left favors <b>Right-Handed</b> power.");
-        } 
-        
-        // Power Suppression
-        else if (dir.includes("Blowing IN")) {
-            notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
-        } else if (dir.includes("In from Right")) {
-            notes.push("📉 <b>Lefty Nightmare:</b> Wind blowing in from Right knocks down Lefty power.");
-        } else if (dir.includes("In from Left")) {
-            notes.push("📉 <b>Righty Nightmare:</b> Wind blowing in from Left knocks down Righty power.");
-        } 
-        
-        // Neutral/Tricky
-        else if (dir.includes("Cross")) {
-            notes.push("↔️ <b>Tricky:</b> Crosswinds may affect outfield defense and breaking balls.");
-        }
+        if (dir.includes("Blowing OUT")) notes.push("🚀 <b>Home Runs:</b> Strong wind blowing out creates ideal hitting conditions.");
+        else if (dir.includes("Blowing IN")) notes.push("🛑 <b>Suppressed:</b> Wind blowing in will knock down fly balls. Advantage pitchers.");
+        else if (dir.includes("Out to Right")) notes.push("↗️ <b>Lefty Advantage:</b> Wind blowing out to Right Field favors <b>Left-Handed</b> power.");
+        else if (dir.includes("Out to Left")) notes.push("↖️ <b>Righty Advantage:</b> Wind blowing out to Left Field favors <b>Right-Handed</b> power.");
+        else if (dir.includes("In from Right")) notes.push("📉 <b>Lefty Nightmare:</b> Wind blowing in from Right knocks down Lefty power.");
+        else if (dir.includes("In from Left")) notes.push("📉 <b>Righty Nightmare:</b> Wind blowing in from Left knocks down Righty power.");
+        else if (dir.includes("Cross")) notes.push("↔️ <b>Tricky:</b> Crosswinds may affect outfield defense and breaking balls.");
     }
 
-    // 4. Rain Analysis (UPDATED: Now starts at 30%)
-    if (weather.maxPrecipChance >= 70) {
-        notes.push("⚠️ <b>Delay Risk:</b> High probability of rain delay or postponement.");
-    } else if (weather.maxPrecipChance >= 30) { // Changed from 40
-        notes.push("⚠️ <b>Delay Risk:</b> Scattered storms could interrupt play.");
-    }
-
-    if (notes.length === 0) {
-        return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
-    }
-
+    if (notes.length === 0) return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
     return notes.join("<br>");
 }
 
@@ -396,15 +382,15 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
     if (!isHistorical && daysDiff > 16) return { status: "too_early", temp: '--' };
 
     let url = "";
-    // ADDED relative_humidity_2m TO ALL URLS
+    // ADDED weather_code TO ALL URLS
     if (isHistorical || dateStr === "2024-09-25") {
-         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
+         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
     } 
     else if (daysDiff <= 3) {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
     else {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
 
     try {
@@ -430,9 +416,18 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
         const hourlySlice = [];
         let maxChanceInWindow = 0;
+        let isThunderstorm = false; // NEW FLAG
+
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
             if (i >= 0 && i < 24) {
                 let chance = normalizePrecip(i);
+                
+                // CHECK FOR THUNDERSTORM CODES (95, 96, 99)
+                const code = data.hourly.weather_code[i];
+                if (code === 95 || code === 96 || code === 99) {
+                    isThunderstorm = true;
+                }
+
                 if (i >= gameHour && i <= gameHour + 3 && chance > maxChanceInWindow) maxChanceInWindow = chance;
                 hourlySlice.push({ hour: i, precipChance: chance });
             }
@@ -441,8 +436,9 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         return {
             status: "ok",
             temp: Math.round(data.hourly.temperature_2m[gameHour]),
-            humidity: Math.round(data.hourly.relative_humidity_2m[gameHour]), // NEW FIELD
+            humidity: Math.round(data.hourly.relative_humidity_2m[gameHour]),
             maxPrecipChance: maxChanceInWindow, 
+            isThunderstorm: isThunderstorm, // RETURN THE FLAG
             windSpeed: Math.round(data.hourly.wind_speed_10m[gameHour]),
             windDir: data.hourly.wind_direction_10m[gameHour],
             hourly: hourlySlice

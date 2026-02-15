@@ -163,14 +163,21 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- UPDATED: Risk Border Logic (Now starts at 30%) ---
+    // --- UPDATED: Risk Border Logic ---
     let borderClass = ""; 
     
     if (weather && !isRoofClosed) {
-        if (weather.maxPrecipChance >= 70) {
-            borderClass = "border-danger border-3"; // Red Border (High Risk)
-        } else if (weather.maxPrecipChance >= 30) {
-            borderClass = "border-warning border-3"; // Yellow Border (Medium Risk)
+        // 1. LIGHTNING (Highest Priority - Mandatory Delay)
+        if (weather.isThunderstorm) {
+             borderClass = "border-danger border-3"; 
+        } 
+        // 2. Heavy Rain
+        else if (weather.maxPrecipChance >= 70) {
+            borderClass = "border-danger border-3"; 
+        } 
+        // 3. Scattered Rain
+        else if (weather.maxPrecipChance >= 30) {
+            borderClass = "border-warning border-3"; 
         }
     }
 
@@ -208,7 +215,7 @@ function createGameCard(data) {
                 const segments = weather.hourly.map(h => {
                     let colorClass = 'risk-low'; 
                     if (h.precipChance >= 50) colorClass = 'risk-high'; 
-                    else if (h.precipChance >= 30) colorClass = 'risk-med'; // Updated to 30%
+                    else if (h.precipChance >= 30) colorClass = 'risk-med'; 
                     const textLabel = h.precipChance > 0 ? `${h.precipChance}%` : '';
                     return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% chance of rain">${textLabel}</div>`;
                 }).join('');
@@ -263,7 +270,6 @@ function createGameCard(data) {
         }
     }
 
-    // Apply the border class here
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass}">
             <div class="card-body pb-2">

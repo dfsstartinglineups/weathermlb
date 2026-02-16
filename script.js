@@ -209,7 +209,7 @@ function createGameCard(data) {
             
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
-            // --- HOURLY FORECAST LOGIC (FIXED) ---
+            // --- HOURLY FORECAST LOGIC ---
             let hourlyHtml = '';
             if (isRoofClosed) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
@@ -217,15 +217,10 @@ function createGameCard(data) {
                 
                 // Map the data to HTML cards
                 const cardsHtml = weather.hourly.map((h, index) => {
-                    // 1. Format Time
-                    let timeLabel;
-                    if (index === 0) { 
-                        timeLabel = "Start";
-                    } else {
-                        const ampm = h.hour >= 12 ? 'PM' : 'AM';
-                        const hour12 = h.hour % 12 || 12;
-                        timeLabel = `${hour12}${ampm}`;
-                    }
+                    // 1. Format Time (Show Time for ALL columns now)
+                    const ampm = h.hour >= 12 ? 'PM' : 'AM';
+                    const hour12 = h.hour % 12 || 12;
+                    const timeLabel = `${hour12}${ampm}`;
 
                     // 2. Determine Icon & Rain Text
                     let icon = '';
@@ -233,20 +228,23 @@ function createGameCard(data) {
                     
                     const isNight = h.hour >= 20 || h.hour < 6;
 
-                    if (h.precipChance > 0) {
-                        // RAIN CASE
+                    if (h.precipChance >= 30) {
+                        // High Risk (>30%) -> Show Rain Icon
                         if (h.isThunderstorm) icon = '⛈️';
                         else if (h.isSnow) icon = '🌨️';
                         else icon = '🌧️';
                         
                         popHtml = `${h.precipChance}%`;
+                    } else if (h.precipChance > 0) {
+                        // Low Risk (1-29%) -> Show Sun/Cloud (Partly Cloudy)
+                        icon = '⛅'; 
+                        popHtml = `${h.precipChance}%`;
                     } else {
-                        // CLEAR CASE
+                        // 0% -> Clear
                         icon = isNight ? '🌙' : '☀️';
                     }
 
                     // 3. Build Card
-                    // Ensure 'h.temp' exists (we added it to fetchGameWeather)
                     const tempDisplay = h.temp !== undefined ? `${h.temp}°` : '--';
 
                     return `

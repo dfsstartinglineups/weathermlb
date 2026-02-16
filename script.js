@@ -209,66 +209,59 @@ function createGameCard(data) {
             
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
+            // --- HOURLY FORECAST LOGIC (FIXED) ---
             let hourlyHtml = '';
             if (isRoofClosed) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
-              // ... inside createGameCard function ...
+                
+                // Map the data to HTML cards
+                const cardsHtml = weather.hourly.map((h, index) => {
+                    // 1. Format Time
+                    let timeLabel;
+                    if (index === 0) { 
+                        timeLabel = "Start";
+                    } else {
+                        const ampm = h.hour >= 12 ? 'PM' : 'AM';
+                        const hour12 = h.hour % 12 || 12;
+                        timeLabel = `${hour12}${ampm}`;
+                    }
 
-            let hourlyHtml = '';
-            if (isRoofClosed) {
-                hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
-            } else if (weather.hourly && weather.hourly.length > 0) {
+                    // 2. Determine Icon & Rain Text
+                    let icon = '';
+                    let popHtml = '&nbsp;'; 
                     
-                    // Map the data to HTML cards
-                    const cardsHtml = weather.hourly.map((h, index) => {
-                        // 1. Format Time (e.g., "10AM" or "Now")
-                        let timeLabel;
-                        if (index === 0) { // First hour is close to game start
-                            timeLabel = "Start";
-                        } else {
-                            const ampm = h.hour >= 12 ? 'PM' : 'AM';
-                            const hour12 = h.hour % 12 || 12;
-                            timeLabel = `${hour12}${ampm}`;
-                        }
-    
-                        // 2. Determine Icon & Rain Text
-                        let icon = '';
-                        let popHtml = '&nbsp;'; // Default empty space
-                        
-                        // Simple Day/Night logic for sun/moon
-                        const isNight = h.hour >= 20 || h.hour < 6;
-    
-                        if (h.precipChance > 0) {
-                            // RAIN/SNOW CASE
-                            if (h.isThunderstorm) icon = '⛈️';
-                            else if (h.isSnow) icon = '🌨️';
-                            else icon = '🌧️';
-                            
-                            // Blue Percentage Text
-                            popHtml = `${h.precipChance}%`;
-                        } else {
-                            // CLEAR CASE
-                            // Note: Using a "Cloud" if cloudy, but since we don't have cloud data, 
-                            // we default to Sun/Moon. 
-                            icon = isNight ? '🌙' : '☀️';
-                        }
-    
-                        return `
-                            <div class="hour-card">
-                                <div class="hour-time">${timeLabel}</div>
-                                <div class="hour-icon">${icon}</div>
-                                <div class="hour-pop">${popHtml}</div>
-                                <div class="hour-temp">${h.temp}°</div>
-                            </div>`;
-                    }).join('');
-    
-                    hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
-                }
-            }
+                    const isNight = h.hour >= 20 || h.hour < 6;
 
-            // --- Button Logic: Store data in data-attributes to pass to Tweet function ---
-            // We encode the data so we can rebuild the tweet later
+                    if (h.precipChance > 0) {
+                        // RAIN CASE
+                        if (h.isThunderstorm) icon = '⛈️';
+                        else if (h.isSnow) icon = '🌨️';
+                        else icon = '🌧️';
+                        
+                        popHtml = `${h.precipChance}%`;
+                    } else {
+                        // CLEAR CASE
+                        icon = isNight ? '🌙' : '☀️';
+                    }
+
+                    // 3. Build Card
+                    // Ensure 'h.temp' exists (we added it to fetchGameWeather)
+                    const tempDisplay = h.temp !== undefined ? `${h.temp}°` : '--';
+
+                    return `
+                        <div class="hour-card">
+                            <div class="hour-time">${timeLabel}</div>
+                            <div class="hour-icon">${icon}</div>
+                            <div class="hour-pop">${popHtml}</div>
+                            <div class="hour-temp">${tempDisplay}</div>
+                        </div>`;
+                }).join('');
+
+                hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
+            }
+            // -------------------------------------
+
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
             weatherHtml = `

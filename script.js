@@ -28,8 +28,8 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue`;
-
+    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher`;
+   
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
         if (!stadiumResponse.ok) stadiumResponse = await fetch('stadiums.json');
@@ -174,6 +174,7 @@ function createGameCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
+    // --- TEAMS & LOGOS ---
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -181,6 +182,11 @@ function createGameCard(data) {
     const awayLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${awayId}.svg`;
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    // --- PITCHERS (NEW) ---
+    // Use optional chaining (?.) because probablePitcher might be missing if not announced
+    const awayPitcher = game.teams.away.probablePitcher?.fullName || "TBD";
+    const homePitcher = game.teams.home.probablePitcher?.fullName || "TBD";
 
     let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
 
@@ -215,9 +221,8 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
                 
-                // Map the data to HTML cards
                 const cardsHtml = weather.hourly.map((h, index) => {
-                    // 1. Format Time (Show Time for ALL columns now)
+                    // 1. Format Time
                     const ampm = h.hour >= 12 ? 'PM' : 'AM';
                     const hour12 = h.hour % 12 || 12;
                     const timeLabel = `${hour12}${ampm}`;
@@ -229,18 +234,14 @@ function createGameCard(data) {
                     const isNight = h.hour >= 20 || h.hour < 6;
 
                     if (h.precipChance >= 30) {
-                        // High Risk (>30%) -> Show Rain Icon
                         if (h.isThunderstorm) icon = '⛈️';
                         else if (h.isSnow) icon = '🌨️';
                         else icon = '🌧️';
-                        
                         popHtml = `${h.precipChance}%`;
                     } else if (h.precipChance > 0) {
-                        // Low Risk (1-29%) -> Show Sun/Cloud (Partly Cloudy)
                         icon = '⛅'; 
                         popHtml = `${h.precipChance}%`;
                     } else {
-                        // 0% -> Clear
                         icon = isNight ? '🌙' : '☀️';
                     }
 
@@ -258,8 +259,8 @@ function createGameCard(data) {
 
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
-            // -------------------------------------
-
+            
+            // Encode data for Tweet
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
             weatherHtml = `
@@ -313,16 +314,16 @@ function createGameCard(data) {
                     <span class="badge bg-light text-dark border">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                <div class="d-flex justify-content-between align-items-start mb-3 px-2">
                     <div class="text-center" style="width: 45%;">
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${awayName}</div>
-                    </div>
-                    <div class="text-muted small fw-bold">@</div>
+                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div> </div>
+                    <div class="text-muted small fw-bold pt-4">@</div>
                     <div class="text-center" style="width: 45%;">
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${homeName}</div>
-                    </div>
+                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div> </div>
                 </div>
                 ${weatherHtml}
             </div>
@@ -330,7 +331,6 @@ function createGameCard(data) {
     
     return gameCard;
 }
-
 // ==========================================
 // 3. LISTENERS
 // ==========================================

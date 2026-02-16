@@ -623,7 +623,7 @@ function generateDailyReport() {
         return;
     }
 
-    // 1. Sort games by time
+    // 1. Sort games by time (Earliest first)
     const sortedGames = [...ALL_GAMES_DATA].sort((a, b) => 
         new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate)
     );
@@ -636,48 +636,55 @@ function generateDailyReport() {
     let allLines = [];
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
-        const weather = game.weather; // The weather object
+        const w = game.weather; // 'w' matches your individual tweet variable
         
+        // TEAMS
         const away = getTeamAbbr(teams.away.team.name);
         const home = getTeamAbbr(teams.home.team.name);
-        const windArrow = getWindArrowEmoji(game.windDirection); 
-
-        // --- SMART RAIN CHECK ---
-        // 1. Try 'precipChance', then 'pop', then default to 0
-        let rainRaw = weather.precipChance !== undefined ? weather.precipChance : (weather.pop || 0);
         
-        // 2. Convert Decimal to Percentage (e.g., 0.2 -> 20)
-        // If the value is small (<= 1) and not 0, it's likely a decimal
-        if (rainRaw <= 1 && rainRaw > 0) {
-            rainRaw = rainRaw * 100;
+        // WIND ARROW
+        // Your individual tweet uses 'wind.arrow'. 
+        // We try to access that first. If it's not stored in 'game', 
+        // we fall back to our helper using 'w.windDirection'.
+        let arrow = "💨";
+        if (game.wind && game.wind.arrow) {
+             arrow = game.wind.arrow;
+        } else {
+             arrow = getWindArrowEmoji(game.windDirection);
         }
-        const rain = Math.round(Number(rainRaw)); 
 
-        const temp = Math.round(Number(weather.temp) || 0);
-        const wind = Math.round(Number(weather.windSpeed) || 0);
+        // VALUES (Matches your individual tweet logic)
+        // Rain: Use 'maxPrecipChance'
+        const rain = Math.round(Number(w.maxPrecipChance) || 0);
+        const temp = Math.round(Number(w.temp) || 0);
+        const windSpd = Math.round(Number(w.windSpeed) || 0);
 
-        // FORMAT LINE
-        const line = `${away}@${home}:🌧️${rain}%🌡️${temp}°${windArrow}${wind}mph`;
+        // FORMAT: DET@NYY:🌧️0%🌡️72°💨9mph
+        // Note: Using 'arrow' variable we just set
+        const line = `${away}@${home}:🌧️${rain}%🌡️${temp}°${arrow}${windSpd}mph`;
         allLines.push(line);
     });
 
     // 4. Build the Thread
     let tweets = [];
+    // Header for Tweet 1
     let currentTweet = `⚾MLB Weather•${today} (1/X)\n\n`; 
 
     allLines.forEach((line) => {
+        // Check if adding this line exceeds limit
         if ((currentTweet.length + line.length + 1) > MAX_TWEET_LENGTH) {
             tweets.push(currentTweet); 
+            // Header for Tweet 2, 3, etc.
             currentTweet = `(2/X) Continued...\n\n`; 
         }
         currentTweet += line + "\n";
     });
 
-    // 5. Add Footer
+    // 5. Add Footer to the LAST tweet
     currentTweet += `\nMore details: https://weathermlb.com\n#MLB #BaseballWeather`;
     tweets.push(currentTweet);
 
-    // 6. Format Final Text
+    // 6. Format Final Text for the Box
     const finalOutput = tweets.map((t, i) => `--- TWEET ${i+1} ---\n${t}\n`).join("\n");
 
     // 7. POPULATE MODAL
@@ -687,21 +694,22 @@ function generateDailyReport() {
     if (textArea) {
         textArea.value = finalOutput;
 
-        // Update Twitter Button Link
-        const firstTweetBody = tweets[0]; 
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(firstTweetBody)}`;
-        if(twitterLink) twitterLink.href = twitterUrl;
+        // Update "Open X" Button
+        // Pre-fill only the first tweet
+        if (twitterLink && tweets.length > 0) {
+            const firstTweetBody = tweets[0]; 
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(firstTweetBody)}`;
+            twitterLink.href = twitterUrl;
+        }
         
-        // Show Modal
+        // Show Modal (Bootstrap)
         const modalElement = document.getElementById('tweetModal');
-        // Check if Bootstrap is loaded
-        if (typeof bootstrap !== 'undefined') {
+        if (modalElement && typeof bootstrap !== 'undefined') {
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
         } else {
-            // Fallback if bootstrap JS isn't detected
-            console.error("Bootstrap JS not found");
-            alert(finalOutput); 
+             // Fallback if modal fails
+             alert("Report generated (Modal not found):\n\n" + finalOutput);
         }
     }
 }

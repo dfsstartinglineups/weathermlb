@@ -354,6 +354,31 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // 4. HELPER FUNCTIONS
 // ==========================================
+function getWindArrowEmoji(direction) {
+    // 1. Handle missing data
+    if (direction === null || direction === undefined) return "💨";
+
+    // 2. Handle Degrees (if the API sends a number like 180, 270)
+    if (typeof direction === 'number') {
+        const val = Math.floor((direction / 22.5) + 0.5);
+        const arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+        direction = arr[(val % 16)];
+    }
+
+    // 3. Map Compass String to Arrow Emoji
+    const map = {
+        "N": "⬇️",   "NNE": "⬇️", "NE": "↙️",  "ENE": "↙️", // Wind from North flows Down/South
+        "E": "⬅️",   "ESE": "⬅️", "SE": "↖️",  "SSE": "↖️", // Wind from East flows Left/West
+        "S": "⬆️",   "SSW": "⬆️", "SW": "↗️",  "WSW": "↗️", // Wind from South flows Up/North
+        "W": "➡️",   "WNW": "➡️", "NW": "↘️",  "NNW": "↘️"  // Wind from West flows Right/East
+    };
+
+    // Note: Weather arrows usually point "Where the wind is going", 
+    // so a North wind (From North) points Down (South).
+    
+    return map[direction.toUpperCase()] || "💨";
+}
+
 // Helper: Get Standard 3-Letter Code
 function getTeamAbbr(teamName) {
     const map = {

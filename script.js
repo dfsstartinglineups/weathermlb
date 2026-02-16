@@ -521,11 +521,12 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
                 if (i >= gameHour && i <= gameHour + 3 && chance > maxChanceInWindow) maxChanceInWindow = chance;
                 
-                hourlySlice.push({ 
+               hourlySlice.push({ 
                     hour: i, 
+                    temp: Math.round(data.hourly.temperature_2m[i]), // <--- ADD THIS LINE
                     precipChance: chance,
                     isThunderstorm: isHourThunderstorm,
-                    isSnow: isHourSnow // Save per hour
+                    isSnow: isHourSnow 
                 });
             }
         }

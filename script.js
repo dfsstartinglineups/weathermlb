@@ -636,21 +636,27 @@ function generateDailyReport() {
     let allLines = [];
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
-        const weather = game.weather;
+        const weather = game.weather; // The weather object
         
         const away = getTeamAbbr(teams.away.team.name);
         const home = getTeamAbbr(teams.home.team.name);
-        
-        // FIX: Handle missing wind direction
         const windArrow = getWindArrowEmoji(game.windDirection); 
 
-        // FIX: The "|| 0" prevents NaN if the API sends null/undefined
-        // We use Number() to ensure it's treated as a number before rounding
-        const rain = Math.round(Number(weather.precipChance) || 0);
+        // --- SMART RAIN CHECK ---
+        // 1. Try 'precipChance', then 'pop', then default to 0
+        let rainRaw = weather.precipChance !== undefined ? weather.precipChance : (weather.pop || 0);
+        
+        // 2. Convert Decimal to Percentage (e.g., 0.2 -> 20)
+        // If the value is small (<= 1) and not 0, it's likely a decimal
+        if (rainRaw <= 1 && rainRaw > 0) {
+            rainRaw = rainRaw * 100;
+        }
+        const rain = Math.round(Number(rainRaw)); 
+
         const temp = Math.round(Number(weather.temp) || 0);
         const wind = Math.round(Number(weather.windSpeed) || 0);
 
-        // FORMAT: DET@NYY:🌧️0%🌡️72°💨9mph
+        // FORMAT LINE
         const line = `${away}@${home}:🌧️${rain}%🌡️${temp}°${windArrow}${wind}mph`;
         allLines.push(line);
     });
@@ -667,29 +673,35 @@ function generateDailyReport() {
         currentTweet += line + "\n";
     });
 
-    // 5. Add Footer to the LAST tweet
+    // 5. Add Footer
     currentTweet += `\nMore details: https://weathermlb.com\n#MLB #BaseballWeather`;
     tweets.push(currentTweet);
 
     // 6. Format Final Text
     const finalOutput = tweets.map((t, i) => `--- TWEET ${i+1} ---\n${t}\n`).join("\n");
 
-    // 7. POPULATE YOUR MODAL
+    // 7. POPULATE MODAL
     const textArea = document.getElementById('tweet-text');
     const twitterLink = document.getElementById('twitter-link');
     
     if (textArea) {
         textArea.value = finalOutput;
 
-        // Update the "Open X" button to pre-fill the FIRST tweet
-        // (Twitter intent links only allow one tweet at a time)
+        // Update Twitter Button Link
         const firstTweetBody = tweets[0]; 
         const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(firstTweetBody)}`;
-        twitterLink.href = twitterUrl;
+        if(twitterLink) twitterLink.href = twitterUrl;
         
-        // Show the Modal (Bootstrap 5)
+        // Show Modal
         const modalElement = document.getElementById('tweetModal');
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
+        // Check if Bootstrap is loaded
+        if (typeof bootstrap !== 'undefined') {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        } else {
+            // Fallback if bootstrap JS isn't detected
+            console.error("Bootstrap JS not found");
+            alert(finalOutput); 
+        }
     }
 }

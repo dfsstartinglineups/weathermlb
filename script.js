@@ -616,6 +616,7 @@ window.shareGameTweet = function(encodedData) {
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
     window.open(twitterUrl, '_blank');
 }
+
 function generateDailyReport() {
     if (ALL_GAMES_DATA.length === 0) {
         alert("No games data available to report!");
@@ -639,37 +640,56 @@ function generateDailyReport() {
         
         const away = getTeamAbbr(teams.away.team.name);
         const home = getTeamAbbr(teams.home.team.name);
-        const windArrow = getWindArrowEmoji(game.windDirection);
+        
+        // FIX: Handle missing wind direction
+        const windArrow = getWindArrowEmoji(game.windDirection); 
 
-        // COMPRESSED FORMAT: DET@NYY:🌧️0%🌡️72°↗️15mph
-        const line = `${away}@${home}:🌧️${Math.round(weather.precipChance)}%🌡️${Math.round(weather.temp)}°${windArrow}${Math.round(weather.windSpeed)}mph`;
+        // FIX: The "|| 0" prevents NaN if the API sends null/undefined
+        // We use Number() to ensure it's treated as a number before rounding
+        const rain = Math.round(Number(weather.precipChance) || 0);
+        const temp = Math.round(Number(weather.temp) || 0);
+        const wind = Math.round(Number(weather.windSpeed) || 0);
+
+        // FORMAT: DET@NYY:🌧️0%🌡️72°💨9mph
+        const line = `${away}@${home}:🌧️${rain}%🌡️${temp}°${windArrow}${wind}mph`;
         allLines.push(line);
     });
 
     // 4. Build the Thread
     let tweets = [];
-    // HEADER (Now includes 1/X on the same line)
     let currentTweet = `⚾MLB Weather•${today} (1/X)\n\n`; 
 
     allLines.forEach((line) => {
         if ((currentTweet.length + line.length + 1) > MAX_TWEET_LENGTH) {
             tweets.push(currentTweet); 
-            // Header for subsequent tweets
             currentTweet = `(2/X) Continued...\n\n`; 
         }
         currentTweet += line + "\n";
     });
 
-    // 5. Add Footer + Correct Link to the LAST tweet
+    // 5. Add Footer to the LAST tweet
     currentTweet += `\nMore details: https://weathermlb.com\n#MLB #BaseballWeather`;
     tweets.push(currentTweet);
 
-    // 6. Output to Clipboard
+    // 6. Format Final Text
     const finalOutput = tweets.map((t, i) => `--- TWEET ${i+1} ---\n${t}\n`).join("\n");
 
-    navigator.clipboard.writeText(finalOutput).then(() => {
-        alert(`📋 Compact Report Copied! (${tweets.length} Tweets)`);
-    }).catch(err => {
-        prompt("Copy this thread:", finalOutput);
-    });
+    // 7. POPULATE YOUR MODAL
+    const textArea = document.getElementById('tweet-text');
+    const twitterLink = document.getElementById('twitter-link');
+    
+    if (textArea) {
+        textArea.value = finalOutput;
+
+        // Update the "Open X" button to pre-fill the FIRST tweet
+        // (Twitter intent links only allow one tweet at a time)
+        const firstTweetBody = tweets[0]; 
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(firstTweetBody)}`;
+        twitterLink.href = twitterUrl;
+        
+        // Show the Modal (Bootstrap 5)
+        const modalElement = document.getElementById('tweetModal');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
 }

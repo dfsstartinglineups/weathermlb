@@ -213,33 +213,58 @@ function createGameCard(data) {
             if (isRoofClosed) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
-                const segments = weather.hourly.map(h => {
-                    let colorClass = 'risk-low'; 
-                    if (h.precipChance >= 50) colorClass = 'risk-high'; 
-                    else if (h.precipChance >= 30) colorClass = 'risk-med'; 
+              // ... inside createGameCard function ...
+
+            let hourlyHtml = '';
+            if (isRoofClosed) {
+                hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
+            } else if (weather.hourly && weather.hourly.length > 0) {
                     
-                    let content = "";
-                    if (h.precipChance > 0) content = `${h.precipChance}%`;
-                    if (h.isThunderstorm) content += " ⚡";
-                    else if (h.isSnow) content += " ❄️"; 
-
-                    return `<div class="rain-segment ${colorClass}" title="${h.precipChance}% precip">${content}</div>`;
-                }).join('');
-                
-                const labels = weather.hourly.map(h => {
-                    const ampm = h.hour >= 12 ? 'p' : 'a';
-                    const hour12 = h.hour % 12 || 12; 
-                    return `<div class="rain-time-label">${hour12}${ampm}</div>`;
-                }).join('');
-
-                hourlyHtml = `
-                    <div class="rain-container">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span style="font-size: 0.65rem; color: #adb5bd; font-weight: bold;">HOURLY PRECIP RISK</span>
-                        </div>
-                        <div class="rain-track">${segments}</div>
-                        <div class="rain-labels">${labels}</div>
-                    </div>`;
+                    // Map the data to HTML cards
+                    const cardsHtml = weather.hourly.map((h, index) => {
+                        // 1. Format Time (e.g., "10AM" or "Now")
+                        let timeLabel;
+                        if (index === 0) { // First hour is close to game start
+                            timeLabel = "Start";
+                        } else {
+                            const ampm = h.hour >= 12 ? 'PM' : 'AM';
+                            const hour12 = h.hour % 12 || 12;
+                            timeLabel = `${hour12}${ampm}`;
+                        }
+    
+                        // 2. Determine Icon & Rain Text
+                        let icon = '';
+                        let popHtml = '&nbsp;'; // Default empty space
+                        
+                        // Simple Day/Night logic for sun/moon
+                        const isNight = h.hour >= 20 || h.hour < 6;
+    
+                        if (h.precipChance > 0) {
+                            // RAIN/SNOW CASE
+                            if (h.isThunderstorm) icon = '⛈️';
+                            else if (h.isSnow) icon = '🌨️';
+                            else icon = '🌧️';
+                            
+                            // Blue Percentage Text
+                            popHtml = `${h.precipChance}%`;
+                        } else {
+                            // CLEAR CASE
+                            // Note: Using a "Cloud" if cloudy, but since we don't have cloud data, 
+                            // we default to Sun/Moon. 
+                            icon = isNight ? '🌙' : '☀️';
+                        }
+    
+                        return `
+                            <div class="hour-card">
+                                <div class="hour-time">${timeLabel}</div>
+                                <div class="hour-icon">${icon}</div>
+                                <div class="hour-pop">${popHtml}</div>
+                                <div class="hour-temp">${h.temp}°</div>
+                            </div>`;
+                    }).join('');
+    
+                    hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
+                }
             }
 
             // --- Button Logic: Store data in data-attributes to pass to Tweet function ---

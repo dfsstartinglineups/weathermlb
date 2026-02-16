@@ -354,6 +354,27 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // 4. HELPER FUNCTIONS
 // ==========================================
+// Helper: Get Standard 3-Letter Code
+function getTeamAbbr(teamName) {
+    const map = {
+        // Shared Cities (Must be 3 letters)
+        "Yankees": "NYY", "Mets": "NYM",
+        "Cubs": "CHC", "White Sox": "CWS",
+        "Dodgers": "LAD", "Angels": "LAA",
+        
+        // The Rest (Standard Scoreboard Codes)
+        "Diamondbacks": "ARI", "Braves": "ATL", "Orioles": "BAL", "Red Sox": "BOS",
+        "Reds": "CIN", "Guardians": "CLE", "Rockies": "COL", "Tigers": "DET",
+        "Astros": "HOU", "Royals": "KC",  "Marlins": "MIA", "Brewers": "MIL",
+        "Twins": "MIN", "Athletics": "OAK", "Phillies": "PHI", "Pirates": "PIT",
+        "Padres": "SD",  "Giants": "SF",  "Mariners": "SEA", "Cardinals": "STL",
+        "Rays": "TB",   "Rangers": "TEX", "Blue Jays": "TOR", "Nationals": "WSH"
+    };
+
+    // Find key match
+    const key = Object.keys(map).find(k => teamName.includes(k));
+    return key ? map[key] : "MLB"; // Default
+}
 
 window.showRadar = function(url, venueName) {
     const modalTitle = document.querySelector('#radarModal .modal-title');
@@ -570,65 +591,60 @@ window.shareGameTweet = function(encodedData) {
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
     window.open(twitterUrl, '_blank');
 }
-// ==========================================
-// REPORT GENERATOR (Concise Version)
-// ==========================================
-window.generateDailyReport = function() {
-    if (!ALL_GAMES_DATA || ALL_GAMES_DATA.length === 0) {
-        alert("Please wait for games to load first.");
+function generateDailyReport() {
+    if (ALL_GAMES_DATA.length === 0) {
+        alert("No games data available to report!");
         return;
     }
 
-    const dateVal = document.getElementById('date-picker').value;
+    // 1. Sort games by time
+    const sortedGames = [...ALL_GAMES_DATA].sort((a, b) => 
+        new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate)
+    );
+
+    // 2. Define Limits
+    const MAX_TWEET_LENGTH = 260; 
+    const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
-    // 1. Filter ONLY Risky Games
-    const riskyGames = ALL_GAMES_DATA.filter(item => {
-        const w = item.weather;
-        if (!w || item.roof) return false; // Ignore roof/no-data
+    // 3. Generate Compressed Lines
+    let allLines = [];
+    sortedGames.forEach(game => {
+        const teams = game.gameRaw.teams;
+        const weather = game.weather;
         
-        // Risk Criteria
-        return (w.isThunderstorm || w.isSnow || w.maxPrecipChance >= 30);
+        const away = getTeamAbbr(teams.away.team.name);
+        const home = getTeamAbbr(teams.home.team.name);
+        const windArrow = getWindArrowEmoji(game.windDirection);
+
+        // COMPRESSED FORMAT: DET@NYY:🌧️0%🌡️72°↗️15mph
+        const line = `${away}@${home}:🌧️${Math.round(weather.precipChance)}%🌡️${Math.round(weather.temp)}°${windArrow}${Math.round(weather.windSpeed)}mph`;
+        allLines.push(line);
     });
 
-    // 2. Build the Tweet
-    let report = `⚾ MLB Weather Update (${dateVal})\n\n`;
+    // 4. Build the Thread
+    let tweets = [];
+    // HEADER (Now includes 1/X on the same line)
+    let currentTweet = `⚾MLB Weather•${today} (1/X)\n\n`; 
 
-    if (riskyGames.length === 0) {
-        report += `✅ ALL CLEAR! No significant weather risks across the league today.\n`;
-    } else {
-        report += `⚠️ RISKS DETECTED:\n`;
-        
-        riskyGames.forEach(data => {
-            const g = data.gameRaw;
-            const w = data.weather;
-            
-            // Name Shortener
-            const shortName = (name) => name.replace("New York ", "").replace("Los Angeles ", "").replace("Chicago ", "").replace("San Francisco ", "").replace("Tampa Bay ", "").replace("Kansas City ", "").replace("St. Louis ", "");
-            const matchup = `${shortName(g.teams.away.team.name)} @ ${shortName(g.teams.home.team.name)}`;
+    allLines.forEach((line) => {
+        if ((currentTweet.length + line.length + 1) > MAX_TWEET_LENGTH) {
+            tweets.push(currentTweet); 
+            // Header for subsequent tweets
+            currentTweet = `(2/X) Continued...\n\n`; 
+        }
+        currentTweet += line + "\n";
+    });
 
-            let condition = "";
-            if (w.isThunderstorm) condition = "⚡ LIGHTNING (Delay Likely)";
-            else if (w.isSnow) condition = "❄️ SNOW RISK";
-            else condition = `☔ ${w.maxPrecipChance}% Rain`;
+    // 5. Add Footer + Correct Link to the LAST tweet
+    currentTweet += `\nMore details: https://weathermlb.com\n#MLB #BaseballWeather`;
+    tweets.push(currentTweet);
 
-            report += `${matchup}: ${condition}\n`;
-        });
+    // 6. Output to Clipboard
+    const finalOutput = tweets.map((t, i) => `--- TWEET ${i+1} ---\n${t}\n`).join("\n");
 
-        report += `\n✅ All other games: Good to play.\n`;
-    }
-
-    // 3. Call to Action
-    report += `\nFor details visit: https://weathermlb.com\n#MLB #FantasyBaseball`;
-
-    // 4. Open Modal
-    const modalEl = document.getElementById('tweetModal');
-    if (modalEl) {
-        document.getElementById('tweet-text').value = report;
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(report)}`;
-        const twitterBtn = document.getElementById('twitter-link');
-        if (twitterBtn) twitterBtn.href = twitterUrl;
-        
-        const myModal = new bootstrap.Modal(modalEl);
-        myModal.show();
-    }
+    navigator.clipboard.writeText(finalOutput).then(() => {
+        alert(`📋 Compact Report Copied! (${tweets.length} Tweets)`);
+    }).catch(err => {
+        prompt("Copy this thread:", finalOutput);
+    });
 }

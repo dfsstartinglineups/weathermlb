@@ -163,7 +163,7 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- Risk Border Logic ---
+    // --- 1. Risk Border Logic ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         if (weather.isThunderstorm) borderClass = "border-danger border-3"; 
@@ -171,10 +171,24 @@ function createGameCard(data) {
         else if (weather.maxPrecipChance >= 30) borderClass = "border-warning border-3"; 
     }
 
+    // --- 2. NEW: Animated Background Logic ---
+    let bgClass = "bg-weather-sunny"; // Default
+    
+    if (isRoofClosed) {
+        bgClass = "bg-weather-roof";
+    } else if (weather) {
+        if (weather.isThunderstorm) bgClass = "bg-weather-storm";
+        else if (weather.isSnow) bgClass = "bg-weather-snow";
+        else if (weather.maxPrecipChance >= 50) bgClass = "bg-weather-rain";
+        else if (weather.maxPrecipChance >= 20) bgClass = "bg-weather-cloudy";
+        // Optional: High Heat check
+        else if (weather.temp >= 90) bgClass = "bg-weather-sunny"; // Keep sunny, maybe add warm tint later
+    }
+
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
-    // --- TEAMS & LOGOS ---
+    // Teams
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -183,8 +197,7 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // --- PITCHERS (NEW) ---
-    // Use optional chaining (?.) because probablePitcher might be missing if not announced
+    // Pitchers
     const awayPitcher = game.teams.away.probablePitcher?.fullName || "TBD";
     const homePitcher = game.teams.home.probablePitcher?.fullName || "TBD";
 
@@ -200,37 +213,29 @@ function createGameCard(data) {
         } else if (weather.temp !== '--') {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
             
-            // --- Main Precip Display ---
+            // Precip Display
             let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
             let precipLabel = "Rain"; 
 
             if (!isRoofClosed) {
-                if (weather.isThunderstorm) {
-                    displayRain += " ⚡";
-                } else if (weather.isSnow) {
-                    displayRain += " ❄️";
-                    precipLabel = "Snow"; 
-                }
+                if (weather.isThunderstorm) displayRain += " ⚡";
+                else if (weather.isSnow) { displayRain += " ❄️"; precipLabel = "Snow"; }
             }
             
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
-            // --- HOURLY FORECAST LOGIC ---
+            // Hourly Logic
             let hourlyHtml = '';
             if (isRoofClosed) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
-                
                 const cardsHtml = weather.hourly.map((h, index) => {
-                    // 1. Format Time
                     const ampm = h.hour >= 12 ? 'PM' : 'AM';
                     const hour12 = h.hour % 12 || 12;
                     const timeLabel = `${hour12}${ampm}`;
 
-                    // 2. Determine Icon & Rain Text
                     let icon = '';
                     let popHtml = '&nbsp;'; 
-                    
                     const isNight = h.hour >= 20 || h.hour < 6;
 
                     if (h.precipChance >= 30) {
@@ -244,8 +249,6 @@ function createGameCard(data) {
                     } else {
                         icon = isNight ? '🌙' : '☀️';
                     }
-
-                    // 3. Build Card
                     const tempDisplay = h.temp !== undefined ? `${h.temp}°` : '--';
 
                     return `
@@ -256,11 +259,9 @@ function createGameCard(data) {
                             <div class="hour-temp">${tempDisplay}</div>
                         </div>`;
                 }).join('');
-
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
             
-            // Encode data for Tweet
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
             weatherHtml = `
@@ -307,8 +308,9 @@ function createGameCard(data) {
         }
     }
 
+    // --- APPLY BACKGROUND CLASS HERE ---
     gameCard.innerHTML = `
-        <div class="card game-card h-100 ${borderClass}">
+        <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body pb-2">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="badge bg-light text-dark border">${gameTime}</span>
@@ -318,12 +320,14 @@ function createGameCard(data) {
                     <div class="text-center" style="width: 45%;">
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${awayName}</div>
-                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div> </div>
+                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div>
+                    </div>
                     <div class="text-muted small fw-bold pt-4">@</div>
                     <div class="text-center" style="width: 45%;">
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${homeName}</div>
-                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div> </div>
+                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div>
+                    </div>
                 </div>
                 ${weatherHtml}
             </div>

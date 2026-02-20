@@ -104,7 +104,7 @@ async function init(dateToFetch) {
                 }
             }
 
-            // --- NEW: MATCH THE ODDS DATA TO THIS SPECIFIC GAME ---
+            // --- MATCH THE ODDS DATA TO THIS SPECIFIC GAME ---
             let gameOdds = null;
             if (dailyOddsData) {
                 gameOdds = dailyOddsData.find(o => 
@@ -252,7 +252,198 @@ function createGameCard(data) {
 
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
-        const list = lineupHome.map((p) => `<li>${
+        const list = lineupHome.map((p) => `<li>${p.fullName}</li>`).join('');
+        const collapseId = `lineup-home-${game.gamePk}`;
+        homeLineupHtml = `
+            <div class="mt-2">
+                <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="collapse mt-2 text-start bg-light rounded p-2 border" id="${collapseId}">
+                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.4;">${list}</ol>
+                </div>
+            </div>`;
+    }
+
+    // --- 4. BETTING ODDS UI (UPDATED) ---
+    const oddsData = data.odds; // Grab the odds we passed in from the init function
+
+    let moneylineAway = "TBD"; 
+    let moneylineHome = "TBD";
+    let gameTotal = "TBD";
+
+    if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
+        // Find FanDuel, or just grab the first bookmaker in the array
+        const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
+        
+        // Extract Moneyline (h2h)
+        const h2hMarket = bookie.markets.find(m => m.key === 'h2h');
+        if (h2hMarket) {
+            const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
+            const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
+            
+            // Format to show "+" for positive odds (e.g., +116 instead of 116)
+            if (awayOutcome) moneylineAway = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
+            if (homeOutcome) moneylineHome = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
+        }
+
+        // Extract Totals (Over/Under)
+        const totalsMarket = bookie.markets.find(m => m.key === 'totals');
+        if (totalsMarket && totalsMarket.outcomes.length > 0) {
+            // The "point" value is the over/under line (e.g., 10.5)
+            gameTotal = totalsMarket.outcomes[0].point; 
+        }
+    }
+
+    const oddsHtml = `
+        <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-white border rounded shadow-sm" style="background-color: rgba(255,255,255,0.7) !important;">
+            <div class="small fw-bold text-muted">
+                Line: <span class="text-dark">${awayAbbr} ${moneylineAway} | ${homeAbbr} ${moneylineHome}</span>
+            </div>
+            <div class="small fw-bold text-muted">
+                Total: <span class="text-dark">O/U ${gameTotal}</span>
+            </div>
+        </div>`;
+
+    // --- 5. WEATHER & HOURLY DISPLAY ---
+    let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
+
+    if (stadium && weather) {
+        if (weather.status === "too_early") {
+            weatherHtml = `
+                <div class="text-center p-4">
+                    <h5 class="text-muted">🔭 Too Early to Forecast</h5>
+                    <p class="small text-muted mb-0">Forecasts available ~14 days out.</p>
+                </div>`;
+        } else if (weather.temp !== '--') {
+            const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
+            
+            let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
+            let precipLabel = "Rain"; 
+
+            if (!isRoofClosed) {
+                if (weather.isThunderstorm) displayRain += " ⚡";
+                else if (weather.isSnow) { displayRain += " ❄️"; precipLabel = "Snow"; }
+            }
+            
+            const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
+
+            let hourlyHtml = '';
+            if (isRoofClosed) {
+                hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
+            } else if (weather.hourly && weather.hourly.length > 0) {
+                const cardsHtml = weather.hourly.map((h, index) => {
+                    const ampm = h.hour >= 12 ? 'PM' : 'AM';
+                    const hour12 = h.hour % 12 || 12;
+                    const timeLabel = `${hour12}${ampm}`;
+
+                    let icon = '';
+                    let popHtml = '&nbsp;'; 
+                    const isNight = h.hour >= 20 || h.hour < 6;
+
+                    if (h.precipChance >= 30) {
+                        if (h.isThunderstorm) icon = '⛈️';
+                        else if (h.isSnow) icon = '🌨️';
+                        else icon = '🌧️';
+                        popHtml = `${h.precipChance}%`;
+                    } else if (h.precipChance > 0) {
+                        icon = '⛅'; 
+                        popHtml = `${h.precipChance}%`;
+                    } else {
+                        icon = isNight ? '🌙' : '☀️';
+                    }
+                    const tempDisplay = h.temp !== undefined ? `${h.temp}°` : '--';
+
+                    return `
+                        <div class="hour-card">
+                            <div class="hour-time">${timeLabel}</div>
+                            <div class="hour-icon">${icon}</div>
+                            <div class="hour-pop">${popHtml}</div>
+                            <div class="hour-temp">${tempDisplay}</div>
+                        </div>`;
+                }).join('');
+                hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
+            }
+            
+            const gameDataSafe = encodeURIComponent(JSON.stringify(data));
+
+            weatherHtml = `
+                <div class="weather-row row text-center align-items-center">
+                    <div class="col-3 border-end">
+                        <div class="fw-bold">${weather.temp}°F</div>
+                        <div class="small text-muted">Temp</div>
+                    </div>
+                    <div class="col-3 border-end">
+                        <div class="fw-bold text-dark">${weather.humidity}%</div>
+                        <div class="small text-muted">Hum</div>
+                    </div>
+                    <div class="col-3 border-end">
+                        <div class="fw-bold text-primary" style="white-space: nowrap;">${displayRain}</div>
+                        <div class="small text-muted">${precipLabel}</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
+                        <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.6rem; white-space: nowrap; display: inline-block; padding: 2px 6px;">
+                            ${windInfo.arrow}
+                        </span>
+                    </div>
+                </div>
+                ${hourlyHtml}
+                
+                ${oddsHtml}
+                
+                <div class="row g-2 mt-3">
+                    <div class="col-8">
+                        <button class="btn btn-sm btn-outline-primary w-100" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
+                            🗺️ View Radar
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center" onclick="shareGameTweet('${gameDataSafe}')">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="white" class="me-1"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                            Tweet
+                        </button>
+                    </div>
+                </div>
+
+                <div class="analysis-box">
+                    <span class="analysis-title">✨ Weather Impact</span>
+                    ${analysisText}
+                </div>`;
+        }
+    }
+
+    gameCard.innerHTML = `
+        <div class="card game-card h-100 ${borderClass} ${bgClass}">
+            <div class="card-body pb-2">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-light text-dark border">${gameTime}</span>
+                    <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-start mb-3 px-2">
+                    <div class="text-center" style="width: 45%;">
+                        <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
+                        <div class="fw-bold small lh-1">${awayName}</div>
+                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div>
+                        ${awayLineupHtml}
+                    </div>
+                    
+                    <div class="text-muted small fw-bold pt-4">@</div>
+                    
+                    <div class="text-center" style="width: 45%;">
+                        <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
+                        <div class="fw-bold small lh-1">${homeName}</div>
+                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div>
+                        ${homeLineupHtml}
+                    </div>
+                </div>
+                
+                ${weatherHtml}
+            </div>
+        </div>`;
+    
+    return gameCard;
+}
+
 // ==========================================
 // 3. LISTENERS
 // ==========================================
@@ -397,6 +588,7 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     if (notes.length === 0) return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.";
     return notes.join("<br>");
 }
+
 async function fetchGameWeather(lat, lon, gameDateIso) {
     const dateStr = gameDateIso.split('T')[0];
     const today = new Date().toLocaleDateString('en-CA'); 
@@ -440,7 +632,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const hourlySlice = [];
         let maxChanceInWindow = 0;
         let isGameThunderstorm = false;
-        let isGameSnow = false; // NEW FLAG
+        let isGameSnow = false; 
 
         for (let i = gameHour - 1; i <= gameHour + 4; i++) {
             if (i >= 0 && i < 24) {
@@ -461,7 +653,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
                 
                hourlySlice.push({ 
                     hour: i, 
-                    temp: Math.round(data.hourly.temperature_2m[i]), // <--- ADD THIS LINE
+                    temp: Math.round(data.hourly.temperature_2m[i]), 
                     precipChance: chance,
                     isThunderstorm: isHourThunderstorm,
                     isSnow: isHourSnow 
@@ -475,7 +667,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
             humidity: Math.round(data.hourly.relative_humidity_2m[gameHour]),
             maxPrecipChance: maxChanceInWindow, 
             isThunderstorm: isGameThunderstorm,
-            isSnow: isGameSnow, // Pass flag to main logic
+            isSnow: isGameSnow, 
             windSpeed: Math.round(data.hourly.wind_speed_10m[gameHour]),
             windDir: data.hourly.wind_direction_10m[gameHour],
             hourly: hourlySlice
@@ -485,6 +677,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         return { temp: '--', hourly: [] };
     }
 }
+
 function calculateWind(windDirection, stadiumBearing) {
     let diff = (windDirection - stadiumBearing + 360) % 360;
     if (diff >= 337.5 || diff < 22.5) return { text: "Blowing IN", cssClass: "bg-in", arrow: "⬇" };
@@ -496,6 +689,7 @@ function calculateWind(windDirection, stadiumBearing) {
     if (diff >= 247.5 && diff < 292.5) return { text: "Cross (L to R)", cssClass: "bg-cross", arrow: "➡" };
     return { text: "In from Left", cssClass: "bg-in", arrow: "↘" };
 }
+
 window.shareGameTweet = function(encodedData) {
     const data = JSON.parse(decodeURIComponent(encodedData));
     const g = data.gameRaw;
@@ -533,7 +727,6 @@ window.shareGameTweet = function(encodedData) {
     tweet += `💧 Hum: ${w.humidity}%\n`;
     tweet += `💨 Wind: ${w.windSpeed}mph (${wind.text} ${wind.arrow})\n`;
     
-    // Only show Rain % if it's not a hazard (hazards already showed it at top)
     if (!isHazard) {
         tweet += `☔ Rain: ${w.maxPrecipChance}%\n`;
     }
@@ -562,29 +755,21 @@ function generateDailyReport() {
         return;
     }
 
-    // 1. Sort games by time (Earliest first)
     const sortedGames = [...ALL_GAMES_DATA].sort((a, b) => 
         new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate)
     );
 
-    // 2. Define Limits
     const MAX_TWEET_LENGTH = 260; 
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
-    // 3. Generate Compressed Lines
     let allLines = [];
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
-        const w = game.weather; // 'w' matches your individual tweet variable
+        const w = game.weather; 
         
-        // TEAMS
         const away = getTeamAbbr(teams.away.team.name);
         const home = getTeamAbbr(teams.home.team.name);
         
-        // WIND ARROW
-        // Your individual tweet uses 'wind.arrow'. 
-        // We try to access that first. If it's not stored in 'game', 
-        // we fall back to our helper using 'w.windDirection'.
         let arrow = "💨";
         if (game.wind && game.wind.arrow) {
              arrow = game.wind.arrow;
@@ -592,62 +777,47 @@ function generateDailyReport() {
              arrow = getWindArrowEmoji(game.windDirection);
         }
 
-        // VALUES (Matches your individual tweet logic)
-        // Rain: Use 'maxPrecipChance'
         const rain = Math.round(Number(w.maxPrecipChance) || 0);
         const temp = Math.round(Number(w.temp) || 0);
         const windSpd = Math.round(Number(w.windSpeed) || 0);
 
-        // FORMAT: DET@NYY:🌧️0%🌡️72°💨9mph
-        // Note: Using 'arrow' variable we just set
         const line = `${away}@${home}:🌧️${rain}%🌡️${temp}°${arrow}${windSpd}mph`;
         allLines.push(line);
     });
 
-    // 4. Build the Thread
     let tweets = [];
-    // Header for Tweet 1
     let currentTweet = `⚾MLB Weather•${today} (1/X)\n\n`; 
 
     allLines.forEach((line) => {
-        // Check if adding this line exceeds limit
         if ((currentTweet.length + line.length + 1) > MAX_TWEET_LENGTH) {
             tweets.push(currentTweet); 
-            // Header for Tweet 2, 3, etc.
             currentTweet = `(2/X) Continued...\n\n`; 
         }
         currentTweet += line + "\n";
     });
 
-    // 5. Add Footer to the LAST tweet
     currentTweet += `\nMore details: https://weathermlb.com\n#MLB #BaseballWeather`;
     tweets.push(currentTweet);
 
-    // 6. Format Final Text for the Box
     const finalOutput = tweets.map((t, i) => `--- TWEET ${i+1} ---\n${t}\n`).join("\n");
 
-    // 7. POPULATE MODAL
     const textArea = document.getElementById('tweet-text');
     const twitterLink = document.getElementById('twitter-link');
     
     if (textArea) {
         textArea.value = finalOutput;
 
-        // Update "Open X" Button
-        // Pre-fill only the first tweet
         if (twitterLink && tweets.length > 0) {
             const firstTweetBody = tweets[0]; 
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(firstTweetBody)}`;
             twitterLink.href = twitterUrl;
         }
         
-        // Show Modal (Bootstrap)
         const modalElement = document.getElementById('tweetModal');
         if (modalElement && typeof bootstrap !== 'undefined') {
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
         } else {
-             // Fallback if modal fails
              alert("Report generated (Modal not found):\n\n" + finalOutput);
         }
     }

@@ -1,0 +1,48 @@
+name: Fetch MLB Betting Odds
+
+on:
+  schedule:
+    # Runs every 2 hours (12 times a day = 360 requests/month)
+    # This uses standard cron syntax. Times are in UTC.
+    - cron: '0 */2 * * *'
+  
+  # This allows you to click a button in GitHub to run it manually anytime
+  workflow_dispatch: 
+
+jobs:
+  update-odds:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Allows GitHub Action to save the file back to your repo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run fetch_odds.py
+        env:
+          # This injects your hidden secret into the Python script
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python fetch_odds.py
+
+      - name: Commit and Push changes
+        run: |
+          # Configure git so it knows who is making the commit
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          
+          # Add the updated JSON file to the commit
+          git add data/odds.json
+          
+          # Check if there are actually changes to commit
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update daily betting odds" && git push)

@@ -187,6 +187,8 @@ function createGameCard(data) {
     gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
     // Teams & Pitchers
+    const awayAbbr = getTeamAbbr(game.teams.away.team.name);
+    const homeAbbr = getTeamAbbr(game.teams.home.team.name);
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -198,13 +200,13 @@ function createGameCard(data) {
     const awayPitcher = game.teams.away.probablePitcher?.fullName || "TBD";
     const homePitcher = game.teams.home.probablePitcher?.fullName || "TBD";
 
-    // --- 3. LINEUPS LOGIC (NEW) ---
+    // --- 3. LINEUPS LOGIC ---
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
 
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
-        const list = lineupAway.map((p, i) => `<li>${p.fullName}</li>`).join('');
+        const list = lineupAway.map((p) => `<li>${p.fullName}</li>`).join('');
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
             <div class="mt-2">
@@ -217,7 +219,7 @@ function createGameCard(data) {
 
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
-        const list = lineupHome.map((p, i) => `<li>${p.fullName}</li>`).join('');
+        const list = lineupHome.map((p) => `<li>${p.fullName}</li>`).join('');
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
             <div class="mt-2">
@@ -228,7 +230,23 @@ function createGameCard(data) {
             </div>`;
     }
 
-    // Weather Display
+    // --- 4. BETTING ODDS UI (NEW) ---
+    // These are placeholders. Once connected to an odds API, we will inject the real variables here.
+    const moneylineAway = "TBD"; 
+    const moneylineHome = "TBD";
+    const gameTotal = "TBD";
+
+    const oddsHtml = `
+        <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-white border rounded shadow-sm" style="background-color: rgba(255,255,255,0.7) !important;">
+            <div class="small fw-bold text-muted">
+                Line: <span class="text-dark">${awayAbbr} ${moneylineAway} | ${homeAbbr} ${moneylineHome}</span>
+            </div>
+            <div class="small fw-bold text-muted">
+                Total: <span class="text-dark">O/U ${gameTotal}</span>
+            </div>
+        </div>`;
+
+    // --- 5. WEATHER & HOURLY DISPLAY ---
     let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
 
     if (stadium && weather) {
@@ -312,6 +330,8 @@ function createGameCard(data) {
                     </div>
                 </div>
                 ${hourlyHtml}
+                
+                ${oddsHtml}
                 
                 <div class="row g-2 mt-3">
                     <div class="col-8">

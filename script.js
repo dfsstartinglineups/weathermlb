@@ -598,16 +598,16 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
     if (!isHistorical && daysDiff > 16) return { status: "too_early", temp: '--' };
 
     let url = "";
+    
+    // CHANGED: We now use timezone=GMT so our array index perfectly matches the UTC game time
     if (isHistorical || dateStr === "2024-09-25") {
-         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
+         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT`;
     } 
     else if (daysDiff <= 3) {
-         // ADDED: 'precipitation' is now fetched alongside 'precipitation_probability'
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date=${dateStr}&end_date=${dateStr}`;
     }
     else {
-         // ADDED: 'precipitation' is now fetched alongside 'precipitation_probability'
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date=${dateStr}&end_date=${dateStr}`;
     }
 
     try {
@@ -617,31 +617,31 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
             return { temp: '--', hourly: [] };
         }
         const data = await response.json();
-        const gameHour = new Date(gameDateIso).getHours();
         
-        // UPDATED: Smarter Rain Calculation
+        // CHANGED: Grab the UTC hour to precisely map to the GMT API array
+        const gameHour = new Date(gameDateIso).getUTCHours();
+        
+        // --- UPDATED: AGGRESSIVE RAIN NORMALIZATION ---
         const normalizePrecip = (index) => {
-            let chance = 0;
+            let prob = data.hourly.precipitation_probability ? data.hourly.precipitation_probability[index] || 0 : 0;
+            let amount = data.hourly.precipitation ? data.hourly.precipitation[index] || 0 : 0;
+            let code = data.hourly.weather_code[index];
             
-            // 1. Get base probability from API (if available)
-            if (data.hourly.precipitation_probability && data.hourly.precipitation_probability[index] !== null) {
-                chance = data.hourly.precipitation_probability[index];
+            // 1. Eliminate "Phantom" Probability Blocks
+            // If the volume is 0.00 and the weather code is Clear/Partly Cloudy (0, 1, 2, 3), force it to 0%
+            if (amount === 0 && code <= 3) {
+                return 0; 
+            }
+
+            // 2. Base percentage on actual expected volume to create dynamic hour-by-hour changes
+            if (amount > 0) {
+                if (amount >= 0.10) return Math.max(80, prob); // Heavy Rain
+                if (amount >= 0.05) return Math.max(60, prob); // Moderate Rain
+                if (amount >= 0.01) return Math.max(30, prob); // Light Rain
+                return 15; // Trace amounts / Drizzle
             }
             
-            // 2. Enhance with actual rain volume (inches) to force dynamic hourly changes
-            if (data.hourly.precipitation && data.hourly.precipitation[index] > 0) {
-                const amount = data.hourly.precipitation[index];
-                let amountChance = 0;
-                
-                if (amount >= 0.10) amountChance = 80;      // Heavy Rain
-                else if (amount >= 0.05) amountChance = 60; // Moderate Rain
-                else if (amount >= 0.01) amountChance = 30; // Light Showers
-                else amountChance = 15;                     // Trace amounts/Drizzle
-                
-                // Use whichever is higher so a sudden downpour spikes the % on your UI
-                chance = Math.max(chance, amountChance);
-            }
-            return chance;
+            return prob;
         };
 
         const hourlySlice = [];
@@ -654,11 +654,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
                 let chance = normalizePrecip(i);
                 
                 const code = data.hourly.weather_code[i];
-                
-                // Thunderstorm Codes: 95, 96, 99
-                const isHourThunderstorm = (code === 95 || code === 96 || code === 99);
-                
-                // Snow Codes: 71, 73, 75 (Snow), 77 (Grains), 85, 86 (Showers)
+                const isHourThunderstorm = (code >= 95 && code <= 99);
                 const isHourSnow = (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86);
 
                 if (isHourThunderstorm) isGameThunderstorm = true;
@@ -666,8 +662,12 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
                 if (i >= gameHour && i <= gameHour + 3 && chance > maxChanceInWindow) maxChanceInWindow = chance;
                 
-               hourlySlice.push({ 
-                    hour: i, 
+                // Convert UTC hour back to the user's Local hour just for display on the UI
+                let localHour = new Date(gameDateIso);
+                localHour.setUTCHours(i);
+                
+                hourlySlice.push({ 
+                    hour: localHour.getHours(), // UI shows local time
                     temp: Math.round(data.hourly.temperature_2m[i]), 
                     precipChance: chance,
                     isThunderstorm: isHourThunderstorm,

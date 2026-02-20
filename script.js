@@ -71,6 +71,9 @@ async function init(dateToFetch) {
 
         const rawGames = scheduleData.dates[0].games;
         const totalGames = rawGames.length;
+
+        // --- FETCH ODDS FROM LOCAL SERVER ONLY ---
+        let dailyOddsData = await fetchLocalOdds();
         
         // Loop through games
         for (let i = 0; i < totalGames; i++) {

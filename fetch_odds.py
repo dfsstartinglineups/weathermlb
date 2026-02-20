@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 # --- CONFIGURATION ---
-API_KEY = "c9dbe81e0b4df425efa92f967f6475ca"
+
 SPORT = "baseball_mlb_preseason" # IMPORTANT: Change to "baseball_mlb" when regular season starts!
 REGIONS = "us"
 MARKETS = "h2h,totals"

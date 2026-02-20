@@ -104,12 +104,22 @@ async function init(dateToFetch) {
                 }
             }
 
+            // --- NEW: MATCH THE ODDS DATA TO THIS SPECIFIC GAME ---
+            let gameOdds = null;
+            if (dailyOddsData) {
+                gameOdds = dailyOddsData.find(o => 
+                    o.home_team === game.teams.home.team.name && 
+                    o.away_team === game.teams.away.team.name
+                );
+            }
+
             ALL_GAMES_DATA.push({
                 gameRaw: game,
                 stadium: stadium,
                 weather: weatherData,
                 wind: windData,
-                roof: isRoofClosed
+                roof: isRoofClosed,
+                odds: gameOdds
             });
         }
 
@@ -242,173 +252,7 @@ function createGameCard(data) {
 
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
-        const list = lineupHome.map((p) => `<li>${p.fullName}</li>`).join('');
-        const collapseId = `lineup-home-${game.gamePk}`;
-        homeLineupHtml = `
-            <div class="mt-2">
-                <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="collapse mt-2 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.4;">${list}</ol>
-                </div>
-            </div>`;
-    }
-
-    // --- 4. BETTING ODDS UI (NEW) ---
-    // These are placeholders. Once connected to an odds API, we will inject the real variables here.
-    const moneylineAway = "TBD"; 
-    const moneylineHome = "TBD";
-    const gameTotal = "TBD";
-
-    const oddsHtml = `
-        <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-white border rounded shadow-sm" style="background-color: rgba(255,255,255,0.7) !important;">
-            <div class="small fw-bold text-muted">
-                Line: <span class="text-dark">${awayAbbr} ${moneylineAway} | ${homeAbbr} ${moneylineHome}</span>
-            </div>
-            <div class="small fw-bold text-muted">
-                Total: <span class="text-dark">O/U ${gameTotal}</span>
-            </div>
-        </div>`;
-
-    // --- 5. WEATHER & HOURLY DISPLAY ---
-    let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
-
-    if (stadium && weather) {
-        if (weather.status === "too_early") {
-            weatherHtml = `
-                <div class="text-center p-4">
-                    <h5 class="text-muted">🔭 Too Early to Forecast</h5>
-                    <p class="small text-muted mb-0">Forecasts available ~14 days out.</p>
-                </div>`;
-        } else if (weather.temp !== '--') {
-            const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
-            
-            let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
-            let precipLabel = "Rain"; 
-
-            if (!isRoofClosed) {
-                if (weather.isThunderstorm) displayRain += " ⚡";
-                else if (weather.isSnow) { displayRain += " ❄️"; precipLabel = "Snow"; }
-            }
-            
-            const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
-
-            let hourlyHtml = '';
-            if (isRoofClosed) {
-                hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
-            } else if (weather.hourly && weather.hourly.length > 0) {
-                const cardsHtml = weather.hourly.map((h, index) => {
-                    const ampm = h.hour >= 12 ? 'PM' : 'AM';
-                    const hour12 = h.hour % 12 || 12;
-                    const timeLabel = `${hour12}${ampm}`;
-
-                    let icon = '';
-                    let popHtml = '&nbsp;'; 
-                    const isNight = h.hour >= 20 || h.hour < 6;
-
-                    if (h.precipChance >= 30) {
-                        if (h.isThunderstorm) icon = '⛈️';
-                        else if (h.isSnow) icon = '🌨️';
-                        else icon = '🌧️';
-                        popHtml = `${h.precipChance}%`;
-                    } else if (h.precipChance > 0) {
-                        icon = '⛅'; 
-                        popHtml = `${h.precipChance}%`;
-                    } else {
-                        icon = isNight ? '🌙' : '☀️';
-                    }
-                    const tempDisplay = h.temp !== undefined ? `${h.temp}°` : '--';
-
-                    return `
-                        <div class="hour-card">
-                            <div class="hour-time">${timeLabel}</div>
-                            <div class="hour-icon">${icon}</div>
-                            <div class="hour-pop">${popHtml}</div>
-                            <div class="hour-temp">${tempDisplay}</div>
-                        </div>`;
-                }).join('');
-                hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
-            }
-            
-            const gameDataSafe = encodeURIComponent(JSON.stringify(data));
-
-            weatherHtml = `
-                <div class="weather-row row text-center align-items-center">
-                    <div class="col-3 border-end">
-                        <div class="fw-bold">${weather.temp}°F</div>
-                        <div class="small text-muted">Temp</div>
-                    </div>
-                    <div class="col-3 border-end">
-                        <div class="fw-bold text-dark">${weather.humidity}%</div>
-                        <div class="small text-muted">Hum</div>
-                    </div>
-                    <div class="col-3 border-end">
-                        <div class="fw-bold text-primary" style="white-space: nowrap;">${displayRain}</div>
-                        <div class="small text-muted">${precipLabel}</div>
-                    </div>
-                    <div class="col-3">
-                        <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
-                        <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.6rem; white-space: nowrap; display: inline-block; padding: 2px 6px;">
-                            ${windInfo.arrow}
-                        </span>
-                    </div>
-                </div>
-                ${hourlyHtml}
-                
-                ${oddsHtml}
-                
-                <div class="row g-2 mt-3">
-                    <div class="col-8">
-                        <button class="btn btn-sm btn-outline-primary w-100" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
-                            🗺️ View Radar
-                        </button>
-                    </div>
-                    <div class="col-4">
-                        <button class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center" onclick="shareGameTweet('${gameDataSafe}')">
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="white" class="me-1"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-                            Tweet
-                        </button>
-                    </div>
-                </div>
-
-                <div class="analysis-box">
-                    <span class="analysis-title">✨ Weather Impact</span>
-                    ${analysisText}
-                </div>`;
-        }
-    }
-
-    gameCard.innerHTML = `
-        <div class="card game-card h-100 ${borderClass} ${bgClass}">
-            <div class="card-body pb-2">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge bg-light text-dark border">${gameTime}</span>
-                    <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-start mb-3 px-2">
-                    <div class="text-center" style="width: 45%;">
-                        <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
-                        <div class="fw-bold small lh-1">${awayName}</div>
-                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div>
-                        ${awayLineupHtml}
-                    </div>
-                    
-                    <div class="text-muted small fw-bold pt-4">@</div>
-                    
-                    <div class="text-center" style="width: 45%;">
-                        <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
-                        <div class="fw-bold small lh-1">${homeName}</div>
-                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div>
-                        ${homeLineupHtml}
-                    </div>
-                </div>
-                
-                ${weatherHtml}
-            </div>
-        </div>`;
-    
-    return gameCard;
-}
+        const list = lineupHome.map((p) => `<li>${
 // ==========================================
 // 3. LISTENERS
 // ==========================================

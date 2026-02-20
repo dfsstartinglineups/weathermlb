@@ -602,10 +602,12 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
          url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`;
     } 
     else if (daysDiff <= 3) {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         // ADDED: 'precipitation' is now fetched alongside 'precipitation_probability'
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
     else {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+         // ADDED: 'precipitation' is now fetched alongside 'precipitation_probability'
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     }
 
     try {
@@ -617,14 +619,27 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         const data = await response.json();
         const gameHour = new Date(gameDateIso).getHours();
         
+        // UPDATED: Smarter Rain Calculation
         const normalizePrecip = (index) => {
             let chance = 0;
-            if (data.hourly.precipitation_probability) chance = data.hourly.precipitation_probability[index];
-            else if (data.hourly.precipitation) {
+            
+            // 1. Get base probability from API (if available)
+            if (data.hourly.precipitation_probability && data.hourly.precipitation_probability[index] !== null) {
+                chance = data.hourly.precipitation_probability[index];
+            }
+            
+            // 2. Enhance with actual rain volume (inches) to force dynamic hourly changes
+            if (data.hourly.precipitation && data.hourly.precipitation[index] > 0) {
                 const amount = data.hourly.precipitation[index];
-                if (amount >= 0.10) chance = 80;      
-                else if (amount >= 0.05) chance = 60; 
-                else if (amount >= 0.01) chance = 30; 
+                let amountChance = 0;
+                
+                if (amount >= 0.10) amountChance = 80;      // Heavy Rain
+                else if (amount >= 0.05) amountChance = 60; // Moderate Rain
+                else if (amount >= 0.01) amountChance = 30; // Light Showers
+                else amountChance = 15;                     // Trace amounts/Drizzle
+                
+                // Use whichever is higher so a sudden downpour spikes the % on your UI
+                chance = Math.max(chance, amountChance);
             }
             return chance;
         };

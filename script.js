@@ -28,8 +28,8 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher`;
-   
+    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups`;
+    
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
         if (!stadiumResponse.ok) stadiumResponse = await fetch('stadiums.json');
@@ -171,9 +171,8 @@ function createGameCard(data) {
         else if (weather.maxPrecipChance >= 30) borderClass = "border-warning border-3"; 
     }
 
-    // --- 2. NEW: Animated Background Logic ---
-    let bgClass = "bg-weather-sunny"; // Default
-    
+    // --- 2. Animated Background Logic ---
+    let bgClass = "bg-weather-sunny"; 
     if (isRoofClosed) {
         bgClass = "bg-weather-roof";
     } else if (weather) {
@@ -181,14 +180,13 @@ function createGameCard(data) {
         else if (weather.isSnow) bgClass = "bg-weather-snow";
         else if (weather.maxPrecipChance >= 50) bgClass = "bg-weather-rain";
         else if (weather.maxPrecipChance >= 20) bgClass = "bg-weather-cloudy";
-        // Optional: High Heat check
-        else if (weather.temp >= 90) bgClass = "bg-weather-sunny"; // Keep sunny, maybe add warm tint later
+        else if (weather.temp >= 90) bgClass = "bg-weather-sunny"; 
     }
 
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 animate-card';
 
-    // Teams
+    // Teams & Pitchers
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     const awayName = game.teams.away.team.name;
@@ -197,10 +195,40 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // Pitchers
     const awayPitcher = game.teams.away.probablePitcher?.fullName || "TBD";
     const homePitcher = game.teams.home.probablePitcher?.fullName || "TBD";
 
+    // --- 3. LINEUPS LOGIC (NEW) ---
+    const lineupAway = game.lineups?.awayPlayers || [];
+    const lineupHome = game.lineups?.homePlayers || [];
+
+    let awayLineupHtml = '';
+    if (lineupAway.length > 0) {
+        const list = lineupAway.map((p, i) => `<li>${p.fullName}</li>`).join('');
+        const collapseId = `lineup-away-${game.gamePk}`;
+        awayLineupHtml = `
+            <div class="mt-2">
+                <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="collapse mt-2 text-start bg-light rounded p-2 border" id="${collapseId}">
+                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.4;">${list}</ol>
+                </div>
+            </div>`;
+    }
+
+    let homeLineupHtml = '';
+    if (lineupHome.length > 0) {
+        const list = lineupHome.map((p, i) => `<li>${p.fullName}</li>`).join('');
+        const collapseId = `lineup-home-${game.gamePk}`;
+        homeLineupHtml = `
+            <div class="mt-2">
+                <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="collapse mt-2 text-start bg-light rounded p-2 border" id="${collapseId}">
+                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.4;">${list}</ol>
+                </div>
+            </div>`;
+    }
+
+    // Weather Display
     let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
 
     if (stadium && weather) {
@@ -213,7 +241,6 @@ function createGameCard(data) {
         } else if (weather.temp !== '--') {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
             
-            // Precip Display
             let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
             let precipLabel = "Rain"; 
 
@@ -224,7 +251,6 @@ function createGameCard(data) {
             
             const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
 
-            // Hourly Logic
             let hourlyHtml = '';
             if (isRoofClosed) {
                 hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
@@ -308,7 +334,6 @@ function createGameCard(data) {
         }
     }
 
-    // --- APPLY BACKGROUND CLASS HERE ---
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body pb-2">
@@ -316,19 +341,25 @@ function createGameCard(data) {
                     <span class="badge bg-light text-dark border">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                 </div>
+                
                 <div class="d-flex justify-content-between align-items-start mb-3 px-2">
                     <div class="text-center" style="width: 45%;">
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${awayName}</div>
                         <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div>
+                        ${awayLineupHtml}
                     </div>
+                    
                     <div class="text-muted small fw-bold pt-4">@</div>
+                    
                     <div class="text-center" style="width: 45%;">
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${homeName}</div>
                         <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div>
+                        ${homeLineupHtml}
                     </div>
                 </div>
+                
                 ${weatherHtml}
             </div>
         </div>`;

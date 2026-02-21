@@ -287,27 +287,33 @@
     <div class="sticky-top bg-light border-bottom py-3 mb-4 shadow-sm" style="z-index: 100;">
         <div class="container">
             <div class="row g-2 align-items-center">
-                <div class="col-12 col-md-4">
-                    <input type="text" id="team-search" class="form-control" placeholder="🔍 Search Team (e.g. Yankees)...">
+                <div class="col-12 col-md-3">
+                    <input type="text" id="team-search" class="form-control" placeholder="🔍 Search Team...">
                 </div>
-                <div class="col-6 col-md-4">
+                <div class="col-12 col-md-3">
                     <select id="sort-filter" class="form-select">
                         <option value="time">Sort: Game Time ⏰</option>
                         <option value="wind">Sort: Highest Wind 💨</option>
                         <option value="rain">Sort: Rain Chance 🌧️</option>
                         <option value="temp">Sort: Temperature 🔥</option>
-                        <option value="humidity">Sort: Humidity 💧</option> </select>
+                        <option value="humidity">Sort: Humidity 💧</option>
                     </select>
                 </div>
-                    <div class="col-6 col-md-4">
-                        <div class="form-check form-switch d-flex align-items-center justify-content-center bg-white border rounded p-2" style="height: 38px;">
-                            <input class="form-check-input me-2 ms-3" type="checkbox" id="risk-only">
-                            <label class="form-check-label small fw-bold" for="risk-only" style="white-space: nowrap;">Risks Only ⚠️</label>
-                        </div>
+                <div class="col-6 col-md-3">
+                    <div class="form-check form-switch d-flex align-items-center justify-content-center bg-white border rounded p-2" style="height: 38px;">
+                        <input class="form-check-input me-2" type="checkbox" id="risk-only">
+                        <label class="form-check-label small fw-bold" for="risk-only" style="white-space: nowrap;">Risks ⚠️</label>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="form-check form-switch d-flex align-items-center justify-content-center bg-white border rounded p-2" style="height: 38px;">
+                        <input class="form-check-input me-2" type="checkbox" id="show-lineups">
+                        <label class="form-check-label small fw-bold" for="show-lineups" style="white-space: nowrap;">Lineups 📋</label>
                     </div>
                 </div>
             </div>
-        </div>
+         </div>
+    </div>
 
     <div id="games-container" class="row justify-content-center">
         <div class="col-12 text-center mt-5 pt-5">

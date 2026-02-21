@@ -490,6 +490,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // Stop radar iframe from burning data in the background when closed
+    const radarModal = document.getElementById('radarModal');
+    if (radarModal) {
+        radarModal.addEventListener('hidden.bs.modal', () => {
+            const iframe = document.getElementById('radarFrame');
+            if (iframe) iframe.src = ''; 
+        });
+    }
 });
 
 // ==========================================
@@ -542,12 +550,30 @@ function getTeamAbbr(teamName) {
     return key ? map[key] : "MLB"; // Default
 }
 
+
 window.showRadar = function(url, venueName) {
+    const modalElement = document.getElementById('radarModal');
     const modalTitle = document.querySelector('#radarModal .modal-title');
     const iframe = document.getElementById('radarFrame');
+    
     if(modalTitle) modalTitle.innerText = `Radar: ${venueName}`;
-    if(iframe) iframe.src = url;
-    const myModal = new bootstrap.Modal(document.getElementById('radarModal'));
+
+    // 1. Get the modal safely without creating duplicates
+    const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+    // 2. Clear out any old map data so it doesn't flash the previous city
+    if(iframe) iframe.src = '';
+
+    // 3. Define the load action
+    const loadMap = function () {
+        if(iframe) iframe.src = url; // Inject URL ONLY when fully visible
+        modalElement.removeEventListener('shown.bs.modal', loadMap); // Clean up
+    };
+
+    // 4. Listen for the modal to finish opening, then load the map
+    modalElement.addEventListener('shown.bs.modal', loadMap);
+    
+    // 5. Trigger the modal to open
     myModal.show();
 }
 

@@ -477,6 +477,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.value) {
                 // Close keyboard on mobile
                 e.target.blur(); 
+                
+                // --- NEW: Reset Filters on Date Change ---
+                const riskToggle = document.getElementById('risk-only');
+                if (riskToggle) riskToggle.checked = false;
+
+                const lineupsToggle = document.getElementById('show-lineups');
+                if (lineupsToggle) lineupsToggle.checked = false;
+                
                 // Fetch new games
                 init(e.target.value);
             }

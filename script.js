@@ -217,7 +217,7 @@ function createGameCard(data) {
     }
 
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-4 col-xl-3 animate-card';
+    gameCard.className = 'col-md-6 col-lg-6 col-xl-4 animate-card';
 
     // Teams & Pitchers
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);

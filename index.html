@@ -62,7 +62,7 @@
         filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1));
     }
 
-    .weather-row { font-size: 0.9rem; border-top: 1px solid #f1f3f5; padding-top: 12px; margin-top: 12px; }
+    .weather-row { font-size: 0.9rem; border-top: 1px solid #f1f3f5; padding-top: 8px; margin-top: 8px; }
     .stadium-name { color: #6c757d; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
     
     /* Wind Badges */
@@ -124,12 +124,12 @@
     .analysis-box {
         background-color: #f8f9fa;
         border-left: 4px solid #0d6efd;
-        padding: 12px; /* Increased padding slightly */
-        margin-top: 15px;
+        padding: 8px 10px; /* Tighter inner padding */
+        margin-top: 10px; /* Pulled closer to the buttons */
         font-size: 0.8rem;
         color: #495057;
-        line-height: 1.5;
-        border-radius: 0 4px 4px 0; /* Square left corners for the accent line */
+        line-height: 1.4; /* Slightly tighter text lines */
+        border-radius: 0 4px 4px 0;
     }
     .analysis-title {
         font-weight: 800;
@@ -137,22 +137,19 @@
         font-size: 0.7rem;
         color: #0d6efd;
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 3px; /* Tighter gap below title */
         letter-spacing: 0.5px;
-    
     }
           /* --- NEW: Apple-Style Hourly Scroll --- */
     .hourly-scroll-container {
         display: flex;
         overflow-x: auto;
-        gap: 12px;
-        padding: 15px 5px;
-        margin-top: 15px;
+        gap: 8px; /* Tighter gap between hours */
+        padding: 8px 5px; /* Squeezed vertical padding */
+        margin-top: 8px; /* Pulled closer to weather row */
         border-top: 1px solid #f1f3f5;
-        
-        /* Hide scrollbar for cleaner look */
-        scrollbar-width: none;  /* Firefox */
-        -ms-overflow-style: none;  /* IE/Edge */
+        scrollbar-width: none;  
+        -ms-overflow-style: none;  
     }
     .hourly-scroll-container::-webkit-scrollbar { 
         display: none; /* Chrome/Safari */

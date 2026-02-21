@@ -237,14 +237,19 @@ function createGameCard(data) {
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
 
+    // Check if the user has the "Show Lineups" switch turned on
+    const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
+    const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
+    const ariaExpanded = isLineupsExpanded ? "true" : "false";
+
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => `<li>${p.fullName}</li>`).join('');
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
             <div class="mt-1">
-                <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="collapse mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
+                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
                     <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
@@ -256,8 +261,8 @@ function createGameCard(data) {
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
             <div class="mt-1">
-                <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="collapse mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
+                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
                     <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
@@ -453,10 +458,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('team-search');
     const sortSelect = document.getElementById('sort-filter');
     const riskToggle = document.getElementById('risk-only');
+    const lineupsToggle = document.getElementById('show-lineups');
     
     if(searchInput) searchInput.addEventListener('input', renderGames);
     if(sortSelect) sortSelect.addEventListener('change', renderGames);
     if(riskToggle) riskToggle.addEventListener('change', renderGames);
+    if(lineupsToggle) lineupsToggle.addEventListener('change', renderGames);
 
     // 3. Date Picker Listener (UPDATED)
     const datePicker = document.getElementById('date-picker');

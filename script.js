@@ -217,7 +217,7 @@ function createGameCard(data) {
     }
 
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-4 animate-card';
+    gameCard.className = 'col-md-6 col-lg-4 col-xl-3 animate-card';
 
     // Teams & Pitchers
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
@@ -417,18 +417,18 @@ function createGameCard(data) {
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-start px-1">
-                    <div class="text-center" style="width: 45%;">
+                    <div class="text-center" style="width: 48%;"> 
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="fw-bold small lh-1">${awayName}</div>
+                        <div class="fw-bold lh-1" style="font-size: 0.85rem; white-space: nowrap; letter-spacing: -0.2px;">${awayName}</div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
                         ${awayLineupHtml}
                     </div>
                     
                     <div class="text-muted small fw-bold pt-3">@</div>
                     
-                    <div class="text-center" style="width: 45%;">
+                    <div class="text-center" style="width: 48%;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="fw-bold small lh-1">${homeName}</div>
+                        <div class="fw-bold lh-1" style="font-size: 0.85rem; white-space: nowrap; letter-spacing: -0.2px;">${homeName}</div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>
                         ${homeLineupHtml}
                     </div>

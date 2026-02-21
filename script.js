@@ -482,8 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const riskToggle = document.getElementById('risk-only');
                 if (riskToggle) riskToggle.checked = false;
 
-                const lineupsToggle = document.getElementById('show-lineups');
-                if (lineupsToggle) lineupsToggle.checked = false;
+               // const lineupsToggle = document.getElementById('show-lineups');
+              //  if (lineupsToggle) lineupsToggle.checked = false;
                 
                 // Fetch new games
                 init(e.target.value);

@@ -358,6 +358,7 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
             
+            // We removed the mb-1 from the wind speed div
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
             weatherHtml = `
@@ -375,7 +376,7 @@ function createGameCard(data) {
                         <div class="small text-muted" style="font-size: 0.7rem;">${precipLabel}</div>
                     </div>
                     <div class="col-3 px-1">
-                        <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
+                        <div class="fw-bold">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
                         <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;">
                             ${windInfo.arrow}
                         </span>
@@ -406,14 +407,16 @@ function createGameCard(data) {
         }
     }
 
+    // CHANGED: Removed the mb-2 from the d-flex container above the weather row
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
-            <div class="card-body px-2 pt-2 pb-1"> <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="card-body p-3 pb-2"> 
+                <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-light text-dark border">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                 </div>
                 
-                <div class="d-flex justify-content-between align-items-start mb-2 px-1">
+                <div class="d-flex justify-content-between align-items-start px-1">
                     <div class="text-center" style="width: 45%;">
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${awayName}</div>
@@ -643,7 +646,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         let isGameThunderstorm = false;
         let isGameSnow = false; 
 
-        for (let i = gameHour - 1; i <= gameHour + 4; i++) {
+        for (let i = gameHour - 1; i <= gameHour + 3; i++) {
             if (i >= 0 && i < 24) {
                 let chance = normalizePrecip(i);
                 

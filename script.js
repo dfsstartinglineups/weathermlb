@@ -242,10 +242,10 @@ function createGameCard(data) {
         const list = lineupAway.map((p) => `<li>${p.fullName}</li>`).join('');
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
-            <div class="mt-2">
+            <div class="mt-1">
                 <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="collapse mt-2 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.4;">${list}</ol>
+                <div class="collapse mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
+                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
@@ -255,50 +255,45 @@ function createGameCard(data) {
         const list = lineupHome.map((p) => `<li>${p.fullName}</li>`).join('');
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
-            <div class="mt-2">
+            <div class="mt-1">
                 <a href="#${collapseId}" data-bs-toggle="collapse" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="collapse mt-2 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.4;">${list}</ol>
+                <div class="collapse mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
+                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
 
     // --- 4. BETTING ODDS UI (UPDATED) ---
-    const oddsData = data.odds; // Grab the odds we passed in from the init function
+    const oddsData = data.odds; 
 
     let moneylineAway = "TBD"; 
     let moneylineHome = "TBD";
     let gameTotal = "TBD";
 
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
-        // Find FanDuel, or just grab the first bookmaker in the array
         const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
         
-        // Extract Moneyline (h2h)
         const h2hMarket = bookie.markets.find(m => m.key === 'h2h');
         if (h2hMarket) {
             const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
             const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
             
-            // Format to show "+" for positive odds (e.g., +116 instead of 116)
             if (awayOutcome) moneylineAway = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
             if (homeOutcome) moneylineHome = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
         }
 
-        // Extract Totals (Over/Under)
         const totalsMarket = bookie.markets.find(m => m.key === 'totals');
         if (totalsMarket && totalsMarket.outcomes.length > 0) {
-            // The "point" value is the over/under line (e.g., 10.5)
             gameTotal = totalsMarket.outcomes[0].point; 
         }
     }
 
     const oddsHtml = `
-        <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-white border rounded shadow-sm" style="background-color: rgba(255,255,255,0.7) !important;">
-            <div class="small fw-bold text-muted">
+        <div class="d-flex justify-content-between align-items-center mt-2 px-2 py-1 bg-white border rounded shadow-sm" style="background-color: rgba(255,255,255,0.7) !important;">
+            <div class="small fw-bold text-muted" style="font-size: 0.8rem;">
                 Line: <span class="text-dark">${awayAbbr} ${moneylineAway} | ${homeAbbr} ${moneylineHome}</span>
             </div>
-            <div class="small fw-bold text-muted">
+            <div class="small fw-bold text-muted" style="font-size: 0.8rem;">
                 Total: <span class="text-dark">O/U ${gameTotal}</span>
             </div>
         </div>`;
@@ -309,9 +304,9 @@ function createGameCard(data) {
     if (stadium && weather) {
         if (weather.status === "too_early") {
             weatherHtml = `
-                <div class="text-center p-4">
-                    <h5 class="text-muted">🔭 Too Early to Forecast</h5>
-                    <p class="small text-muted mb-0">Forecasts available ~14 days out.</p>
+                <div class="text-center p-3">
+                    <h6 class="text-muted mb-1">🔭 Too Early to Forecast</h6>
+                    <p class="small text-muted mb-0" style="font-size: 0.75rem;">Forecasts available ~14 days out.</p>
                 </div>`;
         } else if (weather.temp !== '--') {
             const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
@@ -328,7 +323,7 @@ function createGameCard(data) {
 
             let hourlyHtml = '';
             if (isRoofClosed) {
-                hourlyHtml = `<div class="text-center mt-3"><small class="text-muted">Indoor Conditions</small></div>`;
+                hourlyHtml = `<div class="text-center mt-2"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
                 const cardsHtml = weather.hourly.map((h, index) => {
                     const ampm = h.hour >= 12 ? 'PM' : 'AM';
@@ -367,21 +362,21 @@ function createGameCard(data) {
 
             weatherHtml = `
                 <div class="weather-row row text-center align-items-center">
-                    <div class="col-3 border-end">
+                    <div class="col-3 border-end px-1">
                         <div class="fw-bold">${weather.temp}°F</div>
-                        <div class="small text-muted">Temp</div>
+                        <div class="small text-muted" style="font-size: 0.7rem;">Temp</div>
                     </div>
-                    <div class="col-3 border-end">
+                    <div class="col-3 border-end px-1">
                         <div class="fw-bold text-dark">${weather.humidity}%</div>
-                        <div class="small text-muted">Hum</div>
+                        <div class="small text-muted" style="font-size: 0.7rem;">Hum</div>
                     </div>
-                    <div class="col-3 border-end">
+                    <div class="col-3 border-end px-1">
                         <div class="fw-bold text-primary" style="white-space: nowrap;">${displayRain}</div>
-                        <div class="small text-muted">${precipLabel}</div>
+                        <div class="small text-muted" style="font-size: 0.7rem;">${precipLabel}</div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-3 px-1">
                         <div class="fw-bold mb-1">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div>
-                        <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.6rem; white-space: nowrap; display: inline-block; padding: 2px 6px;">
+                        <span class="wind-badge ${windInfo.cssClass}" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;">
                             ${windInfo.arrow}
                         </span>
                     </div>
@@ -390,15 +385,15 @@ function createGameCard(data) {
                 
                 ${oddsHtml}
                 
-                <div class="row g-2 mt-3">
+                <div class="row g-2 mt-2">
                     <div class="col-8">
-                        <button class="btn btn-sm btn-outline-primary w-100" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
+                        <button class="btn btn-sm btn-outline-primary w-100 py-1" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
                             🗺️ View Radar
                         </button>
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center" onclick="shareGameTweet('${gameDataSafe}')">
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="white" class="me-1"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        <button class="btn btn-sm btn-dark w-100 py-1 d-flex align-items-center justify-content-center" onclick="shareGameTweet('${gameDataSafe}')">
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="white" class="me-1"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                             Tweet
                         </button>
                     </div>
@@ -413,26 +408,25 @@ function createGameCard(data) {
 
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
-            <div class="card-body pb-2">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="card-body p-3 pb-2"> <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-light text-dark border">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                 </div>
                 
-                <div class="d-flex justify-content-between align-items-start mb-3 px-2">
+                <div class="d-flex justify-content-between align-items-start mb-2 px-1">
                     <div class="text-center" style="width: 45%;">
-                        <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-2" onerror="this.style.display='none'">
+                        <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${awayName}</div>
-                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${awayPitcher}</div>
+                        <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
                         ${awayLineupHtml}
                     </div>
                     
-                    <div class="text-muted small fw-bold pt-4">@</div>
+                    <div class="text-muted small fw-bold pt-3">@</div>
                     
                     <div class="text-center" style="width: 45%;">
-                        <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-2" onerror="this.style.display='none'">
+                        <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="fw-bold small lh-1">${homeName}</div>
-                        <div class="text-muted mt-1" style="font-size: 0.75rem;">${homePitcher}</div>
+                        <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>
                         ${homeLineupHtml}
                     </div>
                 </div>

@@ -408,7 +408,7 @@ function createGameCard(data) {
 
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
-            <div class="card-body p-3 pb-2"> <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="card-body px-2 pt-2 pb-1"> <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-light text-dark border">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                 </div>

@@ -289,23 +289,34 @@ function createGameCard(data) {
     const windText = windInfo?.text || "";
     const isWindOutToRight = windText.includes("Out to Right");
     const isWindOutToLeft = windText.includes("Out to Left");
+    const isWindInFromRight = windText.includes("In from Right");
+    const isWindInFromLeft = windText.includes("In from Left");
 
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
             const batCode = handDict[p.id]; 
             
-            // --- NEW: Matchup Highlighting Logic ---
+            // --- Matchup Highlighting Logic ---
             let itemStyle = "";
             let tooltip = "";
             
             if (batCode) {
+                // Favorable (Green)
                 if (isWindOutToRight && (batCode === 'L' || batCode === 'S')) {
-                    itemStyle = "color: #198754; font-weight: 800;"; // Bootstrap Success Green
+                    itemStyle = "color: #198754;"; 
                     tooltip = "title='Favorable Matchup: Wind blowing out to Right Field'";
                 } else if (isWindOutToLeft && (batCode === 'R' || batCode === 'S')) {
-                    itemStyle = "color: #198754; font-weight: 800;";
+                    itemStyle = "color: #198754;";
                     tooltip = "title='Favorable Matchup: Wind blowing out to Left Field'";
+                }
+                // Unfavorable (Red) - Directional Only
+                else if (isWindInFromRight && (batCode === 'L' || batCode === 'S')) {
+                    itemStyle = "color: #dc3545;"; 
+                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Right Field'";
+                } else if (isWindInFromLeft && (batCode === 'R' || batCode === 'S')) {
+                    itemStyle = "color: #dc3545;";
+                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Left Field'";
                 }
             }
 
@@ -318,7 +329,7 @@ function createGameCard(data) {
             <div class="mt-1">
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+                    <ol class="mb-0 ps-3 text-muted" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
@@ -328,17 +339,26 @@ function createGameCard(data) {
         const list = lineupHome.map((p) => {
             const batCode = handDict[p.id]; 
             
-            // --- NEW: Matchup Highlighting Logic ---
+            // --- Matchup Highlighting Logic ---
             let itemStyle = "";
             let tooltip = "";
             
             if (batCode) {
+                // Favorable (Green)
                 if (isWindOutToRight && (batCode === 'L' || batCode === 'S')) {
-                    itemStyle = "color: #198754; font-weight: 800;"; 
+                    itemStyle = "color: #198754;"; 
                     tooltip = "title='Favorable Matchup: Wind blowing out to Right Field'";
                 } else if (isWindOutToLeft && (batCode === 'R' || batCode === 'S')) {
-                    itemStyle = "color: #198754; font-weight: 800;";
+                    itemStyle = "color: #198754;";
                     tooltip = "title='Favorable Matchup: Wind blowing out to Left Field'";
+                }
+                // Unfavorable (Red) - Directional Only
+                else if (isWindInFromRight && (batCode === 'L' || batCode === 'S')) {
+                    itemStyle = "color: #dc3545;"; 
+                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Right Field'";
+                } else if (isWindInFromLeft && (batCode === 'R' || batCode === 'S')) {
+                    itemStyle = "color: #dc3545;";
+                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Left Field'";
                 }
             }
 
@@ -351,7 +371,7 @@ function createGameCard(data) {
             <div class="mt-1">
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted fw-bold" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+                    <ol class="mb-0 ps-3 text-muted" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }

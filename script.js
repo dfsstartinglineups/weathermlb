@@ -730,7 +730,7 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     if (sustainedRainHours >= 3) {
         notes.push("🌧️ <b>Rainout Risk:</b> Sustained heavy rain. High probability of postponement.");
     } else if (weather.maxPrecipChance >= 70) {
-        notes.push("☔ <b>Severe Delay Risk:</b> Heavy rain expected, but should pass. Lengthy delays likely.");
+        notes.push("☔ <b>Severe Delay Risk:</b> Heavy rain expected, but should pass. Delays likely.");
     } else if (weather.maxPrecipChance >= 30) {
         notes.push("☔ <b>Delay Risk:</b> Scattered showers could interrupt play.");
     }

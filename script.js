@@ -215,12 +215,23 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- 1. Risk Border Logic ---
+    // --- 1. Risk Border Logic (UPDATED FOR DURATION) ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
-        if (weather.isThunderstorm) borderClass = "border-danger border-3"; 
-        else if (weather.maxPrecipChance >= 70) borderClass = "border-danger border-3"; 
-        else if (weather.maxPrecipChance >= 30) borderClass = "border-warning border-3"; 
+        // First, check how many hours have heavy rain
+        let sustainedRainHours = 0;
+        if (weather.hourly && weather.hourly.length > 0) {
+            sustainedRainHours = weather.hourly.filter(h => h.precipChance >= 60).length;
+        }
+
+        // Apply Red for severe risks, Yellow for passing delays
+        if (weather.isThunderstorm) {
+            borderClass = "border-danger border-3"; // Red: Mandatory lightning delay
+        } else if (sustainedRainHours >= 3) {
+            borderClass = "border-danger border-3"; // Red: Probable Rainout (3+ hours)
+        } else if (weather.maxPrecipChance >= 30) {
+            borderClass = "border-warning border-3"; // Yellow: Delay risk (passing heavy rain or scattered showers)
+        } 
     }
 
     // --- 2. Animated Background Logic ---

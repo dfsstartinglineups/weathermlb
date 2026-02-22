@@ -292,6 +292,10 @@ function createGameCard(data) {
     const isWindInFromRight = windText.includes("In from Right");
     const isWindInFromLeft = windText.includes("In from Left");
 
+    // --- NEW: Starting Pitcher Handedness for Switch Hitters ---
+    const homePitcherHand = game.teams.home.probablePitcher?.pitchHand?.code || "";
+    const awayPitcherHand = game.teams.away.probablePitcher?.pitchHand?.code || "";
+
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
@@ -302,21 +306,31 @@ function createGameCard(data) {
             let tooltip = "";
             
             if (batCode) {
+                // Determine effective batting side for switch hitters
+                let effectiveBatSide = batCode;
+                let switchNote = "";
+                
+                // If Switch Hitter, bat from the opposite side of the Home Pitcher
+                if (batCode === 'S' && homePitcherHand) {
+                    effectiveBatSide = (homePitcherHand === 'R') ? 'L' : 'R';
+                    switchNote = `Batting ${effectiveBatSide} vs ${homePitcherHand}HP - `;
+                }
+
                 // Favorable (Green)
-                if (isWindOutToRight && (batCode === 'L' || batCode === 'S')) {
+                if (isWindOutToRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #198754;"; 
-                    tooltip = "title='Favorable Matchup: Wind blowing out to Right Field'";
-                } else if (isWindOutToLeft && (batCode === 'R' || batCode === 'S')) {
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field'`;
+                } else if (isWindOutToLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #198754;";
-                    tooltip = "title='Favorable Matchup: Wind blowing out to Left Field'";
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field'`;
                 }
                 // Unfavorable (Red) - Directional Only
-                else if (isWindInFromRight && (batCode === 'L' || batCode === 'S')) {
+                else if (isWindInFromRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #dc3545;"; 
-                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Right Field'";
-                } else if (isWindInFromLeft && (batCode === 'R' || batCode === 'S')) {
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field'`;
+                } else if (isWindInFromLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #dc3545;";
-                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Left Field'";
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field'`;
                 }
             }
 
@@ -344,21 +358,31 @@ function createGameCard(data) {
             let tooltip = "";
             
             if (batCode) {
+                // Determine effective batting side for switch hitters
+                let effectiveBatSide = batCode;
+                let switchNote = "";
+                
+                // If Switch Hitter, bat from the opposite side of the Away Pitcher
+                if (batCode === 'S' && awayPitcherHand) {
+                    effectiveBatSide = (awayPitcherHand === 'R') ? 'L' : 'R';
+                    switchNote = `Batting ${effectiveBatSide} vs ${awayPitcherHand}HP - `;
+                }
+
                 // Favorable (Green)
-                if (isWindOutToRight && (batCode === 'L' || batCode === 'S')) {
+                if (isWindOutToRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #198754;"; 
-                    tooltip = "title='Favorable Matchup: Wind blowing out to Right Field'";
-                } else if (isWindOutToLeft && (batCode === 'R' || batCode === 'S')) {
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field'`;
+                } else if (isWindOutToLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #198754;";
-                    tooltip = "title='Favorable Matchup: Wind blowing out to Left Field'";
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field'`;
                 }
                 // Unfavorable (Red) - Directional Only
-                else if (isWindInFromRight && (batCode === 'L' || batCode === 'S')) {
+                else if (isWindInFromRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #dc3545;"; 
-                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Right Field'";
-                } else if (isWindInFromLeft && (batCode === 'R' || batCode === 'S')) {
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field'`;
+                } else if (isWindInFromLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #dc3545;";
-                    tooltip = "title='Unfavorable Matchup: Wind blowing in from Left Field'";
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field'`;
                 }
             }
 

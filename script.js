@@ -533,23 +533,23 @@ function createGameCard(data) {
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-start px-1">
-                    <div class="text-center" style="width: 42%;"> 
+                    <div class="text-center" style="width: 45%;"> 
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="d-flex flex-column justify-content-center align-items-center">
-                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.85rem; letter-spacing: -0.2px;">${awayName}</div>
+                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.75rem; letter-spacing: -0.3px; white-space: nowrap;">${awayName}</div>
                             ${mlAway}
                         </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
                     </div>
                     
-                    <div class="text-center" style="width: 16%;">
+                    <div class="text-center" style="width: 10%;">
                         ${totalHtml}
                     </div>
                     
-                    <div class="text-center" style="width: 42%;"> 
+                    <div class="text-center" style="width: 45%;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="d-flex flex-column justify-content-center align-items-center">
-                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.85rem; letter-spacing: -0.2px;">${homeName}</div>
+                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.75rem; letter-spacing: -0.3px; white-space: nowrap;">${homeName}</div>
                             ${mlHome}
                         </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>

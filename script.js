@@ -215,7 +215,7 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- 1. Risk Border Logic ---
+    // --- 1. Risk Border Logic (UPDATED FOR DURATION) ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         let sustainedRainHours = 0;
@@ -258,7 +258,7 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // --- PITCHER LOGIC ---
+    // --- PITCHER LOGIC (UPDATED WITH HANDEDNESS) ---
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
         const pInfo = game.teams.away.probablePitcher;
@@ -398,11 +398,11 @@ function createGameCard(data) {
             
             if (awayOutcome) {
                 const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
-                mlAway = `<span class="badge bg-light text-dark border ms-1" style="font-size: 0.65rem; vertical-align: middle;">${price}</span>`;
+                mlAway = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
             }
             if (homeOutcome) {
                 const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
-                mlHome = `<span class="badge bg-light text-dark border ms-1" style="font-size: 0.65rem; vertical-align: middle;">${price}</span>`;
+                mlHome = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
             }
         }
 
@@ -412,7 +412,7 @@ function createGameCard(data) {
             totalHtml = `
                 <div class="d-flex flex-column justify-content-center align-items-center pt-2">
                     <div class="text-muted small fw-bold mb-1">@</div>
-                    <div class="badge bg-dark text-white shadow-sm" style="font-size: 0.65rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
+                    <div class="fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
                 </div>`;
         }
     }
@@ -479,7 +479,6 @@ function createGameCard(data) {
             
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
-            // REMOVED old odds injection from here!
             weatherHtml = `
                 <div class="weather-row row text-center align-items-center">
                     <div class="col-3 border-end px-1">
@@ -536,8 +535,9 @@ function createGameCard(data) {
                 <div class="d-flex justify-content-between align-items-start px-1">
                     <div class="text-center" style="width: 42%;"> 
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="fw-bold lh-1 d-flex justify-content-center align-items-center flex-wrap" style="font-size: 0.85rem; letter-spacing: -0.2px;">
-                            ${awayName} ${mlAway}
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.85rem; letter-spacing: -0.2px;">${awayName}</div>
+                            ${mlAway}
                         </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
                         ${awayLineupHtml}
@@ -549,8 +549,9 @@ function createGameCard(data) {
                     
                     <div class="text-center" style="width: 42%;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="fw-bold lh-1 d-flex justify-content-center align-items-center flex-wrap" style="font-size: 0.85rem; letter-spacing: -0.2px;">
-                            ${homeName} ${mlHome}
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.85rem; letter-spacing: -0.2px;">${homeName}</div>
+                            ${mlHome}
                         </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>
                         ${homeLineupHtml}
@@ -563,7 +564,6 @@ function createGameCard(data) {
     
     return gameCard;
 }
-
 // ==========================================
 // 3. LISTENERS
 // ==========================================

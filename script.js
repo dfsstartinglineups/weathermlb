@@ -48,7 +48,7 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person,boxscore`;
+   const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
     
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
@@ -112,6 +112,24 @@ async function init(dateToFetch) {
                     o.away_team === game.teams.away.team.name
                 );
             }
+            // --- NEW: FETCH LINEUP HANDEDNESS DIRECTLY ---
+            let lineupHandedness = {};
+            const awayLineup = game.lineups?.awayPlayers || [];
+            const homeLineup = game.lineups?.homePlayers || [];
+            const lineupIds = [...awayLineup, ...homeLineup].map(p => p.id);
+
+            // If lineups exist, fetch all 18 players in one batch request
+            if (lineupIds.length > 0) {
+                try {
+                    const peopleRes = await fetch(`https://statsapi.mlb.com/api/v1/people?personIds=${lineupIds.join(',')}`);
+                    const peopleData = await peopleRes.json();
+                    if (peopleData.people) {
+                        peopleData.people.forEach(person => {
+                            lineupHandedness[person.id] = person.batSide?.code || "";
+                        });
+                    }
+                } catch (e) { console.log("Failed to fetch lineup handedness"); }
+            }
 
             ALL_GAMES_DATA.push({
                 gameRaw: game,
@@ -119,7 +137,8 @@ async function init(dateToFetch) {
                 weather: weatherData,
                 wind: windData,
                 roof: isRoofClosed,
-                odds: gameOdds
+                odds: gameOdds,
+                lineupHandedness: lineupHandedness
             });
         }
 
@@ -248,6 +267,7 @@ function createGameCard(data) {
     // --- 3. LINEUPS LOGIC ---
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
+    const handDict = data.lineupHandedness || {}; // <-- Grab our new dictionary
 
     // Check if the user has the "Show Lineups" switch turned on
     const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
@@ -257,15 +277,8 @@ function createGameCard(data) {
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
-            let hand = "";
-            // Cross-reference the boxscore to get the batter's handedness
-            if (game.boxscore?.teams?.away?.players) {
-                const boxPlayer = game.boxscore.teams.away.players['ID' + p.id];
-                const batSide = boxPlayer?.batSide?.code || boxPlayer?.person?.batSide?.code;
-                if (batSide) {
-                    hand = `<span style="font-weight:normal; opacity:0.7;"> (${batSide})</span>`;
-                }
-            }
+            const batCode = handDict[p.id]; // Look up the batter's ID
+            const hand = batCode ? `<span style="font-weight:normal; opacity:0.7;"> (${batCode})</span>` : "";
             return `<li>${p.fullName}${hand}</li>`;
         }).join('');
         
@@ -282,15 +295,8 @@ function createGameCard(data) {
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
         const list = lineupHome.map((p) => {
-            let hand = "";
-            // Cross-reference the boxscore to get the batter's handedness
-            if (game.boxscore?.teams?.home?.players) {
-                const boxPlayer = game.boxscore.teams.home.players['ID' + p.id];
-                const batSide = boxPlayer?.batSide?.code || boxPlayer?.person?.batSide?.code;
-                if (batSide) {
-                    hand = `<span style="font-weight:normal; opacity:0.7;"> (${batSide})</span>`;
-                }
-            }
+            const batCode = handDict[p.id]; // Look up the batter's ID
+            const hand = batCode ? `<span style="font-weight:normal; opacity:0.7;"> (${batCode})</span>` : "";
             return `<li>${p.fullName}${hand}</li>`;
         }).join('');
         

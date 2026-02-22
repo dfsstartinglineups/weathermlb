@@ -666,8 +666,16 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     }
 
     // 2. Rain Analysis
-    if (weather.maxPrecipChance >= 70) {
-        notes.push("🌧️ <b>Rainout Risk:</b> High probability of postponement.");
+    let sustainedRainHours = 0;
+    if (weather.hourly && weather.hourly.length > 0) {
+        // Count how many hours in our game window have a 60%+ chance of rain
+        sustainedRainHours = weather.hourly.filter(h => h.precipChance >= 60).length;
+    }
+
+    if (sustainedRainHours >= 3) {
+        notes.push("🌧️ <b>Rainout Risk:</b> Sustained heavy rain. High probability of postponement.");
+    } else if (weather.maxPrecipChance >= 70) {
+        notes.push("☔ <b>Severe Delay Risk:</b> Heavy rain expected, but should pass. Lengthy delays likely.");
     } else if (weather.maxPrecipChance >= 30) {
         notes.push("☔ <b>Delay Risk:</b> Scattered showers could interrupt play.");
     }

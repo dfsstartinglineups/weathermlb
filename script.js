@@ -330,8 +330,7 @@ function createGameCard(data) {
         
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
-            <div class="mt-1">
-                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+            <div class="mt-0"> <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
                     <ol class="mb-0 ps-3 text-muted" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
@@ -374,8 +373,7 @@ function createGameCard(data) {
         
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
-            <div class="mt-1">
-                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+            <div class="mt-0"> <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
                     <ol class="mb-0 ps-3 text-muted" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
@@ -539,7 +537,7 @@ function createGameCard(data) {
                             <div class="fw-bold lh-1 text-dark" style="font-size: 0.75rem; letter-spacing: -0.3px; white-space: nowrap;">${awayName}</div>
                             ${mlAway}
                         </div>
-                        <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
+                        <div class="text-muted mt-1 mb-0" style="font-size: 0.7rem;">${awayPitcher}</div>
                     </div>
                     
                     <div class="text-center" style="width: 10%;">
@@ -552,11 +550,11 @@ function createGameCard(data) {
                             <div class="fw-bold lh-1 text-dark" style="font-size: 0.75rem; letter-spacing: -0.3px; white-space: nowrap;">${homeName}</div>
                             ${mlHome}
                         </div>
-                        <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>
+                        <div class="text-muted mt-1 mb-0" style="font-size: 0.7rem;">${homePitcher}</div>
                     </div>
                 </div>
                 
-                <div class="row g-2 mt-2 px-1">
+                <div class="row g-2 mt-0 px-1">
                     <div class="col-6 text-center">
                         ${awayLineupHtml}
                     </div>

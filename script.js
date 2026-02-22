@@ -267,19 +267,39 @@ function createGameCard(data) {
     // --- 3. LINEUPS LOGIC ---
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
-    const handDict = data.lineupHandedness || {}; // <-- Grab our new dictionary
+    const handDict = data.lineupHandedness || {}; 
 
     // Check if the user has the "Show Lineups" switch turned on
     const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
     const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
     const ariaExpanded = isLineupsExpanded ? "true" : "false";
 
+    // --- NEW: Wind Matchup Variables ---
+    const windText = windInfo?.text || "";
+    const isWindOutToRight = windText.includes("Out to Right");
+    const isWindOutToLeft = windText.includes("Out to Left");
+
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
-            const batCode = handDict[p.id]; // Look up the batter's ID
-            const hand = batCode ? `<span style="font-weight:normal; opacity:0.7;"> (${batCode})</span>` : "";
-            return `<li>${p.fullName}${hand}</li>`;
+            const batCode = handDict[p.id]; 
+            
+            // --- NEW: Matchup Highlighting Logic ---
+            let itemStyle = "";
+            let tooltip = "";
+            
+            if (batCode) {
+                if (isWindOutToRight && (batCode === 'L' || batCode === 'S')) {
+                    itemStyle = "color: #198754; font-weight: 800;"; // Bootstrap Success Green
+                    tooltip = "title='Favorable Matchup: Wind blowing out to Right Field'";
+                } else if (isWindOutToLeft && (batCode === 'R' || batCode === 'S')) {
+                    itemStyle = "color: #198754; font-weight: 800;";
+                    tooltip = "title='Favorable Matchup: Wind blowing out to Left Field'";
+                }
+            }
+
+            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
+            return `<li ${tooltip} style="${itemStyle} cursor: default;">${p.fullName}${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-away-${game.gamePk}`;
@@ -295,9 +315,24 @@ function createGameCard(data) {
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
         const list = lineupHome.map((p) => {
-            const batCode = handDict[p.id]; // Look up the batter's ID
-            const hand = batCode ? `<span style="font-weight:normal; opacity:0.7;"> (${batCode})</span>` : "";
-            return `<li>${p.fullName}${hand}</li>`;
+            const batCode = handDict[p.id]; 
+            
+            // --- NEW: Matchup Highlighting Logic ---
+            let itemStyle = "";
+            let tooltip = "";
+            
+            if (batCode) {
+                if (isWindOutToRight && (batCode === 'L' || batCode === 'S')) {
+                    itemStyle = "color: #198754; font-weight: 800;"; 
+                    tooltip = "title='Favorable Matchup: Wind blowing out to Right Field'";
+                } else if (isWindOutToLeft && (batCode === 'R' || batCode === 'S')) {
+                    itemStyle = "color: #198754; font-weight: 800;";
+                    tooltip = "title='Favorable Matchup: Wind blowing out to Left Field'";
+                }
+            }
+
+            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
+            return `<li ${tooltip} style="${itemStyle} cursor: default;">${p.fullName}${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-home-${game.gamePk}`;

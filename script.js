@@ -285,14 +285,17 @@ function createGameCard(data) {
     const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
     const ariaExpanded = isLineupsExpanded ? "true" : "false";
 
-    // --- NEW: Wind Matchup Variables ---
+    // --- NEW: Wind Matchup Variables (UPDATED WITH MPH THRESHOLD) ---
     const windText = windInfo?.text || "";
-    const isWindOutToRight = windText.includes("Out to Right");
-    const isWindOutToLeft = windText.includes("Out to Left");
-    const isWindInFromRight = windText.includes("In from Right");
-    const isWindInFromLeft = windText.includes("In from Left");
+    const windSpeed = weather?.windSpeed || 0;
+    const isWindImpactful = windSpeed >= 9; // Only highlight if wind is 9mph or higher
 
-    // --- NEW: Starting Pitcher Handedness for Switch Hitters ---
+    const isWindOutToRight = isWindImpactful && windText.includes("Out to Right");
+    const isWindOutToLeft = isWindImpactful && windText.includes("Out to Left");
+    const isWindInFromRight = isWindImpactful && windText.includes("In from Right");
+    const isWindInFromLeft = isWindImpactful && windText.includes("In from Left");
+
+    // --- Starting Pitcher Handedness for Switch Hitters ---
     const homePitcherHand = game.teams.home.probablePitcher?.pitchHand?.code || "";
     const awayPitcherHand = game.teams.away.probablePitcher?.pitchHand?.code || "";
 
@@ -319,18 +322,18 @@ function createGameCard(data) {
                 // Favorable (Green)
                 if (isWindOutToRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #198754;"; 
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field'`;
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field (${windSpeed}mph)'`;
                 } else if (isWindOutToLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #198754;";
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field'`;
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field (${windSpeed}mph)'`;
                 }
                 // Unfavorable (Red) - Directional Only
                 else if (isWindInFromRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #dc3545;"; 
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field'`;
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field (${windSpeed}mph)'`;
                 } else if (isWindInFromLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #dc3545;";
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field'`;
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field (${windSpeed}mph)'`;
                 }
             }
 
@@ -371,18 +374,18 @@ function createGameCard(data) {
                 // Favorable (Green)
                 if (isWindOutToRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #198754;"; 
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field'`;
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field (${windSpeed}mph)'`;
                 } else if (isWindOutToLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #198754;";
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field'`;
+                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field (${windSpeed}mph)'`;
                 }
                 // Unfavorable (Red) - Directional Only
                 else if (isWindInFromRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #dc3545;"; 
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field'`;
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field (${windSpeed}mph)'`;
                 } else if (isWindInFromLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #dc3545;";
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field'`;
+                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field (${windSpeed}mph)'`;
                 }
             }
 
@@ -399,7 +402,6 @@ function createGameCard(data) {
                 </div>
             </div>`;
     }
-
     // --- 4. BETTING ODDS UI ---
     const oddsData = data.odds; 
 

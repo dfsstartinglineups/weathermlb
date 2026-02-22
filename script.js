@@ -540,7 +540,6 @@ function createGameCard(data) {
                             ${mlAway}
                         </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
-                        ${awayLineupHtml}
                     </div>
                     
                     <div class="text-center" style="width: 16%;">
@@ -554,6 +553,14 @@ function createGameCard(data) {
                             ${mlHome}
                         </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>
+                    </div>
+                </div>
+                
+                <div class="row g-2 mt-2 px-1">
+                    <div class="col-6 text-center">
+                        ${awayLineupHtml}
+                    </div>
+                    <div class="col-6 text-center">
                         ${homeLineupHtml}
                     </div>
                 </div>

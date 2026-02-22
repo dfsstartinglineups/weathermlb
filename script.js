@@ -215,22 +215,20 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- 1. Risk Border Logic (UPDATED FOR DURATION) ---
+    // --- 1. Risk Border Logic ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
-        // First, check how many hours have heavy rain
         let sustainedRainHours = 0;
         if (weather.hourly && weather.hourly.length > 0) {
             sustainedRainHours = weather.hourly.filter(h => h.precipChance >= 60).length;
         }
 
-        // Apply Red for severe risks, Yellow for passing delays
         if (weather.isThunderstorm) {
-            borderClass = "border-danger border-3"; // Red: Mandatory lightning delay
+            borderClass = "border-danger border-3"; 
         } else if (sustainedRainHours >= 3) {
-            borderClass = "border-danger border-3"; // Red: Probable Rainout (3+ hours)
+            borderClass = "border-danger border-3"; 
         } else if (weather.maxPrecipChance >= 30) {
-            borderClass = "border-warning border-3"; // Yellow: Delay risk (passing heavy rain or scattered showers)
+            borderClass = "border-warning border-3"; 
         } 
     }
 
@@ -260,7 +258,7 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // --- PITCHER LOGIC (UPDATED WITH HANDEDNESS) ---
+    // --- PITCHER LOGIC ---
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
         const pInfo = game.teams.away.probablePitcher;
@@ -280,22 +278,19 @@ function createGameCard(data) {
     const lineupHome = game.lineups?.homePlayers || [];
     const handDict = data.lineupHandedness || {}; 
 
-    // Check if the user has the "Show Lineups" switch turned on
     const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
     const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
     const ariaExpanded = isLineupsExpanded ? "true" : "false";
 
-    // --- NEW: Wind Matchup Variables (UPDATED WITH MPH THRESHOLD) ---
     const windText = windInfo?.text || "";
     const windSpeed = weather?.windSpeed || 0;
-    const isWindImpactful = windSpeed >= 9; // Only highlight if wind is 9mph or higher
+    const isWindImpactful = windSpeed >= 9; 
 
     const isWindOutToRight = isWindImpactful && windText.includes("Out to Right");
     const isWindOutToLeft = isWindImpactful && windText.includes("Out to Left");
     const isWindInFromRight = isWindImpactful && windText.includes("In from Right");
     const isWindInFromLeft = isWindImpactful && windText.includes("In from Left");
 
-    // --- Starting Pitcher Handedness for Switch Hitters ---
     const homePitcherHand = game.teams.home.probablePitcher?.pitchHand?.code || "";
     const awayPitcherHand = game.teams.away.probablePitcher?.pitchHand?.code || "";
 
@@ -303,32 +298,24 @@ function createGameCard(data) {
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
             const batCode = handDict[p.id]; 
-            
-            // --- Matchup Highlighting Logic ---
             let itemStyle = "";
             let tooltip = "";
             
             if (batCode) {
-                // Determine effective batting side for switch hitters
                 let effectiveBatSide = batCode;
                 let switchNote = "";
-                
-                // If Switch Hitter, bat from the opposite side of the Home Pitcher
                 if (batCode === 'S' && homePitcherHand) {
                     effectiveBatSide = (homePitcherHand === 'R') ? 'L' : 'R';
                     switchNote = `Batting ${effectiveBatSide} vs ${homePitcherHand}HP - `;
                 }
 
-                // Favorable (Green)
                 if (isWindOutToRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #198754;"; 
                     tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field (${windSpeed}mph)'`;
                 } else if (isWindOutToLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #198754;";
                     tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field (${windSpeed}mph)'`;
-                }
-                // Unfavorable (Red) - Directional Only
-                else if (isWindInFromRight && effectiveBatSide === 'L') {
+                } else if (isWindInFromRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #dc3545;"; 
                     tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field (${windSpeed}mph)'`;
                 } else if (isWindInFromLeft && effectiveBatSide === 'R') {
@@ -355,32 +342,24 @@ function createGameCard(data) {
     if (lineupHome.length > 0) {
         const list = lineupHome.map((p) => {
             const batCode = handDict[p.id]; 
-            
-            // --- Matchup Highlighting Logic ---
             let itemStyle = "";
             let tooltip = "";
             
             if (batCode) {
-                // Determine effective batting side for switch hitters
                 let effectiveBatSide = batCode;
                 let switchNote = "";
-                
-                // If Switch Hitter, bat from the opposite side of the Away Pitcher
                 if (batCode === 'S' && awayPitcherHand) {
                     effectiveBatSide = (awayPitcherHand === 'R') ? 'L' : 'R';
                     switchNote = `Batting ${effectiveBatSide} vs ${awayPitcherHand}HP - `;
                 }
 
-                // Favorable (Green)
                 if (isWindOutToRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #198754;"; 
                     tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field (${windSpeed}mph)'`;
                 } else if (isWindOutToLeft && effectiveBatSide === 'R') {
                     itemStyle = "color: #198754;";
                     tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field (${windSpeed}mph)'`;
-                }
-                // Unfavorable (Red) - Directional Only
-                else if (isWindInFromRight && effectiveBatSide === 'L') {
+                } else if (isWindInFromRight && effectiveBatSide === 'L') {
                     itemStyle = "color: #dc3545;"; 
                     tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field (${windSpeed}mph)'`;
                 } else if (isWindInFromLeft && effectiveBatSide === 'R') {
@@ -402,12 +381,12 @@ function createGameCard(data) {
                 </div>
             </div>`;
     }
-    // --- 4. BETTING ODDS UI ---
-    const oddsData = data.odds; 
 
-    let moneylineAway = "TBD"; 
-    let moneylineHome = "TBD";
-    let gameTotal = "TBD";
+    // --- 4. BETTING ODDS UI (IN HEADER) ---
+    const oddsData = data.odds; 
+    let mlAway = ""; 
+    let mlHome = "";
+    let totalHtml = `<div class="text-muted small fw-bold pt-3">@</div>`;
 
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
         const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
@@ -417,25 +396,26 @@ function createGameCard(data) {
             const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
             const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
             
-            if (awayOutcome) moneylineAway = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
-            if (homeOutcome) moneylineHome = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
+            if (awayOutcome) {
+                const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
+                mlAway = `<span class="badge bg-light text-dark border ms-1" style="font-size: 0.65rem; vertical-align: middle;">${price}</span>`;
+            }
+            if (homeOutcome) {
+                const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
+                mlHome = `<span class="badge bg-light text-dark border ms-1" style="font-size: 0.65rem; vertical-align: middle;">${price}</span>`;
+            }
         }
 
         const totalsMarket = bookie.markets.find(m => m.key === 'totals');
         if (totalsMarket && totalsMarket.outcomes.length > 0) {
-            gameTotal = totalsMarket.outcomes[0].point; 
+            const gameTotal = totalsMarket.outcomes[0].point; 
+            totalHtml = `
+                <div class="d-flex flex-column justify-content-center align-items-center pt-2">
+                    <div class="text-muted small fw-bold mb-1">@</div>
+                    <div class="badge bg-dark text-white shadow-sm" style="font-size: 0.65rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
+                </div>`;
         }
     }
-
-    const oddsHtml = `
-        <div class="d-flex justify-content-between align-items-center mt-2 px-2 py-1 bg-white border rounded shadow-sm" style="background-color: rgba(255,255,255,0.7) !important;">
-            <div class="small fw-bold text-muted" style="font-size: 0.8rem;">
-                Line: <span class="text-dark">${awayAbbr} ${moneylineAway} | ${homeAbbr} ${moneylineHome}</span>
-            </div>
-            <div class="small fw-bold text-muted" style="font-size: 0.8rem;">
-                Total: <span class="text-dark">O/U ${gameTotal}</span>
-            </div>
-        </div>`;
 
     // --- 5. WEATHER & HOURLY DISPLAY ---
     let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
@@ -499,6 +479,7 @@ function createGameCard(data) {
             
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
+            // REMOVED old odds injection from here!
             weatherHtml = `
                 <div class="weather-row row text-center align-items-center">
                     <div class="col-3 border-end px-1">
@@ -522,8 +503,6 @@ function createGameCard(data) {
                 </div>
                 ${hourlyHtml}
                 
-                ${oddsHtml}
-                
                 <div class="row g-2 mt-2">
                     <div class="col-8">
                         <button class="btn btn-sm btn-outline-primary w-100 py-1" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
@@ -545,6 +524,7 @@ function createGameCard(data) {
         }
     }
 
+    // --- MAIN CARD HTML GENERATION ---
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body p-3 pb-2"> 
@@ -554,18 +534,24 @@ function createGameCard(data) {
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-start px-1">
-                    <div class="text-center" style="width: 48%;"> 
+                    <div class="text-center" style="width: 42%;"> 
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="fw-bold lh-1" style="font-size: 0.85rem; white-space: nowrap; letter-spacing: -0.2px;">${awayName}</div>
+                        <div class="fw-bold lh-1 d-flex justify-content-center align-items-center flex-wrap" style="font-size: 0.85rem; letter-spacing: -0.2px;">
+                            ${awayName} ${mlAway}
+                        </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${awayPitcher}</div>
                         ${awayLineupHtml}
                     </div>
                     
-                    <div class="text-muted small fw-bold pt-3">@</div>
+                    <div class="text-center" style="width: 16%;">
+                        ${totalHtml}
+                    </div>
                     
-                    <div class="text-center" style="width: 48%;"> 
+                    <div class="text-center" style="width: 42%;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="fw-bold lh-1" style="font-size: 0.85rem; white-space: nowrap; letter-spacing: -0.2px;">${homeName}</div>
+                        <div class="fw-bold lh-1 d-flex justify-content-center align-items-center flex-wrap" style="font-size: 0.85rem; letter-spacing: -0.2px;">
+                            ${homeName} ${mlHome}
+                        </div>
                         <div class="text-muted mt-1" style="font-size: 0.7rem;">${homePitcher}</div>
                         ${homeLineupHtml}
                     </div>

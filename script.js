@@ -48,7 +48,7 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups`;
+    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
     
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
@@ -219,7 +219,7 @@ function createGameCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-6 col-xl-4 animate-card mb-2';
 
-    // Teams & Pitchers
+    // Teams
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
     const homeAbbr = getTeamAbbr(game.teams.home.team.name);
     const awayId = game.teams.away.team.id;
@@ -230,10 +230,22 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    const awayPitcher = game.teams.away.probablePitcher?.fullName || "TBD";
-    const homePitcher = game.teams.home.probablePitcher?.fullName || "TBD";
+    // --- PITCHER LOGIC (UPDATED WITH HANDEDNESS) ---
+    let awayPitcher = "TBD";
+    if (game.teams.away.probablePitcher) {
+        const pInfo = game.teams.away.probablePitcher;
+        const hand = pInfo.pitchHand?.code ? ` (${pInfo.pitchHand.code})` : "";
+        awayPitcher = pInfo.fullName + hand;
+    }
 
-    // --- 3. LINEUPS LOGIC ---
+    let homePitcher = "TBD";
+    if (game.teams.home.probablePitcher) {
+        const pInfo = game.teams.home.probablePitcher;
+        const hand = pInfo.pitchHand?.code ? ` (${pInfo.pitchHand.code})` : "";
+        homePitcher = pInfo.fullName + hand;
+    }
+
+    // --- 3. LINEUPS LOGIC (UPDATED WITH HANDEDNESS) ---
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
 
@@ -244,7 +256,10 @@ function createGameCard(data) {
 
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
-        const list = lineupAway.map((p) => `<li>${p.fullName}</li>`).join('');
+        const list = lineupAway.map((p) => {
+            const hand = p.batSide?.code ? `<span style="font-weight:normal; opacity:0.7;"> (${p.batSide.code})</span>` : "";
+            return `<li>${p.fullName}${hand}</li>`;
+        }).join('');
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
             <div class="mt-1">
@@ -257,7 +272,10 @@ function createGameCard(data) {
 
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
-        const list = lineupHome.map((p) => `<li>${p.fullName}</li>`).join('');
+        const list = lineupHome.map((p) => {
+            const hand = p.batSide?.code ? `<span style="font-weight:normal; opacity:0.7;"> (${p.batSide.code})</span>` : "";
+            return `<li>${p.fullName}${hand}</li>`;
+        }).join('');
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
             <div class="mt-1">
@@ -268,7 +286,7 @@ function createGameCard(data) {
             </div>`;
     }
 
-    // --- 4. BETTING ODDS UI (UPDATED) ---
+    // --- 4. BETTING ODDS UI ---
     const oddsData = data.odds; 
 
     let moneylineAway = "TBD"; 
@@ -363,7 +381,6 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
             
-            // We removed the mb-1 from the wind speed div
             const gameDataSafe = encodeURIComponent(JSON.stringify(data));
 
             weatherHtml = `
@@ -412,7 +429,6 @@ function createGameCard(data) {
         }
     }
 
-    // CHANGED: Removed the mb-2 from the d-flex container above the weather row
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body p-3 pb-2"> 

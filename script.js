@@ -48,7 +48,7 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
+    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person,boxscore`;
     
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
@@ -245,7 +245,7 @@ function createGameCard(data) {
         homePitcher = pInfo.fullName + hand;
     }
 
-    // --- 3. LINEUPS LOGIC (UPDATED WITH HANDEDNESS) ---
+    // --- 3. LINEUPS LOGIC ---
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
 
@@ -257,9 +257,18 @@ function createGameCard(data) {
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
-            const hand = p.batSide?.code ? `<span style="font-weight:normal; opacity:0.7;"> (${p.batSide.code})</span>` : "";
+            let hand = "";
+            // Cross-reference the boxscore to get the batter's handedness
+            if (game.boxscore?.teams?.away?.players) {
+                const boxPlayer = game.boxscore.teams.away.players['ID' + p.id];
+                const batSide = boxPlayer?.batSide?.code || boxPlayer?.person?.batSide?.code;
+                if (batSide) {
+                    hand = `<span style="font-weight:normal; opacity:0.7;"> (${batSide})</span>`;
+                }
+            }
             return `<li>${p.fullName}${hand}</li>`;
         }).join('');
+        
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
             <div class="mt-1">
@@ -273,9 +282,18 @@ function createGameCard(data) {
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
         const list = lineupHome.map((p) => {
-            const hand = p.batSide?.code ? `<span style="font-weight:normal; opacity:0.7;"> (${p.batSide.code})</span>` : "";
+            let hand = "";
+            // Cross-reference the boxscore to get the batter's handedness
+            if (game.boxscore?.teams?.home?.players) {
+                const boxPlayer = game.boxscore.teams.home.players['ID' + p.id];
+                const batSide = boxPlayer?.batSide?.code || boxPlayer?.person?.batSide?.code;
+                if (batSide) {
+                    hand = `<span style="font-weight:normal; opacity:0.7;"> (${batSide})</span>`;
+                }
+            }
             return `<li>${p.fullName}${hand}</li>`;
         }).join('');
+        
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
             <div class="mt-1">

@@ -521,7 +521,7 @@ function createGameCard(data) {
         }
     }
 
-    // --- MAIN CARD HTML GENERATION ---
+   // --- MAIN CARD HTML GENERATION ---
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body p-3 pb-2"> 
@@ -531,26 +531,26 @@ function createGameCard(data) {
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-start px-1">
-                    <div class="text-center" style="width: 45%;"> 
+                    <div class="text-center" style="width: 45%; min-width: 0;"> 
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
-                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.75rem; letter-spacing: -0.3px; white-space: nowrap;">${awayName}</div>
+                        <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                            <div class="fw-bold lh-1 text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayName}</div>
                             ${mlAway}
                         </div>
-                        <div class="text-muted mt-1 mb-0" style="font-size: 0.7rem;">${awayPitcher}</div>
+                        <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${awayPitcher}</div>
                     </div>
                     
-                    <div class="text-center" style="width: 10%;">
+                    <div class="text-center" style="width: 10%; min-width: 0;">
                         ${totalHtml}
                     </div>
                     
-                    <div class="text-center" style="width: 45%;"> 
+                    <div class="text-center" style="width: 45%; min-width: 0;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
-                            <div class="fw-bold lh-1 text-dark" style="font-size: 0.75rem; letter-spacing: -0.3px; white-space: nowrap;">${homeName}</div>
+                        <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                            <div class="fw-bold lh-1 text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeName}</div>
                             ${mlHome}
                         </div>
-                        <div class="text-muted mt-1 mb-0" style="font-size: 0.7rem;">${homePitcher}</div>
+                        <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${homePitcher}</div>
                     </div>
                 </div>
                 

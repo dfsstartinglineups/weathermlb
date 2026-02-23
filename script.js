@@ -534,7 +534,7 @@ function createGameCard(data) {
                     <div class="text-center" style="width: 45%; min-width: 0;"> 
                         <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="d-flex flex-column justify-content-center align-items-center w-100">
-                            <div class="fw-bold lh-1 text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayName}</div>
+                            <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayName}</div>
                             ${mlAway}
                         </div>
                         <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${awayPitcher}</div>
@@ -547,7 +547,7 @@ function createGameCard(data) {
                     <div class="text-center" style="width: 45%; min-width: 0;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
                         <div class="d-flex flex-column justify-content-center align-items-center w-100">
-                            <div class="fw-bold lh-1 text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeName}</div>
+                            <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeName}</div>
                             ${mlHome}
                         </div>
                         <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${homePitcher}</div>

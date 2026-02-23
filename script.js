@@ -760,6 +760,13 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 
 async function fetchGameWeather(lat, lon, gameDateIso) {
     const dateStr = gameDateIso.split('T')[0];
+    
+    // --- NEW: Calculate tomorrow's date to fetch a 48-hour block ---
+    const gameDateObj = new Date(gameDateIso);
+    const nextDayObj = new Date(gameDateObj);
+    nextDayObj.setUTCDate(nextDayObj.getUTCDate() + 1);
+    const nextDateStr = nextDayObj.toISOString().split('T')[0];
+
     const today = new Date().toLocaleDateString('en-CA'); 
     const isHistorical = dateStr < today; 
     const daysDiff = (new Date(dateStr) - new Date(today)) / (1000 * 60 * 60 * 24);
@@ -768,15 +775,15 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
     let url = "";
     
-    // CHANGED: We now use timezone=GMT so our array index perfectly matches the UTC game time
+    // --- UPDATED: All 3 URLs now use end_date=${nextDateStr} ---
     if (isHistorical || dateStr === "2024-09-25") {
-         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT`;
+         url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${nextDateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT`;
     } 
     else if (daysDiff <= 3) {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date=${dateStr}&end_date=${nextDateStr}`;
     }
     else {
-         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date=${dateStr}&end_date=${dateStr}`;
+         url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date=${dateStr}&end_date=${nextDateStr}`;
     }
 
     try {
@@ -787,29 +794,23 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         }
         const data = await response.json();
         
-        // CHANGED: Grab the UTC hour to precisely map to the GMT API array
         const gameHour = new Date(gameDateIso).getUTCHours();
         
-        // --- UPDATED: AGGRESSIVE RAIN NORMALIZATION ---
         const normalizePrecip = (index) => {
             let prob = data.hourly.precipitation_probability ? data.hourly.precipitation_probability[index] || 0 : 0;
             let amount = data.hourly.precipitation ? data.hourly.precipitation[index] || 0 : 0;
             let code = data.hourly.weather_code[index];
             
-            // 1. Eliminate "Phantom" Probability Blocks
-            // If the volume is 0.00 and the weather code is Clear/Partly Cloudy (0, 1, 2, 3), force it to 0%
             if (amount === 0 && code <= 3) {
                 return 0; 
             }
 
-            // 2. Base percentage on actual expected volume to create dynamic hour-by-hour changes
             if (amount > 0) {
-                if (amount >= 0.10) return Math.max(80, prob); // Heavy Rain
-                if (amount >= 0.05) return Math.max(60, prob); // Moderate Rain
-                if (amount >= 0.01) return Math.max(30, prob); // Light Rain
-                return 15; // Trace amounts / Drizzle
+                if (amount >= 0.10) return Math.max(80, prob); 
+                if (amount >= 0.05) return Math.max(60, prob); 
+                if (amount >= 0.01) return Math.max(30, prob); 
+                return 15; 
             }
-            
             return prob;
         };
 
@@ -818,8 +819,9 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         let isGameThunderstorm = false;
         let isGameSnow = false; 
 
+        // --- UPDATED: Loop now checks the entire array length, not just 24 hours ---
         for (let i = gameHour - 1; i <= gameHour + 3; i++) {
-            if (i >= 0 && i < 24) {
+            if (i >= 0 && i < data.hourly.temperature_2m.length) {
                 let chance = normalizePrecip(i);
                 
                 const code = data.hourly.weather_code[i];
@@ -831,12 +833,11 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
                 if (i >= gameHour && i <= gameHour + 3 && chance > maxChanceInWindow) maxChanceInWindow = chance;
                 
-                // Convert UTC hour back to the user's Local hour just for display on the UI
                 let localHour = new Date(gameDateIso);
                 localHour.setUTCHours(i);
                 
                 hourlySlice.push({ 
-                    hour: localHour.getHours(), // UI shows local time
+                    hour: localHour.getHours(), 
                     temp: Math.round(data.hourly.temperature_2m[i]), 
                     precipChance: chance,
                     isThunderstorm: isHourThunderstorm,
@@ -861,7 +862,6 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         return { temp: '--', hourly: [] };
     }
 }
-
 function calculateWind(windDirection, stadiumBearing) {
     let diff = (windDirection - stadiumBearing + 360) % 360;
     if (diff >= 337.5 || diff < 22.5) return { text: "Blowing IN", cssClass: "bg-in", arrow: "⬇" };

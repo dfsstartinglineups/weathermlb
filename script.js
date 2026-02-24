@@ -207,6 +207,7 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
+    // --- 1. Risk Border Logic ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         let sustainedRainHours = 0;
@@ -223,6 +224,7 @@ function createGameCard(data) {
         } 
     }
 
+    // --- 2. Animated Background Logic ---
     let bgClass = "bg-weather-sunny"; 
     if (isRoofClosed) {
         bgClass = "bg-weather-roof";
@@ -237,6 +239,7 @@ function createGameCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2';
 
+    // Teams
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
     const homeAbbr = getTeamAbbr(game.teams.home.team.name);
     const awayId = game.teams.away.team.id;
@@ -252,6 +255,7 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
+    // --- PITCHER LOGIC ---
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
         const pInfo = game.teams.away.probablePitcher;
@@ -270,7 +274,7 @@ function createGameCard(data) {
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
     const handDict = data.lineupHandedness || {}; 
-    const posDict = data.lineupPositions || {}; // Pulling in our new positions dict
+    const posDict = data.lineupPositions || {}; 
 
     const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
     const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
@@ -292,12 +296,13 @@ function createGameCard(data) {
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
             const batCode = handDict[p.id]; 
-            const posAbbr = posDict[p.id] || ""; // Match the ID to the Position
+            const posAbbr = posDict[p.id] || ""; 
             
             let itemStyle = "";
             let tooltip = "";
             
-            const posHtml = posAbbr ? `<span class="fw-bold me-1 text-dark" style="opacity: 0.75; font-size: 0.55rem;">${posAbbr}</span>` : "";
+            // Removed me-1 to eliminate margin space
+            const posHtml = posAbbr ? `<span class="fw-bold text-dark" style="opacity: 0.85; font-size: 0.6rem;">${posAbbr}</span>` : "";
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -325,13 +330,8 @@ function createGameCard(data) {
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
             
-            return `
-                <li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    ${posHtml}
-                    <span class="d-md-none">${p.fullName}</span>
-                    <span class="d-none d-md-inline">${shortName}</span>
-                    ${handHtml}
-                </li>`;
+            // Formatted on a single line to guarantee zero HTML whitespace between the position and the name
+            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${posHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-away-${game.gamePk}`;
@@ -339,7 +339,7 @@ function createGameCard(data) {
             <div class="mt-0 w-100"> 
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
-                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 0.9rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35;">${list}</ul>
                 </div>
             </div>`;
     }
@@ -348,12 +348,13 @@ function createGameCard(data) {
     if (lineupHome.length > 0) {
         const list = lineupHome.map((p) => {
             const batCode = handDict[p.id]; 
-            const posAbbr = posDict[p.id] || ""; // Match the ID to the Position
+            const posAbbr = posDict[p.id] || ""; 
             
             let itemStyle = "";
             let tooltip = "";
             
-            const posHtml = posAbbr ? `<span class="fw-bold me-1 text-dark" style="opacity: 0.75; font-size: 0.55rem;">${posAbbr}</span>` : "";
+            // Removed me-1 to eliminate margin space
+            const posHtml = posAbbr ? `<span class="fw-bold text-dark" style="opacity: 0.85; font-size: 0.6rem;">${posAbbr}</span>` : "";
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -381,13 +382,8 @@ function createGameCard(data) {
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
             
-            return `
-                <li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    ${posHtml}
-                    <span class="d-md-none">${p.fullName}</span>
-                    <span class="d-none d-md-inline">${shortName}</span>
-                    ${handHtml}
-                </li>`;
+            // Formatted on a single line to guarantee zero HTML whitespace between the position and the name
+            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${posHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-home-${game.gamePk}`;
@@ -395,7 +391,7 @@ function createGameCard(data) {
             <div class="mt-0 w-100"> 
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
-                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 0.9rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35;">${list}</ul>
                 </div>
             </div>`;
     }

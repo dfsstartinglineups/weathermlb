@@ -301,8 +301,8 @@ function createGameCard(data) {
             let itemStyle = "";
             let tooltip = "";
             
-            // Removed me-1 to eliminate margin space
-            const posHtml = posAbbr ? `<span class="fw-bold text-dark" style="opacity: 0.85; font-size: 0.6rem;">${posAbbr}</span>` : "";
+            // CHANGED: Added d-inline-block, text-start, and fixed width (1.1rem) to perfectly align the names
+            const posHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.55rem; width: 1.1rem; margin-right: 2px;">${posAbbr}</span>`;
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -330,7 +330,6 @@ function createGameCard(data) {
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
             
-            // Formatted on a single line to guarantee zero HTML whitespace between the position and the name
             return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${posHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
         }).join('');
         
@@ -339,7 +338,7 @@ function createGameCard(data) {
             <div class="mt-0 w-100"> 
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
-                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35;">${list}</ul>
+                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35; padding-left: 0.2rem;">${list}</ul>
                 </div>
             </div>`;
     }
@@ -353,8 +352,8 @@ function createGameCard(data) {
             let itemStyle = "";
             let tooltip = "";
             
-            // Removed me-1 to eliminate margin space
-            const posHtml = posAbbr ? `<span class="fw-bold text-dark" style="opacity: 0.85; font-size: 0.6rem;">${posAbbr}</span>` : "";
+            // CHANGED: Added d-inline-block, text-start, and fixed width (1.1rem) to perfectly align the names
+            const posHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.55rem; width: 1.1rem; margin-right: 2px;">${posAbbr}</span>`;
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -382,7 +381,6 @@ function createGameCard(data) {
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
             
-            // Formatted on a single line to guarantee zero HTML whitespace between the position and the name
             return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${posHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
         }).join('');
         
@@ -391,7 +389,7 @@ function createGameCard(data) {
             <div class="mt-0 w-100"> 
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
                 <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
-                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35;">${list}</ul>
+                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35; padding-left: 0.2rem;">${list}</ul>
                 </div>
             </div>`;
     }

@@ -274,7 +274,6 @@ function createGameCard(data) {
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
     const handDict = data.lineupHandedness || {}; 
-    const posDict = data.lineupPositions || {}; 
 
     const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
     const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
@@ -294,15 +293,15 @@ function createGameCard(data) {
 
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
-        const list = lineupAway.map((p) => {
+        // Adding 'index' to the map function so we can generate the 1-9 order
+        const list = lineupAway.map((p, index) => {
             const batCode = handDict[p.id]; 
-            const posAbbr = posDict[p.id] || ""; 
             
             let itemStyle = "";
             let tooltip = "";
             
-            // CHANGED: Added d-inline-block, text-start, and fixed width (1.1rem) to perfectly align the names
-            const posHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.55rem; width: 1.1rem; margin-right: 2px;">${posAbbr}</span>`;
+            // Replaced the position with a fixed-width batting order number to guarantee perfect column alignment
+            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.6rem; width: 0.8rem; margin-right: 3px;">${index + 1}.</span>`;
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -328,9 +327,10 @@ function createGameCard(data) {
                 }
             }
 
-            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
+            // Removed the blank space right before the ( so it sits flush against the name
+            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;">(${batCode})</span>` : "";
             
-            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${posHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
+            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${orderHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-away-${game.gamePk}`;
@@ -345,15 +345,15 @@ function createGameCard(data) {
 
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
-        const list = lineupHome.map((p) => {
+        // Adding 'index' to the map function
+        const list = lineupHome.map((p, index) => {
             const batCode = handDict[p.id]; 
-            const posAbbr = posDict[p.id] || ""; 
             
             let itemStyle = "";
             let tooltip = "";
             
-            // CHANGED: Added d-inline-block, text-start, and fixed width (1.1rem) to perfectly align the names
-            const posHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.55rem; width: 1.1rem; margin-right: 2px;">${posAbbr}</span>`;
+            // Replaced the position with a fixed-width batting order number
+            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.6rem; width: 0.8rem; margin-right: 3px;">${index + 1}.</span>`;
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -379,9 +379,10 @@ function createGameCard(data) {
                 }
             }
 
-            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
+            // Removed the blank space
+            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;">(${batCode})</span>` : "";
             
-            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${posHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
+            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${orderHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-home-${game.gamePk}`;

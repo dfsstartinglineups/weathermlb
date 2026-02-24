@@ -245,7 +245,8 @@ function createGameCard(data) {
     }
 
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-6 col-xl-4 animate-card mb-2';
+    // --- UPDATED: New column classes for large monitors ---
+    gameCard.className = 'col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2';
 
     // Teams
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
@@ -382,9 +383,15 @@ function createGameCard(data) {
 
     // --- 4. BETTING ODDS UI (IN HEADER) ---
     const oddsData = data.odds; 
-    let mlAway = ""; 
-    let mlHome = "";
-    let totalHtml = `<div class="text-muted small fw-bold pt-3">@</div>`;
+    
+    // --- UPDATED: Ensures TBD placeholders keep the layout perfectly aligned ---
+    let mlAway = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`; 
+    let mlHome = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`;
+    let totalHtml = `
+        <div class="d-flex flex-column justify-content-center align-items-center pt-2">
+            <div class="text-muted small fw-bold mb-1">@</div>
+            <div class="fw-bold text-muted" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U TBD</div>
+        </div>`;
 
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
         const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
@@ -500,18 +507,10 @@ function createGameCard(data) {
                 </div>
                 ${hourlyHtml}
                 
-                <div class="row g-2 mt-2">
-                    <div class="col-8">
-                        <button class="btn btn-sm btn-outline-primary w-100 py-1" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
-                            🗺️ View Radar
-                        </button>
-                    </div>
-                    <div class="col-4">
-                        <button class="btn btn-sm btn-dark w-100 py-1 d-flex align-items-center justify-content-center" onclick="shareGameTweet('${gameDataSafe}')">
-                            <svg viewBox="0 0 24 24" width="12" height="12" fill="white" class="me-1"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-                            Tweet
-                        </button>
-                    </div>
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-outline-primary w-100 py-1" onclick="showRadar('${radarUrl}', '${game.venue.name}')">
+                        🗺️ View Live Radar
+                    </button>
                 </div>
 
                 <div class="analysis-box">
@@ -716,7 +715,7 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
     // 2. Rain Analysis
     let sustainedRainHours = 0;
     if (weather.hourly && weather.hourly.length > 0) {
-        // Count how many hours in our game window have a 60%+ chance of rain
+        // Count how many hours in our window have a 60%+ chance of rain
         sustainedRainHours = weather.hourly.filter(h => h.precipChance >= 60).length;
     }
 
@@ -761,7 +760,7 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
 async function fetchGameWeather(lat, lon, gameDateIso) {
     const dateStr = gameDateIso.split('T')[0];
     
-    // --- NEW: Calculate tomorrow's date to fetch a 48-hour block ---
+    // --- Calculate tomorrow's date to fetch a 48-hour block ---
     const gameDateObj = new Date(gameDateIso);
     const nextDayObj = new Date(gameDateObj);
     nextDayObj.setUTCDate(nextDayObj.getUTCDate() + 1);
@@ -775,7 +774,6 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
 
     let url = "";
     
-    // --- UPDATED: All 3 URLs now use end_date=${nextDateStr} ---
     if (isHistorical || dateStr === "2024-09-25") {
          url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${nextDateStr}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT`;
     } 
@@ -819,7 +817,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         let isGameThunderstorm = false;
         let isGameSnow = false; 
 
-        // --- UPDATED: Loop now checks the entire array length, not just 24 hours ---
+        // Loop checks the entire array length, not just 24 hours
         for (let i = gameHour - 1; i <= gameHour + 3; i++) {
             if (i >= 0 && i < data.hourly.temperature_2m.length) {
                 let chance = normalizePrecip(i);
@@ -862,6 +860,7 @@ async function fetchGameWeather(lat, lon, gameDateIso) {
         return { temp: '--', hourly: [] };
     }
 }
+
 function calculateWind(windDirection, stadiumBearing) {
     let diff = (windDirection - stadiumBearing + 360) % 360;
     if (diff >= 337.5 || diff < 22.5) return { text: "Blowing IN", cssClass: "bg-in", arrow: "⬇" };
@@ -874,65 +873,7 @@ function calculateWind(windDirection, stadiumBearing) {
     return { text: "In from Left", cssClass: "bg-in", arrow: "↘" };
 }
 
-window.shareGameTweet = function(encodedData) {
-    const data = JSON.parse(decodeURIComponent(encodedData));
-    const g = data.gameRaw;
-    const w = data.weather;
-    const s = data.stadium;
-    const wind = data.wind;
-
-    const away = g.teams.away.team.name;
-    const home = g.teams.home.team.name;
-    const venue = g.venue.name;
-
-    let tweet = "";
-
-    // --- 1. DETECT MODE ---
-    const isHazard = w.maxPrecipChance >= 30 || w.isThunderstorm || w.isSnow;
-    const isHitterFriendly = w.temp >= 85 || (w.windSpeed >= 10 && wind.text.includes("OUT"));
-    const isPitcherFriendly = w.temp <= 50 || (w.windSpeed >= 10 && wind.text.includes("IN"));
-
-    // --- 2. BUILD HEADER ---
-    if (isHazard) {
-        tweet += `⚠️ WEATHER ALERT: ${away} @ ${home}\n`;
-        tweet += `🏟️ ${venue}\n\n`;
-        
-        // Hazard Line
-        if (w.isThunderstorm) tweet += `⚡ LIGHTNING RISK DETECTED\n`;
-        else if (w.isSnow) tweet += `❄️ SNOW RISK DETECTED\n`;
-        else tweet += `☔ RAIN DELAY RISK (${w.maxPrecipChance}%)\n`;
-    } else {
-        tweet += `⚾ ${away} @ ${home}\n`;
-        tweet += `🏟️ ${venue}\n\n`;
-    }
-
-    // --- 3. CONDITIONS ---
-    tweet += `🌡️ Temp: ${w.temp}°F\n`;
-    tweet += `💧 Hum: ${w.humidity}%\n`;
-    tweet += `💨 Wind: ${w.windSpeed}mph (${wind.text} ${wind.arrow})\n`;
-    
-    if (!isHazard) {
-        tweet += `☔ Rain: ${w.maxPrecipChance}%\n`;
-    }
-
-    // --- 4. SMART ANALYSIS ---
-    tweet += `\n`;
-    if (isHitterFriendly) {
-        tweet += `🔥 IMPACT: Hitter Friendly! Ball carrying farther.\n`;
-    } else if (isPitcherFriendly) {
-        tweet += `❄️ IMPACT: Pitcher Friendly! Air density suppressing runs.\n`;
-    } else if (w.humidity <= 30) {
-        tweet += `🌵 IMPACT: Dry Air! Breaking balls sharp, but fly balls carry.\n`;
-    }
-
-    // --- 5. FOOTER ---
-    tweet += `\n🔗 https://weathermlb.com\n#MLB #FantasyBaseball`;
-
-    // --- 6. LAUNCH ---
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
-    window.open(twitterUrl, '_blank');
-}
-
+// --- UPDATED: GENERATE DAILY REPORT (Single comprehensive tweet formatted for X Premium) ---
 function generateDailyReport() {
     if (ALL_GAMES_DATA.length === 0) {
         alert("No games data available to report!");
@@ -943,57 +884,64 @@ function generateDailyReport() {
         new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate)
     );
 
-    const MAX_TWEET_LENGTH = 260; 
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
-    let allLines = [];
+    // Start the single master tweet string
+    let reportText = `⚾ MLB Weather & Pitching Matchups • ${today}\n\n`; 
+
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
-        const w = game.weather; 
+        const w = game.weather || {}; 
         
-        const away = getTeamAbbr(teams.away.team.name);
-        const home = getTeamAbbr(teams.home.team.name);
+        const awayAbbr = getTeamAbbr(teams.away.team.name);
+        const homeAbbr = getTeamAbbr(teams.home.team.name);
         
+        // Extract Pitcher Last Names (Fallback to TBD)
+        const awayP = teams.away.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
+        const homeP = teams.home.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
+        
+        // Wind Direction formatting
         let arrow = "💨";
         if (game.wind && game.wind.arrow) {
              arrow = game.wind.arrow;
-        } else {
+        } else if (game.windDirection !== undefined) {
              arrow = getWindArrowEmoji(game.windDirection);
         }
 
-        const rain = Math.round(Number(w.maxPrecipChance) || 0);
+        // Handle weather logic (Domes vs Open Air)
+        const isRoofClosed = game.roof;
+        const rain = isRoofClosed ? 0 : Math.round(Number(w.maxPrecipChance) || 0);
         const temp = Math.round(Number(w.temp) || 0);
-        const windSpd = Math.round(Number(w.windSpeed) || 0);
+        const hum = Math.round(Number(w.humidity) || 0);
+        const windSpd = isRoofClosed ? 0 : Math.round(Number(w.windSpeed) || 0);
 
-        const line = `${away}@${home}:🌧️${rain}%🌡️${temp}°${arrow}${windSpd}mph`;
-        allLines.push(line);
-    });
-
-    let tweets = [];
-    let currentTweet = `⚾MLB Weather•${today} (1/X)\n\n`; 
-
-    allLines.forEach((line) => {
-        if ((currentTweet.length + line.length + 1) > MAX_TWEET_LENGTH) {
-            tweets.push(currentTweet); 
-            currentTweet = `(2/X) Continued...\n\n`; 
+        // Build the stat string
+        let weatherString = `🌧️${rain}% 🌡️${temp}° 💧${hum}% ${arrow}${windSpd}mph`;
+        
+        if (w.status === "too_early" || w.temp === '--') {
+            weatherString = `Forecast Unavailable`;
+        } else if (isRoofClosed) {
+            weatherString = `Roof Closed 🌡️${temp}° 💧${hum}%`;
         }
-        currentTweet += line + "\n";
+
+        // Format: NYY (Cole) @ BOS (Sale): 🌧️0% ...
+        const line = `${awayAbbr} (${awayP}) @ ${homeAbbr} (${homeP}): ${weatherString}`;
+        reportText += line + "\n";
     });
 
-    currentTweet += `\nMore details: https://weathermlb.com\n#MLB #BaseballWeather`;
-    tweets.push(currentTweet);
+    // Add the footer
+    reportText += `\nDetailed wind & lineup data: https://weathermlb.com\n#MLB #FantasyBaseball`;
 
-    const finalOutput = tweets.map((t, i) => `--- TWEET ${i+1} ---\n${t}\n`).join("\n");
-
+    // Inject into the UI
     const textArea = document.getElementById('tweet-text');
     const twitterLink = document.getElementById('twitter-link');
     
     if (textArea) {
-        textArea.value = finalOutput;
+        textArea.value = reportText;
 
-        if (twitterLink && tweets.length > 0) {
-            const firstTweetBody = tweets[0]; 
-            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(firstTweetBody)}`;
+        if (twitterLink) {
+            // Encode the entire giant string for the Twitter Intent URL
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(reportText)}`;
             twitterLink.href = twitterUrl;
         }
         
@@ -1002,7 +950,7 @@ function generateDailyReport() {
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
         } else {
-             alert("Report generated (Modal not found):\n\n" + finalOutput);
+             alert("Report generated:\n\n" + reportText);
         }
     }
 }

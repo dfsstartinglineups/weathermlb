@@ -202,6 +202,7 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
+    // --- 1. Risk Border Logic (UPDATED FOR DURATION) ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         let sustainedRainHours = 0;
@@ -218,6 +219,7 @@ function createGameCard(data) {
         } 
     }
 
+    // --- 2. Animated Background Logic ---
     let bgClass = "bg-weather-sunny"; 
     if (isRoofClosed) {
         bgClass = "bg-weather-roof";
@@ -321,9 +323,10 @@ function createGameCard(data) {
         
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
-            <div class="mt-0"> <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+            <div class="mt-0 w-100"> 
+                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="${collapseClass} mt-1 text-start bg-light rounded p-1 border w-100" id="${collapseId}">
+                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 1.1rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
@@ -364,9 +367,10 @@ function createGameCard(data) {
         
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
-            <div class="mt-0"> <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="${collapseClass} mt-1 text-start bg-light rounded p-2 border" id="${collapseId}">
-                    <ol class="mb-0 ps-3 text-muted" style="font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+            <div class="mt-0 w-100"> 
+                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
+                <div class="${collapseClass} mt-1 text-start bg-light rounded p-1 border w-100" id="${collapseId}">
+                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 1.1rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
@@ -387,7 +391,6 @@ function createGameCard(data) {
         
         const h2hMarket = bookie.markets.find(m => m.key === 'h2h');
         if (h2hMarket) {
-            // Uses FULL name for exact matching
             const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
             const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
             
@@ -543,11 +546,11 @@ function createGameCard(data) {
                     </div>
                 </div>
                 
-                <div class="row g-2 mt-0 px-1">
-                    <div class="col-6 text-center">
+                <div class="row g-1 mt-0 mx-0">
+                    <div class="col-6 px-1 text-center w-50">
                         ${awayLineupHtml}
                     </div>
-                    <div class="col-6 text-center">
+                    <div class="col-6 px-1 text-center w-50">
                         ${homeLineupHtml}
                     </div>
                 </div>

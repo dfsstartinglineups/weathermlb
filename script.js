@@ -202,7 +202,7 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- 1. Risk Border Logic (UPDATED FOR DURATION) ---
+    // --- 1. Risk Border Logic ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         let sustainedRainHours = 0;
@@ -234,16 +234,15 @@ function createGameCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2';
 
-    // Teams (Full names for logic, Short names for UI)
+    // Teams
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
     const homeAbbr = getTeamAbbr(game.teams.home.team.name);
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
     
-    const awayName = game.teams.away.team.name; // Full name for Odds match
-    const homeName = game.teams.home.team.name; // Full name for Odds match
+    const awayName = game.teams.away.team.name; 
+    const homeName = game.teams.home.team.name; 
     
-    // UI Short Names (e.g., "Diamondbacks", "Red Sox")
     const awayShortName = getShortTeamName(awayName); 
     const homeShortName = getShortTeamName(homeName);
 
@@ -251,7 +250,7 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // --- PITCHER LOGIC (UPDATED WITH F. LASTNAME FORMAT) ---
+    // --- PITCHER LOGIC ---
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
         const pInfo = game.teams.away.probablePitcher;
@@ -318,15 +317,16 @@ function createGameCard(data) {
             }
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
-            return `<li ${tooltip} style="${itemStyle} cursor: default;">${formatPlayerName(p.fullName)}${handHtml}</li>`;
+            // ADDED: nowrap and ellipsis so text is physically forbidden from wrapping
+            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatPlayerName(p.fullName)}${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-away-${game.gamePk}`;
         awayLineupHtml = `
             <div class="mt-0 w-100"> 
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="${collapseClass} mt-1 text-start bg-light rounded p-1 border w-100" id="${collapseId}">
-                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 1.1rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+                <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
+                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 0.9rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
@@ -362,15 +362,16 @@ function createGameCard(data) {
             }
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
-            return `<li ${tooltip} style="${itemStyle} cursor: default;">${formatPlayerName(p.fullName)}${handHtml}</li>`;
+            // ADDED: nowrap and ellipsis
+            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatPlayerName(p.fullName)}${handHtml}</li>`;
         }).join('');
         
         const collapseId = `lineup-home-${game.gamePk}`;
         homeLineupHtml = `
             <div class="mt-0 w-100"> 
                 <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="${collapseClass} mt-1 text-start bg-light rounded p-1 border w-100" id="${collapseId}">
-                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 1.1rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
+                <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
+                    <ol class="mb-0 pe-0 text-muted w-100" style="padding-left: 0.9rem; font-size: 0.65rem; line-height: 1.3;">${list}</ol>
                 </div>
             </div>`;
     }
@@ -475,10 +476,8 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
             
-            const gameDataSafe = encodeURIComponent(JSON.stringify(data));
-
             weatherHtml = `
-                <div class="weather-row row text-center align-items-center">
+                <div class="weather-row row text-center align-items-center mt-2">
                     <div class="col-3 border-end px-1">
                         <div class="fw-bold">${weather.temp}°F</div>
                         <div class="small text-muted" style="font-size: 0.7rem;">Temp</div>
@@ -516,7 +515,7 @@ function createGameCard(data) {
    // --- MAIN CARD HTML GENERATION ---
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
-            <div class="card-body p-3 pb-2"> 
+            <div class="card-body px-2 pt-2 pb-2"> 
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-light text-dark border">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
@@ -546,11 +545,11 @@ function createGameCard(data) {
                     </div>
                 </div>
                 
-                <div class="row g-1 mt-0 mx-0">
-                    <div class="col-6 px-1 text-center w-50">
+                <div class="row g-0 mt-1 mx-0 w-100">
+                    <div class="col-6 pe-1 text-center w-50">
                         ${awayLineupHtml}
                     </div>
-                    <div class="col-6 px-1 text-center w-50">
+                    <div class="col-6 ps-1 text-center w-50">
                         ${homeLineupHtml}
                     </div>
                 </div>

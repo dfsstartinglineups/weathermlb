@@ -293,6 +293,11 @@ function createGameCard(data) {
             let itemStyle = "";
             let tooltip = "";
             
+            // Extract the defensive position abbreviation (e.g., SS, CF, 1B)
+            const posAbbr = p.position ? p.position.abbreviation : "";
+            const posHtml = posAbbr ? `<span class="fw-bold me-1 text-dark" style="opacity: 0.75; font-size: 0.55rem;">${posAbbr}</span>` : "";
+            const shortName = formatPlayerName(p.fullName);
+            
             if (batCode) {
                 let effectiveBatSide = batCode;
                 let switchNote = "";
@@ -317,8 +322,15 @@ function createGameCard(data) {
             }
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
-            // ADDED: nowrap and ellipsis so text is physically forbidden from wrapping
-            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatPlayerName(p.fullName)}${handHtml}</li>`;
+            
+            // Uses Bootstrap display classes to swap between Full Name on Mobile and Short Name on Desktop
+            return `
+                <li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    ${posHtml}
+                    <span class="d-md-none">${p.fullName}</span>
+                    <span class="d-none d-md-inline">${shortName}</span>
+                    ${handHtml}
+                </li>`;
         }).join('');
         
         const collapseId = `lineup-away-${game.gamePk}`;
@@ -337,6 +349,11 @@ function createGameCard(data) {
             const batCode = handDict[p.id]; 
             let itemStyle = "";
             let tooltip = "";
+            
+            // Extract the defensive position abbreviation
+            const posAbbr = p.position ? p.position.abbreviation : "";
+            const posHtml = posAbbr ? `<span class="fw-bold me-1 text-dark" style="opacity: 0.75; font-size: 0.55rem;">${posAbbr}</span>` : "";
+            const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
                 let effectiveBatSide = batCode;
@@ -362,8 +379,15 @@ function createGameCard(data) {
             }
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
-            // ADDED: nowrap and ellipsis
-            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatPlayerName(p.fullName)}${handHtml}</li>`;
+            
+            // Uses Bootstrap display classes to swap between Full Name on Mobile and Short Name on Desktop
+            return `
+                <li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    ${posHtml}
+                    <span class="d-md-none">${p.fullName}</span>
+                    <span class="d-none d-md-inline">${shortName}</span>
+                    ${handHtml}
+                </li>`;
         }).join('');
         
         const collapseId = `lineup-home-${game.gamePk}`;

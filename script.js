@@ -109,7 +109,9 @@ async function init(dateToFetch) {
                 );
             }
             
+            // --- UPDATED: Fetching Position alongside Handedness ---
             let lineupHandedness = {};
+            let lineupPositions = {}; 
             const awayLineup = game.lineups?.awayPlayers || [];
             const homeLineup = game.lineups?.homePlayers || [];
             const lineupIds = [...awayLineup, ...homeLineup].map(p => p.id);
@@ -121,9 +123,11 @@ async function init(dateToFetch) {
                     if (peopleData.people) {
                         peopleData.people.forEach(person => {
                             lineupHandedness[person.id] = person.batSide?.code || "";
+                            // Saving the defensive position code
+                            lineupPositions[person.id] = person.primaryPosition?.abbreviation || ""; 
                         });
                     }
-                } catch (e) { console.log("Failed to fetch lineup handedness"); }
+                } catch (e) { console.log("Failed to fetch lineup details"); }
             }
 
             ALL_GAMES_DATA.push({
@@ -133,7 +137,8 @@ async function init(dateToFetch) {
                 wind: windData,
                 roof: isRoofClosed,
                 odds: gameOdds,
-                lineupHandedness: lineupHandedness
+                lineupHandedness: lineupHandedness,
+                lineupPositions: lineupPositions // Passed to our card generator
             });
         }
 
@@ -202,7 +207,6 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- 1. Risk Border Logic ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         let sustainedRainHours = 0;
@@ -219,7 +223,6 @@ function createGameCard(data) {
         } 
     }
 
-    // --- 2. Animated Background Logic ---
     let bgClass = "bg-weather-sunny"; 
     if (isRoofClosed) {
         bgClass = "bg-weather-roof";
@@ -234,7 +237,6 @@ function createGameCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2';
 
-    // Teams
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
     const homeAbbr = getTeamAbbr(game.teams.home.team.name);
     const awayId = game.teams.away.team.id;
@@ -250,7 +252,6 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // --- PITCHER LOGIC ---
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
         const pInfo = game.teams.away.probablePitcher;
@@ -269,6 +270,7 @@ function createGameCard(data) {
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
     const handDict = data.lineupHandedness || {}; 
+    const posDict = data.lineupPositions || {}; // Pulling in our new positions dict
 
     const isLineupsExpanded = document.getElementById('show-lineups')?.checked;
     const collapseClass = isLineupsExpanded ? "collapse show" : "collapse";
@@ -290,11 +292,11 @@ function createGameCard(data) {
     if (lineupAway.length > 0) {
         const list = lineupAway.map((p) => {
             const batCode = handDict[p.id]; 
+            const posAbbr = posDict[p.id] || ""; // Match the ID to the Position
+            
             let itemStyle = "";
             let tooltip = "";
             
-            // Extract the defensive position abbreviation (e.g., SS, CF, 1B)
-            const posAbbr = p.position ? p.position.abbreviation : "";
             const posHtml = posAbbr ? `<span class="fw-bold me-1 text-dark" style="opacity: 0.75; font-size: 0.55rem;">${posAbbr}</span>` : "";
             const shortName = formatPlayerName(p.fullName);
             
@@ -323,7 +325,6 @@ function createGameCard(data) {
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
             
-            // Uses Bootstrap display classes to swap between Full Name on Mobile and Short Name on Desktop
             return `
                 <li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     ${posHtml}
@@ -347,11 +348,11 @@ function createGameCard(data) {
     if (lineupHome.length > 0) {
         const list = lineupHome.map((p) => {
             const batCode = handDict[p.id]; 
+            const posAbbr = posDict[p.id] || ""; // Match the ID to the Position
+            
             let itemStyle = "";
             let tooltip = "";
             
-            // Extract the defensive position abbreviation
-            const posAbbr = p.position ? p.position.abbreviation : "";
             const posHtml = posAbbr ? `<span class="fw-bold me-1 text-dark" style="opacity: 0.75; font-size: 0.55rem;">${posAbbr}</span>` : "";
             const shortName = formatPlayerName(p.fullName);
             
@@ -380,7 +381,6 @@ function createGameCard(data) {
 
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;"> (${batCode})</span>` : "";
             
-            // Uses Bootstrap display classes to swap between Full Name on Mobile and Short Name on Desktop
             return `
                 <li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     ${posHtml}
@@ -584,6 +584,7 @@ function createGameCard(data) {
     
     return gameCard;
 }
+
 // ==========================================
 // 3. LISTENERS
 // ==========================================
@@ -665,7 +666,6 @@ function getTeamAbbr(teamName) {
     return key ? map[key] : "MLB"; 
 }
 
-// --- NEW HELPER: Formats names to "F. Lastname" ---
 function formatPlayerName(fullName) {
     if (!fullName) return "";
     const parts = fullName.split(" ");
@@ -676,16 +676,13 @@ function formatPlayerName(fullName) {
     return `${firstInitial}. ${lastName}`;
 }
 
-// --- NEW HELPER: Strips city name from Team Name safely ---
 function getShortTeamName(fullName) {
     if (!fullName) return "";
     
-    // Handle multi-word team names that break the "last word" rule
     if (fullName.includes("Red Sox")) return "Red Sox";
     if (fullName.includes("White Sox")) return "White Sox";
     if (fullName.includes("Blue Jays")) return "Blue Jays";
     
-    // Otherwise, just return the final word (e.g., "Diamondbacks", "Angels")
     const parts = fullName.split(" ");
     return parts[parts.length - 1];
 }

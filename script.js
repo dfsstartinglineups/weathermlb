@@ -880,7 +880,8 @@ function generateDailyReport() {
 
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
-    let reportText = `⚾ MLB Weather & Pitching Matchups • ${today}\n\n`; 
+    // --- CHANGED: Updated Title ---
+    let reportText = `⚾ MLB Spring Training Weather Report for ${today} by https://weathermlb.com\n\n`; 
 
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
@@ -913,11 +914,15 @@ function generateDailyReport() {
             weatherString = `Roof Closed 🌡️${temp}° 💧${hum}%`;
         }
 
-        const line = `${awayAbbr} (${awayP}) @ ${homeAbbr} (${homeP}): ${weatherString}`;
-        reportText += line + "\n";
+        // --- CHANGED: Added \n to push weather to the next line ---
+        const line = `${awayAbbr} (${awayP}) @ ${homeAbbr} (${homeP}):\n${weatherString}`;
+        
+        // --- CHANGED: Added double \n\n to create a clean visual break between games ---
+        reportText += line + "\n\n";
     });
 
-    reportText += `\nDetailed wind & lineup data: https://weathermlb.com\n#MLB #FantasyBaseball`;
+    // --- CHANGED: Cleaned up footer hashtags since the URL is now in the title ---
+    reportText += `#MLB #FantasyBaseball #SpringTraining`;
 
     const textArea = document.getElementById('tweet-text');
     const twitterLink = document.getElementById('twitter-link');

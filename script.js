@@ -880,19 +880,49 @@ function generateDailyReport() {
 
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
-    // --- CHANGED: Updated Title ---
     let reportText = `⚾ MLB Spring Training Weather Report for ${today} by https://weathermlb.com\n\n`; 
 
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
         const w = game.weather || {}; 
         
-        const awayAbbr = getTeamAbbr(teams.away.team.name);
-        const homeAbbr = getTeamAbbr(teams.home.team.name);
+        const awayName = teams.away.team.name;
+        const homeName = teams.home.team.name;
+        
+        const awayAbbr = getTeamAbbr(awayName);
+        const homeAbbr = getTeamAbbr(homeName);
         
         const awayP = teams.away.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
         const homeP = teams.home.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
         
+        // --- NEW: Extract Betting Odds ---
+        const oddsData = game.odds;
+        let awayOddsStr = "[TBD]";
+        let homeOddsStr = "[TBD]";
+        let totalStr = " • O/U TBD";
+
+        if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
+            const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
+            
+            const h2hMarket = bookie.markets.find(m => m.key === 'h2h');
+            if (h2hMarket) {
+                const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
+                const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
+                
+                if (awayOutcome) {
+                    awayOddsStr = awayOutcome.price > 0 ? `[+${awayOutcome.price}]` : `[${awayOutcome.price}]`;
+                }
+                if (homeOutcome) {
+                    homeOddsStr = homeOutcome.price > 0 ? `[+${homeOutcome.price}]` : `[${homeOutcome.price}]`;
+                }
+            }
+
+            const totalsMarket = bookie.markets.find(m => m.key === 'totals');
+            if (totalsMarket && totalsMarket.outcomes.length > 0) {
+                totalStr = ` • O/U ${totalsMarket.outcomes[0].point}`;
+            }
+        }
+
         let arrow = "💨";
         if (game.wind && game.wind.arrow) {
              arrow = game.wind.arrow;
@@ -914,14 +944,11 @@ function generateDailyReport() {
             weatherString = `Roof Closed 🌡️${temp}° 💧${hum}%`;
         }
 
-        // --- CHANGED: Added \n to push weather to the next line ---
-        const line = `${awayAbbr} (${awayP}) @ ${homeAbbr} (${homeP}):\n${weatherString}`;
-        
-        // --- CHANGED: Added double \n\n to create a clean visual break between games ---
+        // --- UPDATED: Injected Odds into the Matchup Line ---
+        const line = `${awayAbbr} (${awayP}) ${awayOddsStr} @ ${homeAbbr} (${homeP}) ${homeOddsStr}${totalStr}:\n${weatherString}`;
         reportText += line + "\n\n";
     });
 
-    // --- CHANGED: Cleaned up footer hashtags since the URL is now in the title ---
     reportText += `#MLB #FantasyBaseball #SpringTraining`;
 
     const textArea = document.getElementById('tweet-text');
@@ -931,8 +958,18 @@ function generateDailyReport() {
         textArea.value = reportText;
 
         if (twitterLink) {
-            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(reportText)}`;
-            twitterLink.href = twitterUrl;
+            twitterLink.innerHTML = "📋 Copy Full Report & Open X";
+            twitterLink.href = "javascript:void(0);"; 
+            
+            twitterLink.onclick = function() {
+                navigator.clipboard.writeText(reportText).then(() => {
+                    window.open('https://twitter.com/compose/tweet', '_blank');
+                }).catch(err => {
+                    textArea.select();
+                    document.execCommand('copy');
+                    window.open('https://twitter.com/compose/tweet', '_blank');
+                });
+            };
         }
         
         const modalElement = document.getElementById('tweetModal');

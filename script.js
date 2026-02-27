@@ -585,6 +585,17 @@ function createGameCard(data) {
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    const lineupsToggle = document.getElementById('show-lineups');
+    
+    // --- 1. READ PREFERENCE ON LOAD ---
+    // Check if the user previously turned lineups on
+    if (lineupsToggle) {
+        const savedState = localStorage.getItem('weatherMlb_showLineups');
+        if (savedState === 'true') {
+            lineupsToggle.checked = true;
+        }
+    }
+    
     init(DEFAULT_DATE);
 
     const searchInput = document.getElementById('team-search');
@@ -595,7 +606,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if(searchInput) searchInput.addEventListener('input', renderGames);
     if(sortSelect) sortSelect.addEventListener('change', renderGames);
     if(riskToggle) riskToggle.addEventListener('change', renderGames);
-    if(lineupsToggle) lineupsToggle.addEventListener('change', renderGames);
+    // --- 2. SAVE PREFERENCE ON CLICK ---
+    if(lineupsToggle) {
+        lineupsToggle.addEventListener('change', (e) => {
+            // Save their choice to the browser memory
+            localStorage.setItem('weatherMlb_showLineups', e.target.checked);
+            // Re-render the cards to show/hide the lineups
+            renderGames();
+        });
+    }
 
     const datePicker = document.getElementById('date-picker');
     

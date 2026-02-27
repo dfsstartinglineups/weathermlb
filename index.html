@@ -263,14 +263,43 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            document.title = `MLB Weather Report - ${today} | WeatherMLB`;
+            const todayDate = new Date();
+            const todayFormatted = todayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            // Set your exact Opening Day cutoff here (Year-Month-Day)
+            const openingDay = new Date('2026-03-25T00:00:00'); 
+            
+            const isSpringTraining = todayDate < openingDay;
+            
+            if (isSpringTraining) {
+                // We are in Spring Training: Inject the keywords!
+                document.title = `MLB Spring Training Weather Report - ${todayFormatted} | WeatherMLB`;
+                
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) {
+                    metaDesc.content = "Daily MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for Cactus and Grapefruit league games.";
+                }
+                
+                const metaKeywords = document.querySelector('meta[name="keywords"]');
+                if (metaKeywords) {
+                    metaKeywords.content = "MLB Spring Training weather, Cactus League weather, Grapefruit League weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
+                }
+                
+                const h1 = document.getElementById('seo-h1');
+                if (h1) {
+                    h1.innerText = "Daily MLB Spring Training Weather Forecasts, Starting Lineups, and Betting Odds";
+                }
+            } else {
+                // Regular Season / Playoffs: Use standard evergreen keywords with dynamic date
+                document.title = `MLB Weather Report - ${todayFormatted} | WeatherMLB`;
+                // The H1 and Meta tags will naturally fall back to the raw HTML we wrote above!
+            }
         });
     </script>
 </head>
 <body>
 
-<h1 class="visually-hidden-seo">Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds</h1>
+<h1 id="seo-h1" class="visually-hidden-seo">Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds</h1>
 
 <div class="container-fluid pt-3 pb-0 mb-0 text-center" style="background-color: #0f172a;">
     <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather Dashboard" class="header-hero-img shadow-sm">

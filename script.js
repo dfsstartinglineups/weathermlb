@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('team-search');
     const sortSelect = document.getElementById('sort-filter');
     const riskToggle = document.getElementById('risk-only');
-    const lineupsToggle = document.getElementById('show-lineups');
+    //const lineupsToggle = document.getElementById('show-lineups');
     
     if(searchInput) searchInput.addEventListener('input', renderGames);
     if(sortSelect) sortSelect.addEventListener('change', renderGames);

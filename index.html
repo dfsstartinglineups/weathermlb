@@ -199,10 +199,19 @@
 
         /* --- HEADER ROLLING CLOUDS ANIMATION --- */
         .bg-header-clouds {
-            /* Pure whites, silvers, and mid-tone greys for a misty fog effect */
-            background: linear-gradient(-45deg, #ffffff, #e6e6e6, #cccccc, #f2f2f2, #d9d9d9, #ffffff);
-            background-size: 300% 300%; 
-            animation: rollingFog 18s ease-in-out infinite; 
+            /* Dark navy base to blend with the image, pierced by light grey/white moonlit clouds */
+            background: linear-gradient(
+                -45deg, 
+                #0f172a, /* Dark sky base */
+                #1e293b, /* Slight transition */
+                #94a3b8, /* Grey cloud entering */
+                #e2e8f0, /* Whitish cloud peak */
+                #475569, /* Grey cloud fading */
+                #0f172a, /* Back to dark sky */
+                #0f172a  /* Hold the dark sky */
+            );
+            background-size: 400% 400%; 
+            animation: rollingFog 22s ease-in-out infinite; 
         }
 
         @keyframes rollingFog {

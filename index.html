@@ -298,7 +298,7 @@
             
             if (isSpringTraining) {
                 // We are in Spring Training: Inject the keywords!
-                document.title = `MLB Spring Training Weather Report - ${todayFormatted} | WeatherMLB`;
+                document.title = `Today's MLB Spring Training Weather Report - ${todayFormatted} | WeatherMLB`;
                 
                 const metaDesc = document.querySelector('meta[name="description"]');
                 if (metaDesc) {
@@ -316,7 +316,7 @@
                 }
             } else {
                 // Regular Season / Playoffs: Use standard evergreen keywords with dynamic date
-                document.title = `MLB Weather Report - ${todayFormatted} | WeatherMLB`;
+                document.title = `Today's MLB Weather Report - ${todayFormatted} | WeatherMLB`;
                 // The H1 and Meta tags will naturally fall back to the raw HTML we wrote above!
             }
         });

@@ -197,6 +197,20 @@
             line-height: 1; 
         }
 
+        /* --- HEADER ROLLING CLOUDS ANIMATION --- */
+        .bg-header-clouds {
+            /* Deep slate, navy, and twilight blue to match the stadium image */
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #111827, #212c40, #0f172a);
+            background-size: 400% 400%;
+            animation: rollingFog 25s ease infinite;
+        }
+
+        @keyframes rollingFog {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         /* --- ANIMATED WEATHER BACKGROUNDS --- */
         @keyframes weather-flow {
             0% { background-position: 0% 50%; }
@@ -301,7 +315,7 @@
 
 <h1 id="seo-h1" class="visually-hidden-seo">Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds</h1>
 
-<div class="container-fluid pt-3 pb-0 mb-0 text-center" style="background-color: #0f172a;">
+<div class="container-fluid pt-3 pb-0 mb-0 text-center bg-header-clouds border-bottom border-dark">
     <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather Dashboard" class="header-hero-img shadow-sm">
 </div>
 

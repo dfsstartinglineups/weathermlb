@@ -199,25 +199,27 @@
 
         /* --- HEADER ROLLING CLOUDS ANIMATION --- */
         .bg-header-clouds {
-            /* Dark navy base to blend with the image, pierced by light grey/white moonlit clouds */
-            background: linear-gradient(
-                -45deg, 
-                #0f172a, /* Dark sky base */
-                #1e293b, /* Slight transition */
-                #94a3b8, /* Grey cloud entering */
-                #e2e8f0, /* Whitish cloud peak */
-                #475569, /* Grey cloud fading */
-                #0f172a, /* Back to dark sky */
-                #0f172a  /* Hold the dark sky */
-            );
-            background-size: 400% 400%; 
-            animation: rollingFog 22s ease-in-out infinite; 
+            background-color: #0f172a; /* Solid navy base */
+            
+            /* Two overlapping cloud layers to create a morphing parallax effect */
+            background-image: 
+                /* Layer 1: Slower, wider, brighter clouds */
+                linear-gradient(115deg, rgba(15,23,42,1) 15%, rgba(148,163,184,0.4) 35%, rgba(226,232,240,0.6) 50%, rgba(148,163,184,0.4) 65%, rgba(15,23,42,1) 85%),
+                /* Layer 2: Faster, thinner, darker grey clouds */
+                linear-gradient(65deg, rgba(15,23,42,1) 5%, rgba(100,116,139,0.3) 30%, rgba(203,213,225,0.4) 45%, rgba(100,116,139,0.3) 60%, rgba(15,23,42,1) 95%);
+            
+            background-size: 200% 200%, 300% 300%; 
+            animation: rollingFog 35s linear infinite; /* 'linear' stops the rewind effect */
         }
 
         @keyframes rollingFog {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% { 
+                background-position: 0% 50%, 0% 50%; 
+            }
+            100% { 
+                /* Both layers move steadily left, but Layer 2 moves faster */
+                background-position: -200% 50%, -300% 50%; 
+            }
         }
 
         /* --- ANIMATED WEATHER BACKGROUNDS --- */

@@ -34,20 +34,18 @@ async function init(dateToFetch) {
     
     const container = document.getElementById('games-container');
     const datePicker = document.getElementById('date-picker');
+    const loader = document.getElementById('global-loader');
+    const loadingText = document.getElementById('loading-text');
     
-    // Reset State
+    // Reset State & Show Loader
     ALL_GAMES_DATA = [];
     if (datePicker) datePicker.value = dateToFetch;
-
-    if (container) {
-        container.innerHTML = `
-            <div class="col-12 text-center mt-5 pt-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-3 text-muted" id="loading-text">Loading Schedule...</p>
-            </div>`;
-    }
+    if (container) container.innerHTML = ''; 
     
-   const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
+    if (loader) loader.style.display = 'block';
+    if (loadingText) loadingText.innerText = 'Loading Schedule...';
+
+    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
     
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
@@ -58,6 +56,7 @@ async function init(dateToFetch) {
         const scheduleData = await scheduleResponse.json();
 
         if (scheduleData.totalGames === 0) {
+            if (loader) loader.style.display = 'none'; // Hide loader
             container.innerHTML = `
                 <div class="col-12 text-center mt-5">
                     <div class="alert alert-light shadow-sm py-4">
@@ -75,7 +74,9 @@ async function init(dateToFetch) {
         
         for (let i = 0; i < totalGames; i++) {
             const game = rawGames[i];
-            document.getElementById('loading-text').innerText = `Analyzing game ${i+1} of ${totalGames}...`;
+            
+            // Update the text in the navbar loader
+            if (loadingText) loadingText.innerText = `Analyzing game ${i+1} of ${totalGames}...`;
 
             const venueId = game.venue.id;
             const stadium = stadiums.find(s => s.id === venueId);
@@ -130,7 +131,7 @@ async function init(dateToFetch) {
                 } catch (e) { console.log("Failed to fetch lineup details"); }
             }
 
-            ALL_GAMES_DATA.push({
+           ALL_GAMES_DATA.push({
                 gameRaw: game,
                 stadium: stadium,
                 weather: weatherData,
@@ -138,14 +139,19 @@ async function init(dateToFetch) {
                 roof: isRoofClosed,
                 odds: gameOdds,
                 lineupHandedness: lineupHandedness,
-                lineupPositions: lineupPositions // Passed to our card generator
+                lineupPositions: lineupPositions 
             });
         }
 
         renderGames();
+        
+        // Hide loader when completely finished
+        if (loader) loader.style.display = 'none';
 
     } catch (error) {
         console.error("❌ ERROR:", error);
+        // Hide loader on error
+        if (loader) loader.style.display = 'none';
         container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">${error.message}</div></div>`;
     }
 }

@@ -198,6 +198,21 @@ function renderGames() {
     filteredGames.forEach(item => {
         container.appendChild(createGameCard(item));
     });
+
+    // --- NEW: SCROLL TO LINKED GAME ---
+    setTimeout(() => {
+        if (window.location.hash) {
+            const targetCard = document.querySelector(window.location.hash);
+            if (targetCard) {
+                // Scroll to the card
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Briefly flash a blue border so they know which game they jumped to
+                const innerCard = targetCard.querySelector('.game-card');
+                innerCard.classList.add('border-primary', 'border-3');
+                setTimeout(() => { innerCard.classList.remove('border-primary', 'border-3'); }, 2000);
+            }
+        }
+    }, 300);
 }
 
 function createGameCard(data) {
@@ -238,6 +253,7 @@ function createGameCard(data) {
 
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2';
+    gameCard.id = `game-${game.gamePk}`;
 
     // Teams
     const awayAbbr = getTeamAbbr(game.teams.away.team.name);
@@ -400,7 +416,7 @@ function createGameCard(data) {
     if (lineupAway.length > 0 || lineupHome.length > 0) {
         crossPromoHtml = `
             <div class="px-2 pt-2 pb-1 w-100">
-                <a href="https://mlbstartingnine.com" target="_blank" class="btn btn-sm w-100 text-decoration-none shadow-sm" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #0d6efd; font-weight: 700; font-size: 0.75rem;">
+                <a href="https://mlbstartingnine.com/#game-${game.gamePk}" target="_blank" class="btn btn-sm w-100 text-decoration-none shadow-sm" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #0d6efd; font-weight: 700; font-size: 0.75rem;">
                     ⚾ View BvP Matchups & Splits
                 </a>
             </div>

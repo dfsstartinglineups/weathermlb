@@ -395,6 +395,18 @@ function createGameCard(data) {
             </div>`;
     }
 
+    // --- NEW: MLB STARTING NINE CROSS PROMO BUTTON ---
+    let crossPromoHtml = '';
+    if (lineupAway.length > 0 || lineupHome.length > 0) {
+        crossPromoHtml = `
+            <div class="px-2 pt-2 pb-1 w-100">
+                <a href="https://mlbstartingnine.com" target="_blank" class="btn btn-sm w-100 text-decoration-none shadow-sm" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #0d6efd; font-weight: 700; font-size: 0.75rem;">
+                    ⚾ View BvP Matchups & Splits
+                </a>
+            </div>
+        `;
+    }
+
     // --- 4. BETTING ODDS UI (IN HEADER) ---
     const oddsData = data.odds; 
     
@@ -572,6 +584,8 @@ function createGameCard(data) {
                         ${homeLineupHtml}
                     </div>
                 </div>
+                
+                ${crossPromoHtml}
                 
                 ${weatherHtml}
             </div>

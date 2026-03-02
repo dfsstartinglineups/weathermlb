@@ -429,9 +429,8 @@ function createGameCard(data) {
         `;
     }
 
-    // --- 4. BETTING ODDS UI (IN HEADER) ---
+    // --- 4. BETTING ODDS UI (FAILOVER LOGIC) ---
     const oddsData = data.odds; 
-    
     let mlAway = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`; 
     let mlHome = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`;
     let totalHtml = `
@@ -441,31 +440,49 @@ function createGameCard(data) {
         </div>`;
 
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
-        const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
+        // Find FanDuel first as your preferred book
+        let selectedBook = oddsData.bookmakers.find(b => b.key === 'fanduel');
         
-        const h2hMarket = bookie.markets.find(m => m.key === 'h2h');
-        if (h2hMarket) {
-            const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
-            const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
-            
-            if (awayOutcome) {
-                const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
-                mlAway = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
-            }
-            if (homeOutcome) {
-                const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
-                mlHome = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
-            }
+        // If FanDuel is missing or doesn't have markets, loop through the rest
+        if (!selectedBook || !selectedBook.markets || selectedBook.markets.length === 0) {
+            selectedBook = oddsData.bookmakers.find(b => b.markets && b.markets.length > 0);
         }
 
-        const totalsMarket = bookie.markets.find(m => m.key === 'totals');
-        if (totalsMarket && totalsMarket.outcomes.length > 0) {
-            const gameTotal = totalsMarket.outcomes[0].point; 
-            totalHtml = `
-                <div class="d-flex flex-column justify-content-center align-items-center pt-2">
-                    <div class="text-muted small fw-bold mb-1">@</div>
-                    <div class="fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
-                </div>`;
+        if (selectedBook) {
+            // Check Moneyline (h2h)
+            const h2hMarket = selectedBook.markets.find(m => m.key === 'h2h');
+            if (h2hMarket) {
+                const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
+                const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
+                if (awayOutcome) {
+                    const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
+                    mlAway = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+                }
+                if (homeOutcome) {
+                    const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
+                    mlHome = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+                }
+            }
+
+            // Check Totals (O/U)
+            // If the selectedBook doesn't have a total, search all other books specifically for a total
+            let totalsMarket = selectedBook.markets.find(m => m.key === 'totals');
+            
+            if (!totalsMarket) {
+                const bookWithTotal = oddsData.bookmakers.find(b => b.markets.some(m => m.key === 'totals'));
+                if (bookWithTotal) {
+                    totalsMarket = bookWithTotal.markets.find(m => m.key === 'totals');
+                }
+            }
+
+            if (totalsMarket && totalsMarket.outcomes.length > 0) {
+                const gameTotal = totalsMarket.outcomes[0].point; 
+                totalHtml = `
+                    <div class="d-flex flex-column justify-content-center align-items-center pt-2">
+                        <div class="text-muted small fw-bold mb-1">@</div>
+                        <div class="fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
+                    </div>`;
+            }
         }
     }
 

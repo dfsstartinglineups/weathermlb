@@ -45,7 +45,18 @@ async function init(dateToFetch) {
     if (loader) loader.style.display = 'block';
     if (loadingText) loadingText.innerText = 'Loading Schedule...';
 
-    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
+    // --- DYNAMIC WBC DATE CHECKER ---
+    // Ensure we parse the date correctly by appending the time
+    const fetchDateObj = new Date(dateToFetch + 'T00:00:00'); 
+    const wbcStart = new Date('2026-03-04T00:00:00');
+    const wbcEnd = new Date('2026-03-17T23:59:59'); // Ends after the 17th
+
+    let sportIds = "1"; // Default to MLB only
+    if (fetchDateObj >= wbcStart && fetchDateObj <= wbcEnd) {
+        sportIds = "1,51"; // 1 = MLB, 51 = World Baseball Classic
+    }
+
+    const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=${sportIds}&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
     
     try {
         let stadiumResponse = await fetch('data/stadiums.json');
@@ -718,16 +729,27 @@ function getWindArrowEmoji(direction) {
 
 function getTeamAbbr(teamName) {
     const map = {
-        "Yankees": "NYY", "Mets": "NYM",
-        "Cubs": "CHC", "White Sox": "CWS",
-        "Dodgers": "LAD", "Angels": "LAA",
-        "Diamondbacks": "ARI", "Braves": "ATL", "Orioles": "BAL", "Red Sox": "BOS",
-        "Reds": "CIN", "Guardians": "CLE", "Rockies": "COL", "Tigers": "DET",
-        "Astros": "HOU", "Royals": "KC",  "Marlins": "MIA", "Brewers": "MIL",
-        "Twins": "MIN", "Athletics": "OAK", "Phillies": "PHI", "Pirates": "PIT",
-        "Padres": "SD",  "Giants": "SF",  "Mariners": "SEA", "Cardinals": "STL",
-        "Rays": "TB",   "Rangers": "TEX", "Blue Jays": "TOR", "Nationals": "WSH"
+        // MLB Teams
+        "Yankees": "NYY", "Mets": "NYM", "Cubs": "CHC", "White Sox": "CWS",
+        "Dodgers": "LAD", "Angels": "LAA", "Diamondbacks": "ARI", "Braves": "ATL", 
+        "Orioles": "BAL", "Red Sox": "BOS", "Reds": "CIN", "Guardians": "CLE", 
+        "Rockies": "COL", "Tigers": "DET", "Astros": "HOU", "Royals": "KC",  
+        "Marlins": "MIA", "Brewers": "MIL", "Twins": "MIN", "Athletics": "OAK", 
+        "Phillies": "PHI", "Pirates": "PIT", "Padres": "SD",  "Giants": "SF",  
+        "Mariners": "SEA", "Cardinals": "STL", "Rays": "TB",   "Rangers": "TEX", 
+        "Blue Jays": "TOR", "Nationals": "WSH",
+        // WBC Teams
+        "United States": "USA", "Japan": "JPN", "Dominican Republic": "DOM",
+        "Venezuela": "VEN", "Puerto Rico": "PUR", "Mexico": "MEX",
+        "South Korea": "KOR", "Cuba": "CUB", "Canada": "CAN",
+        "Netherlands": "NED", "Italy": "ITA", "Israel": "ISR",
+        "Great Britain": "GBR", "Australia": "AUS", "Colombia": "COL",
+        "Panama": "PAN", "Nicaragua": "NIC", "Chinese Taipei": "TPE", "Czech Republic": "CZE"
     };
+
+    const key = Object.keys(map).find(k => teamName.includes(k));
+    return key ? map[key] : "TBD"; 
+}
 
     const key = Object.keys(map).find(k => teamName.includes(k));
     return key ? map[key] : "MLB"; 

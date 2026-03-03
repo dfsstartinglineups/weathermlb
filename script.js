@@ -751,9 +751,7 @@ function getTeamAbbr(teamName) {
     return key ? map[key] : "TBD"; 
 }
 
-    const key = Object.keys(map).find(k => teamName.includes(k));
-    return key ? map[key] : "MLB"; 
-}
+    
 
 function formatPlayerName(fullName) {
     if (!fullName) return "";

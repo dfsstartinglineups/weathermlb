@@ -746,9 +746,19 @@ function formatPlayerName(fullName) {
 function getShortTeamName(fullName) {
     if (!fullName) return "";
     
+    // MLB Exceptions
     if (fullName.includes("Red Sox")) return "Red Sox";
     if (fullName.includes("White Sox")) return "White Sox";
     if (fullName.includes("Blue Jays")) return "Blue Jays";
+    
+    // WBC Exceptions
+    if (fullName.includes("Dominican Republic")) return "Dom Rep";
+    if (fullName.includes("United States")) return "USA";
+    if (fullName.includes("Puerto Rico")) return "Puerto Rico";
+    if (fullName.includes("South Korea")) return "S. Korea";
+    if (fullName.includes("Great Britain")) return "Britain";
+    if (fullName.includes("Chinese Taipei")) return "Chinese Taipei";
+    if (fullName.includes("Czech Republic")) return "Czechia";
     
     const parts = fullName.split(" ");
     return parts[parts.length - 1];

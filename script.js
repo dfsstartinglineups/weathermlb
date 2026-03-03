@@ -775,7 +775,7 @@ function getShortTeamName(fullName) {
     if (fullName.includes("Dominican Republic")) return "Dom Rep";
     if (fullName.includes("United States")) return "USA";
     if (fullName.includes("Puerto Rico")) return "Puerto Rico";
-    if (fullName.includes("South Korea")) return "S. Korea";
+    if (fullName.includes("South Korea")) return "South Korea";
     if (fullName.includes("Great Britain")) return "Britain";
     if (fullName.includes("Chinese Taipei")) return "Chinese Taipei";
     if (fullName.includes("Czech Republic")) return "Czechia";

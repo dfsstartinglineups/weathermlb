@@ -295,33 +295,71 @@
             const todayDate = new Date();
             const todayFormatted = todayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             
-            // Set your exact Opening Day cutoff here (Year-Month-Day)
+            // Set Date Boundaries
+            const wbcStart = new Date('2026-03-04T00:00:00');
+            const wbcEnd = new Date('2026-03-17T23:59:59');
             const openingDay = new Date('2026-03-25T00:00:00'); 
             
+            const isWBC = todayDate >= wbcStart && todayDate <= wbcEnd;
             const isSpringTraining = todayDate < openingDay;
             
-            if (isSpringTraining) {
-                // We are in Spring Training: Inject the keywords!
-                document.title = `Today's MLB Spring Training Weather Report - ${todayFormatted} | WeatherMLB`;
+            if (isWBC) {
+                // WBC + Spring Training Override
+                const titleText = `Today's WBC & MLB Spring Training Weather Report - ${todayFormatted}`;
+                const descText = "Daily World Baseball Classic and MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds.";
+                const keywordsText = "WBC weather, World Baseball Classic weather, World Baseball Classic odds, MLB Spring Training weather, baseball weather, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
+                
+                document.title = titleText;
                 
                 const metaDesc = document.querySelector('meta[name="description"]');
-                if (metaDesc) {
-                    metaDesc.content = "Daily MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for Cactus and Grapefruit league games.";
-                }
-                
+                if (metaDesc) metaDesc.content = descText;
                 const metaKeywords = document.querySelector('meta[name="keywords"]');
-                if (metaKeywords) {
-                    metaKeywords.content = "MLB Spring Training weather, Cactus League weather, Grapefruit League weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
-                }
-                
+                if (metaKeywords) metaKeywords.content = keywordsText;
                 const h1 = document.getElementById('seo-h1');
-                if (h1) {
-                    h1.innerText = "Daily MLB Spring Training Weather Forecasts, Starting Lineups, and Betting Odds";
-                }
+                if (h1) h1.innerText = "Daily World Baseball Classic & MLB Spring Training Weather Forecasts, Starting Lineups, and Betting Odds";
+
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.content = titleText;
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) ogDesc.content = descText;
+                const twTitle = document.querySelector('meta[name="twitter:title"]');
+                if (twTitle) twTitle.content = titleText;
+                const twDesc = document.querySelector('meta[name="twitter:description"]');
+                if (twDesc) twDesc.content = descText;
+
+            } else if (isSpringTraining) {
+                // Spring Training Only Override
+                const titleText = `Today's MLB Spring Training Weather Report - ${todayFormatted} | WeatherMLB`;
+                const descText = "Daily MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for Cactus and Grapefruit league games.";
+                const keywordsText = "MLB Spring Training weather, Cactus League weather, Grapefruit League weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
+                
+                document.title = titleText;
+                
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.content = descText;
+                const metaKeywords = document.querySelector('meta[name="keywords"]');
+                if (metaKeywords) metaKeywords.content = keywordsText;
+                const h1 = document.getElementById('seo-h1');
+                if (h1) h1.innerText = "Daily MLB Spring Training Weather Forecasts, Starting Lineups, and Betting Odds";
+
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.content = titleText;
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) ogDesc.content = descText;
+                const twTitle = document.querySelector('meta[name="twitter:title"]');
+                if (twTitle) twTitle.content = titleText;
+                const twDesc = document.querySelector('meta[name="twitter:description"]');
+                if (twDesc) twDesc.content = descText;
+                
             } else {
-                // Regular Season / Playoffs: Use standard evergreen keywords with dynamic date
-                document.title = `Today's MLB Weather Report - ${todayFormatted} | WeatherMLB`;
-                // The H1 and Meta tags will naturally fall back to the raw HTML we wrote above!
+                // Regular Season (Defaults back to raw HTML tags)
+                const titleText = `Today's MLB Weather Report - ${todayFormatted} | WeatherMLB`;
+                document.title = titleText;
+                
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.content = titleText;
+                const twTitle = document.querySelector('meta[name="twitter:title"]');
+                if (twTitle) twTitle.content = titleText;
             }
         });
     </script>

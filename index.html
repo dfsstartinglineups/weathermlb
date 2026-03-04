@@ -293,7 +293,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const todayDate = new Date();
-            const todayFormatted = todayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             
             // Set Date Boundaries
             const wbcStart = new Date('2026-03-04T00:00:00');
@@ -305,7 +304,7 @@
             
             if (isWBC) {
                 // WBC + Spring Training Override
-                const titleText = `Today's WBC & MLB Spring Training Weather Report - ${todayFormatted}`;
+                const titleText = "Today's WBC & MLB Spring Training Weather Report & DFS Lineups";
                 const descText = "Daily World Baseball Classic and MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds.";
                 const keywordsText = "WBC weather, World Baseball Classic weather, World Baseball Classic odds, MLB Spring Training weather, baseball weather, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
                 
@@ -329,7 +328,7 @@
 
             } else if (isSpringTraining) {
                 // Spring Training Only Override
-                const titleText = `Today's MLB Spring Training Weather Report - ${todayFormatted} | WeatherMLB`;
+                const titleText = "Today's MLB Spring Training Weather Report | DFS Lineups & Odds";
                 const descText = "Daily MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for Cactus and Grapefruit league games.";
                 const keywordsText = "MLB Spring Training weather, Cactus League weather, Grapefruit League weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
                 
@@ -353,7 +352,7 @@
                 
             } else {
                 // Regular Season (Defaults back to raw HTML tags)
-                const titleText = `Today's MLB Weather Report - ${todayFormatted} | WeatherMLB`;
+                const titleText = "Today's MLB Weather Report | DFS Lineups & Live Odds";
                 document.title = titleText;
                 
                 const ogTitle = document.querySelector('meta[property="og:title"]');

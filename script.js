@@ -46,14 +46,13 @@ async function init(dateToFetch) {
     if (loadingText) loadingText.innerText = 'Loading Schedule...';
 
     // --- DYNAMIC WBC DATE CHECKER ---
-    // Ensure we parse the date correctly by appending the time
     const fetchDateObj = new Date(dateToFetch + 'T00:00:00'); 
     const wbcStart = new Date('2026-03-04T00:00:00');
-    const wbcEnd = new Date('2026-03-17T23:59:59'); // Ends after the 17th
+    const wbcEnd = new Date('2026-03-17T23:59:59'); 
 
-    let sportIds = "1"; // Default to MLB only
+    let sportIds = "1"; 
     if (fetchDateObj >= wbcStart && fetchDateObj <= wbcEnd) {
-        sportIds = "1,51"; // 1 = MLB, 51 = World Baseball Classic
+        sportIds = "1,51"; 
     }
 
     const MLB_API_URL = `https://statsapi.mlb.com/api/v1/schedule?sportId=${sportIds}&date=${dateToFetch}&hydrate=linescore,venue,probablePitcher,lineups,person`;
@@ -67,7 +66,7 @@ async function init(dateToFetch) {
         const scheduleData = await scheduleResponse.json();
 
         if (scheduleData.totalGames === 0) {
-            if (loader) loader.style.display = 'none'; // Hide loader
+            if (loader) loader.style.display = 'none'; 
             container.innerHTML = `
                 <div class="col-12 text-center mt-5">
                     <div class="alert alert-light shadow-sm py-4">
@@ -86,7 +85,6 @@ async function init(dateToFetch) {
         for (let i = 0; i < totalGames; i++) {
             const game = rawGames[i];
             
-            // Update the text in the navbar loader
             if (loadingText) loadingText.innerText = `Analyzing game ${i+1} of ${totalGames}...`;
 
             const venueId = game.venue.id;
@@ -113,15 +111,31 @@ async function init(dateToFetch) {
                 }
             }
 
+            // --- DOUBLEHEADER ODDS FIX ---
             let gameOdds = null;
             if (dailyOddsData) {
-                gameOdds = dailyOddsData.find(o => 
-                    o.home_team === game.teams.home.team.name && 
-                    o.away_team === game.teams.away.team.name
-                );
+                const gameDateString = new Date(game.gameDate).toDateString();
+                const gameTimeMs = new Date(game.gameDate).getTime();
+                
+                const potentialOdds = dailyOddsData.filter(o => {
+                    const oddsDateString = new Date(o.commence_time).toDateString();
+                    return o.home_team === game.teams.home.team.name && 
+                           o.away_team === game.teams.away.team.name &&
+                           gameDateString === oddsDateString;
+                });
+
+                if (potentialOdds.length === 1) {
+                    gameOdds = potentialOdds[0];
+                } else if (potentialOdds.length > 1) {
+                    gameOdds = potentialOdds.reduce((closest, current) => {
+                        const closestDiff = Math.abs(new Date(closest.commence_time).getTime() - gameTimeMs);
+                        const currentDiff = Math.abs(new Date(current.commence_time).getTime() - gameTimeMs);
+                        return currentDiff < closestDiff ? current : closest;
+                    });
+                }
             }
             
-            // --- UPDATED: Fetching Position alongside Handedness ---
+            // --- FETCHING HANDEDNESS & TRUE POSITIONS ---
             let lineupHandedness = {};
             let lineupPositions = {}; 
             const awayLineup = game.lineups?.awayPlayers || [];
@@ -135,11 +149,33 @@ async function init(dateToFetch) {
                     if (peopleData.people) {
                         peopleData.people.forEach(person => {
                             lineupHandedness[person.id] = person.batSide?.code || "";
-                            // Saving the defensive position code
+                            // Fallback to primary position
                             lineupPositions[person.id] = person.primaryPosition?.abbreviation || ""; 
                         });
                     }
                 } catch (e) { console.log("Failed to fetch lineup details"); }
+                
+                // Fetch the Live Boxscore to lock in true game positions
+                try {
+                    const liveFeedRes = await fetch(`https://statsapi.mlb.com/api/v1.1/game/${game.gamePk}/feed/live`);
+                    const liveFeedData = await liveFeedRes.json();
+                    const boxscore = liveFeedData.liveData?.boxscore;
+                    if (boxscore) {
+                        const awayPlayers = boxscore.teams?.away?.players || {};
+                        const homePlayers = boxscore.teams?.home?.players || {};
+
+                        const extractStartingPosition = (p) => {
+                            if (p.allPositions && p.allPositions.length > 0) {
+                                lineupPositions[p.person.id] = p.allPositions[0].abbreviation;
+                            } else if (p.position && p.position.abbreviation) {
+                                lineupPositions[p.person.id] = p.position.abbreviation;
+                            }
+                        };
+
+                        Object.values(awayPlayers).forEach(extractStartingPosition);
+                        Object.values(homePlayers).forEach(extractStartingPosition);
+                    }
+                } catch (e) { console.log("Failed to fetch true boxscore positions"); }
             }
 
            ALL_GAMES_DATA.push({
@@ -155,13 +191,10 @@ async function init(dateToFetch) {
         }
 
         renderGames();
-        
-        // Hide loader when completely finished
         if (loader) loader.style.display = 'none';
 
     } catch (error) {
         console.error("❌ ERROR:", error);
-        // Hide loader on error
         if (loader) loader.style.display = 'none';
         container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">${error.message}</div></div>`;
     }
@@ -216,14 +249,11 @@ function renderGames() {
         container.appendChild(createGameCard(item));
     });
 
-    // --- NEW: SCROLL TO LINKED GAME ---
     setTimeout(() => {
         if (window.location.hash) {
             const targetCard = document.querySelector(window.location.hash);
             if (targetCard) {
-                // Scroll to the card
                 targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // Briefly flash a blue border so they know which game they jumped to
                 const innerCard = targetCard.querySelector('.game-card');
                 innerCard.classList.add('border-primary', 'border-3');
                 setTimeout(() => { innerCard.classList.remove('border-primary', 'border-3'); }, 2000);
@@ -239,7 +269,6 @@ function createGameCard(data) {
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
 
-    // --- 1. Risk Border Logic ---
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
         let sustainedRainHours = 0;
@@ -256,7 +285,6 @@ function createGameCard(data) {
         } 
     }
 
-    // --- 2. Animated Background Logic ---
     let bgClass = "bg-weather-sunny"; 
     if (isRoofClosed) {
         bgClass = "bg-weather-roof";
@@ -272,15 +300,10 @@ function createGameCard(data) {
     gameCard.className = 'col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2';
     gameCard.id = `game-${game.gamePk}`;
 
-    // Teams
-    const awayAbbr = getTeamAbbr(game.teams.away.team.name);
-    const homeAbbr = getTeamAbbr(game.teams.home.team.name);
     const awayId = game.teams.away.team.id;
     const homeId = game.teams.home.team.id;
-    
     const awayName = game.teams.away.team.name; 
     const homeName = game.teams.home.team.name; 
-    
     const awayShortName = getShortTeamName(awayName); 
     const homeShortName = getShortTeamName(homeName);
 
@@ -288,7 +311,6 @@ function createGameCard(data) {
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
     const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    // --- PITCHER LOGIC ---
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
         const pInfo = game.teams.away.probablePitcher;
@@ -303,7 +325,6 @@ function createGameCard(data) {
         homePitcher = formatPlayerName(pInfo.fullName) + hand;
     }
 
-    // --- 3. LINEUPS LOGIC ---
     const lineupAway = game.lineups?.awayPlayers || [];
     const lineupHome = game.lineups?.homePlayers || [];
     const handDict = data.lineupHandedness || {}; 
@@ -324,17 +345,19 @@ function createGameCard(data) {
     const homePitcherHand = game.teams.home.probablePitcher?.pitchHand?.code || "";
     const awayPitcherHand = game.teams.away.probablePitcher?.pitchHand?.code || "";
 
+    // --- AWAY LINEUP RENDERING ---
     let awayLineupHtml = '';
     if (lineupAway.length > 0) {
-        // Adding 'index' to the map function so we can generate the 1-9 order
         const list = lineupAway.map((p, index) => {
             const batCode = handDict[p.id]; 
+            const gamePos = data.lineupPositions[p.id] || "";
+            const prefixText = gamePos ? gamePos : `${index + 1}.`;
             
             let itemStyle = "";
             let tooltip = "";
             
-            // Replaced the position with a fixed-width batting order number to guarantee perfect column alignment
-            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.6rem; width: 0.8rem; margin-right: 3px;">${index + 1}.</span>`;
+            // Tight 20px spacing with position text
+            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.65rem; width: 20px;">${prefixText}</span>`;
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -360,7 +383,6 @@ function createGameCard(data) {
                 }
             }
 
-            // Removed the blank space right before the ( so it sits flush against the name
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;">(${batCode})</span>` : "";
             
             return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${orderHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
@@ -376,17 +398,18 @@ function createGameCard(data) {
             </div>`;
     }
 
+    // --- HOME LINEUP RENDERING ---
     let homeLineupHtml = '';
     if (lineupHome.length > 0) {
-        // Adding 'index' to the map function
         const list = lineupHome.map((p, index) => {
             const batCode = handDict[p.id]; 
+            const gamePos = data.lineupPositions[p.id] || "";
+            const prefixText = gamePos ? gamePos : `${index + 1}.`;
             
             let itemStyle = "";
             let tooltip = "";
             
-            // Replaced the position with a fixed-width batting order number
-            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.6rem; width: 0.8rem; margin-right: 3px;">${index + 1}.</span>`;
+            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.65rem; width: 20px;">${prefixText}</span>`;
             const shortName = formatPlayerName(p.fullName);
             
             if (batCode) {
@@ -412,7 +435,6 @@ function createGameCard(data) {
                 }
             }
 
-            // Removed the blank space
             const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;">(${batCode})</span>` : "";
             
             return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${orderHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
@@ -428,7 +450,6 @@ function createGameCard(data) {
             </div>`;
     }
 
-    // --- NEW: MLB STARTING NINE CROSS PROMO BUTTON ---
     let crossPromoHtml = '';
     if (lineupAway.length > 0 || lineupHome.length > 0) {
         crossPromoHtml = `
@@ -440,7 +461,6 @@ function createGameCard(data) {
         `;
     }
 
-    // --- 4. BETTING ODDS UI (FAILOVER LOGIC) ---
     const oddsData = data.odds; 
     let mlAway = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`; 
     let mlHome = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`;
@@ -451,16 +471,13 @@ function createGameCard(data) {
         </div>`;
 
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
-        // Find FanDuel first as your preferred book
         let selectedBook = oddsData.bookmakers.find(b => b.key === 'fanduel');
         
-        // If FanDuel is missing or doesn't have markets, loop through the rest
         if (!selectedBook || !selectedBook.markets || selectedBook.markets.length === 0) {
             selectedBook = oddsData.bookmakers.find(b => b.markets && b.markets.length > 0);
         }
 
         if (selectedBook) {
-            // Check Moneyline (h2h)
             const h2hMarket = selectedBook.markets.find(m => m.key === 'h2h');
             if (h2hMarket) {
                 const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
@@ -475,8 +492,6 @@ function createGameCard(data) {
                 }
             }
 
-            // Check Totals (O/U)
-            // If the selectedBook doesn't have a total, search all other books specifically for a total
             let totalsMarket = selectedBook.markets.find(m => m.key === 'totals');
             
             if (!totalsMarket) {
@@ -497,7 +512,6 @@ function createGameCard(data) {
         }
     }
 
-    // --- 5. WEATHER & HOURLY DISPLAY ---
     let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark">Venue ID: ${game.venue.id}</span></div>`;
 
     if (stadium && weather) {
@@ -593,7 +607,6 @@ function createGameCard(data) {
         }
     }
 
-   // --- MAIN CARD HTML GENERATION ---
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body px-2 pt-2 pb-2"> 
@@ -651,8 +664,6 @@ function createGameCard(data) {
 document.addEventListener('DOMContentLoaded', () => {
     const lineupsToggle = document.getElementById('show-lineups');
     
-    // --- 1. READ PREFERENCE ON LOAD ---
-    // Check if the user previously turned lineups on
     if (lineupsToggle) {
         const savedState = localStorage.getItem('weatherMlb_showLineups');
         if (savedState === 'true') {
@@ -665,17 +676,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('team-search');
     const sortSelect = document.getElementById('sort-filter');
     const riskToggle = document.getElementById('risk-only');
-    //const lineupsToggle = document.getElementById('show-lineups');
     
     if(searchInput) searchInput.addEventListener('input', renderGames);
     if(sortSelect) sortSelect.addEventListener('change', renderGames);
     if(riskToggle) riskToggle.addEventListener('change', renderGames);
-    // --- 2. SAVE PREFERENCE ON CLICK ---
+
     if(lineupsToggle) {
         lineupsToggle.addEventListener('change', (e) => {
-            // Save their choice to the browser memory
             localStorage.setItem('weatherMlb_showLineups', e.target.checked);
-            // Re-render the cards to show/hide the lineups
             renderGames();
         });
     }
@@ -750,8 +758,6 @@ function getTeamAbbr(teamName) {
     const key = Object.keys(map).find(k => teamName.includes(k));
     return key ? map[key] : "TBD"; 
 }
-
-    
 
 function formatPlayerName(fullName) {
     if (!fullName) return "";
@@ -997,7 +1003,6 @@ function generateDailyReport() {
         const awayP = teams.away.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
         const homeP = teams.home.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
         
-        // --- NEW: Extract Betting Odds ---
         const oddsData = game.odds;
         let awayOddsStr = "[TBD]";
         let homeOddsStr = "[TBD]";
@@ -1046,7 +1051,6 @@ function generateDailyReport() {
             weatherString = `Roof Closed 🌡️${temp}° 💧${hum}%`;
         }
 
-        // --- UPDATED: Injected Odds into the Matchup Line ---
         const line = `${awayAbbr} (${awayP}) ${awayOddsStr} @ ${homeAbbr} (${homeP}) ${homeOddsStr}${totalStr}:\n${weatherString}`;
         reportText += line + "\n\n";
     });

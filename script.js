@@ -32,6 +32,9 @@ async function fetchLocalOdds() {
 async function init(dateToFetch) {
     console.log(`🚀 Starting App. Fetching games for: ${dateToFetch}`);
     
+    // --- DYNAMIC SEO UPDATE ---
+    if (window.updateSEO) window.updateSEO(dateToFetch);
+    
     const container = document.getElementById('games-container');
     const datePicker = document.getElementById('date-picker');
     const loader = document.getElementById('global-loader');

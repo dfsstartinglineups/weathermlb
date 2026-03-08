@@ -29,6 +29,7 @@ async function fetchLocalOdds() {
         return null; 
     }
 }
+
 async function init(dateToFetch) {
     console.log(`🚀 Starting App. Fetching games for: ${dateToFetch}`);
     
@@ -96,6 +97,7 @@ async function init(dateToFetch) {
             let weatherData = null;
             let windData = null;
             let isRoofClosed = false;
+            let isRoofPending = false; // NEW PENDING STATE
 
             if (stadium) {
                 weatherData = await fetchGameWeather(stadium.lat, stadium.lon, game.gameDate);
@@ -103,10 +105,19 @@ async function init(dateToFetch) {
                 if (weatherData.status !== "too_early" && weatherData.temp !== '--') {
                     windData = calculateWind(weatherData.windDir, stadium.bearing);
                     
-                    if (stadium.dome) isRoofClosed = true;
-                    else if (stadium.roof) {
-                        if (weatherData.maxPrecipChance > 30 || weatherData.temp < 50 || weatherData.temp > 95) isRoofClosed = true;
+                    if (stadium.dome) {
+                        isRoofClosed = true;
+                    } else if (stadium.roof) {
+                        // Definitively Closed Thresholds
+                        if (weatherData.maxPrecipChance >= 30 || weatherData.temp <= 50 || weatherData.temp >= 95) {
+                            isRoofClosed = true;
+                        } 
+                        // Borderline/Pending Thresholds
+                        else if (weatherData.maxPrecipChance >= 15 || weatherData.temp <= 55 || weatherData.temp >= 90) {
+                            isRoofPending = true;
+                        }
                     }
+
                     if (isRoofClosed) {
                         windData = { text: "Roof Closed", cssClass: "bg-secondary text-white", arrow: "" };
                         weatherData.windSpeed = 0; 
@@ -187,6 +198,7 @@ async function init(dateToFetch) {
                 weather: weatherData,
                 wind: windData,
                 roof: isRoofClosed,
+                roofPending: isRoofPending, // PASSING NEW STATE TO RENDERER
                 odds: gameOdds,
                 lineupHandedness: lineupHandedness,
                 lineupPositions: lineupPositions 
@@ -271,6 +283,7 @@ function createGameCard(data) {
     const weather = data.weather;
     const windInfo = data.wind;
     const isRoofClosed = data.roof;
+    const isRoofPending = data.roofPending; // GRAB NEW STATE
 
     let borderClass = ""; 
     if (weather && !isRoofClosed) {
@@ -525,7 +538,7 @@ function createGameCard(data) {
                     <p class="small text-muted mb-0" style="font-size: 0.75rem;">Forecasts available ~14 days out.</p>
                 </div>`;
         } else if (weather.temp !== '--') {
-            const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed);
+            const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending); // PASS NEW STATE HERE
             
             let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
             let precipLabel = "Rain"; 
@@ -813,10 +826,14 @@ window.showRadar = function(url, venueName) {
     myModal.show();
 }
 
-function generateMatchupAnalysis(weather, windInfo, isRoofClosed) {
-    if (isRoofClosed) return "Roof closed. Controlled environment with zero weather impact.";
+function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending) {
+    if (isRoofClosed) return "✅ <b>Roof Closed:</b> Controlled environment with zero weather impact.";
 
     let notes = [];
+
+    if (isRoofPending) {
+        notes.push("🏟️ <b>Roof Status Pending:</b> Borderline weather. The team may elect to close the roof, neutralizing wind and temperature impacts.");
+    }
 
     if (weather.isThunderstorm) {
         notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");

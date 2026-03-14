@@ -276,7 +276,7 @@
             border-radius: 12px; 
         }
 
-        .visually-hidden-seo {
+        .sr-only {
           position: absolute !important;
           width: 1px !important;
           height: 1px !important;
@@ -337,7 +337,7 @@
             if (metaDesc) metaDesc.content = descText;
             const metaKeywords = document.querySelector('meta[name="keywords"]');
             if (metaKeywords) metaKeywords.content = keywordsText;
-            const h1 = document.getElementById('seo-h1');
+            const h1 = document.getElementById('main-header');
             if (h1) h1.innerText = h1Text;
 
             const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -358,7 +358,7 @@
 </head>
 <body>
 
-<h1 id="seo-h1" class="visually-hidden-seo">Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds</h1>
+<h1 id="main-header" class="sr-only">Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds</h1>
 
 <div class="container-fluid pt-3 pb-0 mb-0 text-center bg-header-clouds border-bottom border-dark">
     <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather Dashboard" class="header-hero-img shadow-sm">

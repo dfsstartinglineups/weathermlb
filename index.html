@@ -275,90 +275,9 @@
             display: block;   
             border-radius: 12px; 
         }
-
-        .sr-only {
-          position: absolute !important;
-          width: 1px !important;
-          height: 1px !important;
-          padding: 0 !important;
-          margin: -1px !important;
-          overflow: hidden !important;
-          clip: rect(0, 0, 0, 0) !important;
-          white-space: nowrap !important;
-          border: 0 !important;
-        }
     </style>
-    
-    <script>
-        // GLOBALLY ACCESSIBLE SEO FUNCTION
-        window.updateSEO = function(dateStr) {
-            let dateObj;
-            
-            // If the calendar passes a date, use it. Otherwise, default to exactly right now.
-            if (dateStr) {
-                // Split to avoid timezone offset issues pushing it to the day before
-                const [year, month, day] = dateStr.split('-');
-                dateObj = new Date(year, month - 1, day);
-            } else {
-                dateObj = new Date();
-            }
-
-            const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            
-            // Set Date Boundaries (Using zero-indexed months: 2 = March)
-            const wbcStart = new Date(2026, 2, 4);   
-            const wbcEnd = new Date(2026, 2, 17);    
-            const openingDay = new Date(2026, 2, 25); 
-            
-            const isWBC = dateObj >= wbcStart && dateObj <= wbcEnd;
-            const isSpringTraining = dateObj < openingDay;
-            
-            let titleText = `MLB Weather Report for ${formattedDate} | DFS Lineups & Live Odds`;
-            let descText = `Daily MLB weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for ${formattedDate}.`;
-            let keywordsText = "MLB weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, moneyline, stadium wind direction, fantasy baseball, DFS weather, rain delay risk, baseball odds";
-            let h1Text = "Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds";
-
-            if (isWBC) {
-                titleText = `WBC & MLB Spring Training Weather for ${formattedDate} | DFS Lineups`;
-                descText = `World Baseball Classic and MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for ${formattedDate}.`;
-                keywordsText = "WBC weather, World Baseball Classic weather, World Baseball Classic odds, MLB Spring Training weather, baseball weather, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
-                h1Text = "Daily World Baseball Classic & MLB Spring Training Weather Forecasts, Starting Lineups, and Betting Odds";
-            } else if (isSpringTraining) {
-                titleText = `MLB Spring Training Weather for ${formattedDate} | DFS Lineups & Odds`;
-                descText = `MLB Spring Training weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for ${formattedDate}.`;
-                keywordsText = "MLB Spring Training weather, Cactus League weather, Grapefruit League weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, stadium wind direction, fantasy baseball, DFS weather, rain delay risk";
-                h1Text = "Daily MLB Spring Training Weather Forecasts, Starting Lineups, and Betting Odds";
-            }
-            
-            // Update the DOM
-            document.title = titleText;
-            
-            const metaDesc = document.querySelector('meta[name="description"]');
-            if (metaDesc) metaDesc.content = descText;
-            const metaKeywords = document.querySelector('meta[name="keywords"]');
-            if (metaKeywords) metaKeywords.content = keywordsText;
-            const h1 = document.getElementById('main-header');
-            if (h1) h1.innerText = h1Text;
-
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.content = titleText;
-            const ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.content = descText;
-            const twTitle = document.querySelector('meta[name="twitter:title"]');
-            if (twTitle) twTitle.content = titleText;
-            const twDesc = document.querySelector('meta[name="twitter:description"]');
-            if (twDesc) twDesc.content = descText;
-        };
-
-        // Fire instantly on load so Google sees it!
-        document.addEventListener('DOMContentLoaded', () => {
-            window.updateSEO();
-        });
-    </script>
 </head>
 <body>
-
-<h1 id="main-header" class="sr-only">Daily MLB Weather Forecasts, Starting Lineups, and Betting Odds</h1>
 
 <div class="container-fluid pt-3 pb-0 mb-0 text-center bg-header-clouds border-bottom border-dark">
     <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather Dashboard" class="header-hero-img shadow-sm">
@@ -391,6 +310,12 @@
 </nav>
 
 <div class="container-fluid px-3 px-xl-5 mt-2">
+    
+    <div class="text-center mt-3 mb-3">
+        <h1 class="h5 fw-bold text-dark mb-1">Daily MLB Weather Forecasts, Starting Lineups & Odds</h1>
+        <p class="text-muted mb-0" style="font-size: 0.85rem;">Track stadium wind direction, rain delay risks, probable pitchers, and live betting lines.</p>
+    </div>
+    
     <div class="sticky-top bg-light border-bottom py-3 mb-4 shadow-sm" style="z-index: 100;">
         <div class="container">
             <div class="row g-2 align-items-center">
@@ -480,7 +405,7 @@ function copyTweet() {
     btn.innerText = "✅ Copied!";
     setTimeout(() => btn.innerText = "📋 Copy to Clipboard", 2000);
 }
-</script>    
+</script>   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
 </body>

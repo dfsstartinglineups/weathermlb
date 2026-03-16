@@ -325,7 +325,28 @@ function createGameCard(data) {
 
     const awayLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${awayId}.svg`;
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
-    const gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    let gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    let timeBadgeClass = "bg-light text-dark border";
+
+    // --- GAME STATUS OVERRIDES ---
+    const matchState = game.status?.detailedState || "";
+    
+    if (matchState.includes("Postponed")) {
+        gameTime = "Postponed";
+        timeBadgeClass = "bg-danger text-white";
+    } else if (matchState.includes("Cancel")) {
+        gameTime = "Canceled";
+        timeBadgeClass = "bg-danger text-white";
+    } else if (matchState.includes("Delay")) {
+        gameTime = "Delayed";
+        timeBadgeClass = "bg-warning text-dark";
+    } else if (matchState === "In Progress" || matchState.includes("Live")) {
+        gameTime = "Live";
+        timeBadgeClass = "bg-success text-white";
+    } else if (game.status?.abstractGameState === "Final") {
+        gameTime = "Final";
+        timeBadgeClass = "bg-secondary text-white";
+    }
 
     let awayPitcher = "TBD";
     if (game.teams.away.probablePitcher) {
@@ -627,7 +648,7 @@ function createGameCard(data) {
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
             <div class="card-body px-2 pt-2 pb-2"> 
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-light text-dark border">${gameTime}</span>
+                    <span class="badge ${timeBadgeClass}">${gameTime}</span>
                     <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue.name}</span>
                 </div>
                 

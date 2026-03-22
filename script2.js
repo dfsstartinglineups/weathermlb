@@ -91,7 +91,7 @@ async function init(dateToFetch) {
                 weatherWarning.className = 'col-12 mb-3';
                 weatherWarning.innerHTML = `
                     <div class="alert alert-info text-center py-2 mb-0 shadow-sm border" style="font-size: 0.85rem;">
-                        ℹ️ <strong>Schedule-Only Mode:</strong> Detailed weather forecasts and matchup analysis are currently generated up to 7 days in advance.
+                        ℹ️ <strong>Forcast Unavailable this far out from game day:</strong> Detailed weather forecasts and matchup analysis are currently generated up to 7 days in advance.
                     </div>
                 `;
                 container.prepend(weatherWarning);
@@ -446,7 +446,7 @@ function createGameCard(data) {
         }
     }
 
-    let weatherHtml = `<div class="text-muted p-3 text-center small">Weather data unavailable.<br><span class="badge bg-light text-dark mt-1">Venue ID: ${game.venue.id || "N/A"}</span></div>`;
+    let weatherHtml = `<div class="text-muted p-3 text-center small">Weather forecast unavailable.<br></div>`;
 
     if (stadium && weather) {
         if (weather.status === "too_early") {

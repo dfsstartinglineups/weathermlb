@@ -52,7 +52,8 @@ def calculate_wind(wind_direction, stadium_bearing):
     if 247.5 <= diff < 292.5: return {"text": "Cross (L to R)", "cssClass": "bg-cross", "arrow": "➡"}
     return {"text": "In from Left", "cssClass": "bg-in", "arrow": "↘"}
 
-def fetch_game_weather(lat, lon, game_date_iso):
+# Notice the new 'session' parameter here for connection pooling
+def fetch_game_weather(session, lat, lon, game_date_iso):
     global API_CALL_TRACKER
     
     utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
@@ -68,7 +69,6 @@ def fetch_game_weather(lat, lon, game_date_iso):
     if not is_historical and days_diff > 16:
         return {"status": "too_early", "temp": "--"}
 
-    # Fetch in GMT so we can perfectly match the MLB API's UTC game time
     if is_historical or date_str == "2024-09-25":
         url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT"
     elif days_diff <= 3:
@@ -80,8 +80,8 @@ def fetch_game_weather(lat, lon, game_date_iso):
     for attempt in range(max_retries):
         try:
             API_CALL_TRACKER["open_meteo"] += 1
-            # Increased timeout to 20 seconds to give the server plenty of time
-            res = requests.get(url, timeout=20) 
+            # Using session.get instead of requests.get speeds this up significantly!
+            res = session.get(url, timeout=15) 
             
             if res.status_code == 400: return {"status": "too_early", "temp": "--"}
             if res.status_code != 200: return {"temp": "--", "hourly": []}
@@ -113,7 +113,6 @@ def fetch_game_weather(lat, lon, game_date_iso):
             is_game_thunderstorm = False
             is_game_snow = False
 
-            # Restored 5-hour window (1 hour before, up to 3 hours after)
             actual_start = max(0, start_idx - 1)
             actual_end = min(len(time_array), start_idx + 4)
 
@@ -133,7 +132,7 @@ def fetch_game_weather(lat, lon, game_date_iso):
                 temp_val = data['hourly']['temperature_2m'][i]
                 
                 hourly_slice.append({
-                    "timestamp": time_array[i] + "Z", # Pass raw UTC time down to JS
+                    "timestamp": time_array[i] + "Z",
                     "temp": round(temp_val) if temp_val is not None else "--",
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
@@ -155,7 +154,6 @@ def fetch_game_weather(lat, lon, game_date_iso):
             
         except requests.exceptions.Timeout:
             if attempt < max_retries - 1:
-                # Exponential backoff: Wait 3 seconds, then 6 seconds...
                 sleep_time = (attempt + 1) * 3
                 print(f"      ⏳ Open-Meteo Timeout. Retrying in {sleep_time}s ({attempt+1}/{max_retries})...")
                 time.sleep(sleep_time) 
@@ -180,6 +178,7 @@ def main():
     
     print(f"🚀 Building WeatherMLB Master JSONs (7-Day Horizon)")
     
+    # Initialize the global session here
     session = requests.Session()
     stadiums = load_json(STADIUMS_FILE, [])
     odds_data = load_json(ODDS_FILE, {}).get('odds', [])
@@ -241,9 +240,20 @@ def main():
                     
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name} ({date_str})")
-                weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'])
-                # Increased base sleep from 0.5 to 1.5 seconds to dodge GitHub Action IP throttling
-                time.sleep(1.5) 
+                
+                # Fetch new weather, passing in the shared session for speed!
+                new_weather = fetch_game_weather(session, stadium['lat'], stadium['lon'], game['gameDate'])
+                
+                # --- NEW SHIELD LOGIC ---
+                # If the fetch failed (temp is "--") AND we already had good cached data, keep the cached data!
+                if new_weather.get('temp') == '--' and weather_data and weather_data.get('temp') != '--':
+                    print("      🛡️ Fetch failed, but keeping existing cached weather to prevent data loss.")
+                    # Leave weather_data as the existing_game_state.get('weather')
+                else:
+                    weather_data = new_weather
+                
+                # We can reduce sleep back down to 1.0s safely because the Session is pooling the connection
+                time.sleep(1.0) 
 
             wind_data = None
             is_roof_closed = False

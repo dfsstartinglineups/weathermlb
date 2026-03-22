@@ -77,74 +77,87 @@ def fetch_game_weather(lat, lon, game_date_iso, today_date_str):
     else:
         url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date={date_str}&end_date={next_date_str}"
 
-    try:
-        API_CALL_TRACKER["open_meteo"] += 1
-        res = requests.get(url, timeout=10)
-        if res.status_code == 400: return {"status": "too_early", "temp": "--"}
-        if res.status_code != 200: return {"temp": "--", "hourly": []}
-        
-        data = res.json()
-        game_hour = game_date_obj.hour
-        
-        def normalize_precip(idx):
-            prob = data['hourly'].get('precipitation_probability', [0]*len(data['hourly']['time']))[idx] or 0
-            amount = data['hourly'].get('precipitation', [0]*len(data['hourly']['time']))[idx] or 0
-            code = data['hourly']['weather_code'][idx]
+    # --- ADDED RETRY LOGIC HERE ---
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            API_CALL_TRACKER["open_meteo"] += 1
+            # Increased timeout to 15 seconds to be safer
+            res = requests.get(url, timeout=15) 
             
-            if amount == 0 and code <= 3: return 0
-            if amount > 0:
-                if amount >= 0.10: return max(80, prob)
-                if amount >= 0.05: return max(60, prob)
-                if amount >= 0.01: return max(30, prob)
-                return 15
-            return prob
+            if res.status_code == 400: return {"status": "too_early", "temp": "--"}
+            if res.status_code != 200: return {"temp": "--", "hourly": []}
+            
+            data = res.json()
+            game_hour = game_date_obj.hour
+            
+            def normalize_precip(idx):
+                prob = data['hourly'].get('precipitation_probability', [0]*len(data['hourly']['time']))[idx] or 0
+                amount = data['hourly'].get('precipitation', [0]*len(data['hourly']['time']))[idx] or 0
+                code = data['hourly']['weather_code'][idx]
+                
+                if amount == 0 and code <= 3: return 0
+                if amount > 0:
+                    if amount >= 0.10: return max(80, prob)
+                    if amount >= 0.05: return max(60, prob)
+                    if amount >= 0.01: return max(30, prob)
+                    return 15
+                return prob
 
-        hourly_slice = []
-        max_chance_in_window = 0
-        is_game_thunderstorm = False
-        is_game_snow = False
+            hourly_slice = []
+            max_chance_in_window = 0
+            is_game_thunderstorm = False
+            is_game_snow = False
 
-        for i in range(game_hour - 1, game_hour + 4):
-            if 0 <= i < len(data['hourly']['temperature_2m']):
-                chance = normalize_precip(i)
-                code = data['hourly']['weather_code'][i]
-                
-                is_hour_thunderstorm = 95 <= code <= 99
-                is_hour_snow = code in [71, 73, 75, 77, 85, 86]
-                
-                if is_hour_thunderstorm: is_game_thunderstorm = True
-                if is_hour_snow: is_game_snow = True
-                
-                if game_hour <= i <= game_hour + 3 and chance > max_chance_in_window:
-                    max_chance_in_window = chance
+            for i in range(game_hour - 1, game_hour + 4):
+                if 0 <= i < len(data['hourly']['temperature_2m']):
+                    chance = normalize_precip(i)
+                    code = data['hourly']['weather_code'][i]
                     
-                local_hour = datetime.fromisoformat(data['hourly']['time'][i]).hour
-                
-                temp_val = data['hourly']['temperature_2m'][i]
-                
-                hourly_slice.append({
-                    "hour": local_hour,
-                    "temp": round(temp_val) if temp_val is not None else "--",
-                    "precipChance": chance,
-                    "isThunderstorm": is_hour_thunderstorm,
-                    "isSnow": is_hour_snow
-                })
+                    is_hour_thunderstorm = 95 <= code <= 99
+                    is_hour_snow = code in [71, 73, 75, 77, 85, 86]
+                    
+                    if is_hour_thunderstorm: is_game_thunderstorm = True
+                    if is_hour_snow: is_game_snow = True
+                    
+                    if game_hour <= i <= game_hour + 3 and chance > max_chance_in_window:
+                        max_chance_in_window = chance
+                        
+                    local_hour = datetime.fromisoformat(data['hourly']['time'][i]).hour
+                    
+                    temp_val = data['hourly']['temperature_2m'][i]
+                    
+                    hourly_slice.append({
+                        "hour": local_hour,
+                        "temp": round(temp_val) if temp_val is not None else "--",
+                        "precipChance": chance,
+                        "isThunderstorm": is_hour_thunderstorm,
+                        "isSnow": is_hour_snow
+                    })
 
-        return {
-            "status": "ok",
-            "lastUpdated": datetime.now(timezone.utc).timestamp(),
-            "temp": round(data['hourly']['temperature_2m'][game_hour]),
-            "humidity": round(data['hourly']['relative_humidity_2m'][game_hour]),
-            "maxPrecipChance": max_chance_in_window,
-            "isThunderstorm": is_game_thunderstorm,
-            "isSnow": is_game_snow,
-            "windSpeed": round(data['hourly']['wind_speed_10m'][game_hour]),
-            "windDir": data['hourly']['wind_direction_10m'][game_hour],
-            "hourly": hourly_slice
-        }
-    except Exception as e:
-        print(f"⚠️ Weather fetch failed: {e}")
-        return {"temp": "--", "hourly": []}
+            return {
+                "status": "ok",
+                "lastUpdated": datetime.now(timezone.utc).timestamp(),
+                "temp": round(data['hourly']['temperature_2m'][game_hour]),
+                "humidity": round(data['hourly']['relative_humidity_2m'][game_hour]),
+                "maxPrecipChance": max_chance_in_window,
+                "isThunderstorm": is_game_thunderstorm,
+                "isSnow": is_game_snow,
+                "windSpeed": round(data['hourly']['wind_speed_10m'][game_hour]),
+                "windDir": data['hourly']['wind_direction_10m'][game_hour],
+                "hourly": hourly_slice
+            }
+            
+        except requests.exceptions.Timeout:
+            if attempt < max_retries - 1:
+                print(f"      ⏳ Open-Meteo Timeout. Retrying ({attempt+1}/{max_retries})...")
+                time.sleep(2) # Give the server 2 seconds to breathe
+            else:
+                print(f"      ❌ Weather fetch completely failed after {max_retries} attempts.")
+                return {"temp": "--", "hourly": []}
+        except Exception as e:
+            print(f"⚠️ Weather fetch failed with error: {e}")
+            return {"temp": "--", "hourly": []}
 
 def main():
     global API_CALL_TRACKER
@@ -228,7 +241,7 @@ def main():
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name} ({date_str})")
                 weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'], today_est_str)
-                time.sleep(0.1) # Be polite to Open-Meteo
+                time.sleep(0.5) # Increased to 0.5s to be safer for Open-Meteo
 
             # 4. Wind & Roof Math
             wind_data = None

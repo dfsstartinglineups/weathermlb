@@ -1,0 +1,52 @@
+name: Update WeatherMLB Data
+
+on:
+  workflow_dispatch:        # For manual button clicks
+  repository_dispatch:      # For your outside pinger
+    types: [trigger-update]
+
+permissions:
+  contents: write           # IMPORTANT: Allows the script to save changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install libraries
+        # Optimized for speed: fetch_weather.py only needs requests!
+        run: |
+          pip install requests
+
+      - name: Run Update Script
+        # Pointing to the new fetch_weather script in the scripts folder
+        run: python scripts/fetch_weather.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Stage the entire data directory (which includes data/daily_files/)
+          git add data/
+          
+          # Check if there are staged changes ready to be committed
+          if ! git diff --quiet --staged; then
+            git commit -m "☁️ Auto-updated WeatherMLB data [skip ci]"
+            
+            # Pull latest changes and rebase BEFORE pushing to handle race conditions
+            git pull --rebase origin main || echo "Nothing to pull"
+            
+            # Try pushing. If rejected, pull again and immediately push.
+            git push origin main || (git pull --rebase origin main && git push origin main)
+          else
+            echo "No new updates. Skipping commit."
+          fi

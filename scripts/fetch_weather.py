@@ -4,7 +4,6 @@ import os
 import time
 import zoneinfo
 from datetime import datetime, timedelta, timezone
-import math
 
 # --- CONFIGURATION ---
 # Because this script lives in /scripts, we navigate up one level to /data
@@ -54,46 +53,60 @@ def calculate_wind(wind_direction, stadium_bearing):
     if 247.5 <= diff < 292.5: return {"text": "Cross (L to R)", "cssClass": "bg-cross", "arrow": "➡"}
     return {"text": "In from Left", "cssClass": "bg-in", "arrow": "↘"}
 
-def fetch_game_weather(lat, lon, game_date_iso, today_date_str):
+def fetch_game_weather(lat, lon, game_date_iso, venue_tz_name='America/New_York'):
     global API_CALL_TRACKER
     
-    # Isolate YYYY-MM-DD
-    date_str = game_date_iso.split('T')[0]
-    game_date_obj = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
+    # 1. Convert the UTC game time to the Stadium's Local Time
+    utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
+    try:
+        venue_tz = zoneinfo.ZoneInfo(venue_tz_name)
+    except Exception:
+        venue_tz = zoneinfo.ZoneInfo('America/New_York') # Fallback
+        
+    local_game_time = utc_time.astimezone(venue_tz)
+    local_today = datetime.now(venue_tz).date()
     
-    next_day_obj = game_date_obj + timedelta(days=1)
+    date_str = local_game_time.strftime('%Y-%m-%d')
+    
+    next_day_obj = local_game_time + timedelta(days=1)
     next_date_str = next_day_obj.strftime('%Y-%m-%d')
     
-    is_historical = date_str < today_date_str
-    days_diff = (datetime.strptime(date_str, '%Y-%m-%d').date() - datetime.strptime(today_date_str, '%Y-%m-%d').date()).days
+    is_historical = local_game_time.date() < local_today
+    days_diff = (local_game_time.date() - local_today).days
 
     if not is_historical and days_diff > 16:
         return {"status": "too_early", "temp": "--"}
 
+    # Notice timezone=auto. This guarantees Open-Meteo returns data perfectly mapped to local time
     if is_historical or date_str == "2024-09-25":
-        url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT"
+        url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto"
     elif days_diff <= 3:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date={date_str}&end_date={next_date_str}"
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date={date_str}&end_date={next_date_str}"
     else:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date={date_str}&end_date={next_date_str}"
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date={date_str}&end_date={next_date_str}"
 
-    # --- ADDED RETRY LOGIC HERE ---
     max_retries = 3
     for attempt in range(max_retries):
         try:
             API_CALL_TRACKER["open_meteo"] += 1
-            # Increased timeout to 15 seconds to be safer
             res = requests.get(url, timeout=15) 
             
             if res.status_code == 400: return {"status": "too_early", "temp": "--"}
             if res.status_code != 200: return {"temp": "--", "hourly": []}
             
             data = res.json()
-            game_hour = game_date_obj.hour
+            time_array = data['hourly']['time']
+            target_time_str = local_game_time.strftime('%Y-%m-%dT%H:00')
             
+            # Find the exact index in the array that matches our local game hour
+            try:
+                start_idx = time_array.index(target_time_str)
+            except ValueError:
+                start_idx = 0
+
             def normalize_precip(idx):
-                prob = data['hourly'].get('precipitation_probability', [0]*len(data['hourly']['time']))[idx] or 0
-                amount = data['hourly'].get('precipitation', [0]*len(data['hourly']['time']))[idx] or 0
+                prob = data['hourly'].get('precipitation_probability', [0]*len(time_array))[idx] or 0
+                amount = data['hourly'].get('precipitation', [0]*len(time_array))[idx] or 0
                 code = data['hourly']['weather_code'][idx]
                 
                 if amount == 0 and code <= 3: return 0
@@ -109,49 +122,47 @@ def fetch_game_weather(lat, lon, game_date_iso, today_date_str):
             is_game_thunderstorm = False
             is_game_snow = False
 
-            for i in range(game_hour - 1, game_hour + 4):
-                if 0 <= i < len(data['hourly']['temperature_2m']):
-                    chance = normalize_precip(i)
-                    code = data['hourly']['weather_code'][i]
+            for i in range(start_idx, min(start_idx + 4, len(time_array))):
+                chance = normalize_precip(i)
+                code = data['hourly']['weather_code'][i]
+                
+                is_hour_thunderstorm = 95 <= code <= 99
+                is_hour_snow = code in [71, 73, 75, 77, 85, 86]
+                
+                if is_hour_thunderstorm: is_game_thunderstorm = True
+                if is_hour_snow: is_game_snow = True
+                
+                if chance > max_chance_in_window:
+                    max_chance_in_window = chance
                     
-                    is_hour_thunderstorm = 95 <= code <= 99
-                    is_hour_snow = code in [71, 73, 75, 77, 85, 86]
-                    
-                    if is_hour_thunderstorm: is_game_thunderstorm = True
-                    if is_hour_snow: is_game_snow = True
-                    
-                    if game_hour <= i <= game_hour + 3 and chance > max_chance_in_window:
-                        max_chance_in_window = chance
-                        
-                    local_hour = datetime.fromisoformat(data['hourly']['time'][i]).hour
-                    
-                    temp_val = data['hourly']['temperature_2m'][i]
-                    
-                    hourly_slice.append({
-                        "hour": local_hour,
-                        "temp": round(temp_val) if temp_val is not None else "--",
-                        "precipChance": chance,
-                        "isThunderstorm": is_hour_thunderstorm,
-                        "isSnow": is_hour_snow
-                    })
+                local_hour = datetime.fromisoformat(time_array[i]).hour
+                temp_val = data['hourly']['temperature_2m'][i]
+                
+                hourly_slice.append({
+                    "hour": local_hour,
+                    "temp": round(temp_val) if temp_val is not None else "--",
+                    "precipChance": chance,
+                    "isThunderstorm": is_hour_thunderstorm,
+                    "isSnow": is_hour_snow
+                })
 
             return {
                 "status": "ok",
                 "lastUpdated": datetime.now(timezone.utc).timestamp(),
-                "temp": round(data['hourly']['temperature_2m'][game_hour]),
-                "humidity": round(data['hourly']['relative_humidity_2m'][game_hour]),
+                "temp": round(data['hourly']['temperature_2m'][start_idx]),
+                "humidity": round(data['hourly']['relative_humidity_2m'][start_idx]),
                 "maxPrecipChance": max_chance_in_window,
                 "isThunderstorm": is_game_thunderstorm,
                 "isSnow": is_game_snow,
-                "windSpeed": round(data['hourly']['wind_speed_10m'][game_hour]),
-                "windDir": data['hourly']['wind_direction_10m'][game_hour],
+                "windSpeed": round(data['hourly']['wind_speed_10m'][start_idx]),
+                "windDir": data['hourly']['wind_direction_10m'][start_idx],
                 "hourly": hourly_slice
             }
             
         except requests.exceptions.Timeout:
             if attempt < max_retries - 1:
                 print(f"      ⏳ Open-Meteo Timeout. Retrying ({attempt+1}/{max_retries})...")
-                time.sleep(2) # Give the server 2 seconds to breathe
+                time.sleep(2) 
             else:
                 print(f"      ❌ Weather fetch completely failed after {max_retries} attempts.")
                 return {"temp": "--", "hourly": []}
@@ -169,7 +180,6 @@ def main():
         print(f"💤 SLEEP MODE ACTIVE: It is currently {current_est_time.strftime('%I:%M %p')} EST.")
         return
         
-    today_est_str = current_est_time.strftime('%Y-%m-%d')
     start_date = (current_est_time - timedelta(days=1)).strftime('%Y-%m-%d')
     end_date = (current_est_time + timedelta(days=7)).strftime('%Y-%m-%d') 
     
@@ -194,7 +204,6 @@ def main():
         date_str = date_item['date']
         master_dates[date_str] = []
         
-        # Load memory for this specific date
         daily_file_path = os.path.join(DAILY_FILES_DIR, f'games_{date_str}.json')
         daily_memory = {}
         if os.path.exists(daily_file_path):
@@ -209,7 +218,7 @@ def main():
             game_pk = str(game['gamePk'])
             existing_game_state = daily_memory.get(game_pk, {})
             
-            # 1. Match Odds (Replicating JS Logic)
+            # 1. Match Odds
             game_odds = None
             away_team_name = game.get('teams', {}).get('away', {}).get('team', {}).get('name', '')
             home_team_name = game.get('teams', {}).get('home', {}).get('team', {}).get('name', '')
@@ -240,8 +249,11 @@ def main():
                     
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name} ({date_str})")
-                weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'], today_est_str)
-                time.sleep(0.5) # Increased to 0.5s to be safer for Open-Meteo
+                
+                # Dynamically extract the timezone from the MLB API to ensure precision
+                venue_tz = game.get('venue', {}).get('timeZone', {}).get('id', 'America/New_York')
+                weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'], venue_tz)
+                time.sleep(0.5) 
 
             # 4. Wind & Roof Math
             wind_data = None
@@ -266,12 +278,9 @@ def main():
                     wind_data = {"text": "Roof Closed", "cssClass": "bg-secondary text-white", "arrow": ""}
                     weather_data['windSpeed'] = 0
 
-            # --- FETCHING HANDEDNESS & TRUE POSITIONS (Simplified for WeatherMLB) ---
-            # (Note: Porting the JS logic for handedness and position overrides)
             lineup_handedness = existing_game_state.get('lineupHandedness', {})
             lineup_positions = existing_game_state.get('lineupPositions', {})
             
-            # Compile payload
             master_dates[date_str].append({
                 "gameRaw": game,
                 "stadium": stadium,

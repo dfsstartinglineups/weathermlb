@@ -6,7 +6,6 @@ import zoneinfo
 from datetime import datetime, timedelta, timezone
 
 # --- CONFIGURATION ---
-# Because this script lives in /scripts, we navigate up one level to /data
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 DAILY_FILES_DIR = os.path.join(DATA_DIR, 'daily_files')
@@ -53,37 +52,29 @@ def calculate_wind(wind_direction, stadium_bearing):
     if 247.5 <= diff < 292.5: return {"text": "Cross (L to R)", "cssClass": "bg-cross", "arrow": "➡"}
     return {"text": "In from Left", "cssClass": "bg-in", "arrow": "↘"}
 
-def fetch_game_weather(lat, lon, game_date_iso, venue_tz_name='America/New_York'):
+def fetch_game_weather(lat, lon, game_date_iso):
     global API_CALL_TRACKER
     
-    # 1. Convert the UTC game time to the Stadium's Local Time
     utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
-    try:
-        venue_tz = zoneinfo.ZoneInfo(venue_tz_name)
-    except Exception:
-        venue_tz = zoneinfo.ZoneInfo('America/New_York') # Fallback
-        
-    local_game_time = utc_time.astimezone(venue_tz)
-    local_today = datetime.now(venue_tz).date()
+    date_str = utc_time.strftime('%Y-%m-%d')
     
-    date_str = local_game_time.strftime('%Y-%m-%d')
-    
-    next_day_obj = local_game_time + timedelta(days=1)
+    next_day_obj = utc_time + timedelta(days=1)
     next_date_str = next_day_obj.strftime('%Y-%m-%d')
     
-    is_historical = local_game_time.date() < local_today
-    days_diff = (local_game_time.date() - local_today).days
+    today_utc = datetime.now(timezone.utc).date()
+    is_historical = utc_time.date() < today_utc
+    days_diff = (utc_time.date() - today_utc).days
 
     if not is_historical and days_diff > 16:
         return {"status": "too_early", "temp": "--"}
 
-    # Notice timezone=auto. This guarantees Open-Meteo returns data perfectly mapped to local time
+    # Fetch in GMT so we can perfectly match the MLB API's UTC game time
     if is_historical or date_str == "2024-09-25":
-        url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto"
+        url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT"
     elif days_diff <= 3:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date={date_str}&end_date={next_date_str}"
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date={date_str}&end_date={next_date_str}"
     else:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&start_date={date_str}&end_date={next_date_str}"
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m&models=gfs_seamless&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT&start_date={date_str}&end_date={next_date_str}"
 
     max_retries = 3
     for attempt in range(max_retries):
@@ -96,9 +87,8 @@ def fetch_game_weather(lat, lon, game_date_iso, venue_tz_name='America/New_York'
             
             data = res.json()
             time_array = data['hourly']['time']
-            target_time_str = local_game_time.strftime('%Y-%m-%dT%H:00')
+            target_time_str = utc_time.strftime('%Y-%m-%dT%H:00')
             
-            # Find the exact index in the array that matches our local game hour
             try:
                 start_idx = time_array.index(target_time_str)
             except ValueError:
@@ -122,7 +112,11 @@ def fetch_game_weather(lat, lon, game_date_iso, venue_tz_name='America/New_York'
             is_game_thunderstorm = False
             is_game_snow = False
 
-            for i in range(start_idx, min(start_idx + 4, len(time_array))):
+            # Restored 5-hour window (1 hour before, up to 3 hours after)
+            actual_start = max(0, start_idx - 1)
+            actual_end = min(len(time_array), start_idx + 4)
+
+            for i in range(actual_start, actual_end):
                 chance = normalize_precip(i)
                 code = data['hourly']['weather_code'][i]
                 
@@ -135,11 +129,10 @@ def fetch_game_weather(lat, lon, game_date_iso, venue_tz_name='America/New_York'
                 if chance > max_chance_in_window:
                     max_chance_in_window = chance
                     
-                local_hour = datetime.fromisoformat(time_array[i]).hour
                 temp_val = data['hourly']['temperature_2m'][i]
                 
                 hourly_slice.append({
-                    "hour": local_hour,
+                    "timestamp": time_array[i] + "Z", # Pass raw UTC time down to JS
                     "temp": round(temp_val) if temp_val is not None else "--",
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
@@ -175,7 +168,6 @@ def main():
     est_tz = zoneinfo.ZoneInfo("America/New_York")
     current_est_time = datetime.now(est_tz)
     
-    # --- 🛑 THE DEEP SLEEP CHECK ---
     if 3 <= current_est_time.hour < 8:
         print(f"💤 SLEEP MODE ACTIVE: It is currently {current_est_time.strftime('%I:%M %p')} EST.")
         return
@@ -218,7 +210,6 @@ def main():
             game_pk = str(game['gamePk'])
             existing_game_state = daily_memory.get(game_pk, {})
             
-            # 1. Match Odds
             game_odds = None
             away_team_name = game.get('teams', {}).get('away', {}).get('team', {}).get('name', '')
             home_team_name = game.get('teams', {}).get('home', {}).get('team', {}).get('name', '')
@@ -228,11 +219,9 @@ def main():
             if potential_odds:
                 game_odds = sorted(potential_odds, key=lambda o: abs(datetime.strptime(o['commence_time'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp() * 1000 - game_time_ms))[0]
 
-            # 2. Extract Stadium Details
             venue_id = game.get('venue', {}).get('id')
             stadium = next((s for s in stadiums if s.get('id') == venue_id), None)
             
-            # 3. Weather Fetch & Cache Logic
             weather_data = existing_game_state.get('weather')
             needs_weather_fetch = True
             
@@ -240,22 +229,18 @@ def main():
                 last_updated = weather_data.get('lastUpdated', 0)
                 time_since_update = current_est_time.timestamp() - last_updated
                 
-                if days_away == 0 and time_since_update < 900: # 15 mins
+                if days_away == 0 and time_since_update < 900: 
                     needs_weather_fetch = False
-                elif 0 < days_away <= 2 and time_since_update < 10800: # 3 hours
+                elif 0 < days_away <= 2 and time_since_update < 10800: 
                     needs_weather_fetch = False
-                elif days_away > 2 and time_since_update < 43200: # 12 hours
+                elif days_away > 2 and time_since_update < 43200: 
                     needs_weather_fetch = False
                     
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name} ({date_str})")
-                
-                # Dynamically extract the timezone from the MLB API to ensure precision
-                venue_tz = game.get('venue', {}).get('timeZone', {}).get('id', 'America/New_York')
-                weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'], venue_tz)
+                weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'])
                 time.sleep(0.5) 
 
-            # 4. Wind & Roof Math
             wind_data = None
             is_roof_closed = False
             is_roof_pending = False
@@ -293,13 +278,11 @@ def main():
                 "lineupPositions": lineup_positions
             })
 
-    # Write the Daily JSON Files!
     for date_str, games_list in master_dates.items():
         daily_file = os.path.join(DAILY_FILES_DIR, f'games_{date_str}.json')
         save_json(daily_file, games_list)
         print(f"✅ Created/Updated {daily_file} with {len(games_list)} games.")
 
-    # --- PRINT API METRICS ---
     total_calls = sum(API_CALL_TRACKER.values())
     print("\n" + "="*40)
     print(f"📊 API CALL SUMMARY: {total_calls} Total Requests")

@@ -80,7 +80,8 @@ def fetch_game_weather(lat, lon, game_date_iso):
     for attempt in range(max_retries):
         try:
             API_CALL_TRACKER["open_meteo"] += 1
-            res = requests.get(url, timeout=15) 
+            # Increased timeout to 20 seconds to give the server plenty of time
+            res = requests.get(url, timeout=20) 
             
             if res.status_code == 400: return {"status": "too_early", "temp": "--"}
             if res.status_code != 200: return {"temp": "--", "hourly": []}
@@ -154,8 +155,10 @@ def fetch_game_weather(lat, lon, game_date_iso):
             
         except requests.exceptions.Timeout:
             if attempt < max_retries - 1:
-                print(f"      ⏳ Open-Meteo Timeout. Retrying ({attempt+1}/{max_retries})...")
-                time.sleep(2) 
+                # Exponential backoff: Wait 3 seconds, then 6 seconds...
+                sleep_time = (attempt + 1) * 3
+                print(f"      ⏳ Open-Meteo Timeout. Retrying in {sleep_time}s ({attempt+1}/{max_retries})...")
+                time.sleep(sleep_time) 
             else:
                 print(f"      ❌ Weather fetch completely failed after {max_retries} attempts.")
                 return {"temp": "--", "hourly": []}
@@ -239,7 +242,8 @@ def main():
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name} ({date_str})")
                 weather_data = fetch_game_weather(stadium['lat'], stadium['lon'], game['gameDate'])
-                time.sleep(0.5) 
+                # Increased base sleep from 0.5 to 1.5 seconds to dodge GitHub Action IP throttling
+                time.sleep(1.5) 
 
             wind_data = None
             is_roof_closed = False

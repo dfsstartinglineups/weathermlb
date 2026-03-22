@@ -516,7 +516,7 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
             
-            let windArrow = windInfo ? windInfo.arrow : "💨";
+            let windArrow = windInfo ? `<span class="arrow-emoji">${windInfo.arrow}</span>` : "💨";
             let windCss = windInfo ? windInfo.cssClass : "bg-secondary";
             
             weatherHtml = `

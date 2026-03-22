@@ -473,8 +473,19 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="text-center mt-2"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
                 const cardsHtml = weather.hourly.map((h, index) => {
-                    const ampm = h.hour >= 12 ? 'PM' : 'AM';
-                    const hour12 = h.hour % 12 || 12;
+                    
+                    // Let the user's browser seamlessly handle the timezone conversion!
+                    let dateObj;
+                    if (h.timestamp) {
+                        dateObj = new Date(h.timestamp);
+                    } else {
+                        // Safety fallback for old cache files
+                        dateObj = new Date();
+                        dateObj.setHours(h.hour, 0, 0, 0); 
+                    }
+
+                    const hour12 = dateObj.getHours() % 12 || 12;
+                    const ampm = dateObj.getHours() >= 12 ? 'PM' : 'AM';
                     const timeLabel = `${hour12}${ampm}`;
 
                     let icon = '';

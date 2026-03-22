@@ -54,7 +54,8 @@ async function init(dateToFetch) {
         if (loader) loader.style.display = 'none';
 
     } catch (error) {
-        console.log(`No local file for ${dateToFetch}. Falling back to live MLB API...`);
+        console.log(`No local file for ${dateToFetch} or rendering failed. Falling back to live MLB API...`);
+        console.error("The exact error was:", error); // <-- Added so we can see any future bugs!
         
         try {
             // Fallback: Hit the MLB API directly just to show the schedule
@@ -120,7 +121,6 @@ async function init(dateToFetch) {
 
 function renderGames() {
     const container = document.getElementById('games-container');
-    // Don't clear container completely here, so we don't wipe out our fallback alert banner!
     const cardsContainer = document.createElement('div');
     cardsContainer.className = 'row w-100 m-0 p-0';
 
@@ -217,7 +217,7 @@ function createGameCard(data) {
         else if (weather.maxPrecipChance >= 20) bgClass = "bg-weather-cloudy";
         else if (weather.temp >= 90) bgClass = "bg-weather-sunny"; 
     } else {
-        bgClass = "bg-light"; // Fallback grey if no weather data
+        bgClass = "bg-light"; 
     }
 
     const gameCard = document.createElement('div');
@@ -414,29 +414,35 @@ function createGameCard(data) {
             <div class="fw-bold text-muted" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U TBD</div>
         </div>`;
 
-    if (oddsData) {
-        const h2hMarket = oddsData.markets.find(m => m.key === 'h2h');
-        if (h2hMarket) {
-            const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
-            const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
-            if (awayOutcome) {
-                const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
-                mlAway = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+    // --- ODDS FIX: Now properly accesses bookmakers array ---
+    if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
+        // Fallback to the first available bookie if FanDuel isn't found
+        let selectedBook = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
+        
+        if (selectedBook && selectedBook.markets) {
+            const h2hMarket = selectedBook.markets.find(m => m.key === 'h2h');
+            if (h2hMarket && h2hMarket.outcomes) {
+                const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
+                const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
+                if (awayOutcome) {
+                    const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
+                    mlAway = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+                }
+                if (homeOutcome) {
+                    const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
+                    mlHome = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+                }
             }
-            if (homeOutcome) {
-                const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
-                mlHome = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
-            }
-        }
 
-        const totalsMarket = oddsData.markets.find(m => m.key === 'totals');
-        if (totalsMarket && totalsMarket.outcomes.length > 0) {
-            const gameTotal = totalsMarket.outcomes[0].point; 
-            totalHtml = `
-                <div class="d-flex flex-column justify-content-center align-items-center pt-2">
-                    <div class="text-muted small fw-bold mb-1">@</div>
-                    <div class="fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
-                </div>`;
+            const totalsMarket = selectedBook.markets.find(m => m.key === 'totals');
+            if (totalsMarket && totalsMarket.outcomes && totalsMarket.outcomes.length > 0) {
+                const gameTotal = totalsMarket.outcomes[0].point; 
+                totalHtml = `
+                    <div class="d-flex flex-column justify-content-center align-items-center pt-2">
+                        <div class="text-muted small fw-bold mb-1">@</div>
+                        <div class="fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
+                    </div>`;
+            }
         }
     }
 
@@ -829,23 +835,28 @@ function generateDailyReport() {
         let homeOddsStr = "[TBD]";
         let totalStr = " • O/U TBD";
 
-        if (oddsData) {
-            const h2hMarket = oddsData.markets.find(m => m.key === 'h2h');
-            if (h2hMarket) {
-                const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
-                const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
-                
-                if (awayOutcome) {
-                    awayOddsStr = awayOutcome.price > 0 ? `[+${awayOutcome.price}]` : `[${awayOutcome.price}]`;
+        // --- ODDS FIX: Now properly accesses bookmakers array ---
+        if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
+            const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
+            
+            if (bookie && bookie.markets) {
+                const h2hMarket = bookie.markets.find(m => m.key === 'h2h');
+                if (h2hMarket && h2hMarket.outcomes) {
+                    const awayOutcome = h2hMarket.outcomes.find(o => o.name === awayName);
+                    const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
+                    
+                    if (awayOutcome) {
+                        awayOddsStr = awayOutcome.price > 0 ? `[+${awayOutcome.price}]` : `[${awayOutcome.price}]`;
+                    }
+                    if (homeOutcome) {
+                        homeOddsStr = homeOutcome.price > 0 ? `[+${homeOutcome.price}]` : `[${homeOutcome.price}]`;
+                    }
                 }
-                if (homeOutcome) {
-                    homeOddsStr = homeOutcome.price > 0 ? `[+${homeOutcome.price}]` : `[${homeOutcome.price}]`;
-                }
-            }
 
-            const totalsMarket = oddsData.markets.find(m => m.key === 'totals');
-            if (totalsMarket && totalsMarket.outcomes.length > 0) {
-                totalStr = ` • O/U ${totalsMarket.outcomes[0].point}`;
+                const totalsMarket = bookie.markets.find(m => m.key === 'totals');
+                if (totalsMarket && totalsMarket.outcomes && totalsMarket.outcomes.length > 0) {
+                    totalStr = ` • O/U ${totalsMarket.outcomes[0].point}`;
+                }
             }
         }
 

@@ -202,31 +202,6 @@
             line-height: 1; 
         }
 
-        /* --- HEADER ROLLING CLOUDS ANIMATION --- */
-        .bg-header-clouds {
-            background-color: #0f172a; /* Solid navy base */
-            
-            /* Two overlapping cloud layers to create a morphing parallax effect */
-            background-image: 
-                /* Layer 1: Slower, wider, brighter clouds */
-                linear-gradient(115deg, rgba(15,23,42,1) 15%, rgba(148,163,184,0.4) 35%, rgba(226,232,240,0.6) 50%, rgba(148,163,184,0.4) 65%, rgba(15,23,42,1) 85%),
-                /* Layer 2: Faster, thinner, darker grey clouds */
-                linear-gradient(65deg, rgba(15,23,42,1) 5%, rgba(100,116,139,0.3) 30%, rgba(203,213,225,0.4) 45%, rgba(100,116,139,0.3) 60%, rgba(15,23,42,1) 95%);
-            
-            background-size: 200% 200%, 300% 300%; 
-            animation: rollingFog 35s linear infinite; /* 'linear' stops the rewind effect */
-        }
-
-        @keyframes rollingFog {
-            0% { 
-                background-position: 0% 50%, 0% 50%; 
-            }
-            100% { 
-                /* Both layers move steadily left, but Layer 2 moves faster */
-                background-position: -200% 50%, -300% 50%; 
-            }
-        }
-
         /* --- ANIMATED WEATHER BACKGROUNDS --- */
         @keyframes weather-flow {
             0% { background-position: 0% 50%; }
@@ -267,40 +242,27 @@
         .bg-weather-roof {
             background-color: #ffffff; 
         }
-
-        .header-hero-img {
-            width: 100%;
-            height: auto;
-            max-width: 800px; 
-            margin: 0 auto;   
-            display: block;   
-            border-radius: 12px; 
-        }
     </style>
 </head>
 <body>
 
-<div class="container-fluid pt-3 pb-0 mb-0 text-center bg-header-clouds border-bottom border-dark">
-    <img src="social-share.png" alt="WeatherMLB - Stadium Specific Wind and Weather Dashboard" class="header-hero-img shadow-sm">
-</div>
-
-<nav class="navbar shadow-sm py-2 mb-0 sticky-top" style="background-color: #0f172a;">
-    <div class="container justify-content-center flex-column">
-        <div class="row g-2 align-items-center justify-content-center w-100">
-            <div class="col-auto">
-                <input type="date" id="date-picker" class="form-control text-center fw-bold" 
-                       style="background-color: #1e293b; color: #ffffff; border: 1px solid #334155; color-scheme: dark; max-width: 160px;">
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-outline-light d-flex align-items-center justify-content-center px-3" onclick="generateDailyReport()">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="white" class="me-2">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                    </svg>
-                    Report
-                </button>
-            </div>
+<nav class="navbar shadow-sm py-2 mb-0 sticky-top border-bottom border-dark" style="background-color: #0f172a;">
+    <div class="container d-flex justify-content-between align-items-center flex-row">
+        
+        <div class="navbar-brand text-white fw-bold m-0" style="font-style: italic; letter-spacing: 0.5px; font-size: 2.0rem;">
+            Weather<span style="color: #5ac8fa;">MLB</span>
         </div>
         
+        <div class="d-flex align-items-center gap-2">
+            <input type="date" id="date-picker" class="form-control text-center fw-bold" 
+                   style="background-color: #1e293b; color: #ffffff; border: 1px solid #334155; color-scheme: dark; max-width: 160px;">
+            <button class="btn btn-outline-light d-flex align-items-center justify-content-center px-3" onclick="generateDailyReport()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="white" class="me-2">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+                Report
+            </button>
+        </div>
         
     </div>
 </nav>

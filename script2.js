@@ -622,9 +622,9 @@ function createGameCard(data) {
             
             <div class="ribbon-view p-2 position-relative" onclick="toggleSingleCard(event, '${game.gamePk}')" style="cursor: pointer; display: ${showRibbon};">
                 
-                <div class="d-flex align-items-center justify-content-between mb-1">
+                <div class="d-flex align-items-center mb-1">
                     <span class="badge ${timeBadgeClass} flex-shrink-0 px-2 py-1" style="font-size: 0.65rem;">${gameTime}</span>
-                    <div class="fw-bold text-dark text-end" style="font-size: 0.75rem; letter-spacing: 0.2px;">
+                    <div class="fw-bold text-dark text-center flex-grow-1 ms-2" style="font-size: 0.75rem; letter-spacing: 0.2px;">
                         ${weatherEmojiLine}
                     </div>
                 </div>

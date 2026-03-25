@@ -56,7 +56,7 @@ async function init(dateToFetch) {
 
     } catch (error) {
         console.log(`No local file for ${dateToFetch} or rendering failed. Falling back to live MLB API...`);
-        console.error("The exact error was:", error); // <-- Added so we can see any future bugs!
+        console.error("The exact error was:", error); 
         
         try {
             // Fallback: Hit the MLB API directly just to show the schedule
@@ -123,7 +123,8 @@ async function init(dateToFetch) {
 function renderGames() {
     const container = document.getElementById('games-container');
     const cardsContainer = document.createElement('div');
-    cardsContainer.className = 'row w-100 m-0 p-0';
+    // align-items-start prevents the "stretching" blue background issue when one card expands
+    cardsContainer.className = 'row w-100 m-0 p-0 align-items-start';
 
     const searchText = document.getElementById('team-search').value.toLowerCase();
     const sortMode = document.getElementById('sort-filter').value;
@@ -429,9 +430,7 @@ function createGameCard(data) {
             <div class="fw-bold text-muted" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U TBD</div>
         </div>`;
 
-    // --- ODDS FIX: Now properly accesses bookmakers array ---
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
-        // Fallback to the first available bookie if FanDuel isn't found
         let selectedBook = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
         
         if (selectedBook && selectedBook.markets) {
@@ -488,13 +487,10 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="text-center mt-2"><small class="text-muted">Indoor Conditions</small></div>`;
             } else if (weather.hourly && weather.hourly.length > 0) {
                 const cardsHtml = weather.hourly.map((h, index) => {
-                    
-                    // Let the user's browser seamlessly handle the timezone conversion!
                     let dateObj;
                     if (h.timestamp) {
                         dateObj = new Date(h.timestamp);
                     } else {
-                        // Safety fallback for old cache files
                         dateObj = new Date();
                         dateObj.setHours(h.hour, 0, 0, 0); 
                     }
@@ -571,32 +567,37 @@ function createGameCard(data) {
     }
 
     const weatherEmojiLine = getWeatherEmojiString(data);
-    const collapseId = `card-body-${game.gamePk}`;
-    const isExpanded = ARE_ALL_EXPANDED ? 'show' : '';
+    const showRibbon = ARE_ALL_EXPANDED ? 'none' : 'block';
+    const showFull = ARE_ALL_EXPANDED ? 'block' : 'none';
 
+    // IMPORTANT: Note the h-100 class is completely removed here to prevent stretching.
     gameCard.innerHTML = `
-        <div class="card game-card h-100 ${borderClass} ${bgClass}">
+        <div class="card game-card shadow-sm ${borderClass} ${bgClass}" style="overflow: hidden;">
             
-            <div class="card-header px-2 py-2" style="cursor: pointer; background: transparent; border-bottom: none;" data-bs-toggle="collapse" href="#${collapseId}" role="button" aria-expanded="${ARE_ALL_EXPANDED}" aria-controls="${collapseId}">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                    <div class="d-flex align-items-center">
-                        <span class="badge ${timeBadgeClass} me-2">${gameTime}</span>
-                        <img src="${awayLogo}" style="width: 22px;" onerror="this.style.display='none'">
-                        <span class="fw-bold mx-1 text-muted" style="font-size: 0.75rem;">@</span>
-                        <img src="${homeLogo}" style="width: 22px;" onerror="this.style.display='none'">
-                    </div>
-                    <span class="text-truncate text-end ms-2 fw-bold" style="font-size: 0.7rem; opacity: 0.75; max-width: 120px;">${game.venue?.name || 'TBD'}</span>
+            <div class="ribbon-view p-2" onclick="toggleSingleCard(event, '${game.gamePk}')" style="cursor: pointer; display: ${showRibbon};">
+                <div class="d-flex align-items-center mb-1">
+                    <span class="badge ${timeBadgeClass} me-2 flex-shrink-0">${gameTime}</span>
+                    <img src="${awayLogo}" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'">
+                    <span class="fw-bold mx-1 text-muted" style="font-size: 0.75rem;">@</span>
+                    <img src="${homeLogo}" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'">
+                    <div class="text-truncate text-end ms-2 fw-bold flex-grow-1" style="font-size: 0.75rem; opacity: 0.85;">${game.venue?.name || 'TBD'}</div>
                 </div>
                 <div class="text-center fw-bold mt-1" style="font-size: 0.8rem; letter-spacing: 0.5px;">
                     ${weatherEmojiLine}
                 </div>
             </div>
 
-            <div class="collapse ${isExpanded}" id="${collapseId}">
-                <div class="card-body px-2 pt-2 pb-2 border-top" style="background: rgba(255,255,255,0.4);"> 
+            <div class="full-card-view" onclick="toggleSingleCard(event, '${game.gamePk}')" style="cursor: pointer; display: ${showFull};">
+                <div class="card-body px-2 pt-2 pb-2"> 
                     
-                    <div class="d-flex justify-content-between align-items-start px-1 mt-1">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge ${timeBadgeClass}">${gameTime}</span>
+                        <span class="stadium-name text-truncate text-end flex-grow-1 ms-2" style="font-size: 0.8rem; font-weight: 600;">${game.venue?.name || 'TBD'}</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-start px-1">
                         <div class="text-center" style="width: 45%; min-width: 0;"> 
+                            <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
                             <div class="d-flex flex-column justify-content-center align-items-center w-100">
                                 <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayShortName}</div>
                                 ${mlAway}
@@ -609,6 +610,7 @@ function createGameCard(data) {
                         </div>
                         
                         <div class="text-center" style="width: 45%; min-width: 0;"> 
+                            <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
                             <div class="d-flex flex-column justify-content-center align-items-center w-100">
                                 <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeShortName}</div>
                                 ${mlHome}
@@ -868,10 +870,31 @@ function getWeatherEmojiString(data) {
     return `🌧️${rain}% 🌡️${temp}° 💧${hum}% ${arrow}${windSpd}mph`;
 }
 
+// --- NEW STATE HANDLERS ---
+window.toggleSingleCard = function(e, gamePk) {
+    // If the user clicked a button, link, or lineup-toggle inside the full card, don't collapse it!
+    if (e && e.target.closest('a, button, input, label, [data-bs-toggle="collapse"]')) {
+        return; 
+    }
+
+    const card = document.getElementById(`game-${gamePk}`);
+    if (!card) return;
+    
+    const ribbon = card.querySelector('.ribbon-view');
+    const full = card.querySelector('.full-card-view');
+    
+    if (ribbon.style.display === 'none') {
+        ribbon.style.display = 'block';
+        full.style.display = 'none';
+    } else {
+        ribbon.style.display = 'none';
+        full.style.display = 'block';
+    }
+};
+
 window.toggleAllWeatherCards = function() {
     ARE_ALL_EXPANDED = !ARE_ALL_EXPANDED;
     
-    // Update the button text
     const btnText = document.getElementById('expand-toggle-text');
     const btnIcon = document.getElementById('expand-toggle-icon');
     if (btnText && btnIcon) {
@@ -879,10 +902,13 @@ window.toggleAllWeatherCards = function() {
         btnIcon.innerText = ARE_ALL_EXPANDED ? '▲' : '▼';
     }
     
-    // Smoothly toggle all cards via Bootstrap's classes
-    document.querySelectorAll('.game-card .collapse').forEach(el => {
-        if (ARE_ALL_EXPANDED) el.classList.add('show');
-        else el.classList.remove('show');
+    document.querySelectorAll('.game-card').forEach(card => {
+        const ribbon = card.querySelector('.ribbon-view');
+        const full = card.querySelector('.full-card-view');
+        if (ribbon && full) {
+            ribbon.style.display = ARE_ALL_EXPANDED ? 'none' : 'block';
+            full.style.display = ARE_ALL_EXPANDED ? 'block' : 'none';
+        }
     });
 };
 
@@ -917,7 +943,6 @@ function generateDailyReport() {
         let homeOddsStr = "[TBD]";
         let totalStr = " • O/U TBD";
 
-        // --- ODDS FIX: Now properly accesses bookmakers array ---
         if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
             const bookie = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
             

@@ -133,11 +133,35 @@ def fetch_and_save_odds():
         except Exception as e:
             print(f"⚠️ Could not read existing file (starting fresh): {e}")
 
-    # --- 2. MERGE LOGIC ---
+    # --- 2. SMART MERGE LOGIC ---
     merged_odds = {game['id']: game for game in existing_odds_data}
     
-    for game in new_odds_data:
-        merged_odds[game['id']] = game
+    for new_game in new_odds_data:
+        game_id = new_game['id']
+        
+        if game_id not in merged_odds:
+            # It's a brand new game we haven't seen before
+            merged_odds[game_id] = new_game
+        else:
+            # We already have this game in memory. Let's merge the markets carefully.
+            existing_game = merged_odds[game_id]
+            new_book = new_game['bookmakers'][0] 
+            
+            # Grab the existing bookmaker (ESPN)
+            existing_book = next((b for b in existing_game.get('bookmakers', []) if b['key'] == new_book['key']), None)
+            
+            if not existing_book:
+                existing_game.setdefault('bookmakers', []).append(new_book)
+            else:
+                # Merge individual markets (h2h vs totals)
+                existing_markets = {m['key']: m for m in existing_book.get('markets', [])}
+                
+                # Overwrite/Update ONLY the markets ESPN actually provided in this fresh pull
+                for new_market in new_book.get('markets', []):
+                    existing_markets[new_market['key']] = new_market
+                
+                # Put the protected markets back into the bookmaker
+                existing_book['markets'] = list(existing_markets.values())
 
     # --- 3. CLEANUP STALE GAMES (Keep only last 24 hours) ---
     now_utc = datetime.now(timezone.utc)

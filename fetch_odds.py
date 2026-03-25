@@ -4,12 +4,12 @@ import os
 from datetime import datetime, timedelta, timezone
 
 # --- CONFIGURATION ---
+# No API Keys Needed! We are using ESPN's free scoreboard API.
 OUTPUT_FILE = "data/odds.json" 
 
 def get_active_sports():
     """
     Dynamically determines which ESPN sports to fetch based on the current date.
-    ESPN uses 'mlb' for both preseason and regular season.
     """
     current_date = datetime.now(timezone.utc).date()
     wbc_start = datetime(2026, 3, 4).date()
@@ -26,6 +26,7 @@ def fetch_and_save_odds():
     
     new_odds_data = []
     
+    # Fetch today and tomorrow to catch all upcoming slates
     dates_to_fetch = [
         datetime.now(timezone.utc).strftime('%Y%m%d'),
         (datetime.now(timezone.utc) + timedelta(days=1)).strftime('%Y%m%d')
@@ -64,10 +65,12 @@ def fetch_and_save_odds():
                         
                         markets = []
                         
-                        # 1. Map ESPN Moneyline to Odds API 'h2h' structure
+                        # 1. Map ESPN Moneyline using the newly discovered paths
                         h2h_outcomes = []
-                        home_ml = espn_odds.get('homeTeamOdds', {}).get('moneyLine')
-                        away_ml = espn_odds.get('awayTeamOdds', {}).get('moneyLine')
+                        moneyline_data = espn_odds.get('moneyline', {})
+                        
+                        home_ml = moneyline_data.get('home', {}).get('close', {}).get('odds')
+                        away_ml = moneyline_data.get('away', {}).get('close', {}).get('odds')
                         
                         if home_ml is not None:
                             h2h_outcomes.append({"name": home_team, "price": home_ml})
@@ -77,12 +80,17 @@ def fetch_and_save_odds():
                         if h2h_outcomes:
                             markets.append({"key": "h2h", "outcomes": h2h_outcomes})
                             
-                        # 2. Map ESPN Over/Under to Odds API 'totals' structure
+                        # 2. Map ESPN Over/Under using the newly discovered paths
                         totals_outcomes = []
-                        over_under = espn_odds.get('overUnder')
-                        if over_under is not None:
-                            totals_outcomes.append({"name": "Over", "point": over_under, "price": -110})
-                            totals_outcomes.append({"name": "Under", "point": over_under, "price": -110})
+                        over_under_point = espn_odds.get('overUnder')
+                        totals_data = espn_odds.get('total', {})
+                        
+                        if over_under_point is not None:
+                            over_juice = totals_data.get('over', {}).get('close', {}).get('odds', -110)
+                            under_juice = totals_data.get('under', {}).get('close', {}).get('odds', -110)
+                            
+                            totals_outcomes.append({"name": "Over", "point": over_under_point, "price": over_juice})
+                            totals_outcomes.append({"name": "Under", "point": over_under_point, "price": under_juice})
                             
                         if totals_outcomes:
                             markets.append({"key": "totals", "outcomes": totals_outcomes})
@@ -90,6 +98,7 @@ def fetch_and_save_odds():
                         if not markets:
                             continue
                             
+                        # Package exactly like The Odds API so the frontend doesn't break
                         formatted_game = {
                             "id": game_id,
                             "sport_key": f"baseball_{sport}",
@@ -136,13 +145,12 @@ def fetch_and_save_odds():
     
     for game in merged_odds.values():
         try:
-            # FIX: Handle dates both WITH and WITHOUT seconds!
             date_str = game['commence_time']
             if date_str.endswith('Z'):
                 date_str = date_str[:-1]
             if len(date_str.split(':')) == 2:
-                date_str += ":00" # Add seconds if ESPN omitted them
-            
+                date_str += ":00"
+                
             commence_time = datetime.fromisoformat(date_str).replace(tzinfo=timezone.utc)
             
             if now_utc - commence_time < timedelta(hours=24):

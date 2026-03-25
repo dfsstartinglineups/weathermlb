@@ -624,19 +624,19 @@ function createGameCard(data) {
                 <div class="d-flex align-items-center mb-1">
                     <span class="badge ${timeBadgeClass} me-2 flex-shrink-0">${gameTime}</span>
                     
-                    <div class="position-relative d-inline-block flex-shrink-0" style="margin-right: 14px;">
+                    <div class="d-flex align-items-center flex-shrink-0">
+                        <img src="${awayLogo}" style="width: 18px; height: 18px; object-fit: contain;" class="me-1" onerror="this.style.display='none'">
                         <span class="fw-bold text-dark" style="font-size: 0.75rem;">${awayShortName}</span>
-                        <img src="${awayLogo}" style="width: 16px; height: 16px; position: absolute; top: -6px; right: -12px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;" onerror="this.style.display='none'">
                     </div>
                     
                     <span class="fw-bold text-muted mx-1 flex-shrink-0" style="font-size: 0.75rem;">@</span>
                     
-                    <div class="position-relative d-inline-block ms-1 flex-shrink-0" style="margin-right: 12px;">
+                    <div class="d-flex align-items-center flex-shrink-0 ms-1">
+                        <img src="${homeLogo}" style="width: 18px; height: 18px; object-fit: contain;" class="me-1" onerror="this.style.display='none'">
                         <span class="fw-bold text-dark" style="font-size: 0.75rem;">${homeShortName}</span>
-                        <img src="${homeLogo}" style="width: 16px; height: 16px; position: absolute; top: -6px; right: -12px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;" onerror="this.style.display='none'">
                     </div>
 
-                    <div class="text-truncate text-end ms-1 fw-bold flex-grow-1" style="font-size: 0.7rem; opacity: 0.75;">${game.venue?.name || 'TBD'}</div>
+                    <div class="text-truncate text-end ms-2 fw-bold flex-grow-1" style="font-size: 0.7rem; opacity: 0.75;">${game.venue?.name || 'TBD'}</div>
                 </div>
                 <div class="text-center fw-bold mt-1" style="font-size: 0.8rem; letter-spacing: 0.5px;">
                     ${weatherEmojiLine}
@@ -807,10 +807,13 @@ function formatPlayerName(fullName) {
 function getShortTeamName(fullName) {
     if (!fullName) return "";
     
+    // MLB Exceptions
     if (fullName.includes("Red Sox")) return "Red Sox";
     if (fullName.includes("White Sox")) return "White Sox";
     if (fullName.includes("Blue Jays")) return "Blue Jays";
+    if (fullName.includes("Diamondbacks")) return "Dbacks"; // <-- Added Dbacks fix!
     
+    // WBC Exceptions
     if (fullName.includes("Dominican Republic")) return "Dom Rep";
     if (fullName.includes("United States")) return "USA";
     if (fullName.includes("Puerto Rico")) return "Puerto Rico";

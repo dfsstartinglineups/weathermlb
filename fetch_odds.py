@@ -4,7 +4,6 @@ import os
 from datetime import datetime, timedelta, timezone
 
 # --- CONFIGURATION ---
-# No API Keys Needed for ESPN!
 OUTPUT_FILE = "data/odds.json" 
 
 def get_active_sports():
@@ -16,7 +15,6 @@ def get_active_sports():
     wbc_start = datetime(2026, 3, 4).date()
     wbc_end = datetime(2026, 3, 17).date()
     
-    # During WBC, check both WBC and MLB (Spring Training)
     if wbc_start <= current_date <= wbc_end:
         return ["world-baseball-classic", "mlb"]
         
@@ -28,7 +26,6 @@ def fetch_and_save_odds():
     
     new_odds_data = []
     
-    # ESPN fetches by specific date, so we grab Today and Tomorrow to catch all upcoming slates
     dates_to_fetch = [
         datetime.now(timezone.utc).strftime('%Y%m%d'),
         (datetime.now(timezone.utc) + timedelta(days=1)).strftime('%Y%m%d')
@@ -52,7 +49,6 @@ def fetch_and_save_odds():
                         
                         comp = event['competitions'][0]
                         
-                        # Grab full team names (e.g., "New York Yankees") to match the MLB API
                         try:
                             home_team = next(c['team']['displayName'] for c in comp['competitors'] if c['homeAway'] == 'home')
                             away_team = next(c['team']['displayName'] for c in comp['competitors'] if c['homeAway'] == 'away')
@@ -85,7 +81,6 @@ def fetch_and_save_odds():
                         totals_outcomes = []
                         over_under = espn_odds.get('overUnder')
                         if over_under is not None:
-                            # ESPN doesn't always provide the juice on totals, so we default to standard -110
                             totals_outcomes.append({"name": "Over", "point": over_under, "price": -110})
                             totals_outcomes.append({"name": "Under", "point": over_under, "price": -110})
                             
@@ -95,7 +90,6 @@ def fetch_and_save_odds():
                         if not markets:
                             continue
                             
-                        # Package exactly like The Odds API
                         formatted_game = {
                             "id": game_id,
                             "sport_key": f"baseball_{sport}",
@@ -142,11 +136,19 @@ def fetch_and_save_odds():
     
     for game in merged_odds.values():
         try:
-            commence_time = datetime.strptime(game['commence_time'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            # FIX: Handle dates both WITH and WITHOUT seconds!
+            date_str = game['commence_time']
+            if date_str.endswith('Z'):
+                date_str = date_str[:-1]
+            if len(date_str.split(':')) == 2:
+                date_str += ":00" # Add seconds if ESPN omitted them
+            
+            commence_time = datetime.fromisoformat(date_str).replace(tzinfo=timezone.utc)
+            
             if now_utc - commence_time < timedelta(hours=24):
                 final_odds_list.append(game)
         except Exception as e:
-            pass
+            print(f"⚠️ Dropped game {game.get('id')} due to date parsing error: {e}")
 
     # --- 4. SAVE FILE ---
     output_data = {

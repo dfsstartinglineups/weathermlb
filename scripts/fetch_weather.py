@@ -217,9 +217,14 @@ def main():
             home_team_name = game.get('teams', {}).get('home', {}).get('team', {}).get('name', '')
             game_time_ms = datetime.strptime(game['gameDate'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp() * 1000
             
+            def parse_odds_time(date_str):
+                if date_str.endswith('Z'): date_str = date_str[:-1]
+                if len(date_str.split(':')) == 2: date_str += ":00"
+                return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp() * 1000
+
             potential_odds = [o for o in odds_data if o['home_team'] == home_team_name and o['away_team'] == away_team_name]
             if potential_odds:
-                game_odds = sorted(potential_odds, key=lambda o: abs(datetime.strptime(o['commence_time'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp() * 1000 - game_time_ms))[0]
+                game_odds = sorted(potential_odds, key=lambda o: abs(parse_odds_time(o['commence_time']) - game_time_ms))[0]0 - game_time_ms))[0]
 
             venue_id = game.get('venue', {}).get('id')
             stadium = next((s for s in stadiums if s.get('id') == venue_id), None)

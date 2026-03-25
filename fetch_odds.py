@@ -20,6 +20,26 @@ def get_active_sports():
         
     return ["mlb"]
 
+def parse_odds_value(val, default=None):
+    """
+    Safely converts ESPN's string odds (e.g., '+104', '-126', 'EVEN') 
+    into standard integers (e.g., 104, -126, 100) to match The Odds API format.
+    """
+    if val is None:
+        return default
+    if isinstance(val, (int, float)):
+        return int(val)
+        
+    val_str = str(val).strip().upper()
+    if val_str == 'EVEN':
+        return 100
+        
+    try:
+        # Strip the '+' sign. Python natively handles the '-' sign during int() conversion
+        return int(val_str.replace('+', ''))
+    except ValueError:
+        return default
+
 def fetch_and_save_odds():
     active_sports = get_active_sports()
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Active Sports: {active_sports}")
@@ -65,12 +85,12 @@ def fetch_and_save_odds():
                         
                         markets = []
                         
-                        # 1. Map ESPN Moneyline using the newly discovered paths
+                        # 1. Map ESPN Moneyline and clean the odds format
                         h2h_outcomes = []
                         moneyline_data = espn_odds.get('moneyline', {})
                         
-                        home_ml = moneyline_data.get('home', {}).get('close', {}).get('odds')
-                        away_ml = moneyline_data.get('away', {}).get('close', {}).get('odds')
+                        home_ml = parse_odds_value(moneyline_data.get('home', {}).get('close', {}).get('odds'))
+                        away_ml = parse_odds_value(moneyline_data.get('away', {}).get('close', {}).get('odds'))
                         
                         if home_ml is not None:
                             h2h_outcomes.append({"name": home_team, "price": home_ml})
@@ -80,14 +100,14 @@ def fetch_and_save_odds():
                         if h2h_outcomes:
                             markets.append({"key": "h2h", "outcomes": h2h_outcomes})
                             
-                        # 2. Map ESPN Over/Under using the newly discovered paths
+                        # 2. Map ESPN Over/Under and clean the juice
                         totals_outcomes = []
                         over_under_point = espn_odds.get('overUnder')
                         totals_data = espn_odds.get('total', {})
                         
                         if over_under_point is not None:
-                            over_juice = totals_data.get('over', {}).get('close', {}).get('odds', -110)
-                            under_juice = totals_data.get('under', {}).get('close', {}).get('odds', -110)
+                            over_juice = parse_odds_value(totals_data.get('over', {}).get('close', {}).get('odds'), -110)
+                            under_juice = parse_odds_value(totals_data.get('under', {}).get('close', {}).get('odds'), -110)
                             
                             totals_outcomes.append({"name": "Over", "point": over_under_point, "price": over_juice})
                             totals_outcomes.append({"name": "Under", "point": over_under_point, "price": under_juice})
@@ -98,7 +118,7 @@ def fetch_and_save_odds():
                         if not markets:
                             continue
                             
-                        # Package exactly like The Odds API so the frontend doesn't break
+                        # Package exactly like The Odds API
                         formatted_game = {
                             "id": game_id,
                             "sport_key": f"baseball_{sport}",
@@ -140,27 +160,19 @@ def fetch_and_save_odds():
         game_id = new_game['id']
         
         if game_id not in merged_odds:
-            # It's a brand new game we haven't seen before
             merged_odds[game_id] = new_game
         else:
-            # We already have this game in memory. Let's merge the markets carefully.
             existing_game = merged_odds[game_id]
             new_book = new_game['bookmakers'][0] 
             
-            # Grab the existing bookmaker (ESPN)
             existing_book = next((b for b in existing_game.get('bookmakers', []) if b['key'] == new_book['key']), None)
             
             if not existing_book:
                 existing_game.setdefault('bookmakers', []).append(new_book)
             else:
-                # Merge individual markets (h2h vs totals)
                 existing_markets = {m['key']: m for m in existing_book.get('markets', [])}
-                
-                # Overwrite/Update ONLY the markets ESPN actually provided in this fresh pull
                 for new_market in new_book.get('markets', []):
                     existing_markets[new_market['key']] = new_market
-                
-                # Put the protected markets back into the bookmaker
                 existing_book['markets'] = list(existing_markets.values())
 
     # --- 3. CLEANUP STALE GAMES (Keep only last 24 hours) ---

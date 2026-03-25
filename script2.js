@@ -6,6 +6,30 @@ const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 // Global State
 let ALL_GAMES_DATA = []; 
 let ARE_ALL_EXPANDED = false;
+window.HAS_SHOWN_TUTORIAL = false; // Tracks if they've seen the tooltips
+
+// Global CSS injection for our bouncing tutorial tooltips
+const mlbStyle = document.createElement('style');
+mlbStyle.innerHTML = `
+    @keyframes tutorialBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    .tutorial-tooltip {
+        transition: opacity 0.4s ease-out;
+        pointer-events: none; /* So they don't block clicks underneath them */
+    }
+`;
+document.head.appendChild(mlbStyle);
+
+// Helper to dismiss the tooltips once the user understands how the site works
+window.dismissTutorials = function() {
+    window.HAS_SHOWN_TUTORIAL = true;
+    document.querySelectorAll('.tutorial-tooltip').forEach(el => {
+        el.style.opacity = '0'; // Smooth fade out
+        setTimeout(() => el.remove(), 400); // Remove from DOM after fade
+    });
+};
 
 // ==========================================
 // 1. MAIN APP LOGIC (NOW LIGHTNING FAST)
@@ -123,7 +147,6 @@ async function init(dateToFetch) {
 function renderGames() {
     const container = document.getElementById('games-container');
     const cardsContainer = document.createElement('div');
-    // align-items-start prevents the "stretching" blue background issue when one card expands
     cardsContainer.className = 'row w-100 m-0 p-0 align-items-start';
 
     const searchText = document.getElementById('team-search').value.toLowerCase();
@@ -171,17 +194,38 @@ function renderGames() {
     container.innerHTML = '';
     if (existingAlert) container.appendChild(existingAlert.parentElement);
 
-    // --- NEW: Global Expand/Collapse Button ---
+    // --- NEW: Global Expand/Collapse Button (With Tutorial Tooltip) ---
     if (filteredGames.length > 0) {
+        let expandTutorialHtml = '';
+        if (!window.HAS_SHOWN_TUTORIAL) {
+            expandTutorialHtml = `<div class="tutorial-tooltip text-primary fw-bold mb-1" style="font-size: 0.75rem; animation: tutorialBounce 1.5s infinite;">👇 Click to expand all cards</div>`;
+        }
+
         const toggleRow = document.createElement('div');
-        toggleRow.className = 'col-12 text-center mb-3 mt-1';
+        toggleRow.className = 'col-12 text-center mb-3 mt-1 position-relative';
         toggleRow.innerHTML = `
+            ${expandTutorialHtml}
             <button class="btn btn-sm shadow-sm fw-bold px-4 py-1" style="background-color: #fff; border: 1px solid #dee2e6; color: #495057; border-radius: 20px;" onclick="window.toggleAllWeatherCards()">
                 <span id="expand-toggle-icon">${ARE_ALL_EXPANDED ? '▲' : '▼'}</span> 
                 <span id="expand-toggle-text">${ARE_ALL_EXPANDED ? 'Collapse All Cards' : 'Expand All Cards'}</span>
             </button>
         `;
         container.appendChild(toggleRow);
+    }
+
+    // --- NEW: First Ribbon Tutorial Pointer ---
+    if (!window.HAS_SHOWN_TUTORIAL && cardsContainer.firstChild) {
+        const firstRibbon = cardsContainer.firstChild.querySelector('.ribbon-view');
+        if (firstRibbon) {
+            const pointer = document.createElement('div');
+            pointer.className = 'tutorial-tooltip badge bg-primary position-absolute shadow-sm border border-light';
+            pointer.style.cssText = 'top: -10px; right: 15px; font-size: 0.65rem; animation: tutorialBounce 1.5s infinite; z-index: 10;';
+            pointer.innerHTML = '👇 Click to expand';
+            firstRibbon.appendChild(pointer);
+        }
+        
+        // Auto-dismiss the tooltips after 8 seconds if they haven't clicked anything
+        setTimeout(window.dismissTutorials, 8000);
     }
 
     container.appendChild(cardsContainer);
@@ -570,11 +614,10 @@ function createGameCard(data) {
     const showRibbon = ARE_ALL_EXPANDED ? 'none' : 'block';
     const showFull = ARE_ALL_EXPANDED ? 'block' : 'none';
 
-    // IMPORTANT: Note the h-100 class is completely removed here to prevent stretching.
     gameCard.innerHTML = `
         <div class="card game-card shadow-sm ${borderClass} ${bgClass}" style="overflow: hidden;">
             
-            <div class="ribbon-view p-2" onclick="toggleSingleCard(event, '${game.gamePk}')" style="cursor: pointer; display: ${showRibbon};">
+            <div class="ribbon-view p-2 position-relative" onclick="toggleSingleCard(event, '${game.gamePk}')" style="cursor: pointer; display: ${showRibbon};">
                 <div class="d-flex align-items-center mb-1">
                     <span class="badge ${timeBadgeClass} me-2 flex-shrink-0">${gameTime}</span>
                     <img src="${awayLogo}" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'">
@@ -718,7 +761,6 @@ function getWindArrowEmoji(direction) {
 
 function getTeamAbbr(teamName) {
     const map = {
-        // MLB Teams
         "Yankees": "NYY", "Mets": "NYM", "Cubs": "CHC", "White Sox": "CWS",
         "Dodgers": "LAD", "Angels": "LAA", "Diamondbacks": "ARI", "Braves": "ATL", 
         "Orioles": "BAL", "Red Sox": "BOS", "Reds": "CIN", "Guardians": "CLE", 
@@ -727,7 +769,6 @@ function getTeamAbbr(teamName) {
         "Phillies": "PHI", "Pirates": "PIT", "Padres": "SD",  "Giants": "SF",  
         "Mariners": "SEA", "Cardinals": "STL", "Rays": "TB",   "Rangers": "TEX", 
         "Blue Jays": "TOR", "Nationals": "WSH",
-        // WBC Teams
         "United States": "USA", "Japan": "JPN", "Dominican Republic": "DOM",
         "Venezuela": "VEN", "Puerto Rico": "PUR", "Mexico": "MEX",
         "South Korea": "KOR", "Cuba": "CUB", "Canada": "CAN",
@@ -753,12 +794,10 @@ function formatPlayerName(fullName) {
 function getShortTeamName(fullName) {
     if (!fullName) return "";
     
-    // MLB Exceptions
     if (fullName.includes("Red Sox")) return "Red Sox";
     if (fullName.includes("White Sox")) return "White Sox";
     if (fullName.includes("Blue Jays")) return "Blue Jays";
     
-    // WBC Exceptions
     if (fullName.includes("Dominican Republic")) return "Dom Rep";
     if (fullName.includes("United States")) return "USA";
     if (fullName.includes("Puerto Rico")) return "Puerto Rico";
@@ -872,10 +911,10 @@ function getWeatherEmojiString(data) {
 
 // --- NEW STATE HANDLERS ---
 window.toggleSingleCard = function(e, gamePk) {
-    // If the user clicked a button, link, or lineup-toggle inside the full card, don't collapse it!
     if (e && e.target.closest('a, button, input, label, [data-bs-toggle="collapse"]')) {
         return; 
     }
+    if (window.dismissTutorials) window.dismissTutorials();
 
     const card = document.getElementById(`game-${gamePk}`);
     if (!card) return;
@@ -893,6 +932,7 @@ window.toggleSingleCard = function(e, gamePk) {
 };
 
 window.toggleAllWeatherCards = function() {
+    if (window.dismissTutorials) window.dismissTutorials();
     ARE_ALL_EXPANDED = !ARE_ALL_EXPANDED;
     
     const btnText = document.getElementById('expand-toggle-text');

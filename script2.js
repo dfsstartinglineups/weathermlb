@@ -621,23 +621,25 @@ function createGameCard(data) {
         <div class="card game-card shadow-sm ${borderClass} ${bgClass}" style="overflow: hidden;">
             
             <div class="ribbon-view p-2 position-relative" onclick="toggleSingleCard(event, '${game.gamePk}')" style="cursor: pointer; display: ${showRibbon};">
-                <div class="d-flex align-items-center mb-1">
-                    <span class="badge ${timeBadgeClass} me-2 flex-shrink-0">${gameTime}</span>
+                <div class="d-flex align-items-center mb-1" style="gap: 4px;">
                     
-                    <div class="d-flex align-items-center flex-shrink-0">
-                        <img src="${awayLogo}" style="width: 18px; height: 18px; object-fit: contain;" class="me-1" onerror="this.style.display='none'">
-                        <span class="fw-bold text-dark" style="font-size: 0.75rem;">${awayShortName}</span>
+                    <span class="badge ${timeBadgeClass} flex-shrink-0 px-1" style="font-size: 0.65rem; padding-top: 3px; padding-bottom: 3px;">${gameTime}</span>
+                    
+                    <div class="d-flex align-items-center flex-shrink-0" style="gap: 2px;">
+                        <img src="${awayLogo}" style="width: 14px; height: 14px; object-fit: contain;" onerror="this.style.display='none'">
+                        <span class="fw-bold text-dark lh-1" style="font-size: 0.7rem; letter-spacing: -0.3px;">${awayShortName}</span>
                     </div>
                     
-                    <span class="fw-bold text-muted mx-1 flex-shrink-0" style="font-size: 0.75rem;">@</span>
+                    <span class="fw-bold text-muted flex-shrink-0 lh-1" style="font-size: 0.65rem;">@</span>
                     
-                    <div class="d-flex align-items-center flex-shrink-0 ms-1">
-                        <img src="${homeLogo}" style="width: 18px; height: 18px; object-fit: contain;" class="me-1" onerror="this.style.display='none'">
-                        <span class="fw-bold text-dark" style="font-size: 0.75rem;">${homeShortName}</span>
+                    <div class="d-flex align-items-center flex-shrink-0" style="gap: 2px;">
+                        <img src="${homeLogo}" style="width: 14px; height: 14px; object-fit: contain;" onerror="this.style.display='none'">
+                        <span class="fw-bold text-dark lh-1" style="font-size: 0.7rem; letter-spacing: -0.3px;">${homeShortName}</span>
                     </div>
 
-                    <div class="text-truncate text-end ms-2 fw-bold flex-grow-1" style="font-size: 0.7rem; opacity: 0.75;">${game.venue?.name || 'TBD'}</div>
+                    <div class="text-truncate text-end fw-bold flex-grow-1 ms-1" style="font-size: 0.65rem; opacity: 0.75;">${game.venue?.name || 'TBD'}</div>
                 </div>
+                
                 <div class="text-center fw-bold mt-1" style="font-size: 0.8rem; letter-spacing: 0.5px;">
                     ${weatherEmojiLine}
                 </div>

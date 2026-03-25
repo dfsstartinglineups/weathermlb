@@ -5,6 +5,7 @@ const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 
 // Global State
 let ALL_GAMES_DATA = []; 
+let ARE_ALL_EXPANDED = false;
 
 // ==========================================
 // 1. MAIN APP LOGIC (NOW LIGHTNING FAST)
@@ -168,6 +169,20 @@ function renderGames() {
     const existingAlert = container.querySelector('.alert-info');
     container.innerHTML = '';
     if (existingAlert) container.appendChild(existingAlert.parentElement);
+
+    // --- NEW: Global Expand/Collapse Button ---
+    if (filteredGames.length > 0) {
+        const toggleRow = document.createElement('div');
+        toggleRow.className = 'col-12 text-center mb-3 mt-1';
+        toggleRow.innerHTML = `
+            <button class="btn btn-sm shadow-sm fw-bold px-4 py-1" style="background-color: #fff; border: 1px solid #dee2e6; color: #495057; border-radius: 20px;" onclick="window.toggleAllWeatherCards()">
+                <span id="expand-toggle-icon">${ARE_ALL_EXPANDED ? '▲' : '▼'}</span> 
+                <span id="expand-toggle-text">${ARE_ALL_EXPANDED ? 'Collapse All Cards' : 'Expand All Cards'}</span>
+            </button>
+        `;
+        container.appendChild(toggleRow);
+    }
+
     container.appendChild(cardsContainer);
 
     setTimeout(() => {
@@ -516,7 +531,7 @@ function createGameCard(data) {
                 hourlyHtml = `<div class="hourly-scroll-container">${cardsHtml}</div>`;
             }
             
-            let windArrow = windInfo ? windInfo.arrow : "💨";
+            let windArrow = windInfo ? `<span class="arrow-emoji">${windInfo.arrow}</span>` : "💨";
             let windCss = windInfo ? windInfo.cssClass : "bg-secondary";
             
             weatherHtml = `
@@ -555,50 +570,66 @@ function createGameCard(data) {
         }
     }
 
+    const weatherEmojiLine = getWeatherEmojiString(data);
+    const collapseId = `card-body-${game.gamePk}`;
+    const isExpanded = ARE_ALL_EXPANDED ? 'show' : '';
+
     gameCard.innerHTML = `
         <div class="card game-card h-100 ${borderClass} ${bgClass}">
-            <div class="card-body px-2 pt-2 pb-2"> 
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge ${timeBadgeClass}">${gameTime}</span>
-                    <span class="stadium-name text-truncate" style="max-width: 180px;">${game.venue?.name || 'TBD'}</span>
+            
+            <div class="card-header px-2 py-2" style="cursor: pointer; background: transparent; border-bottom: none;" data-bs-toggle="collapse" href="#${collapseId}" role="button" aria-expanded="${ARE_ALL_EXPANDED}" aria-controls="${collapseId}">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                    <div class="d-flex align-items-center">
+                        <span class="badge ${timeBadgeClass} me-2">${gameTime}</span>
+                        <img src="${awayLogo}" style="width: 22px;" onerror="this.style.display='none'">
+                        <span class="fw-bold mx-1 text-muted" style="font-size: 0.75rem;">@</span>
+                        <img src="${homeLogo}" style="width: 22px;" onerror="this.style.display='none'">
+                    </div>
+                    <span class="text-truncate text-end ms-2 fw-bold" style="font-size: 0.7rem; opacity: 0.75; max-width: 120px;">${game.venue?.name || 'TBD'}</span>
                 </div>
-                
-                <div class="d-flex justify-content-between align-items-start px-1">
-                    <div class="text-center" style="width: 45%; min-width: 0;"> 
-                        <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="d-flex flex-column justify-content-center align-items-center w-100">
-                            <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayShortName}</div>
-                            ${mlAway}
+                <div class="text-center fw-bold mt-1" style="font-size: 0.8rem; letter-spacing: 0.5px;">
+                    ${weatherEmojiLine}
+                </div>
+            </div>
+
+            <div class="collapse ${isExpanded}" id="${collapseId}">
+                <div class="card-body px-2 pt-2 pb-2 border-top" style="background: rgba(255,255,255,0.4);"> 
+                    
+                    <div class="d-flex justify-content-between align-items-start px-1 mt-1">
+                        <div class="text-center" style="width: 45%; min-width: 0;"> 
+                            <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                                <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayShortName}</div>
+                                ${mlAway}
+                            </div>
+                            <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${awayPitcher}</div>
                         </div>
-                        <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${awayPitcher}</div>
+                        
+                        <div class="text-center" style="width: 10%; min-width: 0;">
+                            ${totalHtml}
+                        </div>
+                        
+                        <div class="text-center" style="width: 45%; min-width: 0;"> 
+                            <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                                <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeShortName}</div>
+                                ${mlHome}
+                            </div>
+                            <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${homePitcher}</div>
+                        </div>
                     </div>
                     
-                    <div class="text-center" style="width: 10%; min-width: 0;">
-                        ${totalHtml}
+                    <div class="row g-0 mt-1 mx-0 w-100">
+                        <div class="col-6 pe-1 text-center w-50">
+                            ${awayLineupHtml}
+                        </div>
+                        <div class="col-6 ps-1 text-center w-50">
+                            ${homeLineupHtml}
+                        </div>
                     </div>
                     
-                    <div class="text-center" style="width: 45%; min-width: 0;"> 
-                        <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                        <div class="d-flex flex-column justify-content-center align-items-center w-100">
-                            <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeShortName}</div>
-                            ${mlHome}
-                        </div>
-                        <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${homePitcher}</div>
-                    </div>
+                    ${crossPromoHtml}
+                    
+                    ${weatherHtml}
                 </div>
-                
-                <div class="row g-0 mt-1 mx-0 w-100">
-                    <div class="col-6 pe-1 text-center w-50">
-                        ${awayLineupHtml}
-                    </div>
-                    <div class="col-6 ps-1 text-center w-50">
-                        ${homeLineupHtml}
-                    </div>
-                </div>
-                
-                ${crossPromoHtml}
-                
-                ${weatherHtml}
             </div>
         </div>`;
     
@@ -776,7 +807,7 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending)
 
     let sustainedRainHours = 0;
     if (weather.hourly && weather.hourly.length > 0) {
-        sustainedRainHours = weather.hourly.filter(h => h.precipChance >= 60).length;
+         sustainedRainHours = weather.hourly.filter(h => h.precipChance >= 60).length;
     }
 
     if (sustainedRainHours >= 3) {
@@ -814,6 +845,47 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending)
     return notes.join("<br>");
 }
 
+function getWeatherEmojiString(data) {
+    const w = data.weather || {};
+    let arrow = "💨";
+    if (data.wind && data.wind.arrow) {
+         arrow = data.wind.arrow;
+    } else if (w.windDir !== undefined) {
+         arrow = getWindArrowEmoji(w.windDir);
+    }
+
+    const isRoofClosed = data.roof;
+    const rain = isRoofClosed ? 0 : Math.round(Number(w.maxPrecipChance) || 0);
+    const temp = Math.round(Number(w.temp) || 0);
+    const hum = Math.round(Number(w.humidity) || 0);
+    const windSpd = isRoofClosed ? 0 : Math.round(Number(w.windSpeed) || 0);
+
+    if (w.status === "too_early" || w.temp === '--' || w.temp === undefined) {
+        return `Forecast Unavailable`;
+    } else if (isRoofClosed) {
+        return `Roof Closed 🌡️${temp}° 💧${hum}%`;
+    }
+    return `🌧️${rain}% 🌡️${temp}° 💧${hum}% ${arrow}${windSpd}mph`;
+}
+
+window.toggleAllWeatherCards = function() {
+    ARE_ALL_EXPANDED = !ARE_ALL_EXPANDED;
+    
+    // Update the button text
+    const btnText = document.getElementById('expand-toggle-text');
+    const btnIcon = document.getElementById('expand-toggle-icon');
+    if (btnText && btnIcon) {
+        btnText.innerText = ARE_ALL_EXPANDED ? 'Collapse All Cards' : 'Expand All Cards';
+        btnIcon.innerText = ARE_ALL_EXPANDED ? '▲' : '▼';
+    }
+    
+    // Smoothly toggle all cards via Bootstrap's classes
+    document.querySelectorAll('.game-card .collapse').forEach(el => {
+        if (ARE_ALL_EXPANDED) el.classList.add('show');
+        else el.classList.remove('show');
+    });
+};
+
 function generateDailyReport() {
     if (ALL_GAMES_DATA.length === 0) {
         alert("No games data available to report!");
@@ -830,7 +902,6 @@ function generateDailyReport() {
 
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
-        const w = game.weather || {}; 
         
         const awayName = teams.away.team.name;
         const homeName = teams.home.team.name;
@@ -871,27 +942,7 @@ function generateDailyReport() {
             }
         }
 
-        let arrow = "💨";
-        if (game.wind && game.wind.arrow) {
-             arrow = game.wind.arrow;
-        } else if (game.weather && game.weather.windDir !== undefined) {
-             arrow = getWindArrowEmoji(game.weather.windDir);
-        }
-
-        const isRoofClosed = game.roof;
-        const rain = isRoofClosed ? 0 : Math.round(Number(w.maxPrecipChance) || 0);
-        const temp = Math.round(Number(w.temp) || 0);
-        const hum = Math.round(Number(w.humidity) || 0);
-        const windSpd = isRoofClosed ? 0 : Math.round(Number(w.windSpeed) || 0);
-
-        let weatherString = `🌧️${rain}% 🌡️${temp}° 💧${hum}% ${arrow}${windSpd}mph`;
-        
-        if (w.status === "too_early" || w.temp === '--') {
-            weatherString = `Forecast Unavailable`;
-        } else if (isRoofClosed) {
-            weatherString = `Roof Closed 🌡️${temp}° 💧${hum}%`;
-        }
-
+        const weatherString = getWeatherEmojiString(game);
         const line = `${awayAbbr} (${awayP}) ${awayOddsStr} @ ${homeAbbr} (${homeP}) ${homeOddsStr}${totalStr}:\n${weatherString}`;
         reportText += line + "\n\n";
     });

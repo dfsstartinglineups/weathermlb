@@ -32,7 +32,7 @@ def get_active_sports():
         
     # 3. Default/Current (Before March 4th, or March 18-24)
     else:
-        return ["baseball_mlb_preseason"]
+        return ["baseball_mlb"]
 
 def fetch_and_save_odds():
     if not API_KEY:

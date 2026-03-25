@@ -215,13 +215,16 @@ function renderGames() {
 
     // --- NEW: First Ribbon Tutorial Pointer ---
     if (!window.HAS_SHOWN_TUTORIAL && cardsContainer.firstChild) {
-        const firstRibbon = cardsContainer.firstChild.querySelector('.ribbon-view');
-        if (firstRibbon) {
+        const firstWrapper = cardsContainer.firstChild; // The column wrapper, outside the card
+        if (firstWrapper) {
+            firstWrapper.classList.add('position-relative'); // Anchor the absolute tooltip here
+            
             const pointer = document.createElement('div');
             pointer.className = 'tutorial-tooltip badge bg-primary position-absolute shadow-sm border border-light';
-            pointer.style.cssText = 'top: -10px; right: 15px; font-size: 0.65rem; animation: tutorialBounce 1.5s infinite; z-index: 10;';
+            // Attached to the wrapper, it completely bypasses the overflow:hidden on the card!
+            pointer.style.cssText = 'top: -12px; right: 15px; font-size: 0.65rem; animation: tutorialBounce 1.5s infinite; z-index: 10; pointer-events: none;';
             pointer.innerHTML = '👇 Click to expand';
-            firstRibbon.appendChild(pointer);
+            firstWrapper.appendChild(pointer);
         }
         
         // Auto-dismiss the tooltips after 8 seconds if they haven't clicked anything

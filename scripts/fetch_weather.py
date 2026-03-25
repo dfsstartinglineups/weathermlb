@@ -52,7 +52,6 @@ def calculate_wind(wind_direction, stadium_bearing):
     if 247.5 <= diff < 292.5: return {"text": "Cross (L to R)", "cssClass": "bg-cross", "arrow": "➡"}
     return {"text": "In from Left", "cssClass": "bg-in", "arrow": "↘"}
 
-# Notice the new 'session' parameter here for connection pooling
 def fetch_game_weather(session, lat, lon, game_date_iso):
     global API_CALL_TRACKER
     
@@ -80,7 +79,6 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
     for attempt in range(max_retries):
         try:
             API_CALL_TRACKER["open_meteo"] += 1
-            # Using session.get instead of requests.get speeds this up significantly!
             res = session.get(url, timeout=15) 
             
             if res.status_code == 400: return {"status": "too_early", "temp": "--"}
@@ -178,7 +176,6 @@ def main():
     
     print(f"🚀 Building WeatherMLB Master JSONs (7-Day Horizon)")
     
-    # Initialize the global session here
     session = requests.Session()
     stadiums = load_json(STADIUMS_FILE, [])
     odds_data = load_json(ODDS_FILE, {}).get('odds', [])
@@ -224,7 +221,7 @@ def main():
 
             potential_odds = [o for o in odds_data if o['home_team'] == home_team_name and o['away_team'] == away_team_name]
             if potential_odds:
-                game_odds = sorted(potential_odds, key=lambda o: abs(parse_odds_time(o['commence_time']) - game_time_ms))[0]0 - game_time_ms))[0]
+                game_odds = sorted(potential_odds, key=lambda o: abs(parse_odds_time(o['commence_time']) - game_time_ms))[0]
 
             venue_id = game.get('venue', {}).get('id')
             stadium = next((s for s in stadiums if s.get('id') == venue_id), None)
@@ -246,18 +243,13 @@ def main():
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name} ({date_str})")
                 
-                # Fetch new weather, passing in the shared session for speed!
                 new_weather = fetch_game_weather(session, stadium['lat'], stadium['lon'], game['gameDate'])
                 
-                # --- NEW SHIELD LOGIC ---
-                # If the fetch failed (temp is "--") AND we already had good cached data, keep the cached data!
                 if new_weather.get('temp') == '--' and weather_data and weather_data.get('temp') != '--':
                     print("      🛡️ Fetch failed, but keeping existing cached weather to prevent data loss.")
-                    # Leave weather_data as the existing_game_state.get('weather')
                 else:
                     weather_data = new_weather
                 
-                # We can reduce sleep back down to 1.0s safely because the Session is pooling the connection
                 time.sleep(1.0) 
 
             wind_data = None

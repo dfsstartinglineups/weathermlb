@@ -984,7 +984,7 @@ function generateDailyReport() {
 
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
-    let reportText = `⚾ MLB Spring Training Weather Report for ${today} by https://weathermlb.com\n\n`; 
+    let reportText = `⚾ MLB Weather Report for ${today} by https://weathermlb.com\n\n`; 
 
     sortedGames.forEach(game => {
         const teams = game.gameRaw.teams;
@@ -1032,7 +1032,7 @@ function generateDailyReport() {
         reportText += line + "\n\n";
     });
 
-    reportText += `#MLB #FantasyBaseball #SpringTraining`;
+    reportText += `#MLB #FantasyBaseball #MLBWeather`;
 
     const textArea = document.getElementById('tweet-text');
     const twitterLink = document.getElementById('twitter-link');

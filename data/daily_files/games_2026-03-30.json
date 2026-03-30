@@ -146,11 +146,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 2,
-                "currentInningOrdinal": "2nd",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 3,
+                "currentInningOrdinal": "3rd",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -181,6 +181,20 @@
                         "away": {
                             "runs": 1,
                             "hits": 1,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    },
+                    {
+                        "num": 3,
+                        "ordinalNum": "3rd",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
                         }
@@ -314,55 +328,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 686797,
-                        "fullName": "Brooks Lee",
-                        "link": "/api/v1/people/686797",
-                        "firstName": "Brooks",
-                        "lastName": "Lee",
-                        "primaryNumber": "22",
-                        "birthDate": "2001-02-14",
-                        "currentAge": 25,
-                        "birthCity": "San Luis Obispo",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 205,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Brooks",
-                        "useLastName": "Lee",
-                        "middleName": "Thomas",
-                        "boxscoreName": "Lee, B",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2024-07-03",
-                        "batSide": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Brooks Lee",
-                        "nameSlug": "brooks-lee-686797",
-                        "firstLastName": "Brooks Lee",
-                        "lastFirstName": "Lee, Brooks",
-                        "lastInitName": "Lee, B",
-                        "initLastName": "B Lee",
-                        "fullFMLName": "Brooks Thomas Lee",
-                        "fullLFMName": "Lee, Brooks Thomas",
-                        "strikeZoneTop": 3.209,
-                        "strikeZoneBottom": 1.619
-                    },
-                    "onDeck": {
                         "id": 668885,
                         "fullName": "Austin Martin",
                         "link": "/api/v1/people/668885",
@@ -411,7 +376,7 @@
                         "strikeZoneTop": 3.13,
                         "strikeZoneBottom": 1.579
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 621439,
                         "fullName": "Byron Buxton",
                         "link": "/api/v1/people/621439",
@@ -461,6 +426,56 @@
                         "strikeZoneTop": 3.258,
                         "strikeZoneBottom": 1.644
                     },
+                    "inHole": {
+                        "id": 807712,
+                        "fullName": "Luke Keaschall",
+                        "link": "/api/v1/people/807712",
+                        "firstName": "Luke",
+                        "lastName": "Keaschall",
+                        "primaryNumber": "15",
+                        "birthDate": "2002-08-15",
+                        "currentAge": 23,
+                        "birthCity": "Watsonville",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Luke",
+                        "useLastName": "Keaschall",
+                        "middleName": "T.",
+                        "boxscoreName": "Keaschall",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "pronunciation": "KEY-shull",
+                        "mlbDebutDate": "2025-04-18",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luke Keaschall",
+                        "nameSlug": "luke-keaschall-807712",
+                        "firstLastName": "Luke Keaschall",
+                        "lastFirstName": "Keaschall, Luke",
+                        "lastInitName": "Keaschall, L",
+                        "initLastName": "L Keaschall",
+                        "fullFMLName": "Luke T. Keaschall",
+                        "fullLFMName": "Keaschall, Luke T.",
+                        "strikeZoneTop": 3.214,
+                        "strikeZoneBottom": 1.622
+                    },
                     "pitcher": {
                         "id": 680573,
                         "fullName": "Simeon Woods Richardson",
@@ -509,16 +524,16 @@
                         "strikeZoneTop": 3.344,
                         "strikeZoneBottom": 1.688
                     },
-                    "battingOrder": 9,
+                    "battingOrder": 1,
                     "team": {
                         "id": 142,
                         "name": "Minnesota Twins",
                         "link": "/api/v1/teams/142"
                     }
                 },
-                "balls": 0,
+                "balls": 3,
                 "strikes": 1,
-                "outs": 3
+                "outs": 1
             },
             "venue": {
                 "id": 7,
@@ -3782,34 +3797,17 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [
-                    {
-                        "num": 1,
-                        "ordinalNum": "1st",
-                        "home": {
-                            "hits": 0,
-                            "errors": 0,
-                            "leftOnBase": 0
-                        },
-                        "away": {
-                            "hits": 0,
-                            "errors": 0,
-                            "leftOnBase": 0
-                        }
-                    }
-                ],
+                "innings": [],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
-                        "leftOnBase": 0
+                        "errors": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
-                        "leftOnBase": 0
+                        "errors": 0
                     }
                 },
                 "defense": {
@@ -3904,22 +3902,6 @@
                         "fullName": "Owen Caissie",
                         "link": "/api/v1/people/683357"
                     },
-                    "batter": {
-                        "id": 805300,
-                        "fullName": "Jakob Marsee",
-                        "link": "/api/v1/people/805300"
-                    },
-                    "onDeck": {
-                        "id": 669364,
-                        "fullName": "Xavier Edwards",
-                        "link": "/api/v1/people/669364"
-                    },
-                    "inHole": {
-                        "id": 682663,
-                        "fullName": "Agust\u00edn Ram\u00edrez",
-                        "link": "/api/v1/people/682663"
-                    },
-                    "battingOrder": 1,
                     "team": {
                         "id": 146,
                         "name": "Miami Marlins",
@@ -4069,55 +4051,6 @@
                         "fullLFMName": "Hays, Austin Charles Bryan",
                         "strikeZoneTop": 3.142,
                         "strikeZoneBottom": 1.586
-                    },
-                    "pitcher": {
-                        "id": 663436,
-                        "fullName": "Davis Martin",
-                        "link": "/api/v1/people/663436",
-                        "firstName": "Davis",
-                        "lastName": "Martin",
-                        "primaryNumber": "65",
-                        "birthDate": "1997-01-04",
-                        "currentAge": 29,
-                        "birthCity": "Abilene",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Davis",
-                        "useLastName": "Martin",
-                        "middleName": "Alan",
-                        "boxscoreName": "Martin",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2022-05-17",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Davis Martin",
-                        "nameSlug": "davis-martin-663436",
-                        "firstLastName": "Davis Martin",
-                        "lastFirstName": "Martin, Davis",
-                        "lastInitName": "Martin, D",
-                        "initLastName": "D Martin",
-                        "fullFMLName": "Davis Alan Martin",
-                        "fullLFMName": "Martin, Davis Alan",
-                        "strikeZoneTop": 3.299,
-                        "strikeZoneBottom": 1.665
                     },
                     "battingOrder": 1,
                     "team": {

@@ -2,10 +2,8 @@ name: Fetch MLB Betting Odds
 
 on:
   schedule:
-    # Runs at minute 3 past every hour from 13:00 through 23:00, and 00:00 through 03:00 UTC.
-    # This translates to 5:03 AM PST through 7:03 PM PST.
-    - cron: '3 0-3,13-23 * * *'
-  
+    # Runs every 5 minutes, every day, 24/7.
+    - cron: '*/5 * * * *'
   workflow_dispatch: 
 
 jobs:
@@ -29,8 +27,6 @@ jobs:
           pip install requests
 
       - name: Run fetch_odds.py
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python fetch_odds.py
 
       - name: Commit and Push changes

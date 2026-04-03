@@ -167,9 +167,31 @@ function renderGames() {
         return true;
     });
 
+    // --- NEW SORTING LOGIC ---
     filteredGames.sort((a, b) => {
+        // 1. Define Helper to get status weight
+        const getStatusWeight = (item) => {
+            const status = item.gameRaw.status?.abstractGameState; // "Live", "Final", "Preview"
+            const detailed = item.gameRaw.status?.detailedState;
+
+            if (status === "Final") return 2; // Bottom
+            if (status === "Live" || detailed.includes("In Progress")) return 1; // Middle
+            return 0; // Top (Upcoming / Preview / Scheduled)
+        };
+
+        const weightA = getStatusWeight(a);
+        const weightB = getStatusWeight(b);
+
+        // 2. Primary Sort: By Status Weight
+        if (weightA !== weightB) {
+            return weightA - weightB;
+        }
+
+        // 3. Secondary Sort: If weights are equal, use user-selected sortMode
         const aValid = a.weather && a.weather.temp !== '--';
         const bValid = b.weather && b.weather.temp !== '--';
+        
+        // Keep valid weather data at the top of their respective status groups
         if (!aValid && bValid) return 1;
         if (aValid && !bValid) return -1;
 
@@ -178,6 +200,7 @@ function renderGames() {
         if (sortMode === 'temp') return (b.weather?.temp || 0) - (a.weather?.temp || 0);
         if (sortMode === 'humidity') return (b.weather?.humidity || 0) - (a.weather?.humidity || 0);
         
+        // Default: Sort by Start Time
         return new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate);
     });
 
@@ -189,12 +212,12 @@ function renderGames() {
         });
     }
     
-    // Safely append the cards without destroying the alert banner
+    // UI Cleanup and rendering
     const existingAlert = container.querySelector('.alert-info');
     container.innerHTML = '';
     if (existingAlert) container.appendChild(existingAlert.parentElement);
 
-    // --- NEW: Global Expand/Collapse Button (With Tutorial Tooltip) ---
+    // Re-add toggle buttons and tutorials
     if (filteredGames.length > 0) {
         let expandTutorialHtml = '';
         if (!window.HAS_SHOWN_TUTORIAL) {
@@ -213,37 +236,7 @@ function renderGames() {
         container.appendChild(toggleRow);
     }
 
-    // --- NEW: First Ribbon Tutorial Pointer ---
-    if (!window.HAS_SHOWN_TUTORIAL && cardsContainer.firstChild) {
-        const firstWrapper = cardsContainer.firstChild; // The column wrapper, outside the card
-        if (firstWrapper) {
-            firstWrapper.classList.add('position-relative'); // Anchor the absolute tooltip here
-            
-            const pointer = document.createElement('div');
-            pointer.className = 'tutorial-tooltip badge bg-primary position-absolute shadow-sm border border-light';
-            // Attached to the wrapper, it completely bypasses the overflow:hidden on the card!
-            pointer.style.cssText = 'top: -12px; right: 15px; font-size: 0.65rem; animation: tutorialBounce 1.5s infinite; z-index: 10; pointer-events: none;';
-            pointer.innerHTML = '👇 Click to expand';
-            firstWrapper.appendChild(pointer);
-        }
-        
-        // Auto-dismiss the tooltips after 8 seconds if they haven't clicked anything
-        setTimeout(window.dismissTutorials, 8000);
-    }
-
     container.appendChild(cardsContainer);
-
-    setTimeout(() => {
-        if (window.location.hash) {
-            const targetCard = document.querySelector(window.location.hash);
-            if (targetCard) {
-                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                const innerCard = targetCard.querySelector('.game-card');
-                innerCard.classList.add('border-primary', 'border-3');
-                setTimeout(() => { innerCard.classList.remove('border-primary', 'border-3'); }, 2000);
-            }
-        }
-    }, 300);
 }
 
 function createGameCard(data) {

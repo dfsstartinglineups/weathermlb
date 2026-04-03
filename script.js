@@ -143,6 +143,47 @@ async function init(dateToFetch) {
 // ==========================================
 // 2. RENDERING ENGINE
 // ==========================================
+function handleHashNavigation() {
+    const hash = window.location.hash;
+    if (!hash.startsWith('#game-')) return;
+
+    const targetCard = document.querySelector(hash);
+    
+    if (targetCard) {
+        // 1. Calculate precise scroll position (leaves breathing room for fixed navbar)
+        const headerOffset = 100; 
+        const elementPosition = targetCard.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+             top: offsetPosition,
+             behavior: "smooth"
+        });
+
+        // 2. Unmistakable Glowing Highlight (Overrides weather borders)
+        const innerCard = targetCard.querySelector('.game-card');
+        if (innerCard) {
+            innerCard.style.transition = 'all 0.4s ease-out';
+            innerCard.style.transform = 'scale(1.03)';
+            innerCard.style.setProperty('border', '3px solid #0d6efd', 'important');
+            innerCard.style.setProperty('box-shadow', '0 0 30px rgba(13, 110, 253, 0.8)', 'important');
+            innerCard.style.position = 'relative'; 
+            innerCard.style.zIndex = '10';
+
+            // Remove the highlight after 3.5 seconds
+            setTimeout(() => {
+                innerCard.style.transform = 'scale(1)';
+                innerCard.style.removeProperty('border'); 
+                innerCard.style.setProperty('box-shadow', '0 .125rem .25rem rgba(0,0,0,.075)', 'important'); // Reset to standard shadow-sm
+                innerCard.style.zIndex = '1';
+            }, 3500);
+        }
+        
+        // 3. Mark as handled so it doesn't repeatedly fire if the user types in the search box
+        window.HAS_HANDLED_HASH = true;
+    }
+}
+
 
 function renderGames() {
     const container = document.getElementById('games-container');
@@ -237,6 +278,10 @@ function renderGames() {
     }
 
     container.appendChild(cardsContainer);
+    // --- NEW: TRIGGER HASH NAVIGATION ONCE PER PAGE LOAD ---
+    if (!window.HAS_HANDLED_HASH && window.location.hash) {
+        setTimeout(handleHashNavigation, 500); // 500ms gives logos time to paint
+    }
 }
 
 function createGameCard(data) {

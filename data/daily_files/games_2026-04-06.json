@@ -11386,12 +11386,12 @@
             "gameDate": "2026-04-07T01:38:00Z",
             "officialDate": "2026-04-06",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -11402,10 +11402,11 @@
                     },
                     "leagueRecord": {
                         "wins": 6,
-                        "losses": 4,
-                        "pct": ".600"
+                        "losses": 5,
+                        "pct": ".545"
                     },
                     "score": 2,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 519242,
                         "fullName": "Chris Sale",
@@ -11466,11 +11467,12 @@
                         "link": "/api/v1/teams/108"
                     },
                     "leagueRecord": {
-                        "wins": 5,
+                        "wins": 6,
                         "losses": 5,
-                        "pct": ".500"
+                        "pct": ".545"
                     },
                     "score": 6,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 667755,
                         "fullName": "Jos\u00e9 Soriano",
@@ -11671,7 +11673,7 @@
                             "runs": 1,
                             "hits": 2,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 2
                         }
                     }
                 ],
@@ -11686,7 +11688,7 @@
                         "runs": 2,
                         "hits": 5,
                         "errors": 0,
-                        "leftOnBase": 1
+                        "leftOnBase": 3
                     }
                 },
                 "defense": {
@@ -11953,105 +11955,6 @@
                         "strikeZoneTop": 3.176,
                         "strikeZoneBottom": 1.603
                     },
-                    "first": {
-                        "id": 663586,
-                        "fullName": "Austin Riley",
-                        "link": "/api/v1/people/663586",
-                        "firstName": "Michael",
-                        "lastName": "Riley",
-                        "primaryNumber": "27",
-                        "birthDate": "1997-04-02",
-                        "currentAge": 29,
-                        "birthCity": "Memphis",
-                        "birthStateProvince": "TN",
-                        "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 225,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Austin",
-                        "useLastName": "Riley",
-                        "middleName": "Austin",
-                        "boxscoreName": "Riley, A",
-                        "nickName": "Ocho",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2019-05-15",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Austin Riley",
-                        "nameSlug": "austin-riley-663586",
-                        "firstLastName": "Austin Riley",
-                        "lastFirstName": "Riley, Austin",
-                        "lastInitName": "Riley, A",
-                        "initLastName": "A Riley",
-                        "fullFMLName": "Michael Austin Riley",
-                        "fullLFMName": "Riley, Michael Austin",
-                        "strikeZoneTop": 3.274,
-                        "strikeZoneBottom": 1.652
-                    },
-                    "second": {
-                        "id": 686948,
-                        "fullName": "Drake Baldwin",
-                        "link": "/api/v1/people/686948",
-                        "firstName": "Drake",
-                        "lastName": "Baldwin",
-                        "primaryNumber": "30",
-                        "birthDate": "2001-03-28",
-                        "currentAge": 25,
-                        "birthCity": "Madison",
-                        "birthStateProvince": "WI",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 225,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Drake",
-                        "useLastName": "Baldwin",
-                        "middleName": "Randall",
-                        "boxscoreName": "Baldwin, D",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2025-03-27",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Drake Baldwin",
-                        "nameSlug": "drake-baldwin-686948",
-                        "firstLastName": "Drake Baldwin",
-                        "lastFirstName": "Baldwin, Drake",
-                        "lastInitName": "Baldwin, D",
-                        "initLastName": "D Baldwin",
-                        "fullFMLName": "Drake Randall Baldwin",
-                        "fullLFMName": "Baldwin, Drake Randall",
-                        "strikeZoneTop": 3.206,
-                        "strikeZoneBottom": 1.618
-                    },
                     "pitcher": {
                         "id": 674370,
                         "fullName": "Osvaldo Bido",
@@ -12108,8 +12011,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 0,
-                "outs": 2
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 1,
@@ -12121,6 +12024,7 @@
             "content": {
                 "link": "/api/v1/game/824052/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -12904,56 +12808,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 642715,
-                        "fullName": "Willy Adames",
-                        "link": "/api/v1/people/642715",
-                        "firstName": "Willy",
-                        "lastName": "Adames",
-                        "primaryNumber": "2",
-                        "birthDate": "1995-09-02",
-                        "currentAge": 30,
-                        "birthCity": "Santiago",
-                        "birthCountry": "Dominican Republic",
-                        "height": "6' 0\"",
-                        "weight": 216,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Willy",
-                        "useLastName": "Adames",
-                        "middleName": "Rafael",
-                        "boxscoreName": "Adames",
-                        "nickName": "The Kid",
-                        "gender": "M",
-                        "nameMatrilineal": "Luna",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "ah-DAH-mess",
-                        "mlbDebutDate": "2018-05-22",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Willy Adames",
-                        "nameSlug": "willy-adames-642715",
-                        "firstLastName": "Willy Adames",
-                        "lastFirstName": "Adames, Willy",
-                        "lastInitName": "Adames, W",
-                        "initLastName": "W Adames",
-                        "fullFMLName": "Willy Rafael Adames",
-                        "fullLFMName": "Adames, Willy Rafael",
-                        "strikeZoneTop": 3.22,
-                        "strikeZoneBottom": 1.63
-                    },
-                    "onDeck": {
                         "id": 650333,
                         "fullName": "Luis Arraez",
                         "link": "/api/v1/people/650333",
@@ -13003,7 +12857,7 @@
                         "strikeZoneTop": 3.12,
                         "strikeZoneBottom": 1.58
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 656305,
                         "fullName": "Matt Chapman",
                         "link": "/api/v1/people/656305",
@@ -13052,6 +12906,55 @@
                         "fullLFMName": "Chapman, Matt James",
                         "strikeZoneTop": 3.25,
                         "strikeZoneBottom": 1.64
+                    },
+                    "inHole": {
+                        "id": 646240,
+                        "fullName": "Rafael Devers",
+                        "link": "/api/v1/people/646240",
+                        "firstName": "Rafael",
+                        "lastName": "Devers",
+                        "primaryNumber": "16",
+                        "birthDate": "1996-10-24",
+                        "currentAge": 29,
+                        "birthCity": "Sanchez",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 0\"",
+                        "weight": 235,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Rafael",
+                        "useLastName": "Devers",
+                        "middleName": "Calcano",
+                        "boxscoreName": "Devers",
+                        "nickName": "Carita",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "DEHV-ers",
+                        "mlbDebutDate": "2017-07-25",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Rafael Devers",
+                        "nameSlug": "rafael-devers-646240",
+                        "firstLastName": "Rafael Devers",
+                        "lastFirstName": "Devers, Rafael",
+                        "lastInitName": "Devers, R",
+                        "initLastName": "R Devers",
+                        "fullFMLName": "Rafael Calcano Devers",
+                        "fullLFMName": "Devers, Rafael Calcano",
+                        "strikeZoneTop": 3.217,
+                        "strikeZoneBottom": 1.624
                     },
                     "pitcher": {
                         "id": 668873,
@@ -13102,16 +13005,16 @@
                         "strikeZoneTop": 3.388,
                         "strikeZoneBottom": 1.71
                     },
-                    "battingOrder": 1,
+                    "battingOrder": 2,
                     "team": {
                         "id": 137,
                         "name": "San Francisco Giants",
                         "link": "/api/v1/teams/137"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 0
+                "balls": 1,
+                "strikes": 2,
+                "outs": 1
             },
             "venue": {
                 "id": 2395,

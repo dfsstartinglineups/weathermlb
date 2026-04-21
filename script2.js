@@ -573,7 +573,7 @@ function createGameCard(data) {
                     
                     ${weatherHtml}
                 </div>
-            </div>
+            </div>`;
     
     return gameCard;
 }

@@ -353,129 +353,20 @@ function createGameCard(data) {
     const homePitcherHand = game.teams.home.probablePitcher?.pitchHand?.code || "";
     const awayPitcherHand = game.teams.away.probablePitcher?.pitchHand?.code || "";
 
-    // --- AWAY LINEUP RENDERING ---
-    let awayLineupHtml = '';
-    if (lineupAway.length > 0) {
-        const list = lineupAway.map((p, index) => {
-            const batCode = handDict[p.id]; 
-            const gamePos = data.lineupPositions[p.id] || "";
-            const prefixText = gamePos ? gamePos : `${index + 1}.`;
-            
-            let itemStyle = "";
-            let tooltip = "";
-            
-            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.65rem; width: 20px;">${prefixText}</span>`;
-            const shortName = formatPlayerName(p.fullName);
-            
-            if (batCode) {
-                let effectiveBatSide = batCode;
-                let switchNote = "";
-                if (batCode === 'S' && homePitcherHand) {
-                    effectiveBatSide = (homePitcherHand === 'R') ? 'L' : 'R';
-                    switchNote = `Batting ${effectiveBatSide} vs ${homePitcherHand}HP - `;
-                }
+    // --- 1. CROSS PROMO LINK ---
+    const crossPromoHtml = `
+        <div class="px-2 pt-2 pb-1 w-100 border-top mt-1 mb-1">
+            <a href="https://mlbstartingnine.com/#game-${game.gamePk}" target="_blank" class="btn btn-sm w-100 text-decoration-none shadow-sm" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #0d6efd; font-weight: 700; font-size: 0.75rem;">
+                📋 View Projected/Starting Lineups and Player Stats
+            </a>
+        </div>
+    `;
 
-                if (isWindOutToRight && effectiveBatSide === 'L') {
-                    itemStyle = "color: #198754;"; 
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field (${windSpeed}mph)'`;
-                } else if (isWindOutToLeft && effectiveBatSide === 'R') {
-                    itemStyle = "color: #198754;";
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field (${windSpeed}mph)'`;
-                } else if (isWindInFromRight && effectiveBatSide === 'L') {
-                    itemStyle = "color: #dc3545;"; 
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field (${windSpeed}mph)'`;
-                } else if (isWindInFromLeft && effectiveBatSide === 'R') {
-                    itemStyle = "color: #dc3545;";
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field (${windSpeed}mph)'`;
-                }
-            }
-
-            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;">(${batCode})</span>` : "";
-            
-            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${orderHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
-        }).join('');
-        
-        const collapseId = `lineup-away-${game.gamePk}`;
-        awayLineupHtml = `
-            <div class="mt-0 w-100"> 
-                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
-                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35; padding-left: 0.2rem;">${list}</ul>
-                </div>
-            </div>`;
-    }
-
-    // --- HOME LINEUP RENDERING ---
-    let homeLineupHtml = '';
-    if (lineupHome.length > 0) {
-        const list = lineupHome.map((p, index) => {
-            const batCode = handDict[p.id]; 
-            const gamePos = data.lineupPositions[p.id] || "";
-            const prefixText = gamePos ? gamePos : `${index + 1}.`;
-            
-            let itemStyle = "";
-            let tooltip = "";
-            
-            const orderHtml = `<span class="fw-bold text-dark d-inline-block text-start" style="opacity: 0.85; font-size: 0.65rem; width: 20px;">${prefixText}</span>`;
-            const shortName = formatPlayerName(p.fullName);
-            
-            if (batCode) {
-                let effectiveBatSide = batCode;
-                let switchNote = "";
-                if (batCode === 'S' && awayPitcherHand) {
-                    effectiveBatSide = (awayPitcherHand === 'R') ? 'L' : 'R';
-                    switchNote = `Batting ${effectiveBatSide} vs ${awayPitcherHand}HP - `;
-                }
-
-                if (isWindOutToRight && effectiveBatSide === 'L') {
-                    itemStyle = "color: #198754;"; 
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Right Field (${windSpeed}mph)'`;
-                } else if (isWindOutToLeft && effectiveBatSide === 'R') {
-                    itemStyle = "color: #198754;";
-                    tooltip = `title='Favorable Matchup: ${switchNote}Wind blowing out to Left Field (${windSpeed}mph)'`;
-                } else if (isWindInFromRight && effectiveBatSide === 'L') {
-                    itemStyle = "color: #dc3545;"; 
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Right Field (${windSpeed}mph)'`;
-                } else if (isWindInFromLeft && effectiveBatSide === 'R') {
-                    itemStyle = "color: #dc3545;";
-                    tooltip = `title='Unfavorable Matchup: ${switchNote}Wind blowing in from Left Field (${windSpeed}mph)'`;
-                }
-            }
-
-            const handHtml = batCode ? `<span style="font-weight:normal; opacity:0.8; color: inherit;">(${batCode})</span>` : "";
-            
-            return `<li ${tooltip} style="${itemStyle} cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${orderHtml}<span class="d-md-none">${p.fullName}</span><span class="d-none d-md-inline">${shortName}</span>${handHtml}</li>`;
-        }).join('');
-        
-        const collapseId = `lineup-home-${game.gamePk}`;
-        homeLineupHtml = `
-            <div class="mt-0 w-100"> 
-                <a href="#${collapseId}" data-bs-toggle="collapse" aria-expanded="${ariaExpanded}" class="badge bg-primary text-white text-decoration-none" style="font-size: 0.65rem;">📋 View Lineup</a>
-                <div class="${collapseClass} mt-1 text-start bg-light rounded px-1 py-1 border w-100" id="${collapseId}">
-                    <ul class="list-unstyled text-muted mb-0 w-100" style="font-size: 0.65rem; line-height: 1.35; padding-left: 0.2rem;">${list}</ul>
-                </div>
-            </div>`;
-    }
-
-    let crossPromoHtml = '';
-    if (lineupAway.length > 0 || lineupHome.length > 0) {
-        crossPromoHtml = `
-            <div class="px-2 pt-2 pb-1 w-100">
-                <a href="https://mlbstartingnine.com/#game-${game.gamePk}" target="_blank" class="btn btn-sm w-100 text-decoration-none shadow-sm" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #0d6efd; font-weight: 700; font-size: 0.75rem;">
-                    ⚾ View BvP Matchups & Splits
-                </a>
-            </div>
-        `;
-    }
-
+    // --- 2. ODDS ENGINE (COMPACT BADGES) ---
     const oddsData = data.odds; 
-    let mlAway = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`; 
-    let mlHome = `<div class="fw-bold text-muted mt-1" style="font-size: 0.8rem;">TBD</div>`;
-    let totalHtml = `
-        <div class="d-flex flex-column justify-content-center align-items-center pt-2">
-            <div class="text-muted small fw-bold mb-1">@</div>
-            <div class="fw-bold text-muted" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U TBD</div>
-        </div>`;
+    let mlAwayBadge = `<span class="badge bg-light text-muted border" style="font-size: 0.65rem;">TBD</span>`; 
+    let mlHomeBadge = `<span class="badge bg-light text-muted border" style="font-size: 0.65rem;">TBD</span>`;
+    let totalBadgeHtml = ``;
 
     if (oddsData && oddsData.bookmakers && oddsData.bookmakers.length > 0) {
         let selectedBook = oddsData.bookmakers.find(b => b.key === 'fanduel') || oddsData.bookmakers[0];
@@ -487,26 +378,21 @@ function createGameCard(data) {
                 const homeOutcome = h2hMarket.outcomes.find(o => o.name === homeName);
                 if (awayOutcome) {
                     const price = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
-                    mlAway = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+                    mlAwayBadge = `<span class="badge bg-light text-dark border" style="font-size: 0.65rem;">${price}</span>`;
                 }
                 if (homeOutcome) {
                     const price = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
-                    mlHome = `<div class="fw-bold text-dark mt-1" style="font-size: 0.8rem;">${price}</div>`;
+                    mlHomeBadge = `<span class="badge bg-light text-dark border" style="font-size: 0.65rem;">${price}</span>`;
                 }
             }
 
             const totalsMarket = selectedBook.markets.find(m => m.key === 'totals');
             if (totalsMarket && totalsMarket.outcomes && totalsMarket.outcomes.length > 0) {
                 const gameTotal = totalsMarket.outcomes[0].point; 
-                totalHtml = `
-                    <div class="d-flex flex-column justify-content-center align-items-center pt-2">
-                        <div class="text-muted small fw-bold mb-1">@</div>
-                        <div class="fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">O/U ${gameTotal}</div>
-                    </div>`;
+                totalBadgeHtml = `<span class="badge bg-secondary ms-1" style="font-size: 0.65rem;">O/U ${gameTotal}</span>`;
             }
         }
     }
-
     let weatherHtml = `<div class="text-muted p-3 text-center small">Weather forecast unavailable.<br></div>`;
 
     if (stadium && weather) {
@@ -651,40 +537,35 @@ function createGameCard(data) {
                 <div class="card-body px-2 pt-2 pb-2"> 
                     
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge ${timeBadgeClass}">${gameTime}</span>
+                        <div class="d-flex align-items-center">
+                            <span class="badge ${timeBadgeClass}">${gameTime}</span>
+                            ${totalBadgeHtml}
+                        </div>
                         <span class="stadium-name text-truncate text-end flex-grow-1 ms-2" style="font-size: 0.8rem; font-weight: 600;">${game.venue?.name || 'TBD'}</span>
                     </div>
                     
-                    <div class="d-flex justify-content-between align-items-start px-1">
-                        <div class="text-center" style="width: 45%; min-width: 0;"> 
-                            <img src="${awayLogo}" alt="${awayName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                            <div class="d-flex flex-column justify-content-center align-items-center w-100">
-                                <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${awayShortName}</div>
-                                ${mlAway}
-                            </div>
-                            <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${awayPitcher}</div>
+                    <div class="d-flex justify-content-between align-items-center px-1 mb-1">
+                        <div class="d-flex align-items-center text-truncate" style="width: 45%; min-width: 0;"> 
+                            <img src="${awayLogo}" alt="${awayName}" class="me-2" style="width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1));" onerror="this.style.display='none'">
+                            <div class="fw-bold lh-sm text-dark text-truncate" style="font-size: 0.95rem; letter-spacing: -0.3px;">${awayShortName}</div>
                         </div>
                         
-                        <div class="text-center" style="width: 10%; min-width: 0;">
-                            ${totalHtml}
-                        </div>
+                        <div class="text-center text-muted fw-bold" style="width: 10%; font-size: 0.8rem;">@</div>
                         
-                        <div class="text-center" style="width: 45%; min-width: 0;"> 
-                            <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1" onerror="this.style.display='none'">
-                            <div class="d-flex flex-column justify-content-center align-items-center w-100">
-                                <div class="fw-bold lh-sm text-dark text-truncate w-100" style="font-size: 0.9rem; letter-spacing: -0.3px;">${homeShortName}</div>
-                                ${mlHome}
-                            </div>
-                            <div class="text-muted mt-1 mb-0 text-truncate w-100" style="font-size: 0.7rem;">${homePitcher}</div>
+                        <div class="d-flex align-items-center justify-content-end text-truncate" style="width: 45%; min-width: 0;"> 
+                            <img src="${homeLogo}" alt="${homeName}" class="me-2" style="width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1));" onerror="this.style.display='none'">
+                            <div class="fw-bold lh-sm text-dark text-truncate text-end" style="font-size: 0.95rem; letter-spacing: -0.3px;">${homeShortName}</div>
                         </div>
                     </div>
-                    
-                    <div class="row g-0 mt-1 mx-0 w-100">
-                        <div class="col-6 pe-1 text-center w-50">
-                            ${awayLineupHtml}
+
+                    <div class="d-flex justify-content-between align-items-center px-1 mb-2">
+                        <div class="d-flex align-items-center text-truncate" style="width: 48%;">
+                            <span class="text-muted text-truncate me-2" style="font-size: 0.75rem;">${awayPitcher}</span>
+                            ${mlAwayBadge}
                         </div>
-                        <div class="col-6 ps-1 text-center w-50">
-                            ${homeLineupHtml}
+                        <div class="d-flex align-items-center justify-content-end text-truncate" style="width: 48%;">
+                            <span class="text-muted text-truncate me-2 text-end" style="font-size: 0.75rem;">${homePitcher}</span>
+                            ${mlHomeBadge}
                         </div>
                     </div>
                     
@@ -693,7 +574,6 @@ function createGameCard(data) {
                     ${weatherHtml}
                 </div>
             </div>
-        </div>`;
     
     return gameCard;
 }
@@ -703,14 +583,6 @@ function createGameCard(data) {
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    const lineupsToggle = document.getElementById('show-lineups');
-    
-    if (lineupsToggle) {
-        const savedState = localStorage.getItem('weatherMlb_showLineups');
-        if (savedState === 'true') {
-            lineupsToggle.checked = true;
-        }
-    }
     
     init(DEFAULT_DATE);
 
@@ -721,13 +593,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(searchInput) searchInput.addEventListener('input', renderGames);
     if(sortSelect) sortSelect.addEventListener('change', renderGames);
     if(riskToggle) riskToggle.addEventListener('change', renderGames);
-
-    if(lineupsToggle) {
-        lineupsToggle.addEventListener('change', (e) => {
-            localStorage.setItem('weatherMlb_showLineups', e.target.checked);
-            renderGames();
-        });
-    }
 
     const datePicker = document.getElementById('date-picker');
     

@@ -357,7 +357,7 @@ function createGameCard(data) {
     const crossPromoHtml = `
         <div class="px-2 pt-2 pb-1 w-100 border-top mt-1 mb-1">
             <a href="https://mlbstartingnine.com/#game-${game.gamePk}" target="_blank" class="btn btn-sm w-100 text-decoration-none shadow-sm" style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #0d6efd; font-weight: 700; font-size: 0.75rem;">
-                📋 View Projected/Starting Lineups and Player Stats
+                📋 View Projected/Starting Lineups
             </a>
         </div>
     `;

@@ -730,7 +730,12 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending)
     }
 
     if (weather.isThunderstorm) {
-        notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");
+        if(stadium.roof){
+            notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Possible delay to close roof.");
+        }
+        else{
+            notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");
+        }    
     }
     if (weather.isSnow) {
         notes.push("❄️ <b>Snow Risk:</b> Low visibility and slippery field conditions could delay play.");

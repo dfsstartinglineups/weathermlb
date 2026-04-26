@@ -262,7 +262,7 @@ function createGameCard(data) {
         }
 
         if (weather.isThunderstorm) {
-            if (isRoofPending) {
+            if (!isRoofPending) {
                 borderClass = "border-warning border-3"; // Downgrade to yellow for retractable roofs
             } else {
                 borderClass = "border-danger border-3"; // Keep red for open-air stadiums

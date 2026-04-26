@@ -262,7 +262,12 @@ function createGameCard(data) {
         }
 
         if (weather.isThunderstorm) {
-            borderClass = "border-danger border-3"; 
+            if(stadium.roof){
+                borderClass = "border-warning border-3";
+            }
+            else{
+                borderClass = "border-danger border-3";
+            }    
         } else if (sustainedRainHours >= 3) {
             borderClass = "border-danger border-3"; 
         } else if (weather.maxPrecipChance >= 30) {

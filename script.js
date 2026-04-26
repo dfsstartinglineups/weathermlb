@@ -262,11 +262,7 @@ function createGameCard(data) {
         }
 
         if (weather.isThunderstorm) {
-            if (isRoofPending) {
-                borderClass = "border-warning border-3"; // Downgrade to yellow for retractable roofs
-            } else {
-                borderClass = "border-danger border-3"; // Keep red for open-air stadiums
-            }
+            borderClass = "border-danger border-3"; 
         } else if (sustainedRainHours >= 3) {
             borderClass = "border-danger border-3"; 
         } else if (weather.maxPrecipChance >= 30) {
@@ -724,16 +720,12 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending)
 
     let notes = [];
 
-    if (!isRoofPending) {
+    if (isRoofPending) {
         notes.push("🏟️ <b>Roof Status Pending:</b> Borderline weather. The team may elect to close the roof, neutralizing wind and temperature impacts.");
     }
 
     if (weather.isThunderstorm) {
-        if (isRoofPending) {
-            notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Possible brief delay for roof closure, but no risk of postponement.");
-        } else {
-            notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");
-        }
+        notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");
     }
     if (weather.isSnow) {
         notes.push("❄️ <b>Snow Risk:</b> Low visibility and slippery field conditions could delay play.");

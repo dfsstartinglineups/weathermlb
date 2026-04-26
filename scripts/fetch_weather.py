@@ -255,13 +255,30 @@ def main():
             wind_data = None
             is_roof_closed = False
             is_roof_pending = False
+
+            # --- NEW: MLB OFFICIAL ROOF STATUS CHECK ---
+            if stadium and stadium.get('roof'):
+                try:
+                    live_feed_url = f"https://statsapi.mlb.com/api/v1.1/game/{game_pk}/feed/live"
+                    live_res = session.get(live_feed_url, timeout=5)
+                    if live_res.status_code == 200:
+                        live_json = live_res.json()
+                        game_data = live_json.get('gameData', {})
+                        mlb_weather = game_data.get('weather', {})
+                        
+                        # Check the official condition string from the stadium
+                        if mlb_weather.get('condition') == "Roof Closed" or mlb_weather.get('condition') == "Dome":
+                            is_roof_closed = True
+                            print(f"      🏟️ OVERRIDE: MLB official feed confirms roof is CLOSED.")
+                except Exception as e:
+                    print(f"      ⚠️ Failed to check MLB live feed for roof status: {e}")
             
             if stadium and weather_data and weather_data.get('status') != "too_early" and weather_data.get('temp') != '--':
                 wind_data = calculate_wind(weather_data.get('windDir'), stadium.get('bearing'))
                 
                 if stadium.get('dome'):
                     is_roof_closed = True
-                elif stadium.get('roof'):
+                elif stadium.get('roof') and not is_roof_closed: # <-- Added the check here
                     temp = weather_data.get('temp', 70)
                     precip = weather_data.get('maxPrecipChance', 0)
                     

@@ -408,7 +408,7 @@ function createGameCard(data) {
                     <p class="small text-muted mb-0" style="font-size: 0.75rem;">Forecasts available ~14 days out.</p>
                 </div>`;
         } else if (weather.temp !== '--') {
-            const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending); 
+            const analysisText = generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending, stadium); 
             
             let displayRain = isRoofClosed ? "0%" : `${weather.maxPrecipChance}%`;
             let precipLabel = "Rain"; 
@@ -499,7 +499,7 @@ function createGameCard(data) {
 
                 <div class="analysis-box">
                     <span class="analysis-title">✨ Weather Impact</span>
-                    ${generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending)}
+                    ${generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending, stadium)}
                 </div>`;
         }
     }
@@ -720,7 +720,7 @@ window.showRadar = function(url, venueName) {
     myModal.show();
 }
 
-function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending) {
+function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending, stadium) {
     if (isRoofClosed) return "✅ <b>Roof Closed:</b> Controlled environment with zero weather impact.";
 
     let notes = [];

@@ -724,12 +724,12 @@ function generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending)
 
     let notes = [];
 
-    if (isRoofPending) {
+    if (!isRoofPending) {
         notes.push("🏟️ <b>Roof Status Pending:</b> Borderline weather. The team may elect to close the roof, neutralizing wind and temperature impacts.");
     }
 
     if (weather.isThunderstorm) {
-        if (isRoofPending) {
+        if (!isRoofPending) {
             notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Possible brief delay for roof closure, but no risk of postponement.");
         } else {
             notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Mandatory 30-minute safety delays are likely.");

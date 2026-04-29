@@ -914,9 +914,9 @@
             "officialDate": "2026-04-29",
             "status": {
                 "abstractGameState": "Live",
-                "codedGameState": "P",
-                "detailedState": "Warmup",
-                "statusCode": "PW",
+                "codedGameState": "I",
+                "detailedState": "In Progress",
+                "statusCode": "I",
                 "startTimeTBD": false,
                 "abstractGameCode": "L"
             },
@@ -1818,12 +1818,12 @@
             "gameDate": "2026-04-29T17:40:00Z",
             "officialDate": "2026-04-29",
             "status": {
-                "abstractGameState": "Preview",
+                "abstractGameState": "Live",
                 "codedGameState": "P",
-                "detailedState": "Pre-Game",
-                "statusCode": "P",
+                "detailedState": "Warmup",
+                "statusCode": "PW",
                 "startTimeTBD": false,
-                "abstractGameCode": "P"
+                "abstractGameCode": "L"
             },
             "teams": {
                 "away": {
@@ -3530,11 +3530,11 @@
                             "outcomes": [
                                 {
                                     "name": "Texas Rangers",
-                                    "price": -102
+                                    "price": -107
                                 },
                                 {
                                     "name": "New York Yankees",
-                                    "price": -118
+                                    "price": -113
                                 }
                             ]
                         },
@@ -3644,6 +3644,7 @@
                         "losses": 18,
                         "pct": ".400"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 678394,
                         "fullName": "Brayan Bello",
@@ -3706,6 +3707,7 @@
                         "losses": 16,
                         "pct": ".448"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 641778,
                         "fullName": "Eric Lauer",
@@ -3762,26 +3764,361 @@
                 }
             },
             "linescore": {
+                "currentInning": 1,
+                "currentInningOrdinal": "1st",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
-                    "home": {},
-                    "away": {}
+                    "home": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    },
+                    "away": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 641778,
+                        "fullName": "Eric Lauer",
+                        "link": "/api/v1/people/641778",
+                        "firstName": "Eric",
+                        "lastName": "Lauer",
+                        "primaryNumber": "56",
+                        "birthDate": "1995-06-03",
+                        "currentAge": 30,
+                        "birthCity": "Elyria",
+                        "birthStateProvince": "OH",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 209,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Eric",
+                        "useLastName": "Lauer",
+                        "middleName": "Lance",
+                        "boxscoreName": "Lauer",
+                        "nickName": "Gomer",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2016,
+                        "pronunciation": "LAO-wer",
+                        "mlbDebutDate": "2018-04-24",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Eric Lauer",
+                        "nameSlug": "eric-lauer-641778",
+                        "firstLastName": "Eric Lauer",
+                        "lastFirstName": "Lauer, Eric",
+                        "lastInitName": "Lauer, E",
+                        "initLastName": "E Lauer",
+                        "fullFMLName": "Eric Lance Lauer",
+                        "fullLFMName": "Lauer, Eric Lance",
+                        "strikeZoneTop": 3.63,
+                        "strikeZoneBottom": 1.67
+                    },
+                    "catcher": {
+                        "id": 678218,
+                        "fullName": "Brandon Valenzuela",
+                        "link": "/api/v1/people/678218"
+                    },
+                    "first": {
+                        "id": 665489,
+                        "fullName": "Vladimir Guerrero Jr.",
+                        "link": "/api/v1/people/665489"
+                    },
+                    "second": {
+                        "id": 676391,
+                        "fullName": "Ernie Clement",
+                        "link": "/api/v1/people/676391"
+                    },
+                    "third": {
+                        "id": 672960,
+                        "fullName": "Kazuma Okamoto",
+                        "link": "/api/v1/people/672960"
+                    },
+                    "shortstop": {
+                        "id": 665926,
+                        "fullName": "Andr\u00e9s Gim\u00e9nez",
+                        "link": "/api/v1/people/665926"
+                    },
+                    "left": {
+                        "id": 664702,
+                        "fullName": "Myles Straw",
+                        "link": "/api/v1/people/664702"
+                    },
+                    "center": {
+                        "id": 662139,
+                        "fullName": "Daulton Varsho",
+                        "link": "/api/v1/people/662139"
+                    },
+                    "right": {
+                        "id": 660821,
+                        "fullName": "Jes\u00fas S\u00e1nchez",
+                        "link": "/api/v1/people/660821"
+                    },
+                    "batter": {
+                        "id": 676391,
+                        "fullName": "Ernie Clement",
+                        "link": "/api/v1/people/676391"
+                    },
+                    "onDeck": {
+                        "id": 660821,
+                        "fullName": "Jes\u00fas S\u00e1nchez",
+                        "link": "/api/v1/people/660821"
+                    },
+                    "inHole": {
+                        "id": 665489,
+                        "fullName": "Vladimir Guerrero Jr.",
+                        "link": "/api/v1/people/665489"
+                    },
+                    "battingOrder": 1,
+                    "team": {
+                        "id": 141,
+                        "name": "Toronto Blue Jays",
+                        "link": "/api/v1/teams/141"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 701350,
+                        "fullName": "Roman Anthony",
+                        "link": "/api/v1/people/701350",
+                        "firstName": "Roman",
+                        "lastName": "Anthony",
+                        "primaryNumber": "19",
+                        "birthDate": "2004-05-13",
+                        "currentAge": 21,
+                        "birthCity": "West Palm Beach",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Roman",
+                        "useLastName": "Anthony",
+                        "middleName": "Joseph",
+                        "boxscoreName": "Anthony",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2025-06-09",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Roman Anthony",
+                        "nameSlug": "roman-anthony-701350",
+                        "firstLastName": "Roman Anthony",
+                        "lastFirstName": "Anthony, Roman",
+                        "lastInitName": "Anthony, R",
+                        "initLastName": "R Anthony",
+                        "fullFMLName": "Roman Joseph Anthony",
+                        "fullLFMName": "Anthony, Roman Joseph",
+                        "strikeZoneTop": 3.326,
+                        "strikeZoneBottom": 1.679
+                    },
+                    "onDeck": {
+                        "id": 575929,
+                        "fullName": "Willson Contreras",
+                        "link": "/api/v1/people/575929",
+                        "firstName": "Willson",
+                        "lastName": "Contreras",
+                        "primaryNumber": "40",
+                        "birthDate": "1992-05-13",
+                        "currentAge": 33,
+                        "birthCity": "Puerto Cabello",
+                        "birthCountry": "Venezuela",
+                        "height": "6' 0\"",
+                        "weight": 240,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Willson",
+                        "useLastName": "Contreras",
+                        "middleName": "Eduardo",
+                        "boxscoreName": "Contreras, Wn",
+                        "nickName": "Venezuela",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "mlbDebutDate": "2016-06-17",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Willson Contreras",
+                        "nameSlug": "willson-contreras-575929",
+                        "firstLastName": "Willson Contreras",
+                        "lastFirstName": "Contreras, Willson",
+                        "lastInitName": "Contreras, W",
+                        "initLastName": "W Contreras",
+                        "fullFMLName": "Willson Eduardo Contreras",
+                        "fullLFMName": "Contreras, Willson Eduardo",
+                        "strikeZoneTop": 3.23,
+                        "strikeZoneBottom": 1.63
+                    },
+                    "inHole": {
+                        "id": 677800,
+                        "fullName": "Wilyer Abreu",
+                        "link": "/api/v1/people/677800",
+                        "firstName": "Wilyer",
+                        "lastName": "Abreu",
+                        "primaryNumber": "52",
+                        "birthDate": "1999-06-24",
+                        "currentAge": 26,
+                        "birthCity": "Maracaibo",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 10\"",
+                        "weight": 215,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Wilyer",
+                        "useLastName": "Abreu",
+                        "middleName": "David",
+                        "boxscoreName": "Abreu, W",
+                        "gender": "M",
+                        "nameMatrilineal": "Villalobos",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "WHEEL-yurr",
+                        "mlbDebutDate": "2023-08-22",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Wilyer Abreu",
+                        "nameSlug": "wilyer-abreu-677800",
+                        "firstLastName": "Wilyer Abreu",
+                        "lastFirstName": "Abreu, Wilyer",
+                        "lastInitName": "Abreu, W",
+                        "initLastName": "W Abreu",
+                        "fullFMLName": "Wilyer David Abreu",
+                        "fullLFMName": "Abreu, Wilyer David",
+                        "strikeZoneTop": 3.117,
+                        "strikeZoneBottom": 1.573
+                    },
+                    "pitcher": {
+                        "id": 678394,
+                        "fullName": "Brayan Bello",
+                        "link": "/api/v1/people/678394",
+                        "firstName": "Brayan",
+                        "lastName": "Bello",
+                        "primaryNumber": "66",
+                        "birthDate": "1999-05-17",
+                        "currentAge": 26,
+                        "birthCity": "Samana",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 1\"",
+                        "weight": 195,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Brayan",
+                        "useLastName": "Bello",
+                        "boxscoreName": "Bello",
+                        "gender": "M",
+                        "nameMatrilineal": "Jimenez",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "BAY-oh",
+                        "mlbDebutDate": "2022-07-06",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Brayan Bello",
+                        "nameSlug": "brayan-bello-678394",
+                        "firstLastName": "Brayan Bello",
+                        "lastFirstName": "Bello, Brayan",
+                        "lastInitName": "Bello, B",
+                        "initLastName": "B Bello",
+                        "fullFMLName": "Brayan  Bello",
+                        "fullLFMName": "Bello, Brayan",
+                        "strikeZoneTop": 3.255,
+                        "strikeZoneBottom": 1.643
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 111,
                         "name": "Boston Red Sox",
                         "link": "/api/v1/teams/111"
                     }
                 },
-                "offense": {
-                    "team": {
-                        "id": 141,
-                        "name": "Toronto Blue Jays",
-                        "link": "/api/v1/teams/141"
-                    }
-                }
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 14,
@@ -3811,6 +4148,134 @@
             "ifNecessary": "N",
             "ifNecessaryDescription": "Normal Game",
             "lineups": {
+                "homePlayers": [
+                    {
+                        "id": 676391,
+                        "fullName": "Ernie Clement",
+                        "link": "/api/v1/people/676391",
+                        "firstName": "Ernie",
+                        "lastName": "Clement",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Ernie"
+                    },
+                    {
+                        "id": 660821,
+                        "fullName": "Jes\u00fas S\u00e1nchez",
+                        "link": "/api/v1/people/660821",
+                        "firstName": "Jes\u00fas",
+                        "lastName": "S\u00e1nchez",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Jes\u00fas"
+                    },
+                    {
+                        "id": 665489,
+                        "fullName": "Vladimir Guerrero Jr.",
+                        "link": "/api/v1/people/665489",
+                        "firstName": "Vladimir",
+                        "lastName": "Guerrero",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Vladimir"
+                    },
+                    {
+                        "id": 672960,
+                        "fullName": "Kazuma Okamoto",
+                        "link": "/api/v1/people/672960",
+                        "firstName": "Kazuma",
+                        "lastName": "Okamoto",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Kazuma"
+                    },
+                    {
+                        "id": 662139,
+                        "fullName": "Daulton Varsho",
+                        "link": "/api/v1/people/662139",
+                        "firstName": "Daulton",
+                        "lastName": "Varsho",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Daulton"
+                    },
+                    {
+                        "id": 682818,
+                        "fullName": "Yohendrick Pinango",
+                        "link": "/api/v1/people/682818",
+                        "firstName": "Yohendrick",
+                        "lastName": "Pinango",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Yohendrick"
+                    },
+                    {
+                        "id": 664702,
+                        "fullName": "Myles Straw",
+                        "link": "/api/v1/people/664702",
+                        "firstName": "Myles",
+                        "lastName": "Straw",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Myles"
+                    },
+                    {
+                        "id": 665926,
+                        "fullName": "Andr\u00e9s Gim\u00e9nez",
+                        "link": "/api/v1/people/665926",
+                        "firstName": "Andr\u00e9s",
+                        "lastName": "Gim\u00e9nez",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Andr\u00e9s"
+                    },
+                    {
+                        "id": 678218,
+                        "fullName": "Brandon Valenzuela",
+                        "link": "/api/v1/people/678218",
+                        "firstName": "Brandon",
+                        "lastName": "Valenzuela",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Brandon"
+                    }
+                ],
                 "awayPlayers": [
                     {
                         "id": 701350,
@@ -3981,12 +4446,12 @@
                                 {
                                     "name": "Over",
                                     "point": 8.5,
-                                    "price": -112
+                                    "price": -118
                                 },
                                 {
                                     "name": "Under",
                                     "point": 8.5,
-                                    "price": -108
+                                    "price": -102
                                 }
                             ]
                         }
@@ -4871,11 +5336,11 @@
                             "outcomes": [
                                 {
                                     "name": "Los Angeles Dodgers",
-                                    "price": -232
+                                    "price": -240
                                 },
                                 {
                                     "name": "Miami Marlins",
-                                    "price": 189
+                                    "price": 194
                                 }
                             ]
                         },
@@ -4884,13 +5349,13 @@
                             "outcomes": [
                                 {
                                     "name": "Over",
-                                    "point": 8.0,
-                                    "price": -118
+                                    "point": 8.5,
+                                    "price": -115
                                 },
                                 {
                                     "name": "Under",
-                                    "point": 8.0,
-                                    "price": -102
+                                    "point": 8.5,
+                                    "price": -105
                                 }
                             ]
                         }
@@ -6099,12 +6564,12 @@
                                 {
                                     "name": "Over",
                                     "point": 9.0,
-                                    "price": -115
+                                    "price": -120
                                 },
                                 {
                                     "name": "Under",
                                     "point": 9.0,
-                                    "price": -105
+                                    "price": 100
                                 }
                             ]
                         }
@@ -6760,16 +7225,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 138,
-                        "name": "St. Louis Cardinals",
-                        "link": "/api/v1/teams/138"
+                        "id": 134,
+                        "name": "Pittsburgh Pirates",
+                        "link": "/api/v1/teams/134"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 134,
-                        "name": "Pittsburgh Pirates",
-                        "link": "/api/v1/teams/134"
+                        "id": 138,
+                        "name": "St. Louis Cardinals",
+                        "link": "/api/v1/teams/138"
                     }
                 }
             },
@@ -7681,16 +8146,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 116,
-                        "name": "Detroit Tigers",
-                        "link": "/api/v1/teams/116"
+                        "id": 144,
+                        "name": "Atlanta Braves",
+                        "link": "/api/v1/teams/144"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 144,
-                        "name": "Atlanta Braves",
-                        "link": "/api/v1/teams/144"
+                        "id": 116,
+                        "name": "Detroit Tigers",
+                        "link": "/api/v1/teams/116"
                     }
                 }
             },
@@ -8056,11 +8521,11 @@
                             "outcomes": [
                                 {
                                     "name": "Milwaukee Brewers",
-                                    "price": -126
+                                    "price": -131
                                 },
                                 {
                                     "name": "Arizona Diamondbacks",
-                                    "price": 104
+                                    "price": 109
                                 }
                             ]
                         },
@@ -8070,12 +8535,12 @@
                                 {
                                     "name": "Over",
                                     "point": 8.5,
-                                    "price": -108
+                                    "price": -102
                                 },
                                 {
                                     "name": "Under",
                                     "point": 8.5,
-                                    "price": -112
+                                    "price": -118
                                 }
                             ]
                         }
@@ -8375,13 +8840,13 @@
                             "outcomes": [
                                 {
                                     "name": "Over",
-                                    "point": 10.0,
-                                    "price": -115
+                                    "point": 10.5,
+                                    "price": -103
                                 },
                                 {
                                     "name": "Under",
-                                    "point": 10.0,
-                                    "price": -105
+                                    "point": 10.5,
+                                    "price": -117
                                 }
                             ]
                         }

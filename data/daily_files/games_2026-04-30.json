@@ -5238,9 +5238,10 @@
             "status": {
                 "abstractGameState": "Live",
                 "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "detailedState": "Delayed",
+                "statusCode": "IR",
                 "startTimeTBD": false,
+                "reason": "Rain",
                 "abstractGameCode": "L"
             },
             "teams": {
@@ -5377,11 +5378,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 5,
-                "currentInningOrdinal": "5th",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 6,
+                "currentInningOrdinal": "6th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -5460,6 +5461,20 @@
                         "away": {
                             "runs": 1,
                             "hits": 1,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    },
+                    {
+                        "num": 6,
+                        "ordinalNum": "6th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
                         }
@@ -5593,53 +5608,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 808982,
-                        "fullName": "Jung Hoo Lee",
-                        "link": "/api/v1/people/808982",
-                        "firstName": "Jung Hoo",
-                        "lastName": "Lee",
-                        "primaryNumber": "51",
-                        "birthDate": "1998-08-20",
-                        "currentAge": 27,
-                        "birthCity": "Seoul",
-                        "birthCountry": "Republic of Korea",
-                        "height": "6' 0\"",
-                        "weight": 196,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Jung Hoo",
-                        "useLastName": "Lee",
-                        "boxscoreName": "Lee, J",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "jung who",
-                        "mlbDebutDate": "2024-03-28",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jung Hoo Lee",
-                        "nameSlug": "jung-hoo-lee-808982",
-                        "firstLastName": "Jung Hoo Lee",
-                        "lastFirstName": "Lee, Jung Hoo",
-                        "lastInitName": "Lee, J",
-                        "initLastName": "J Lee",
-                        "fullFMLName": "J.H. Lee",
-                        "fullLFMName": "J.H. Lee",
-                        "strikeZoneTop": 3.22,
-                        "strikeZoneBottom": 1.63
-                    },
-                    "onDeck": {
                         "id": 606992,
                         "fullName": "Eric Haase",
                         "link": "/api/v1/people/606992",
@@ -5689,7 +5657,7 @@
                         "strikeZoneTop": 3.1,
                         "strikeZoneBottom": 1.57
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 687551,
                         "fullName": "Drew Gilbert",
                         "link": "/api/v1/people/687551",
@@ -5737,6 +5705,103 @@
                         "fullLFMName": "Gilbert, Andrew Christopher",
                         "strikeZoneTop": 3.06,
                         "strikeZoneBottom": 1.54
+                    },
+                    "inHole": {
+                        "id": 671218,
+                        "fullName": "Heliot Ramos",
+                        "link": "/api/v1/people/671218",
+                        "firstName": "Heliot",
+                        "lastName": "Ramos",
+                        "primaryNumber": "17",
+                        "birthDate": "1999-09-07",
+                        "currentAge": 26,
+                        "birthCity": "Humacao",
+                        "birthCountry": "Puerto Rico",
+                        "height": "5' 11\"",
+                        "weight": 235,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Heliot",
+                        "useLastName": "Ramos",
+                        "middleName": "Lemuel",
+                        "boxscoreName": "Ramos, H",
+                        "gender": "M",
+                        "nameMatrilineal": "Lebron",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2017,
+                        "pronunciation": "Elliot",
+                        "mlbDebutDate": "2022-04-10",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Heliot Ramos",
+                        "nameSlug": "heliot-ramos-671218",
+                        "firstLastName": "Heliot Ramos",
+                        "lastFirstName": "Ramos, Heliot",
+                        "lastInitName": "Ramos, H",
+                        "initLastName": "H Ramos",
+                        "fullFMLName": "Heliot Lemuel Ramos",
+                        "fullLFMName": "Ramos, Heliot Lemuel",
+                        "strikeZoneTop": 3.18,
+                        "strikeZoneBottom": 1.61
+                    },
+                    "first": {
+                        "id": 808982,
+                        "fullName": "Jung Hoo Lee",
+                        "link": "/api/v1/people/808982",
+                        "firstName": "Jung Hoo",
+                        "lastName": "Lee",
+                        "primaryNumber": "51",
+                        "birthDate": "1998-08-20",
+                        "currentAge": 27,
+                        "birthCity": "Seoul",
+                        "birthCountry": "Republic of Korea",
+                        "height": "6' 0\"",
+                        "weight": 196,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Jung Hoo",
+                        "useLastName": "Lee",
+                        "boxscoreName": "Lee, J",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "jung who",
+                        "mlbDebutDate": "2024-03-28",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Jung Hoo Lee",
+                        "nameSlug": "jung-hoo-lee-808982",
+                        "firstLastName": "Jung Hoo Lee",
+                        "lastFirstName": "Lee, Jung Hoo",
+                        "lastInitName": "Lee, J",
+                        "initLastName": "J Lee",
+                        "fullFMLName": "J.H. Lee",
+                        "fullLFMName": "J.H. Lee",
+                        "strikeZoneTop": 3.22,
+                        "strikeZoneBottom": 1.63
                     },
                     "pitcher": {
                         "id": 621366,
@@ -5788,16 +5853,16 @@
                         "strikeZoneTop": 3.388,
                         "strikeZoneBottom": 1.71
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 8,
                     "team": {
                         "id": 137,
                         "name": "San Francisco Giants",
                         "link": "/api/v1/teams/137"
                     }
                 },
-                "balls": 0,
-                "strikes": 1,
-                "outs": 3
+                "balls": 1,
+                "strikes": 2,
+                "outs": 0
             },
             "venue": {
                 "id": 2681,

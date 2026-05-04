@@ -14629,12 +14629,12 @@
             "gameDate": "2026-05-03T23:20:00Z",
             "officialDate": "2026-05-03",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -14645,10 +14645,11 @@
                     },
                     "leagueRecord": {
                         "wins": 16,
-                        "losses": 17,
-                        "pct": ".485"
+                        "losses": 18,
+                        "pct": ".471"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 683004,
                         "fullName": "Jack Leiter",
@@ -14709,11 +14710,12 @@
                         "link": "/api/v1/teams/116"
                     },
                     "leagueRecord": {
-                        "wins": 17,
+                        "wins": 18,
                         "losses": 17,
-                        "pct": ".500"
+                        "pct": ".514"
                     },
                     "score": 7,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 663947,
                         "fullName": "Tyler Holton",
@@ -14912,9 +14914,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -14929,7 +14932,7 @@
                         "runs": 1,
                         "hits": 7,
                         "errors": 0,
-                        "leftOnBase": 7
+                        "leftOnBase": 8
                     }
                 },
                 "defense": {
@@ -15198,55 +15201,6 @@
                         "strikeZoneTop": 3.073,
                         "strikeZoneBottom": 1.551
                     },
-                    "first": {
-                        "id": 669701,
-                        "fullName": "Josh Smith",
-                        "link": "/api/v1/people/669701",
-                        "firstName": "Josh",
-                        "lastName": "Smith",
-                        "primaryNumber": "8",
-                        "birthDate": "1997-08-07",
-                        "currentAge": 28,
-                        "birthCity": "Baton Rouge",
-                        "birthStateProvince": "LA",
-                        "birthCountry": "USA",
-                        "height": "5' 9\"",
-                        "weight": 172,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Josh",
-                        "useLastName": "Smith",
-                        "middleName": "Harris",
-                        "boxscoreName": "Smith",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "mlbDebutDate": "2022-05-30",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Josh Smith",
-                        "nameSlug": "josh-smith-669701",
-                        "firstLastName": "Josh Smith",
-                        "lastFirstName": "Smith, Josh",
-                        "lastInitName": "Smith, J",
-                        "initLastName": "J Smith",
-                        "fullFMLName": "Josh Harris Smith",
-                        "fullLFMName": "Smith, Josh Harris",
-                        "strikeZoneTop": 3.068,
-                        "strikeZoneBottom": 1.548
-                    },
                     "pitcher": {
                         "id": 686560,
                         "fullName": "Gavin Collyer",
@@ -15303,9 +15257,9 @@
                         "link": "/api/v1/teams/140"
                     }
                 },
-                "balls": 1,
-                "strikes": 1,
-                "outs": 2
+                "balls": 3,
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 2394,
@@ -15317,6 +15271,7 @@
             "content": {
                 "link": "/api/v1/game/824285/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

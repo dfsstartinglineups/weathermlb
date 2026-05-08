@@ -1901,7 +1901,7 @@
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 11,
+            "windSpeed": 0,
             "windDir": 162,
             "hourly": [
                 {
@@ -1942,12 +1942,12 @@
             ]
         },
         "wind": {
-            "text": "Blowing OUT",
-            "cssClass": "bg-out",
-            "arrow": "\u2b06"
+            "text": "Roof Closed",
+            "cssClass": "bg-secondary text-white",
+            "arrow": ""
         },
-        "roof": false,
-        "roofPending": true,
+        "roof": true,
+        "roofPending": false,
         "lineupHandedness": {},
         "lineupPositions": {}
     },
@@ -2721,6 +2721,7 @@
                         "losses": 22,
                         "pct": ".421"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 687570,
                         "fullName": "Connor Prielipp",
@@ -2784,6 +2785,7 @@
                         "losses": 19,
                         "pct": ".513"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 800048,
                         "fullName": "Parker Messick",
@@ -2838,26 +2840,362 @@
                 }
             },
             "linescore": {
+                "currentInning": 1,
+                "currentInningOrdinal": "1st",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
-                    "home": {},
-                    "away": {}
+                    "home": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    },
+                    "away": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 800048,
+                        "fullName": "Parker Messick",
+                        "link": "/api/v1/people/800048",
+                        "firstName": "Parker",
+                        "lastName": "Messick",
+                        "primaryNumber": "77",
+                        "birthDate": "2000-10-26",
+                        "currentAge": 25,
+                        "birthCity": "Plant City",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 225,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Parker",
+                        "useLastName": "Messick",
+                        "middleName": "Chase",
+                        "boxscoreName": "Messick",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2025-08-20",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Parker Messick",
+                        "nameSlug": "parker-messick-800048",
+                        "firstLastName": "Parker Messick",
+                        "lastFirstName": "Messick, Parker",
+                        "lastInitName": "Messick, P",
+                        "initLastName": "P Messick",
+                        "fullFMLName": "Parker Chase Messick",
+                        "fullLFMName": "Messick, Parker Chase",
+                        "strikeZoneTop": 3.21,
+                        "strikeZoneBottom": 1.62
+                    },
+                    "catcher": {
+                        "id": 595978,
+                        "fullName": "Austin Hedges",
+                        "link": "/api/v1/people/595978"
+                    },
+                    "first": {
+                        "id": 656555,
+                        "fullName": "Rhys Hoskins",
+                        "link": "/api/v1/people/656555"
+                    },
+                    "second": {
+                        "id": 683953,
+                        "fullName": "Travis Bazzana",
+                        "link": "/api/v1/people/683953"
+                    },
+                    "third": {
+                        "id": 608070,
+                        "fullName": "Jos\u00e9 Ram\u00edrez",
+                        "link": "/api/v1/people/608070"
+                    },
+                    "shortstop": {
+                        "id": 677587,
+                        "fullName": "Brayan Rocchio",
+                        "link": "/api/v1/people/677587"
+                    },
+                    "left": {
+                        "id": 680757,
+                        "fullName": "Steven Kwan",
+                        "link": "/api/v1/people/680757"
+                    },
+                    "center": {
+                        "id": 690984,
+                        "fullName": "Petey Halpin",
+                        "link": "/api/v1/people/690984"
+                    },
+                    "right": {
+                        "id": 682657,
+                        "fullName": "Angel Mart\u00ednez",
+                        "link": "/api/v1/people/682657"
+                    },
+                    "batter": {
+                        "id": 680757,
+                        "fullName": "Steven Kwan",
+                        "link": "/api/v1/people/680757"
+                    },
+                    "onDeck": {
+                        "id": 682657,
+                        "fullName": "Angel Mart\u00ednez",
+                        "link": "/api/v1/people/682657"
+                    },
+                    "inHole": {
+                        "id": 608070,
+                        "fullName": "Jos\u00e9 Ram\u00edrez",
+                        "link": "/api/v1/people/608070"
+                    },
+                    "battingOrder": 1,
+                    "team": {
+                        "id": 114,
+                        "name": "Cleveland Guardians",
+                        "link": "/api/v1/teams/114"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 621439,
+                        "fullName": "Byron Buxton",
+                        "link": "/api/v1/people/621439",
+                        "firstName": "Byron",
+                        "lastName": "Buxton",
+                        "primaryNumber": "25",
+                        "birthDate": "1993-12-18",
+                        "currentAge": 32,
+                        "birthCity": "Baxley",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Byron",
+                        "useLastName": "Buxton",
+                        "middleName": "Keiron",
+                        "boxscoreName": "Buxton",
+                        "nickName": "Buck",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2012,
+                        "mlbDebutDate": "2015-06-14",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Byron Buxton",
+                        "nameSlug": "byron-buxton-621439",
+                        "firstLastName": "Byron Buxton",
+                        "lastFirstName": "Buxton, Byron",
+                        "lastInitName": "Buxton, B",
+                        "initLastName": "B Buxton",
+                        "fullFMLName": "Byron Keiron Buxton",
+                        "fullLFMName": "Buxton, Byron Keiron",
+                        "strikeZoneTop": 3.258,
+                        "strikeZoneBottom": 1.644
+                    },
+                    "onDeck": {
+                        "id": 668885,
+                        "fullName": "Austin Martin",
+                        "link": "/api/v1/people/668885",
+                        "firstName": "Christopher",
+                        "lastName": "Martin",
+                        "primaryNumber": "16",
+                        "birthDate": "1999-03-23",
+                        "currentAge": 27,
+                        "birthCity": "DeLand",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "5' 10\"",
+                        "weight": 185,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Austin",
+                        "useLastName": "Martin",
+                        "middleName": "Austin",
+                        "boxscoreName": "Martin",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2024-03-30",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Austin Martin",
+                        "nameSlug": "austin-martin-668885",
+                        "firstLastName": "Austin Martin",
+                        "lastFirstName": "Martin, Austin",
+                        "lastInitName": "Martin, A",
+                        "initLastName": "A Martin",
+                        "fullFMLName": "Christopher Austin Martin",
+                        "fullLFMName": "Martin, Christopher Austin",
+                        "strikeZoneTop": 3.13,
+                        "strikeZoneBottom": 1.579
+                    },
+                    "inHole": {
+                        "id": 680777,
+                        "fullName": "Ryan Jeffers",
+                        "link": "/api/v1/people/680777",
+                        "firstName": "Ryan",
+                        "lastName": "Jeffers",
+                        "primaryNumber": "27",
+                        "birthDate": "1997-06-03",
+                        "currentAge": 28,
+                        "birthCity": "Raleigh",
+                        "birthStateProvince": "NC",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 235,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Ryan",
+                        "useLastName": "Jeffers",
+                        "middleName": "Michael",
+                        "boxscoreName": "Jeffers",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2020-08-20",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ryan Jeffers",
+                        "nameSlug": "ryan-jeffers-680777",
+                        "firstLastName": "Ryan Jeffers",
+                        "lastFirstName": "Jeffers, Ryan",
+                        "lastInitName": "Jeffers, R",
+                        "initLastName": "R Jeffers",
+                        "fullFMLName": "Ryan Michael Jeffers",
+                        "fullLFMName": "Jeffers, Ryan Michael",
+                        "strikeZoneTop": 3.285,
+                        "strikeZoneBottom": 1.658
+                    },
+                    "pitcher": {
+                        "id": 687570,
+                        "fullName": "Connor Prielipp",
+                        "link": "/api/v1/people/687570",
+                        "firstName": "Connor",
+                        "lastName": "Prielipp",
+                        "primaryNumber": "61",
+                        "birthDate": "2001-01-10",
+                        "currentAge": 25,
+                        "birthCity": "Tomah",
+                        "birthStateProvince": "WI",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 210,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Connor",
+                        "useLastName": "Prielipp",
+                        "middleName": "Francis",
+                        "boxscoreName": "Prielipp",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2026-04-22",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Connor Prielipp",
+                        "nameSlug": "connor-prielipp-687570",
+                        "firstLastName": "Connor Prielipp",
+                        "lastFirstName": "Prielipp, Connor",
+                        "lastInitName": "Prielipp, C",
+                        "initLastName": "C Prielipp",
+                        "fullFMLName": "Connor Francis Prielipp",
+                        "fullLFMName": "Prielipp, Connor Francis",
+                        "strikeZoneTop": 3.299,
+                        "strikeZoneBottom": 1.665
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 142,
                         "name": "Minnesota Twins",
                         "link": "/api/v1/teams/142"
                     }
                 },
-                "offense": {
-                    "team": {
-                        "id": 114,
-                        "name": "Cleveland Guardians",
-                        "link": "/api/v1/teams/114"
-                    }
-                }
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 5,
@@ -3013,6 +3351,134 @@
                             "abbreviation": "CF"
                         },
                         "useName": "Petey"
+                    }
+                ],
+                "awayPlayers": [
+                    {
+                        "id": 621439,
+                        "fullName": "Byron Buxton",
+                        "link": "/api/v1/people/621439",
+                        "firstName": "Byron",
+                        "lastName": "Buxton",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Byron"
+                    },
+                    {
+                        "id": 668885,
+                        "fullName": "Austin Martin",
+                        "link": "/api/v1/people/668885",
+                        "firstName": "Christopher",
+                        "lastName": "Martin",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Austin"
+                    },
+                    {
+                        "id": 680777,
+                        "fullName": "Ryan Jeffers",
+                        "link": "/api/v1/people/680777",
+                        "firstName": "Ryan",
+                        "lastName": "Jeffers",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Ryan"
+                    },
+                    {
+                        "id": 605137,
+                        "fullName": "Josh Bell",
+                        "link": "/api/v1/people/605137",
+                        "firstName": "Joshua",
+                        "lastName": "Bell",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Josh"
+                    },
+                    {
+                        "id": 807712,
+                        "fullName": "Luke Keaschall",
+                        "link": "/api/v1/people/807712",
+                        "firstName": "Luke",
+                        "lastName": "Keaschall",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Luke"
+                    },
+                    {
+                        "id": 686797,
+                        "fullName": "Brooks Lee",
+                        "link": "/api/v1/people/686797",
+                        "firstName": "Brooks",
+                        "lastName": "Lee",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Brooks"
+                    },
+                    {
+                        "id": 605170,
+                        "fullName": "Victor Caratini",
+                        "link": "/api/v1/people/605170",
+                        "firstName": "Victor",
+                        "lastName": "Caratini",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Victor"
+                    },
+                    {
+                        "id": 670242,
+                        "fullName": "Matt Wallner",
+                        "link": "/api/v1/people/670242",
+                        "firstName": "Matthew",
+                        "lastName": "Wallner",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Matt"
+                    },
+                    {
+                        "id": 668904,
+                        "fullName": "Royce Lewis",
+                        "link": "/api/v1/people/668904",
+                        "firstName": "Royce",
+                        "lastName": "Lewis",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Royce"
                     }
                 ]
             }

@@ -6369,12 +6369,12 @@
             "gameDate": "2026-05-14T19:05:00Z",
             "officialDate": "2026-05-14",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "F",
+                "detailedState": "Final",
+                "statusCode": "F",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -6384,11 +6384,12 @@
                         "link": "/api/v1/teams/138"
                     },
                     "leagueRecord": {
-                        "wins": 24,
+                        "wins": 25,
                         "losses": 18,
-                        "pct": ".571"
+                        "pct": ".581"
                     },
                     "score": 5,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 700241,
                         "fullName": "Michael McGreevy",
@@ -6449,10 +6450,11 @@
                     },
                     "leagueRecord": {
                         "wins": 22,
-                        "losses": 20,
-                        "pct": ".524"
+                        "losses": 21,
+                        "pct": ".512"
                     },
                     "score": 4,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 682052,
                         "fullName": "Jacob Lopez",
@@ -6645,9 +6647,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 2,
@@ -6662,7 +6665,7 @@
                         "runs": 4,
                         "hits": 10,
                         "errors": 2,
-                        "leftOnBase": 8
+                        "leftOnBase": 9
                     },
                     "away": {
                         "runs": 5,
@@ -6932,55 +6935,6 @@
                         "strikeZoneTop": 3.332,
                         "strikeZoneBottom": 1.682
                     },
-                    "first": {
-                        "id": 701762,
-                        "fullName": "Nick Kurtz",
-                        "link": "/api/v1/people/701762",
-                        "firstName": "Nicholas",
-                        "lastName": "Kurtz",
-                        "primaryNumber": "16",
-                        "birthDate": "2003-03-12",
-                        "currentAge": 23,
-                        "birthCity": "Lancaster",
-                        "birthStateProvince": "PA",
-                        "birthCountry": "USA",
-                        "height": "6' 5\"",
-                        "weight": 240,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Nick",
-                        "useLastName": "Kurtz",
-                        "middleName": "Jeffrey",
-                        "boxscoreName": "Kurtz",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2024,
-                        "mlbDebutDate": "2025-04-23",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Nick Kurtz",
-                        "nameSlug": "nick-kurtz-701762",
-                        "firstLastName": "Nick Kurtz",
-                        "lastFirstName": "Kurtz, Nick",
-                        "lastInitName": "Kurtz, N",
-                        "initLastName": "N Kurtz",
-                        "fullFMLName": "Nicholas Jeffrey Kurtz",
-                        "fullLFMName": "Kurtz, Nicholas Jeffrey",
-                        "strikeZoneTop": 3.413,
-                        "strikeZoneBottom": 1.722
-                    },
                     "pitcher": {
                         "id": 669270,
                         "fullName": "Joel Kuhnel",
@@ -7039,8 +6993,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 2529,
@@ -7052,6 +7006,7 @@
             "content": {
                 "link": "/api/v1/game/825008/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -8412,17 +8367,34 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     }
                 },
                 "defense": {
@@ -8516,6 +8488,22 @@
                         "fullName": "Mike Yastrzemski",
                         "link": "/api/v1/people/573262"
                     },
+                    "batter": {
+                        "id": 686948,
+                        "fullName": "Drake Baldwin",
+                        "link": "/api/v1/people/686948"
+                    },
+                    "onDeck": {
+                        "id": 645277,
+                        "fullName": "Ozzie Albies",
+                        "link": "/api/v1/people/645277"
+                    },
+                    "inHole": {
+                        "id": 621566,
+                        "fullName": "Matt Olson",
+                        "link": "/api/v1/people/621566"
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 144,
                         "name": "Atlanta Braves",
@@ -8672,6 +8660,54 @@
                         "fullLFMName": "Happ, Ian Edward",
                         "strikeZoneTop": 3.137,
                         "strikeZoneBottom": 1.583
+                    },
+                    "pitcher": {
+                        "id": 676962,
+                        "fullName": "Ben Brown",
+                        "link": "/api/v1/people/676962",
+                        "firstName": "Benjamin",
+                        "lastName": "Brown",
+                        "primaryNumber": "32",
+                        "birthDate": "1999-09-09",
+                        "currentAge": 26,
+                        "birthCity": "East Setauket",
+                        "birthStateProvince": "NY",
+                        "birthCountry": "USA",
+                        "height": "6' 6\"",
+                        "weight": 210,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Ben",
+                        "useLastName": "Brown",
+                        "boxscoreName": "Brown, Be",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2017,
+                        "mlbDebutDate": "2024-03-30",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ben Brown",
+                        "nameSlug": "ben-brown-676962",
+                        "firstLastName": "Ben Brown",
+                        "lastFirstName": "Brown, Ben",
+                        "lastInitName": "Brown, B",
+                        "initLastName": "B Brown",
+                        "fullFMLName": "Benjamin  Brown",
+                        "fullLFMName": "Brown, Benjamin ",
+                        "strikeZoneTop": 3.478,
+                        "strikeZoneBottom": 1.755
                     },
                     "battingOrder": 1,
                     "team": {

@@ -9,12 +9,12 @@
             "gameDate": "2026-05-21T17:10:00Z",
             "officialDate": "2026-05-21",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -24,12 +24,13 @@
                         "link": "/api/v1/teams/114"
                     },
                     "leagueRecord": {
-                        "wins": 29,
+                        "wins": 30,
                         "losses": 22,
                         "ties": 0,
-                        "pct": ".569"
+                        "pct": ".577"
                     },
                     "score": 3,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 676282,
                         "fullName": "Joey Cantillo",
@@ -91,11 +92,12 @@
                     },
                     "leagueRecord": {
                         "wins": 20,
-                        "losses": 30,
+                        "losses": 31,
                         "ties": 0,
-                        "pct": ".400"
+                        "pct": ".392"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 663554,
                         "fullName": "Casey Mize",
@@ -289,9 +291,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 0,
@@ -306,7 +309,7 @@
                         "runs": 1,
                         "hits": 6,
                         "errors": 0,
-                        "leftOnBase": 8
+                        "leftOnBase": 9
                     },
                     "away": {
                         "runs": 3,
@@ -576,55 +579,6 @@
                         "strikeZoneTop": 3.272,
                         "strikeZoneBottom": 1.651
                     },
-                    "first": {
-                        "id": 656716,
-                        "fullName": "Zach McKinstry",
-                        "link": "/api/v1/people/656716",
-                        "firstName": "Zachary",
-                        "lastName": "McKinstry",
-                        "primaryNumber": "39",
-                        "birthDate": "1995-04-29",
-                        "currentAge": 31,
-                        "birthCity": "Toledo",
-                        "birthStateProvince": "OH",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 180,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Zach",
-                        "useLastName": "McKinstry",
-                        "boxscoreName": "McKinstry",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2016,
-                        "pronunciation": "muh-KIN-stry",
-                        "mlbDebutDate": "2020-09-16",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Zach McKinstry",
-                        "nameSlug": "zach-mckinstry-656716",
-                        "firstLastName": "Zach McKinstry",
-                        "lastFirstName": "McKinstry, Zach",
-                        "lastInitName": "McKinstry, Z",
-                        "initLastName": "Z McKinstry",
-                        "fullFMLName": "Zachary McKinstry",
-                        "fullLFMName": "McKinstry, Zachary",
-                        "strikeZoneTop": 3.17,
-                        "strikeZoneBottom": 1.6
-                    },
                     "pitcher": {
                         "id": 646241,
                         "fullName": "Enmanuel De Jesus",
@@ -681,8 +635,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 2394,
@@ -694,6 +648,7 @@
             "content": {
                 "link": "/api/v1/game/824274/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

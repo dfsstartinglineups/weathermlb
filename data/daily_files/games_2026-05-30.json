@@ -1041,9 +1041,9 @@
             "officialDate": "2026-05-30",
             "status": {
                 "abstractGameState": "Final",
-                "codedGameState": "O",
-                "detailedState": "Game Over",
-                "statusCode": "O",
+                "codedGameState": "F",
+                "detailedState": "Final",
+                "statusCode": "F",
                 "startTimeTBD": false,
                 "abstractGameCode": "F"
             },
@@ -4537,11 +4537,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 8,
-                "currentInningOrdinal": "8th",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 9,
+                "currentInningOrdinal": "9th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -4671,6 +4671,20 @@
                             "errors": 0,
                             "leftOnBase": 2
                         }
+                    },
+                    {
+                        "num": 9,
+                        "ordinalNum": "9th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
                     }
                 ],
                 "teams": {
@@ -4799,55 +4813,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 668885,
-                        "fullName": "Austin Martin",
-                        "link": "/api/v1/people/668885",
-                        "firstName": "Christopher",
-                        "lastName": "Martin",
-                        "primaryNumber": "16",
-                        "birthDate": "1999-03-23",
-                        "currentAge": 27,
-                        "birthCity": "DeLand",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 185,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Austin",
-                        "useLastName": "Martin",
-                        "middleName": "Austin",
-                        "boxscoreName": "Martin",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2020,
-                        "mlbDebutDate": "2024-03-30",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Austin Martin",
-                        "nameSlug": "austin-martin-668885",
-                        "firstLastName": "Austin Martin",
-                        "lastFirstName": "Martin, Austin",
-                        "lastInitName": "Martin, A",
-                        "initLastName": "A Martin",
-                        "fullFMLName": "Christopher Austin Martin",
-                        "fullLFMName": "Martin, Christopher Austin",
-                        "strikeZoneTop": 3.13,
-                        "strikeZoneBottom": 1.579
-                    },
-                    "onDeck": {
                         "id": 605170,
                         "fullName": "Victor Caratini",
                         "link": "/api/v1/people/605170",
@@ -4898,7 +4863,7 @@
                         "strikeZoneTop": 3.201,
                         "strikeZoneBottom": 1.615
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 606115,
                         "fullName": "Orlando Arcia",
                         "link": "/api/v1/people/606115",
@@ -4946,6 +4911,56 @@
                         "fullLFMName": "Arcia, Orlando Jesus",
                         "strikeZoneTop": 3.171,
                         "strikeZoneBottom": 1.6
+                    },
+                    "inHole": {
+                        "id": 807712,
+                        "fullName": "Luke Keaschall",
+                        "link": "/api/v1/people/807712",
+                        "firstName": "Luke",
+                        "lastName": "Keaschall",
+                        "primaryNumber": "15",
+                        "birthDate": "2002-08-15",
+                        "currentAge": 23,
+                        "birthCity": "Watsonville",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Luke",
+                        "useLastName": "Keaschall",
+                        "middleName": "T.",
+                        "boxscoreName": "Keaschall",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "pronunciation": "KEY-shull",
+                        "mlbDebutDate": "2025-04-18",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luke Keaschall",
+                        "nameSlug": "luke-keaschall-807712",
+                        "firstLastName": "Luke Keaschall",
+                        "lastFirstName": "Keaschall, Luke",
+                        "lastInitName": "Keaschall, L",
+                        "initLastName": "L Keaschall",
+                        "fullFMLName": "Luke T. Keaschall",
+                        "fullLFMName": "Keaschall, Luke T.",
+                        "strikeZoneTop": 3.214,
+                        "strikeZoneBottom": 1.622
                     },
                     "pitcher": {
                         "id": 804619,
@@ -4996,16 +5011,16 @@
                         "strikeZoneTop": 3.433,
                         "strikeZoneBottom": 1.733
                     },
-                    "battingOrder": 5,
+                    "battingOrder": 6,
                     "team": {
                         "id": 142,
                         "name": "Minnesota Twins",
                         "link": "/api/v1/teams/142"
                     }
                 },
-                "balls": 0,
+                "balls": 2,
                 "strikes": 2,
-                "outs": 3
+                "outs": 1
             },
             "venue": {
                 "id": 31,
@@ -6470,7 +6485,7 @@
                         "ties": 0,
                         "pct": ".379"
                     },
-                    "score": 12,
+                    "score": 13,
                     "probablePitcher": {
                         "id": 672282,
                         "fullName": "Reid Detmers",
@@ -6735,8 +6750,8 @@
                             "leftOnBase": 0
                         },
                         "away": {
-                            "runs": 5,
-                            "hits": 1,
+                            "runs": 6,
+                            "hits": 3,
                             "errors": 0,
                             "leftOnBase": 0
                         }
@@ -6750,8 +6765,8 @@
                         "leftOnBase": 9
                     },
                     "away": {
-                        "runs": 12,
-                        "hits": 8,
+                        "runs": 13,
+                        "hits": 10,
                         "errors": 0,
                         "leftOnBase": 4
                     }
@@ -6870,34 +6885,33 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 672724,
-                        "fullName": "Oswald Peraza",
-                        "link": "/api/v1/people/672724",
-                        "firstName": "Oswald",
-                        "lastName": "Peraza",
-                        "primaryNumber": "2",
-                        "birthDate": "2000-06-15",
-                        "currentAge": 25,
-                        "birthCity": "Barquisimeto",
+                        "id": 665861,
+                        "fullName": "Sebasti\u00e1n Rivero",
+                        "link": "/api/v1/people/665861",
+                        "firstName": "Sebasti\u00e1n",
+                        "lastName": "Rivero",
+                        "primaryNumber": "38",
+                        "birthDate": "1998-11-16",
+                        "currentAge": 27,
+                        "birthCity": "Maracay",
                         "birthCountry": "Venezuela",
-                        "height": "5' 11\"",
-                        "weight": 200,
+                        "height": "6' 1\"",
+                        "weight": 210,
                         "active": true,
                         "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
                         },
-                        "useName": "Oswald",
-                        "useLastName": "Peraza",
-                        "middleName": "Dair",
-                        "boxscoreName": "Peraza, O",
+                        "useName": "Sebasti\u00e1n",
+                        "useLastName": "Rivero",
+                        "boxscoreName": "Rivero",
                         "gender": "M",
-                        "nameMatrilineal": "Sandoval",
+                        "nameMatrilineal": "Aguilar",
                         "isPlayer": true,
                         "isVerified": true,
-                        "mlbDebutDate": "2022-09-02",
+                        "mlbDebutDate": "2021-05-08",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -6906,18 +6920,118 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Oswald Peraza",
-                        "nameSlug": "oswald-peraza-672724",
-                        "firstLastName": "Oswald Peraza",
-                        "lastFirstName": "Peraza, Oswald",
-                        "lastInitName": "Peraza, O",
-                        "initLastName": "O Peraza",
-                        "fullFMLName": "Oswald Dair Peraza",
-                        "fullLFMName": "Peraza, Oswald Dair",
-                        "strikeZoneTop": 3.187,
-                        "strikeZoneBottom": 1.608
+                        "nameFirstLast": "Sebasti\u00e1n Rivero",
+                        "nameSlug": "sebastian-rivero-665861",
+                        "firstLastName": "Sebasti\u00e1n Rivero",
+                        "lastFirstName": "Rivero, Sebasti\u00e1n",
+                        "lastInitName": "Rivero, S",
+                        "initLastName": "S Rivero",
+                        "fullFMLName": "Sebasti\u00e1n Rivero",
+                        "fullLFMName": "Rivero, Sebasti\u00e1n ",
+                        "strikeZoneTop": 3.234,
+                        "strikeZoneBottom": 1.632
                     },
                     "onDeck": {
+                        "id": 624428,
+                        "fullName": "Adam Frazier",
+                        "link": "/api/v1/people/624428",
+                        "firstName": "Adam",
+                        "lastName": "Frazier",
+                        "primaryNumber": "20",
+                        "birthDate": "1991-12-14",
+                        "currentAge": 34,
+                        "birthCity": "Athens",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "5' 10\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Adam",
+                        "useLastName": "Frazier",
+                        "middleName": "Timothy",
+                        "boxscoreName": "Frazier",
+                        "nickName": "Fraz",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2013,
+                        "mlbDebutDate": "2016-06-24",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Adam Frazier",
+                        "nameSlug": "adam-frazier-624428",
+                        "firstLastName": "Adam Frazier",
+                        "lastFirstName": "Frazier, Adam",
+                        "lastInitName": "Frazier, A",
+                        "initLastName": "A Frazier",
+                        "fullFMLName": "Adam Timothy Frazier",
+                        "fullLFMName": "Frazier, Adam Timothy",
+                        "strikeZoneTop": 3.111,
+                        "strikeZoneBottom": 1.57
+                    },
+                    "inHole": {
+                        "id": 545361,
+                        "fullName": "Mike Trout",
+                        "link": "/api/v1/people/545361",
+                        "firstName": "Michael",
+                        "lastName": "Trout",
+                        "primaryNumber": "27",
+                        "birthDate": "1991-08-07",
+                        "currentAge": 34,
+                        "birthCity": "Vineland",
+                        "birthStateProvince": "NJ",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 235,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Mike",
+                        "useLastName": "Trout",
+                        "middleName": "Nelson",
+                        "boxscoreName": "Trout",
+                        "nickName": "Kiiiiid",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2009,
+                        "mlbDebutDate": "2011-07-08",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Mike Trout",
+                        "nameSlug": "mike-trout-545361",
+                        "firstLastName": "Mike Trout",
+                        "lastFirstName": "Trout, Mike",
+                        "lastInitName": "Trout, M",
+                        "initLastName": "M Trout",
+                        "fullFMLName": "Michael Nelson Trout",
+                        "fullLFMName": "Trout, Michael Nelson",
+                        "strikeZoneTop": 3.244,
+                        "strikeZoneBottom": 1.637
+                    },
+                    "first": {
                         "id": 622268,
                         "fullName": "Donovan Walton",
                         "link": "/api/v1/people/622268",
@@ -6965,53 +7079,6 @@
                         "fullLFMName": "Walton, Donovan R.",
                         "strikeZoneTop": 3.094,
                         "strikeZoneBottom": 1.561
-                    },
-                    "inHole": {
-                        "id": 665861,
-                        "fullName": "Sebasti\u00e1n Rivero",
-                        "link": "/api/v1/people/665861",
-                        "firstName": "Sebasti\u00e1n",
-                        "lastName": "Rivero",
-                        "primaryNumber": "38",
-                        "birthDate": "1998-11-16",
-                        "currentAge": 27,
-                        "birthCity": "Maracay",
-                        "birthCountry": "Venezuela",
-                        "height": "6' 1\"",
-                        "weight": 210,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Sebasti\u00e1n",
-                        "useLastName": "Rivero",
-                        "boxscoreName": "Rivero",
-                        "gender": "M",
-                        "nameMatrilineal": "Aguilar",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "mlbDebutDate": "2021-05-08",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Sebasti\u00e1n Rivero",
-                        "nameSlug": "sebastian-rivero-665861",
-                        "firstLastName": "Sebasti\u00e1n Rivero",
-                        "lastFirstName": "Rivero, Sebasti\u00e1n",
-                        "lastInitName": "Rivero, S",
-                        "initLastName": "S Rivero",
-                        "fullFMLName": "Sebasti\u00e1n Rivero",
-                        "fullLFMName": "Rivero, Sebasti\u00e1n ",
-                        "strikeZoneTop": 3.234,
-                        "strikeZoneBottom": 1.632
                     },
                     "pitcher": {
                         "id": 681217,
@@ -7062,15 +7129,15 @@
                         "strikeZoneTop": 3.21,
                         "strikeZoneBottom": 1.62
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 9,
                     "team": {
                         "id": 108,
                         "name": "Los Angeles Angels",
                         "link": "/api/v1/teams/108"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
+                "balls": 1,
+                "strikes": 2,
                 "outs": 2
             },
             "venue": {
@@ -9556,9 +9623,9 @@
             "officialDate": "2026-05-30",
             "status": {
                 "abstractGameState": "Live",
-                "codedGameState": "P",
-                "detailedState": "Warmup",
-                "statusCode": "PW",
+                "codedGameState": "I",
+                "detailedState": "In Progress",
+                "statusCode": "I",
                 "startTimeTBD": false,
                 "abstractGameCode": "L"
             },

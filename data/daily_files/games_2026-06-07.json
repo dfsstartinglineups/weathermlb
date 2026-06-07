@@ -307,13 +307,15 @@
                         "runs": 3,
                         "hits": 3,
                         "errors": 1,
-                        "leftOnBase": 5
+                        "leftOnBase": 5,
+                        "isWinner": true
                     },
                     "away": {
                         "runs": 2,
                         "hits": 5,
                         "errors": 1,
-                        "leftOnBase": 7
+                        "leftOnBase": 7,
+                        "isWinner": false
                     }
                 },
                 "defense": {
@@ -574,6 +576,102 @@
                         "fullLFMName": "Gonzales, Nicholas Joseph",
                         "strikeZoneTop": 3.051,
                         "strikeZoneBottom": 1.54
+                    },
+                    "second": {
+                        "id": 663968,
+                        "fullName": "Jake Mangum",
+                        "link": "/api/v1/people/663968",
+                        "firstName": "Jake",
+                        "lastName": "Mangum",
+                        "primaryNumber": "28",
+                        "birthDate": "1996-03-08",
+                        "currentAge": 30,
+                        "birthCity": "Flowood",
+                        "birthStateProvince": "MS",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 191,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Jake",
+                        "useLastName": "Mangum",
+                        "middleName": "Thomas",
+                        "boxscoreName": "Mangum",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2025-03-30",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Jake Mangum",
+                        "nameSlug": "jake-mangum-663968",
+                        "firstLastName": "Jake Mangum",
+                        "lastFirstName": "Mangum, Jake",
+                        "lastInitName": "Mangum, J",
+                        "initLastName": "J Mangum",
+                        "fullFMLName": "Jake Thomas Mangum",
+                        "fullLFMName": "Mangum, Jake Thomas",
+                        "strikeZoneTop": 3.18,
+                        "strikeZoneBottom": 1.605
+                    },
+                    "third": {
+                        "id": 665833,
+                        "fullName": "Oneil Cruz",
+                        "link": "/api/v1/people/665833",
+                        "firstName": "Oneil",
+                        "lastName": "Cruz",
+                        "primaryNumber": "15",
+                        "birthDate": "1998-10-04",
+                        "currentAge": 27,
+                        "birthCity": "Nizao",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 7\"",
+                        "weight": 248,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Oneil",
+                        "useLastName": "Cruz",
+                        "boxscoreName": "Cruz, O",
+                        "gender": "M",
+                        "nameMatrilineal": "Urena",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "mlbDebutDate": "2021-10-02",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Oneil Cruz",
+                        "nameSlug": "oneil-cruz-665833",
+                        "firstLastName": "Oneil Cruz",
+                        "lastFirstName": "Cruz, Oneil",
+                        "lastInitName": "Cruz, O",
+                        "initLastName": "O Cruz",
+                        "fullFMLName": "Oneil Cruz",
+                        "fullLFMName": "Cruz, Oneil",
+                        "strikeZoneTop": 3.52,
+                        "strikeZoneBottom": 1.77
                     },
                     "pitcher": {
                         "id": 681895,
@@ -12495,12 +12593,12 @@
             "gameDate": "2026-06-07T20:10:00Z",
             "officialDate": "2026-06-07",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -12510,12 +12608,13 @@
                         "link": "/api/v1/teams/108"
                     },
                     "leagueRecord": {
-                        "wins": 24,
+                        "wins": 25,
                         "losses": 41,
                         "ties": 0,
-                        "pct": ".369"
+                        "pct": ".379"
                     },
                     "score": 13,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 667755,
                         "fullName": "Jos\u00e9 Soriano",
@@ -12575,11 +12674,12 @@
                     },
                     "leagueRecord": {
                         "wins": 42,
-                        "losses": 23,
+                        "losses": 24,
                         "ties": 0,
-                        "pct": ".646"
+                        "pct": ".636"
                     },
                     "score": 5,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 686218,
                         "fullName": "Emmet Sheehan",
@@ -12774,6 +12874,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -12914,105 +13015,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 518692,
-                        "fullName": "Freddie Freeman",
-                        "link": "/api/v1/people/518692",
-                        "firstName": "Frederick",
-                        "lastName": "Freeman",
-                        "primaryNumber": "5",
-                        "birthDate": "1989-09-12",
-                        "currentAge": 36,
-                        "birthCity": "Villa Park",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 4\"",
-                        "weight": 220,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Freddie",
-                        "useLastName": "Freeman",
-                        "middleName": "Charles",
-                        "boxscoreName": "Freeman, F",
-                        "nickName": "Phillip",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2007,
-                        "mlbDebutDate": "2010-09-01",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Freddie Freeman",
-                        "nameSlug": "freddie-freeman-518692",
-                        "firstLastName": "Freddie Freeman",
-                        "lastFirstName": "Freeman, Freddie",
-                        "lastInitName": "Freeman, F",
-                        "initLastName": "F Freeman",
-                        "fullFMLName": "Frederick Charles Freeman",
-                        "fullLFMName": "Freeman, Frederick Charles",
-                        "strikeZoneTop": 3.382,
-                        "strikeZoneBottom": 1.707
-                    },
-                    "onDeck": {
-                        "id": 663656,
-                        "fullName": "Kyle Tucker",
-                        "link": "/api/v1/people/663656",
-                        "firstName": "Kyle",
-                        "lastName": "Tucker",
-                        "primaryNumber": "23",
-                        "birthDate": "1997-01-17",
-                        "currentAge": 29,
-                        "birthCity": "Tampa",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 212,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Kyle",
-                        "useLastName": "Tucker",
-                        "middleName": "Daniel",
-                        "boxscoreName": "Tucker",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2018-07-07",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Kyle Tucker",
-                        "nameSlug": "kyle-tucker-663656",
-                        "firstLastName": "Kyle Tucker",
-                        "lastFirstName": "Tucker, Kyle",
-                        "lastInitName": "Tucker, K",
-                        "initLastName": "K Tucker",
-                        "fullFMLName": "Kyle Daniel Tucker",
-                        "fullLFMName": "Tucker, Kyle Daniel",
-                        "strikeZoneTop": 3.351,
-                        "strikeZoneBottom": 1.691
-                    },
-                    "inHole": {
                         "id": 571970,
                         "fullName": "Max Muncy",
                         "link": "/api/v1/people/571970",
@@ -13061,6 +13063,104 @@
                         "fullLFMName": "Muncy, Maxwell Steven",
                         "strikeZoneTop": 3.128,
                         "strikeZoneBottom": 1.579
+                    },
+                    "onDeck": {
+                        "id": 669743,
+                        "fullName": "Alex Call",
+                        "link": "/api/v1/people/669743",
+                        "firstName": "Alex",
+                        "lastName": "Call",
+                        "primaryNumber": "12",
+                        "birthDate": "1994-09-27",
+                        "currentAge": 31,
+                        "birthCity": "Burnsville",
+                        "birthStateProvince": "MN",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 189,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Alex",
+                        "useLastName": "Call",
+                        "middleName": "M.",
+                        "boxscoreName": "Call",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2016,
+                        "mlbDebutDate": "2022-07-11",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Alex Call",
+                        "nameSlug": "alex-call-669743",
+                        "firstLastName": "Alex Call",
+                        "lastFirstName": "Call, Alex",
+                        "lastInitName": "Call, A",
+                        "initLastName": "A Call",
+                        "fullFMLName": "Alex M. Call",
+                        "fullLFMName": "Call, Alex M.",
+                        "strikeZoneTop": 3.16,
+                        "strikeZoneBottom": 1.595
+                    },
+                    "inHole": {
+                        "id": 687221,
+                        "fullName": "Dalton Rushing",
+                        "link": "/api/v1/people/687221",
+                        "firstName": "Dalton",
+                        "lastName": "Rushing",
+                        "primaryNumber": "68",
+                        "birthDate": "2001-02-21",
+                        "currentAge": 25,
+                        "birthCity": "Memphis",
+                        "birthStateProvince": "TN",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 220,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Dalton",
+                        "useLastName": "Rushing",
+                        "middleName": "Wayne",
+                        "boxscoreName": "Rushing",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2025-05-15",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Dalton Rushing",
+                        "nameSlug": "dalton-rushing-687221",
+                        "firstLastName": "Dalton Rushing",
+                        "lastFirstName": "Rushing, Dalton",
+                        "lastInitName": "Rushing, D",
+                        "initLastName": "D Rushing",
+                        "fullFMLName": "Dalton Wayne Rushing",
+                        "fullLFMName": "Rushing, Dalton Wayne",
+                        "strikeZoneTop": 3.192,
+                        "strikeZoneBottom": 1.611
                     },
                     "pitcher": {
                         "id": 669165,
@@ -13111,16 +13211,16 @@
                         "strikeZoneTop": 3.344,
                         "strikeZoneBottom": 1.688
                     },
-                    "battingOrder": 2,
+                    "battingOrder": 4,
                     "team": {
                         "id": 119,
                         "name": "Los Angeles Dodgers",
                         "link": "/api/v1/teams/119"
                     }
                 },
-                "balls": 0,
-                "strikes": 2,
-                "outs": 0
+                "balls": 2,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 22,
@@ -13132,6 +13232,7 @@
             "content": {
                 "link": "/api/v1/game/823941/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

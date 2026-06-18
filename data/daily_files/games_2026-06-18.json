@@ -3122,12 +3122,12 @@
             "gameDate": "2026-06-18T20:10:00Z",
             "officialDate": "2026-06-18",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -3138,11 +3138,12 @@
                     },
                     "leagueRecord": {
                         "wins": 35,
-                        "losses": 40,
+                        "losses": 41,
                         "ties": 0,
-                        "pct": ".467"
+                        "pct": ".461"
                     },
                     "score": 0,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 669358,
                         "fullName": "Shane Baz",
@@ -3203,12 +3204,13 @@
                         "link": "/api/v1/teams/136"
                     },
                     "leagueRecord": {
-                        "wins": 38,
+                        "wins": 39,
                         "losses": 37,
                         "ties": 0,
-                        "pct": ".507"
+                        "pct": ".513"
                     },
                     "score": 3,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 693433,
                         "fullName": "Bryan Woo",
@@ -3407,9 +3409,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 2
                         }
                     }
                 ],
@@ -3424,7 +3427,7 @@
                         "runs": 0,
                         "hits": 3,
                         "errors": 1,
-                        "leftOnBase": 4
+                        "leftOnBase": 6
                     }
                 },
                 "defense": {
@@ -3690,103 +3693,6 @@
                         "strikeZoneTop": 3.18,
                         "strikeZoneBottom": 1.6
                     },
-                    "first": {
-                        "id": 694212,
-                        "fullName": "Samuel Basallo",
-                        "link": "/api/v1/people/694212",
-                        "firstName": "Samuel",
-                        "lastName": "Basallo",
-                        "primaryNumber": "29",
-                        "birthDate": "2004-08-13",
-                        "currentAge": 21,
-                        "birthCity": "Santo Domingo",
-                        "birthCountry": "Dominican Republic",
-                        "height": "6' 4\"",
-                        "weight": 250,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Samuel",
-                        "useLastName": "Basallo",
-                        "middleName": "Alexander",
-                        "boxscoreName": "Basallo",
-                        "gender": "M",
-                        "nameMatrilineal": "Mendez",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "SAM-well bah-SY-yo",
-                        "mlbDebutDate": "2025-08-17",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Samuel Basallo",
-                        "nameSlug": "samuel-basallo-694212",
-                        "firstLastName": "Samuel Basallo",
-                        "lastFirstName": "Basallo, Samuel",
-                        "lastInitName": "Basallo, S",
-                        "initLastName": "S Basallo",
-                        "fullFMLName": "Samuel Alexander Basallo",
-                        "fullLFMName": "Basallo, Samuel Alexander",
-                        "strikeZoneTop": 3.39,
-                        "strikeZoneBottom": 1.71
-                    },
-                    "second": {
-                        "id": 669236,
-                        "fullName": "Jeremiah Jackson",
-                        "link": "/api/v1/people/669236",
-                        "firstName": "Jeremiah",
-                        "lastName": "Jackson",
-                        "primaryNumber": "82",
-                        "birthDate": "2000-03-26",
-                        "currentAge": 26,
-                        "birthCity": "Antioch",
-                        "birthStateProvince": "TN",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 200,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Jeremiah",
-                        "useLastName": "Jackson",
-                        "boxscoreName": "Jackson, J",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2025-08-01",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jeremiah Jackson",
-                        "nameSlug": "jeremiah-jackson-669236",
-                        "firstLastName": "Jeremiah Jackson",
-                        "lastFirstName": "Jackson, Jeremiah",
-                        "lastInitName": "Jackson, J",
-                        "initLastName": "J Jackson",
-                        "fullFMLName": "Jeremiah Jackson",
-                        "fullLFMName": "Jackson, Jeremiah",
-                        "strikeZoneTop": 3.18,
-                        "strikeZoneBottom": 1.6
-                    },
                     "pitcher": {
                         "id": 670329,
                         "fullName": "Rico Garcia",
@@ -3843,9 +3749,9 @@
                         "link": "/api/v1/teams/110"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 2
+                "balls": 1,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 680,
@@ -3857,6 +3763,7 @@
             "content": {
                 "link": "/api/v1/game/823125/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

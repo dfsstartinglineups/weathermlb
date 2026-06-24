@@ -1048,13 +1048,12 @@
             "rescheduledFrom": "2026-06-22T23:10:00Z",
             "rescheduledFromDate": "2026-06-22",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "M",
-                "detailedState": "Player challenge",
-                "statusCode": "MJ",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "reason": "Pitch Result",
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -1064,12 +1063,13 @@
                         "link": "/api/v1/teams/112"
                     },
                     "leagueRecord": {
-                        "wins": 41,
+                        "wins": 42,
                         "losses": 37,
                         "ties": 0,
-                        "pct": ".526"
+                        "pct": ".532"
                     },
                     "score": 10,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 665871,
                         "fullName": "Javier Assad",
@@ -1131,11 +1131,12 @@
                     },
                     "leagueRecord": {
                         "wins": 34,
-                        "losses": 44,
+                        "losses": 45,
                         "ties": 0,
-                        "pct": ".436"
+                        "pct": ".430"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 690997,
                         "fullName": "Nolan McLean",
@@ -1329,6 +1330,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -1469,57 +1471,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 543760,
-                        "fullName": "Marcus Semien",
-                        "link": "/api/v1/people/543760",
-                        "firstName": "Marcus",
-                        "lastName": "Semien",
-                        "primaryNumber": "10",
-                        "birthDate": "1990-09-17",
-                        "currentAge": 35,
-                        "birthCity": "San Francisco",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 195,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Marcus",
-                        "useLastName": "Semien",
-                        "middleName": "Andrew",
-                        "boxscoreName": "Semien",
-                        "nickName": "Simmy",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2011,
-                        "pronunciation": "SIH-mee-ehn",
-                        "mlbDebutDate": "2013-09-04",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Marcus Semien",
-                        "nameSlug": "marcus-semien-543760",
-                        "firstLastName": "Marcus Semien",
-                        "lastFirstName": "Semien, Marcus",
-                        "lastInitName": "Semien, M",
-                        "initLastName": "M Semien",
-                        "fullFMLName": "Marcus Andrew Semien",
-                        "fullLFMName": "Semien, Marcus Andrew",
-                        "strikeZoneTop": 3.21,
-                        "strikeZoneBottom": 1.62
-                    },
-                    "onDeck": {
                         "id": 669004,
                         "fullName": "MJ Melendez",
                         "link": "/api/v1/people/669004",
@@ -1570,7 +1521,7 @@
                         "strikeZoneTop": 3.229,
                         "strikeZoneBottom": 1.629
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 620443,
                         "fullName": "Luis Torrens",
                         "link": "/api/v1/people/620443",
@@ -1619,6 +1570,55 @@
                         "fullLFMName": "Torrens, Luis Alfonso",
                         "strikeZoneTop": 3.179,
                         "strikeZoneBottom": 1.604
+                    },
+                    "inHole": {
+                        "id": 701807,
+                        "fullName": "Carson Benge",
+                        "link": "/api/v1/people/701807",
+                        "firstName": "Carson",
+                        "lastName": "Benge",
+                        "primaryNumber": "3",
+                        "birthDate": "2003-01-20",
+                        "currentAge": 23,
+                        "birthCity": "Oklahoma City",
+                        "birthStateProvince": "OK",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 184,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Carson",
+                        "useLastName": "Benge",
+                        "middleName": "Grant",
+                        "boxscoreName": "Benge",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2024,
+                        "mlbDebutDate": "2026-03-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Carson Benge",
+                        "nameSlug": "carson-benge-701807",
+                        "firstLastName": "Carson Benge",
+                        "lastFirstName": "Benge, Carson",
+                        "lastInitName": "Benge, C",
+                        "initLastName": "C Benge",
+                        "fullFMLName": "Carson Grant Benge",
+                        "fullLFMName": "Benge, Carson Grant",
+                        "strikeZoneTop": 3.26,
+                        "strikeZoneBottom": 1.65
                     },
                     "pitcher": {
                         "id": 681810,
@@ -1669,16 +1669,16 @@
                         "strikeZoneTop": 3.21,
                         "strikeZoneBottom": 1.62
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 8,
                     "team": {
                         "id": 121,
                         "name": "New York Mets",
                         "link": "/api/v1/teams/121"
                     }
                 },
-                "balls": 1,
+                "balls": 2,
                 "strikes": 2,
-                "outs": 1
+                "outs": 3
             },
             "venue": {
                 "id": 3289,
@@ -1690,6 +1690,7 @@
             "content": {
                 "link": "/api/v1/game/823613/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "S",
@@ -2102,10 +2103,10 @@
                         "link": "/api/v1/teams/112"
                     },
                     "leagueRecord": {
-                        "wins": 41,
+                        "wins": 42,
                         "losses": 37,
                         "ties": 0,
-                        "pct": ".526"
+                        "pct": ".532"
                     },
                     "probablePitcher": {
                         "id": 684007,
@@ -2165,9 +2166,9 @@
                     },
                     "leagueRecord": {
                         "wins": 34,
-                        "losses": 44,
+                        "losses": 45,
                         "ties": 0,
-                        "pct": ".436"
+                        "pct": ".430"
                     },
                     "probablePitcher": {
                         "id": 640455,
@@ -2545,34 +2546,17 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [
-                    {
-                        "num": 1,
-                        "ordinalNum": "1st",
-                        "home": {
-                            "hits": 0,
-                            "errors": 0,
-                            "leftOnBase": 0
-                        },
-                        "away": {
-                            "hits": 0,
-                            "errors": 0,
-                            "leftOnBase": 0
-                        }
-                    }
-                ],
+                "innings": [],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
-                        "leftOnBase": 0
+                        "errors": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
-                        "leftOnBase": 0
+                        "errors": 0
                     }
                 },
                 "defense": {
@@ -2665,22 +2649,6 @@
                         "fullName": "Braden Montgomery",
                         "link": "/api/v1/people/695731"
                     },
-                    "batter": {
-                        "id": 803011,
-                        "fullName": "Sam Antonacci",
-                        "link": "/api/v1/people/803011"
-                    },
-                    "onDeck": {
-                        "id": 678246,
-                        "fullName": "Miguel Vargas",
-                        "link": "/api/v1/people/678246"
-                    },
-                    "inHole": {
-                        "id": 643217,
-                        "fullName": "Andrew Benintendi",
-                        "link": "/api/v1/people/643217"
-                    },
-                    "battingOrder": 1,
                     "team": {
                         "id": 145,
                         "name": "Chicago White Sox",
@@ -2833,56 +2801,6 @@
                         "fullLFMName": "Fry, David",
                         "strikeZoneTop": 3.243,
                         "strikeZoneBottom": 1.637
-                    },
-                    "pitcher": {
-                        "id": 676440,
-                        "fullName": "Tanner Bibee",
-                        "link": "/api/v1/people/676440",
-                        "firstName": "Tanner",
-                        "lastName": "Bibee",
-                        "primaryNumber": "28",
-                        "birthDate": "1999-03-05",
-                        "currentAge": 27,
-                        "birthCity": "Mission Viejo",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 205,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Tanner",
-                        "useLastName": "Bibee",
-                        "middleName": "Hayes",
-                        "boxscoreName": "Bibee",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2021,
-                        "pronunciation": "BUY-bee",
-                        "mlbDebutDate": "2023-04-26",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Tanner Bibee",
-                        "nameSlug": "tanner-bibee-676440",
-                        "firstLastName": "Tanner Bibee",
-                        "lastFirstName": "Bibee, Tanner",
-                        "lastInitName": "Bibee, T",
-                        "initLastName": "T Bibee",
-                        "fullFMLName": "Tanner Hayes Bibee",
-                        "fullLFMName": "Bibee, Tanner Hayes",
-                        "strikeZoneTop": 3.299,
-                        "strikeZoneBottom": 1.665
                     },
                     "battingOrder": 1,
                     "team": {
@@ -3385,7 +3303,7 @@
                         "ties": 0,
                         "pct": ".388"
                     },
-                    "score": 0,
+                    "score": 1,
                     "probablePitcher": {
                         "id": 607536,
                         "fullName": "Kyle Freeland",
@@ -3484,29 +3402,30 @@
                         "num": 3,
                         "ordinalNum": "3rd",
                         "home": {
-                            "hits": 0,
+                            "runs": 1,
+                            "hits": 2,
                             "errors": 0,
                             "leftOnBase": 0
                         },
                         "away": {
                             "runs": 0,
                             "hits": 1,
-                            "errors": 0,
+                            "errors": 1,
                             "leftOnBase": 1
                         }
                     }
                 ],
                 "teams": {
                     "home": {
-                        "runs": 0,
-                        "hits": 2,
+                        "runs": 1,
+                        "hits": 4,
                         "errors": 0,
                         "leftOnBase": 2
                     },
                     "away": {
                         "runs": 3,
                         "hits": 5,
-                        "errors": 0,
+                        "errors": 1,
                         "leftOnBase": 2
                     }
                 },
@@ -3623,36 +3542,35 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 691720,
-                        "fullName": "Kyle Karros",
-                        "link": "/api/v1/people/691720",
-                        "firstName": "Kyle",
-                        "lastName": "Karros",
-                        "primaryNumber": "12",
-                        "birthDate": "2002-07-26",
-                        "currentAge": 23,
-                        "birthCity": "Los Angeles",
-                        "birthStateProvince": "CA",
+                        "id": 696100,
+                        "fullName": "Hunter Goodman",
+                        "link": "/api/v1/people/696100",
+                        "firstName": "Hunter",
+                        "lastName": "Goodman",
+                        "primaryNumber": "15",
+                        "birthDate": "1999-10-08",
+                        "currentAge": 26,
+                        "birthCity": "Arlington",
+                        "birthStateProvince": "TN",
                         "birthCountry": "USA",
-                        "height": "6' 5\"",
-                        "weight": 225,
+                        "height": "5' 11\"",
+                        "weight": 220,
                         "active": true,
                         "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
                         },
-                        "useName": "Kyle",
-                        "useLastName": "Karros",
-                        "middleName": "Garret",
-                        "boxscoreName": "Karros, K",
+                        "useName": "Hunter",
+                        "useLastName": "Goodman",
+                        "middleName": "Robert",
+                        "boxscoreName": "Goodman",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2023,
-                        "pronunciation": "KARE-ohs",
-                        "mlbDebutDate": "2025-08-08",
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2023-08-27",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -3661,47 +3579,48 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Kyle Karros",
-                        "nameSlug": "kyle-karros-691720",
-                        "firstLastName": "Kyle Karros",
-                        "lastFirstName": "Karros, Kyle",
-                        "lastInitName": "Karros, K",
-                        "initLastName": "K Karros",
-                        "fullFMLName": "Kyle Garret Karros",
-                        "fullLFMName": "Karros, Kyle Garret",
-                        "strikeZoneTop": 3.43,
-                        "strikeZoneBottom": 1.73
+                        "nameFirstLast": "Hunter Goodman",
+                        "nameSlug": "hunter-goodman-696100",
+                        "firstLastName": "Hunter Goodman",
+                        "lastFirstName": "Goodman, Hunter",
+                        "lastInitName": "Goodman, H",
+                        "initLastName": "H Goodman",
+                        "fullFMLName": "Hunter Robert Goodman",
+                        "fullLFMName": "Goodman, Hunter Robert",
+                        "strikeZoneTop": 3.18,
+                        "strikeZoneBottom": 1.6
                     },
                     "onDeck": {
-                        "id": 650489,
-                        "fullName": "Willi Castro",
-                        "link": "/api/v1/people/650489",
-                        "firstName": "Willi",
-                        "lastName": "Castro",
-                        "primaryNumber": "3",
-                        "birthDate": "1997-04-24",
-                        "currentAge": 29,
-                        "birthCity": "Rio Piedras",
-                        "birthCountry": "Puerto Rico",
-                        "height": "6' 0\"",
-                        "weight": 209,
+                        "id": 694249,
+                        "fullName": "Cole Carrigg",
+                        "link": "/api/v1/people/694249",
+                        "firstName": "Cole",
+                        "lastName": "Carrigg",
+                        "primaryNumber": "16",
+                        "birthDate": "2002-05-08",
+                        "currentAge": 24,
+                        "birthCity": "Modesto",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 204,
                         "active": true,
                         "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
                         },
-                        "useName": "Willi",
-                        "useLastName": "Castro",
-                        "middleName": "Rafael",
-                        "boxscoreName": "Castro, W",
+                        "useName": "Cole",
+                        "useLastName": "Carrigg",
+                        "middleName": "Michael",
+                        "boxscoreName": "Carrigg",
                         "gender": "M",
-                        "nameMatrilineal": "Capellan",
                         "isPlayer": true,
-                        "isVerified": false,
-                        "pronunciation": "willie",
-                        "mlbDebutDate": "2019-08-24",
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "pronunciation": "CARE-igg",
+                        "mlbDebutDate": "2026-06-09",
                         "batSide": {
                             "code": "S",
                             "description": "Switch"
@@ -3710,18 +3629,118 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Willi Castro",
-                        "nameSlug": "willi-castro-650489",
-                        "firstLastName": "Willi Castro",
-                        "lastFirstName": "Castro, Willi",
-                        "lastInitName": "Castro, W",
-                        "initLastName": "W Castro",
-                        "fullFMLName": "Willi Rafael Castro",
-                        "fullLFMName": "Castro, Willi Rafael",
-                        "strikeZoneTop": 3.2,
-                        "strikeZoneBottom": 1.62
+                        "nameFirstLast": "Cole Carrigg",
+                        "nameSlug": "cole-carrigg-694249",
+                        "firstLastName": "Cole Carrigg",
+                        "lastFirstName": "Carrigg, Cole",
+                        "lastInitName": "Carrigg, C",
+                        "initLastName": "C Carrigg",
+                        "fullFMLName": "Cole Michael Carrigg",
+                        "fullLFMName": "Carrigg, Cole Michael",
+                        "strikeZoneTop": 3.29,
+                        "strikeZoneBottom": 1.66
                     },
                     "inHole": {
+                        "id": 664983,
+                        "fullName": "Jake McCarthy",
+                        "link": "/api/v1/people/664983",
+                        "firstName": "Jacob",
+                        "lastName": "McCarthy",
+                        "primaryNumber": "31",
+                        "birthDate": "1997-07-30",
+                        "currentAge": 28,
+                        "birthCity": "Scranton",
+                        "birthStateProvince": "PA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 213,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Jake",
+                        "useLastName": "McCarthy",
+                        "middleName": "Joseph",
+                        "boxscoreName": "McCarthy",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2021-08-27",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Jake McCarthy",
+                        "nameSlug": "jake-mccarthy-664983",
+                        "firstLastName": "Jake McCarthy",
+                        "lastFirstName": "McCarthy, Jake",
+                        "lastInitName": "McCarthy, J",
+                        "initLastName": "J McCarthy",
+                        "fullFMLName": "Jacob Joseph McCarthy",
+                        "fullLFMName": "McCarthy, Jacob Joseph",
+                        "strikeZoneTop": 3.23,
+                        "strikeZoneBottom": 1.63
+                    },
+                    "second": {
+                        "id": 681198,
+                        "fullName": "TJ Rumfield",
+                        "link": "/api/v1/people/681198",
+                        "firstName": "Toby",
+                        "lastName": "Rumfield",
+                        "primaryNumber": "7",
+                        "birthDate": "2000-05-17",
+                        "currentAge": 26,
+                        "birthCity": "Richmond",
+                        "birthStateProvince": "VA",
+                        "birthCountry": "USA",
+                        "height": "6' 5\"",
+                        "weight": 238,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "TJ",
+                        "useLastName": "Rumfield",
+                        "middleName": "Joseph",
+                        "boxscoreName": "Rumfield",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2026-03-27",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "TJ Rumfield",
+                        "nameTitle": "Jr.",
+                        "nameSuffix": "Jr.",
+                        "nameSlug": "tj-rumfield-681198",
+                        "firstLastName": "TJ Rumfield",
+                        "lastFirstName": "Rumfield, TJ",
+                        "lastInitName": "Rumfield, T",
+                        "initLastName": "T Rumfield",
+                        "fullFMLName": "Toby Joseph Rumfield",
+                        "fullLFMName": "Rumfield, Toby Joseph",
+                        "strikeZoneTop": 3.42,
+                        "strikeZoneBottom": 1.73
+                    },
+                    "third": {
                         "id": 671289,
                         "fullName": "Tyler Freeman",
                         "link": "/api/v1/people/671289",
@@ -3820,7 +3839,7 @@
                         "strikeZoneTop": 3.5,
                         "strikeZoneBottom": 1.66
                     },
-                    "battingOrder": 9,
+                    "battingOrder": 4,
                     "team": {
                         "id": 115,
                         "name": "Colorado Rockies",
@@ -3828,8 +3847,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 1,
-                "outs": 0
+                "strikes": 0,
+                "outs": 1
             },
             "venue": {
                 "id": 19,
@@ -9253,16 +9272,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 144,
-                        "name": "Atlanta Braves",
-                        "link": "/api/v1/teams/144"
+                        "id": 135,
+                        "name": "San Diego Padres",
+                        "link": "/api/v1/teams/135"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 135,
-                        "name": "San Diego Padres",
-                        "link": "/api/v1/teams/135"
+                        "id": 144,
+                        "name": "Atlanta Braves",
+                        "link": "/api/v1/teams/144"
                     }
                 }
             },
@@ -9556,16 +9575,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 133,
-                        "name": "Athletics",
-                        "link": "/api/v1/teams/133"
+                        "id": 137,
+                        "name": "San Francisco Giants",
+                        "link": "/api/v1/teams/137"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 137,
-                        "name": "San Francisco Giants",
-                        "link": "/api/v1/teams/137"
+                        "id": 133,
+                        "name": "Athletics",
+                        "link": "/api/v1/teams/133"
                     }
                 }
             },

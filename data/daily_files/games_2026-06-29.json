@@ -1351,9 +1351,9 @@
             "officialDate": "2026-06-29",
             "status": {
                 "abstractGameState": "Preview",
-                "codedGameState": "S",
-                "detailedState": "Scheduled",
-                "statusCode": "S",
+                "codedGameState": "P",
+                "detailedState": "Pre-Game",
+                "statusCode": "P",
                 "startTimeTBD": false,
                 "abstractGameCode": "P"
             },
@@ -1495,16 +1495,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 147,
-                        "name": "New York Yankees",
-                        "link": "/api/v1/teams/147"
+                        "id": 116,
+                        "name": "Detroit Tigers",
+                        "link": "/api/v1/teams/116"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 116,
-                        "name": "Detroit Tigers",
-                        "link": "/api/v1/teams/116"
+                        "id": 147,
+                        "name": "New York Yankees",
+                        "link": "/api/v1/teams/147"
                     }
                 }
             },
@@ -1535,7 +1535,136 @@
             "recordSource": "S",
             "ifNecessary": "N",
             "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "lineups": {
+                "homePlayers": [
+                    {
+                        "id": 700250,
+                        "fullName": "Ben Rice",
+                        "link": "/api/v1/people/700250",
+                        "firstName": "Benjamin",
+                        "lastName": "Rice",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Ben"
+                    },
+                    {
+                        "id": 641355,
+                        "fullName": "Cody Bellinger",
+                        "link": "/api/v1/people/641355",
+                        "firstName": "Cody",
+                        "lastName": "Bellinger",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Cody"
+                    },
+                    {
+                        "id": 502671,
+                        "fullName": "Paul Goldschmidt",
+                        "link": "/api/v1/people/502671",
+                        "firstName": "Paul",
+                        "lastName": "Goldschmidt",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Paul"
+                    },
+                    {
+                        "id": 665862,
+                        "fullName": "Jazz Chisholm Jr.",
+                        "link": "/api/v1/people/665862",
+                        "firstName": "Jasrado",
+                        "lastName": "Chisholm",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Jazz"
+                    },
+                    {
+                        "id": 691176,
+                        "fullName": "Jasson Dom\u00ednguez",
+                        "link": "/api/v1/people/691176",
+                        "firstName": "Jasson",
+                        "lastName": "Dom\u00ednguez",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Jasson"
+                    },
+                    {
+                        "id": 683011,
+                        "fullName": "Anthony Volpe",
+                        "link": "/api/v1/people/683011",
+                        "firstName": "Anthony",
+                        "lastName": "Volpe",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Anthony"
+                    },
+                    {
+                        "id": 682987,
+                        "fullName": "Spencer Jones",
+                        "link": "/api/v1/people/682987",
+                        "firstName": "Spencer",
+                        "lastName": "Jones",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Spencer"
+                    },
+                    {
+                        "id": 669224,
+                        "fullName": "Austin Wells",
+                        "link": "/api/v1/people/669224",
+                        "firstName": "Austin",
+                        "lastName": "Wells",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Austin"
+                    },
+                    {
+                        "id": 676609,
+                        "fullName": "Jos\u00e9 Caballero",
+                        "link": "/api/v1/people/676609",
+                        "firstName": "Jos\u00e9",
+                        "lastName": "Caballero",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Jos\u00e9"
+                    }
+                ]
+            }
         },
         "stadium": {
             "id": 3313,
@@ -2117,6 +2246,7 @@
                         "ties": 0,
                         "pct": ".506"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 571945,
                         "fullName": "Miles Mikolas",
@@ -2183,6 +2313,7 @@
                         "ties": 0,
                         "pct": ".439"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 624133,
                         "fullName": "Ranger Suarez",
@@ -2236,26 +2367,361 @@
                 }
             },
             "linescore": {
+                "currentInning": 1,
+                "currentInningOrdinal": "1st",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
-                    "home": {},
-                    "away": {}
+                    "home": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    },
+                    "away": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 624133,
+                        "fullName": "Ranger Suarez",
+                        "link": "/api/v1/people/624133",
+                        "firstName": "Ranger",
+                        "lastName": "Suarez",
+                        "primaryNumber": "55",
+                        "birthDate": "1995-08-26",
+                        "currentAge": 30,
+                        "birthCity": "Pie de Cuesta",
+                        "birthCountry": "Venezuela",
+                        "height": "6' 1\"",
+                        "weight": 217,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Ranger",
+                        "useLastName": "Suarez",
+                        "middleName": "Jose",
+                        "boxscoreName": "Suarez",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "RAYN-jurr SWAHR-ez",
+                        "mlbDebutDate": "2018-07-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Ranger Suarez",
+                        "nameSlug": "ranger-suarez-624133",
+                        "firstLastName": "Ranger Suarez",
+                        "lastFirstName": "Suarez, Ranger",
+                        "lastInitName": "Suarez, R",
+                        "initLastName": "R Suarez",
+                        "fullFMLName": "Ranger Jose Suarez",
+                        "fullLFMName": "Suarez, Ranger Jose",
+                        "strikeZoneTop": 3.255,
+                        "strikeZoneBottom": 1.643
+                    },
+                    "catcher": {
+                        "id": 665966,
+                        "fullName": "Carlos Narv\u00e1ez",
+                        "link": "/api/v1/people/665966"
+                    },
+                    "first": {
+                        "id": 575929,
+                        "fullName": "Willson Contreras",
+                        "link": "/api/v1/people/575929"
+                    },
+                    "second": {
+                        "id": 678011,
+                        "fullName": "Anthony Seigler",
+                        "link": "/api/v1/people/678011"
+                    },
+                    "third": {
+                        "id": 702332,
+                        "fullName": "Caleb Durbin",
+                        "link": "/api/v1/people/702332"
+                    },
+                    "shortstop": {
+                        "id": 691907,
+                        "fullName": "Tsung-Che Cheng",
+                        "link": "/api/v1/people/691907"
+                    },
+                    "left": {
+                        "id": 680776,
+                        "fullName": "Jarren Duran",
+                        "link": "/api/v1/people/680776"
+                    },
+                    "center": {
+                        "id": 678882,
+                        "fullName": "Ceddanne Rafaela",
+                        "link": "/api/v1/people/678882"
+                    },
+                    "right": {
+                        "id": 677800,
+                        "fullName": "Wilyer Abreu",
+                        "link": "/api/v1/people/677800"
+                    },
+                    "batter": {
+                        "id": 807799,
+                        "fullName": "Masataka Yoshida",
+                        "link": "/api/v1/people/807799"
+                    },
+                    "onDeck": {
+                        "id": 678882,
+                        "fullName": "Ceddanne Rafaela",
+                        "link": "/api/v1/people/678882"
+                    },
+                    "inHole": {
+                        "id": 677800,
+                        "fullName": "Wilyer Abreu",
+                        "link": "/api/v1/people/677800"
+                    },
+                    "battingOrder": 1,
+                    "team": {
+                        "id": 111,
+                        "name": "Boston Red Sox",
+                        "link": "/api/v1/teams/111"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 695578,
+                        "fullName": "James Wood",
+                        "link": "/api/v1/people/695578",
+                        "firstName": "James",
+                        "lastName": "Wood",
+                        "primaryNumber": "29",
+                        "birthDate": "2002-09-17",
+                        "currentAge": 23,
+                        "birthCity": "Rockville",
+                        "birthStateProvince": "MD",
+                        "birthCountry": "USA",
+                        "height": "6' 6\"",
+                        "weight": 234,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "James",
+                        "useLastName": "Wood",
+                        "middleName": "Irvin",
+                        "boxscoreName": "Wood",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2024-07-01",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "James Wood",
+                        "nameSlug": "james-wood-695578",
+                        "firstLastName": "James Wood",
+                        "lastFirstName": "Wood, James",
+                        "lastInitName": "Wood, J",
+                        "initLastName": "J Wood",
+                        "fullFMLName": "James Irvin Wood",
+                        "fullLFMName": "Wood, James Irvin",
+                        "strikeZoneTop": 3.489,
+                        "strikeZoneBottom": 1.761
+                    },
+                    "onDeck": {
+                        "id": 665953,
+                        "fullName": "Andr\u00e9s Chaparro",
+                        "link": "/api/v1/people/665953",
+                        "firstName": "Andr\u00e9s",
+                        "lastName": "Chaparro",
+                        "primaryNumber": "87",
+                        "birthDate": "1999-05-04",
+                        "currentAge": 27,
+                        "birthCity": "El Vigia",
+                        "birthCountry": "Venezuela",
+                        "height": "6' 0\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Andr\u00e9s",
+                        "useLastName": "Chaparro",
+                        "middleName": "Alfonso",
+                        "boxscoreName": "Chaparro",
+                        "gender": "M",
+                        "nameMatrilineal": "Romero",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "pronunciation": "cha-par-oh",
+                        "mlbDebutDate": "2024-08-13",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Andr\u00e9s Chaparro",
+                        "nameSlug": "andres-chaparro-665953",
+                        "firstLastName": "Andr\u00e9s Chaparro",
+                        "lastFirstName": "Chaparro, Andr\u00e9s",
+                        "lastInitName": "Chaparro, A",
+                        "initLastName": "A Chaparro",
+                        "fullFMLName": "Andr\u00e9s Alfonso Chaparro",
+                        "fullLFMName": "Chaparro, Andr\u00e9s Alfonso",
+                        "strikeZoneTop": 3.205,
+                        "strikeZoneBottom": 1.618
+                    },
+                    "inHole": {
+                        "id": 678554,
+                        "fullName": "Curtis Mead",
+                        "link": "/api/v1/people/678554",
+                        "firstName": "Curtis",
+                        "lastName": "Mead",
+                        "primaryNumber": "45",
+                        "birthDate": "2000-10-26",
+                        "currentAge": 25,
+                        "birthCity": "Adelaide",
+                        "birthCountry": "Australia",
+                        "height": "6' 1\"",
+                        "weight": 225,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Curtis",
+                        "useLastName": "Mead",
+                        "middleName": "James",
+                        "boxscoreName": "Mead",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "meed",
+                        "mlbDebutDate": "2023-08-04",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Curtis Mead",
+                        "nameSlug": "curtis-mead-678554",
+                        "firstLastName": "Curtis Mead",
+                        "lastFirstName": "Mead, Curtis",
+                        "lastInitName": "Mead, C",
+                        "initLastName": "C Mead",
+                        "fullFMLName": "Curtis James Mead",
+                        "fullLFMName": "Mead, Curtis James",
+                        "strikeZoneTop": 3.247,
+                        "strikeZoneBottom": 1.639
+                    },
+                    "pitcher": {
+                        "id": 571945,
+                        "fullName": "Miles Mikolas",
+                        "link": "/api/v1/people/571945",
+                        "firstName": "Miles",
+                        "lastName": "Mikolas",
+                        "primaryNumber": "36",
+                        "birthDate": "1988-08-23",
+                        "currentAge": 37,
+                        "birthCity": "Jupiter",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "6' 4\"",
+                        "weight": 230,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Miles",
+                        "useLastName": "Mikolas",
+                        "middleName": "Tice",
+                        "boxscoreName": "Mikolas",
+                        "nickName": "5280's",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2009,
+                        "pronunciation": "MY-koh-lahs",
+                        "mlbDebutDate": "2012-05-05",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Miles Mikolas",
+                        "nameSlug": "miles-mikolas-571945",
+                        "firstLastName": "Miles Mikolas",
+                        "lastFirstName": "Mikolas, Miles",
+                        "lastInitName": "Mikolas, M",
+                        "initLastName": "M Mikolas",
+                        "fullFMLName": "Miles Tice Mikolas",
+                        "fullLFMName": "Mikolas, Miles Tice",
+                        "strikeZoneTop": 3.388,
+                        "strikeZoneBottom": 1.71
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 120,
                         "name": "Washington Nationals",
                         "link": "/api/v1/teams/120"
                     }
                 },
-                "offense": {
-                    "team": {
-                        "id": 111,
-                        "name": "Boston Red Sox",
-                        "link": "/api/v1/teams/111"
-                    }
-                }
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 3,
@@ -2411,6 +2877,134 @@
                             "abbreviation": "SS"
                         },
                         "useName": "Tsung-Che"
+                    }
+                ],
+                "awayPlayers": [
+                    {
+                        "id": 695578,
+                        "fullName": "James Wood",
+                        "link": "/api/v1/people/695578",
+                        "firstName": "James",
+                        "lastName": "Wood",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "James"
+                    },
+                    {
+                        "id": 665953,
+                        "fullName": "Andr\u00e9s Chaparro",
+                        "link": "/api/v1/people/665953",
+                        "firstName": "Andr\u00e9s",
+                        "lastName": "Chaparro",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Andr\u00e9s"
+                    },
+                    {
+                        "id": 678554,
+                        "fullName": "Curtis Mead",
+                        "link": "/api/v1/people/678554",
+                        "firstName": "Curtis",
+                        "lastName": "Mead",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Curtis"
+                    },
+                    {
+                        "id": 682928,
+                        "fullName": "CJ Abrams",
+                        "link": "/api/v1/people/682928",
+                        "firstName": "Paul",
+                        "lastName": "Abrams",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "CJ"
+                    },
+                    {
+                        "id": 686611,
+                        "fullName": "Dylan Crews",
+                        "link": "/api/v1/people/686611",
+                        "firstName": "Dylan",
+                        "lastName": "Crews",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Dylan"
+                    },
+                    {
+                        "id": 696285,
+                        "fullName": "Jacob Young",
+                        "link": "/api/v1/people/696285",
+                        "firstName": "Jacob",
+                        "lastName": "Young",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Jacob"
+                    },
+                    {
+                        "id": 671277,
+                        "fullName": "Luis Garc\u00eda Jr.",
+                        "link": "/api/v1/people/671277",
+                        "firstName": "Luis",
+                        "lastName": "Garc\u00eda",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Luis"
+                    },
+                    {
+                        "id": 683083,
+                        "fullName": "Nasim Nu\u00f1ez",
+                        "link": "/api/v1/people/683083",
+                        "firstName": "Nasim",
+                        "lastName": "Nu\u00f1ez",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Nasim"
+                    },
+                    {
+                        "id": 660688,
+                        "fullName": "Keibert Ruiz",
+                        "link": "/api/v1/people/660688",
+                        "firstName": "Keibert",
+                        "lastName": "Ruiz",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Keibert"
                     }
                 ]
             }

@@ -9,12 +9,12 @@
             "gameDate": "2026-07-04T15:05:00Z",
             "officialDate": "2026-07-04",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -24,12 +24,13 @@
                         "link": "/api/v1/teams/134"
                     },
                     "leagueRecord": {
-                        "wins": 44,
+                        "wins": 45,
                         "losses": 45,
                         "ties": 0,
-                        "pct": ".494"
+                        "pct": ".500"
                     },
                     "score": 7,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 677952,
                         "fullName": "Braxton Ashcraft",
@@ -89,11 +90,12 @@
                     },
                     "leagueRecord": {
                         "wins": 46,
-                        "losses": 43,
+                        "losses": 44,
                         "ties": 0,
-                        "pct": ".517"
+                        "pct": ".511"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 687223,
                         "fullName": "Carson Palmquist",
@@ -287,6 +289,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -630,9 +633,9 @@
                         "link": "/api/v1/teams/120"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 2
+                "balls": 3,
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 3309,
@@ -644,6 +647,7 @@
             "content": {
                 "link": "/api/v1/game/822716/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -974,7 +978,7 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186843.418044,
+            "lastUpdated": 1783188044.600662,
             "temp": 96,
             "humidity": 48,
             "maxPrecipChance": 0,
@@ -1180,17 +1184,18 @@
                 }
             },
             "linescore": {
-                "currentInning": 1,
-                "currentInningOrdinal": "1st",
-                "inningState": "Bottom",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 2,
+                "currentInningOrdinal": "2nd",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
                         "num": 1,
                         "ordinalNum": "1st",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -1198,6 +1203,20 @@
                         "away": {
                             "runs": 3,
                             "hits": 2,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    },
+                    {
+                        "num": 2,
+                        "ordinalNum": "2nd",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
                         }
@@ -1218,266 +1237,6 @@
                     }
                 },
                 "defense": {
-                    "pitcher": {
-                        "id": 805673,
-                        "fullName": "Zebby Matthews",
-                        "link": "/api/v1/people/805673",
-                        "firstName": "Daniel",
-                        "lastName": "Matthews",
-                        "primaryNumber": "52",
-                        "birthDate": "2000-05-22",
-                        "currentAge": 26,
-                        "birthCity": "Cullowhee",
-                        "birthStateProvince": "NC",
-                        "birthCountry": "USA",
-                        "height": "6' 5\"",
-                        "weight": 225,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Zebby",
-                        "useLastName": "Matthews",
-                        "middleName": "Zebulon",
-                        "boxscoreName": "Matthews",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2024-08-13",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Zebby Matthews",
-                        "nameSlug": "zebby-matthews-805673",
-                        "firstLastName": "Zebby Matthews",
-                        "lastFirstName": "Matthews, Zebby",
-                        "lastInitName": "Matthews, Z",
-                        "initLastName": "Z Matthews",
-                        "fullFMLName": "Daniel Zebulon Matthews",
-                        "fullLFMName": "Matthews, Daniel Zebulon",
-                        "strikeZoneTop": 3.433,
-                        "strikeZoneBottom": 1.733
-                    },
-                    "catcher": {
-                        "id": 656577,
-                        "fullName": "Alex Jackson",
-                        "link": "/api/v1/people/656577"
-                    },
-                    "first": {
-                        "id": 668904,
-                        "fullName": "Royce Lewis",
-                        "link": "/api/v1/people/668904"
-                    },
-                    "second": {
-                        "id": 665019,
-                        "fullName": "Kody Clemens",
-                        "link": "/api/v1/people/665019"
-                    },
-                    "third": {
-                        "id": 686797,
-                        "fullName": "Brooks Lee",
-                        "link": "/api/v1/people/686797"
-                    },
-                    "shortstop": {
-                        "id": 668952,
-                        "fullName": "Ryan Kreidler",
-                        "link": "/api/v1/people/668952"
-                    },
-                    "left": {
-                        "id": 663616,
-                        "fullName": "Trevor Larnach",
-                        "link": "/api/v1/people/663616"
-                    },
-                    "center": {
-                        "id": 621439,
-                        "fullName": "Byron Buxton",
-                        "link": "/api/v1/people/621439"
-                    },
-                    "right": {
-                        "id": 807712,
-                        "fullName": "Luke Keaschall",
-                        "link": "/api/v1/people/807712"
-                    },
-                    "batter": {
-                        "id": 668952,
-                        "fullName": "Ryan Kreidler",
-                        "link": "/api/v1/people/668952"
-                    },
-                    "onDeck": {
-                        "id": 807712,
-                        "fullName": "Luke Keaschall",
-                        "link": "/api/v1/people/807712"
-                    },
-                    "inHole": {
-                        "id": 656577,
-                        "fullName": "Alex Jackson",
-                        "link": "/api/v1/people/656577"
-                    },
-                    "battingOrder": 7,
-                    "team": {
-                        "id": 142,
-                        "name": "Minnesota Twins",
-                        "link": "/api/v1/teams/142"
-                    }
-                },
-                "offense": {
-                    "batter": {
-                        "id": 641355,
-                        "fullName": "Cody Bellinger",
-                        "link": "/api/v1/people/641355",
-                        "firstName": "Cody",
-                        "lastName": "Bellinger",
-                        "primaryNumber": "35",
-                        "birthDate": "1995-07-13",
-                        "currentAge": 30,
-                        "birthCity": "Scottsdale",
-                        "birthStateProvince": "AZ",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 204,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Cody",
-                        "useLastName": "Bellinger",
-                        "middleName": "James",
-                        "boxscoreName": "Bellinger",
-                        "nickName": "Belli",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2013,
-                        "mlbDebutDate": "2017-04-25",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Cody Bellinger",
-                        "nameSlug": "cody-bellinger-641355",
-                        "firstLastName": "Cody Bellinger",
-                        "lastFirstName": "Bellinger, Cody",
-                        "lastInitName": "Bellinger, C",
-                        "initLastName": "C Bellinger",
-                        "fullFMLName": "Cody James Bellinger",
-                        "fullLFMName": "Bellinger, Cody James",
-                        "strikeZoneTop": 3.345,
-                        "strikeZoneBottom": 1.688
-                    },
-                    "onDeck": {
-                        "id": 691176,
-                        "fullName": "Jasson Dom\u00ednguez",
-                        "link": "/api/v1/people/691176",
-                        "firstName": "Jasson",
-                        "lastName": "Dom\u00ednguez",
-                        "primaryNumber": "24",
-                        "birthDate": "2003-02-07",
-                        "currentAge": 23,
-                        "birthCity": "Esperanza",
-                        "birthCountry": "Dominican Republic",
-                        "height": "5' 9\"",
-                        "weight": 218,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Jasson",
-                        "useLastName": "Dom\u00ednguez",
-                        "boxscoreName": "Dom\u00ednguez",
-                        "nickName": "The Martian",
-                        "gender": "M",
-                        "nameMatrilineal": "Gonzalez",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "mlbDebutDate": "2023-09-01",
-                        "batSide": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jasson Dom\u00ednguez",
-                        "nameSlug": "jasson-dominguez-691176",
-                        "firstLastName": "Jasson Dom\u00ednguez",
-                        "lastFirstName": "Dom\u00ednguez, Jasson",
-                        "lastInitName": "Dom\u00ednguez, J",
-                        "initLastName": "J Dom\u00ednguez",
-                        "fullFMLName": "Jasson Dom\u00ednguez",
-                        "fullLFMName": "Dom\u00ednguez, Jasson",
-                        "strikeZoneTop": 3.083,
-                        "strikeZoneBottom": 1.556
-                    },
-                    "inHole": {
-                        "id": 683011,
-                        "fullName": "Anthony Volpe",
-                        "link": "/api/v1/people/683011",
-                        "firstName": "Anthony",
-                        "lastName": "Volpe",
-                        "primaryNumber": "11",
-                        "birthDate": "2001-04-28",
-                        "currentAge": 25,
-                        "birthCity": "New York",
-                        "birthStateProvince": "NY",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 197,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Anthony",
-                        "useLastName": "Volpe",
-                        "middleName": "Michael",
-                        "boxscoreName": "Volpe",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "pronunciation": "VOLE-pee",
-                        "mlbDebutDate": "2023-03-30",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Anthony Volpe",
-                        "nameSlug": "anthony-volpe-683011",
-                        "firstLastName": "Anthony Volpe",
-                        "lastFirstName": "Volpe, Anthony",
-                        "lastInitName": "Volpe, A",
-                        "initLastName": "A Volpe",
-                        "fullFMLName": "Anthony Michael Volpe",
-                        "fullLFMName": "Volpe, Anthony Michael",
-                        "strikeZoneTop": 3.116,
-                        "strikeZoneBottom": 1.572
-                    },
                     "pitcher": {
                         "id": 694341,
                         "fullName": "Brendan Beck",
@@ -1527,16 +1286,277 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 3,
+                    "catcher": {
+                        "id": 645305,
+                        "fullName": "Ali S\u00e1nchez",
+                        "link": "/api/v1/people/645305"
+                    },
+                    "first": {
+                        "id": 700250,
+                        "fullName": "Ben Rice",
+                        "link": "/api/v1/people/700250"
+                    },
+                    "second": {
+                        "id": 665862,
+                        "fullName": "Jazz Chisholm Jr.",
+                        "link": "/api/v1/people/665862"
+                    },
+                    "third": {
+                        "id": 641857,
+                        "fullName": "Ryan McMahon",
+                        "link": "/api/v1/people/641857"
+                    },
+                    "shortstop": {
+                        "id": 683011,
+                        "fullName": "Anthony Volpe",
+                        "link": "/api/v1/people/683011"
+                    },
+                    "left": {
+                        "id": 641355,
+                        "fullName": "Cody Bellinger",
+                        "link": "/api/v1/people/641355"
+                    },
+                    "center": {
+                        "id": 680474,
+                        "fullName": "Max Schuemann",
+                        "link": "/api/v1/people/680474"
+                    },
+                    "right": {
+                        "id": 691176,
+                        "fullName": "Jasson Dom\u00ednguez",
+                        "link": "/api/v1/people/691176"
+                    },
+                    "batter": {
+                        "id": 691176,
+                        "fullName": "Jasson Dom\u00ednguez",
+                        "link": "/api/v1/people/691176"
+                    },
+                    "onDeck": {
+                        "id": 683011,
+                        "fullName": "Anthony Volpe",
+                        "link": "/api/v1/people/683011"
+                    },
+                    "inHole": {
+                        "id": 665862,
+                        "fullName": "Jazz Chisholm Jr.",
+                        "link": "/api/v1/people/665862"
+                    },
+                    "battingOrder": 4,
                     "team": {
                         "id": 147,
                         "name": "New York Yankees",
                         "link": "/api/v1/teams/147"
                     }
                 },
+                "offense": {
+                    "batter": {
+                        "id": 807712,
+                        "fullName": "Luke Keaschall",
+                        "link": "/api/v1/people/807712",
+                        "firstName": "Luke",
+                        "lastName": "Keaschall",
+                        "primaryNumber": "15",
+                        "birthDate": "2002-08-15",
+                        "currentAge": 23,
+                        "birthCity": "Watsonville",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Luke",
+                        "useLastName": "Keaschall",
+                        "middleName": "T.",
+                        "boxscoreName": "Keaschall",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "pronunciation": "KEY-shull",
+                        "mlbDebutDate": "2025-04-18",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luke Keaschall",
+                        "nameSlug": "luke-keaschall-807712",
+                        "firstLastName": "Luke Keaschall",
+                        "lastFirstName": "Keaschall, Luke",
+                        "lastInitName": "Keaschall, L",
+                        "initLastName": "L Keaschall",
+                        "fullFMLName": "Luke T. Keaschall",
+                        "fullLFMName": "Keaschall, Luke T.",
+                        "strikeZoneTop": 3.214,
+                        "strikeZoneBottom": 1.622
+                    },
+                    "onDeck": {
+                        "id": 656577,
+                        "fullName": "Alex Jackson",
+                        "link": "/api/v1/people/656577",
+                        "firstName": "Alexander",
+                        "lastName": "Jackson",
+                        "primaryNumber": "70",
+                        "birthDate": "1995-12-25",
+                        "currentAge": 30,
+                        "birthCity": "San Diego",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 238,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Alex",
+                        "useLastName": "Jackson",
+                        "middleName": "James",
+                        "boxscoreName": "Jackson, A",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2014,
+                        "mlbDebutDate": "2019-04-07",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Alex Jackson",
+                        "nameSlug": "alex-jackson-656577",
+                        "firstLastName": "Alex Jackson",
+                        "lastFirstName": "Jackson, Alex",
+                        "lastInitName": "Jackson, A",
+                        "initLastName": "A Jackson",
+                        "fullFMLName": "Alexander James Jackson",
+                        "fullLFMName": "Jackson, Alexander James",
+                        "strikeZoneTop": 3.254,
+                        "strikeZoneBottom": 1.642
+                    },
+                    "inHole": {
+                        "id": 663616,
+                        "fullName": "Trevor Larnach",
+                        "link": "/api/v1/people/663616",
+                        "firstName": "Trevor",
+                        "lastName": "Larnach",
+                        "primaryNumber": "9",
+                        "birthDate": "1997-02-26",
+                        "currentAge": 29,
+                        "birthCity": "Walnut Creek",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 223,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Trevor",
+                        "useLastName": "Larnach",
+                        "middleName": "John-Ikaiakaloa",
+                        "boxscoreName": "Larnach",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "pronunciation": "LAR-nick",
+                        "mlbDebutDate": "2021-05-08",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Trevor Larnach",
+                        "nameSlug": "trevor-larnach-663616",
+                        "firstLastName": "Trevor Larnach",
+                        "lastFirstName": "Larnach, Trevor",
+                        "lastInitName": "Larnach, T",
+                        "initLastName": "T Larnach",
+                        "fullFMLName": "Trevor John-Ikaiakaloa Larnach",
+                        "fullLFMName": "Larnach, Trevor John-Ikaiakaloa",
+                        "strikeZoneTop": 3.324,
+                        "strikeZoneBottom": 1.677
+                    },
+                    "pitcher": {
+                        "id": 805673,
+                        "fullName": "Zebby Matthews",
+                        "link": "/api/v1/people/805673",
+                        "firstName": "Daniel",
+                        "lastName": "Matthews",
+                        "primaryNumber": "52",
+                        "birthDate": "2000-05-22",
+                        "currentAge": 26,
+                        "birthCity": "Cullowhee",
+                        "birthStateProvince": "NC",
+                        "birthCountry": "USA",
+                        "height": "6' 5\"",
+                        "weight": 225,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Zebby",
+                        "useLastName": "Matthews",
+                        "middleName": "Zebulon",
+                        "boxscoreName": "Matthews",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2024-08-13",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Zebby Matthews",
+                        "nameSlug": "zebby-matthews-805673",
+                        "firstLastName": "Zebby Matthews",
+                        "lastFirstName": "Matthews, Zebby",
+                        "lastInitName": "Matthews, Z",
+                        "initLastName": "Z Matthews",
+                        "fullFMLName": "Daniel Zebulon Matthews",
+                        "fullLFMName": "Matthews, Daniel Zebulon",
+                        "strikeZoneTop": 3.433,
+                        "strikeZoneBottom": 1.733
+                    },
+                    "battingOrder": 8,
+                    "team": {
+                        "id": 142,
+                        "name": "Minnesota Twins",
+                        "link": "/api/v1/teams/142"
+                    }
+                },
                 "balls": 0,
-                "strikes": 0,
-                "outs": 2
+                "strikes": 2,
+                "outs": 1
             },
             "venue": {
                 "id": 3313,
@@ -1878,14 +1898,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186844.518738,
+            "lastUpdated": 1783188045.696992,
             "temp": 96,
             "humidity": 43,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 11,
-            "windDir": 296,
+            "windSpeed": 10,
+            "windDir": 301,
             "hourly": [
                 {
                     "timestamp": "2026-07-04T16:00Z",
@@ -2787,14 +2807,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186845.619653,
+            "lastUpdated": 1783188046.793242,
             "temp": 98,
             "humidity": 36,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 165,
+            "windDir": 175,
             "hourly": [
                 {
                     "timestamp": "2026-07-04T19:00Z",
@@ -3694,14 +3714,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186846.736291,
+            "lastUpdated": 1783188047.902087,
             "temp": 62,
             "humidity": 78,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 288,
+            "windDir": 262,
             "hourly": [
                 {
                     "timestamp": "2026-07-04T19:00Z",
@@ -3945,8 +3965,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 2602,
@@ -4002,14 +4021,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186847.851682,
+            "lastUpdated": 1783188049.011577,
             "temp": 93,
             "humidity": 42,
-            "maxPrecipChance": 17,
+            "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 6,
-            "windDir": 255,
+            "windSpeed": 8,
+            "windDir": 254,
             "hourly": [
                 {
                     "timestamp": "2026-07-04T22:00Z",
@@ -4035,7 +4054,7 @@
                 {
                     "timestamp": "2026-07-05T01:00Z",
                     "temp": 86,
-                    "precipChance": 17,
+                    "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
@@ -4215,16 +4234,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 117,
-                        "name": "Houston Astros",
-                        "link": "/api/v1/teams/117"
+                        "id": 139,
+                        "name": "Tampa Bay Rays",
+                        "link": "/api/v1/teams/139"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 139,
-                        "name": "Tampa Bay Rays",
-                        "link": "/api/v1/teams/139"
+                        "id": 117,
+                        "name": "Houston Astros",
+                        "link": "/api/v1/teams/117"
                     }
                 }
             },
@@ -4254,8 +4273,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 2392,
@@ -4312,14 +4330,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186848.952215,
+            "lastUpdated": 1783188050.107928,
             "temp": 85,
             "humidity": 63,
             "maxPrecipChance": 60,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 219,
+            "windDir": 277,
             "hourly": [
                 {
                     "timestamp": "2026-07-04T22:00Z",
@@ -4563,8 +4581,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 5,
@@ -4620,14 +4637,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186850.065069,
+            "lastUpdated": 1783188051.21796,
             "temp": 84,
             "humidity": 60,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 6,
-            "windDir": 352,
+            "windSpeed": 4,
+            "windDir": 347,
             "hourly": [
                 {
                     "timestamp": "2026-07-04T22:00Z",
@@ -4870,8 +4887,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 17,
@@ -4927,14 +4943,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186851.16611,
+            "lastUpdated": 1783188052.314427,
             "temp": 69,
             "humidity": 99,
             "maxPrecipChance": 30,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 4,
-            "windDir": 137,
+            "windSpeed": 6,
+            "windDir": 25,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -4946,7 +4962,7 @@
                 {
                     "timestamp": "2026-07-05T01:00Z",
                     "temp": 70,
-                    "precipChance": 11,
+                    "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
@@ -4967,9 +4983,9 @@
             ]
         },
         "wind": {
-            "text": "Cross (R to L)",
-            "cssClass": "bg-cross",
-            "arrow": "\u2b05"
+            "text": "Blowing IN",
+            "cssClass": "bg-in",
+            "arrow": "\u2b07"
         },
         "roof": false,
         "roofPending": false,
@@ -5174,8 +5190,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 4705,
@@ -5231,14 +5246,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186852.267359,
+            "lastUpdated": 1783188053.410825,
             "temp": 92,
             "humidity": 39,
             "maxPrecipChance": 60,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 5,
-            "windDir": 338,
+            "windDir": 246,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -5271,9 +5286,9 @@
             ]
         },
         "wind": {
-            "text": "Blowing OUT",
-            "cssClass": "bg-out",
-            "arrow": "\u2b06"
+            "text": "Cross (R to L)",
+            "cssClass": "bg-cross",
+            "arrow": "\u2b05"
         },
         "roof": false,
         "roofPending": false,
@@ -5533,14 +5548,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186853.367722,
+            "lastUpdated": 1783188054.508205,
             "temp": 89,
             "humidity": 15,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 13,
-            "windDir": 171,
+            "windSpeed": 12,
+            "windDir": 156,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -5573,9 +5588,9 @@
             ]
         },
         "wind": {
-            "text": "Blowing OUT",
+            "text": "Out to Left",
             "cssClass": "bg-out",
-            "arrow": "\u2b06"
+            "arrow": "\u2196"
         },
         "roof": false,
         "roofPending": false,
@@ -5778,8 +5793,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 7,
@@ -5835,14 +5849,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186854.468444,
+            "lastUpdated": 1783188055.60473,
             "temp": 76,
             "humidity": 67,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 6,
-            "windDir": 321,
+            "windSpeed": 5,
+            "windDir": 331,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -6078,8 +6092,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 1,
@@ -6135,14 +6148,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186855.569272,
+            "lastUpdated": 1783188056.70113,
             "temp": 80,
             "humidity": 43,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 7,
-            "windDir": 239,
+            "windSpeed": 8,
+            "windDir": 240,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -6348,16 +6361,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 133,
-                        "name": "Athletics",
-                        "link": "/api/v1/teams/133"
+                        "id": 146,
+                        "name": "Miami Marlins",
+                        "link": "/api/v1/teams/146"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 146,
-                        "name": "Miami Marlins",
-                        "link": "/api/v1/teams/146"
+                        "id": 133,
+                        "name": "Athletics",
+                        "link": "/api/v1/teams/133"
                     }
                 }
             },
@@ -6387,8 +6400,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 2529,
@@ -6444,14 +6456,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186856.66994,
+            "lastUpdated": 1783188057.797389,
             "temp": 88,
             "humidity": 27,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 11,
-            "windDir": 228,
+            "windDir": 232,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -6658,16 +6670,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 109,
-                        "name": "Arizona Diamondbacks",
-                        "link": "/api/v1/teams/109"
+                        "id": 158,
+                        "name": "Milwaukee Brewers",
+                        "link": "/api/v1/teams/158"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 158,
-                        "name": "Milwaukee Brewers",
-                        "link": "/api/v1/teams/158"
+                        "id": 109,
+                        "name": "Arizona Diamondbacks",
+                        "link": "/api/v1/teams/109"
                     }
                 }
             },
@@ -6697,8 +6709,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 15,
@@ -6755,14 +6766,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186857.771468,
+            "lastUpdated": 1783188058.893883,
             "temp": 106,
             "humidity": 7,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 274,
+            "windDir": 264,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T00:00Z",
@@ -7061,14 +7072,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1783186858.928939,
+            "lastUpdated": 1783188060.000755,
             "temp": 73,
             "humidity": 55,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 7,
-            "windDir": 248,
+            "windDir": 257,
             "hourly": [
                 {
                     "timestamp": "2026-07-05T01:00Z",

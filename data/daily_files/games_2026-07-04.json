@@ -2081,12 +2081,12 @@
             "gameDate": "2026-07-04T20:05:00Z",
             "officialDate": "2026-07-04",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -2096,12 +2096,13 @@
                         "link": "/api/v1/teams/116"
                     },
                     "leagueRecord": {
-                        "wins": 38,
+                        "wins": 39,
                         "losses": 50,
                         "ties": 0,
-                        "pct": ".432"
+                        "pct": ".438"
                     },
                     "score": 3,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 656427,
                         "fullName": "Jack Flaherty",
@@ -2163,11 +2164,12 @@
                     },
                     "leagueRecord": {
                         "wins": 45,
-                        "losses": 43,
+                        "losses": 44,
                         "ties": 0,
-                        "pct": ".511"
+                        "pct": ".506"
                     },
                     "score": 0,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 615698,
                         "fullName": "Cal Quantrill",
@@ -2363,6 +2365,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -2708,7 +2711,7 @@
                 },
                 "balls": 1,
                 "strikes": 2,
-                "outs": 2
+                "outs": 3
             },
             "venue": {
                 "id": 5325,
@@ -2720,6 +2723,7 @@
             "content": {
                 "link": "/api/v1/game/822882/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -3259,9 +3263,9 @@
                 }
             },
             "linescore": {
-                "currentInning": 8,
-                "currentInningOrdinal": "8th",
-                "inningState": "Middle",
+                "currentInning": 9,
+                "currentInningOrdinal": "9th",
+                "inningState": "Top",
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
@@ -3382,12 +3386,27 @@
                         "num": 8,
                         "ordinalNum": "8th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
                         },
                         "away": {
                             "runs": 0,
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    },
+                    {
+                        "num": 9,
+                        "ordinalNum": "9th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -3409,264 +3428,6 @@
                     }
                 },
                 "defense": {
-                    "pitcher": {
-                        "id": 680755,
-                        "fullName": "Braydon Fisher",
-                        "link": "/api/v1/people/680755",
-                        "firstName": "Braydon",
-                        "lastName": "Fisher",
-                        "primaryNumber": "63",
-                        "birthDate": "2000-07-26",
-                        "currentAge": 25,
-                        "birthCity": "League City",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "6' 4\"",
-                        "weight": 180,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Braydon",
-                        "useLastName": "Fisher",
-                        "boxscoreName": "Fisher",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2025-05-11",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Braydon Fisher",
-                        "nameSlug": "braydon-fisher-680755",
-                        "firstLastName": "Braydon Fisher",
-                        "lastFirstName": "Fisher, Braydon",
-                        "lastInitName": "Fisher, B",
-                        "initLastName": "B Fisher",
-                        "fullFMLName": "Braydon  Fisher",
-                        "fullLFMName": "Fisher, Braydon",
-                        "strikeZoneTop": 3.388,
-                        "strikeZoneBottom": 1.71
-                    },
-                    "catcher": {
-                        "id": 678218,
-                        "fullName": "Brandon Valenzuela",
-                        "link": "/api/v1/people/678218"
-                    },
-                    "first": {
-                        "id": 815873,
-                        "fullName": "Sean Keys",
-                        "link": "/api/v1/people/815873"
-                    },
-                    "second": {
-                        "id": 649966,
-                        "fullName": "Luis Ur\u00edas",
-                        "link": "/api/v1/people/649966"
-                    },
-                    "third": {
-                        "id": 672960,
-                        "fullName": "Kazuma Okamoto",
-                        "link": "/api/v1/people/672960"
-                    },
-                    "shortstop": {
-                        "id": 676391,
-                        "fullName": "Ernie Clement",
-                        "link": "/api/v1/people/676391"
-                    },
-                    "left": {
-                        "id": 682818,
-                        "fullName": "Yohendrick Pi\u00f1ango",
-                        "link": "/api/v1/people/682818"
-                    },
-                    "center": {
-                        "id": 682729,
-                        "fullName": "Jonatan Clase",
-                        "link": "/api/v1/people/682729"
-                    },
-                    "right": {
-                        "id": 664770,
-                        "fullName": "Nathan Lukes",
-                        "link": "/api/v1/people/664770"
-                    },
-                    "batter": {
-                        "id": 678218,
-                        "fullName": "Brandon Valenzuela",
-                        "link": "/api/v1/people/678218"
-                    },
-                    "onDeck": {
-                        "id": 649966,
-                        "fullName": "Luis Ur\u00edas",
-                        "link": "/api/v1/people/649966"
-                    },
-                    "inHole": {
-                        "id": 664770,
-                        "fullName": "Nathan Lukes",
-                        "link": "/api/v1/people/664770"
-                    },
-                    "battingOrder": 8,
-                    "team": {
-                        "id": 141,
-                        "name": "Toronto Blue Jays",
-                        "link": "/api/v1/teams/141"
-                    }
-                },
-                "offense": {
-                    "batter": {
-                        "id": 641487,
-                        "fullName": "J.P. Crawford",
-                        "link": "/api/v1/people/641487",
-                        "firstName": "John",
-                        "lastName": "Crawford",
-                        "primaryNumber": "3",
-                        "birthDate": "1995-01-11",
-                        "currentAge": 31,
-                        "birthCity": "Long Beach",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 202,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "J.P.",
-                        "useLastName": "Crawford",
-                        "middleName": "Paul",
-                        "boxscoreName": "Crawford, J",
-                        "nickName": "Crawdaddy",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2013,
-                        "mlbDebutDate": "2017-09-05",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "J.P. Crawford",
-                        "nameSlug": "j-p-crawford-641487",
-                        "firstLastName": "J.P. Crawford",
-                        "lastFirstName": "Crawford, J.P.",
-                        "lastInitName": "Crawford, J",
-                        "initLastName": "J Crawford",
-                        "fullFMLName": "John Paul Crawford",
-                        "fullLFMName": "Crawford, John Paul",
-                        "strikeZoneTop": 3.219,
-                        "strikeZoneBottom": 1.625
-                    },
-                    "onDeck": {
-                        "id": 668227,
-                        "fullName": "Randy Arozarena",
-                        "link": "/api/v1/people/668227",
-                        "firstName": "Randy",
-                        "lastName": "Arozarena",
-                        "primaryNumber": "56",
-                        "birthDate": "1995-02-28",
-                        "currentAge": 31,
-                        "birthCity": "Havana",
-                        "birthCountry": "Cuba",
-                        "height": "5' 10\"",
-                        "weight": 185,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Randy",
-                        "useLastName": "Arozarena",
-                        "boxscoreName": "Arozarena",
-                        "gender": "M",
-                        "nameMatrilineal": "Gonzalez",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "ah-row-sah-RAY-nah",
-                        "mlbDebutDate": "2019-08-14",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Randy Arozarena",
-                        "nameSlug": "randy-arozarena-668227",
-                        "firstLastName": "Randy Arozarena",
-                        "lastFirstName": "Arozarena, Randy",
-                        "lastInitName": "Arozarena, R",
-                        "initLastName": "R Arozarena",
-                        "fullFMLName": "Randy Arozarena",
-                        "fullLFMName": "Arozarena, Randy",
-                        "strikeZoneTop": 3.128,
-                        "strikeZoneBottom": 1.579
-                    },
-                    "inHole": {
-                        "id": 686527,
-                        "fullName": "Dominic Canzone",
-                        "link": "/api/v1/people/686527",
-                        "firstName": "Dominic",
-                        "lastName": "Canzone",
-                        "primaryNumber": "8",
-                        "birthDate": "1997-08-16",
-                        "currentAge": 28,
-                        "birthCity": "Cleveland",
-                        "birthStateProvince": "OH",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 190,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Dominic",
-                        "useLastName": "Canzone",
-                        "middleName": "Gene",
-                        "boxscoreName": "Canzone",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "mlbDebutDate": "2023-07-08",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Dominic Canzone",
-                        "nameSlug": "dominic-canzone-686527",
-                        "firstLastName": "Dominic Canzone",
-                        "lastFirstName": "Canzone, Dominic",
-                        "lastInitName": "Canzone, D",
-                        "initLastName": "D Canzone",
-                        "fullFMLName": "Dominic Gene Canzone",
-                        "fullLFMName": "Canzone, Dominic Gene",
-                        "strikeZoneTop": 3.209,
-                        "strikeZoneBottom": 1.619
-                    },
                     "pitcher": {
                         "id": 677961,
                         "fullName": "Cole Wilcox",
@@ -3716,16 +3477,277 @@
                         "strikeZoneTop": 3.433,
                         "strikeZoneBottom": 1.733
                     },
-                    "battingOrder": 10,
+                    "catcher": {
+                        "id": 663728,
+                        "fullName": "Cal Raleigh",
+                        "link": "/api/v1/people/663728"
+                    },
+                    "first": {
+                        "id": 647304,
+                        "fullName": "Josh Naylor",
+                        "link": "/api/v1/people/647304"
+                    },
+                    "second": {
+                        "id": 671083,
+                        "fullName": "Buddy Kennedy",
+                        "link": "/api/v1/people/671083"
+                    },
+                    "third": {
+                        "id": 642215,
+                        "fullName": "Weston Wilson",
+                        "link": "/api/v1/people/642215"
+                    },
+                    "shortstop": {
+                        "id": 806068,
+                        "fullName": "Colt Emerson",
+                        "link": "/api/v1/people/806068"
+                    },
+                    "left": {
+                        "id": 668227,
+                        "fullName": "Randy Arozarena",
+                        "link": "/api/v1/people/668227"
+                    },
+                    "center": {
+                        "id": 645302,
+                        "fullName": "Victor Robles",
+                        "link": "/api/v1/people/645302"
+                    },
+                    "right": {
+                        "id": 670156,
+                        "fullName": "Miles Mastrobuoni",
+                        "link": "/api/v1/people/670156"
+                    },
+                    "batter": {
+                        "id": 663728,
+                        "fullName": "Cal Raleigh",
+                        "link": "/api/v1/people/663728"
+                    },
+                    "onDeck": {
+                        "id": 647304,
+                        "fullName": "Josh Naylor",
+                        "link": "/api/v1/people/647304"
+                    },
+                    "inHole": {
+                        "id": 670156,
+                        "fullName": "Miles Mastrobuoni",
+                        "link": "/api/v1/people/670156"
+                    },
+                    "battingOrder": 4,
                     "team": {
                         "id": 136,
                         "name": "Seattle Mariners",
                         "link": "/api/v1/teams/136"
                     }
                 },
-                "balls": 3,
-                "strikes": 2,
-                "outs": 3
+                "offense": {
+                    "batter": {
+                        "id": 678218,
+                        "fullName": "Brandon Valenzuela",
+                        "link": "/api/v1/people/678218",
+                        "firstName": "Brandon",
+                        "lastName": "Valenzuela",
+                        "primaryNumber": "59",
+                        "birthDate": "2000-10-02",
+                        "currentAge": 25,
+                        "birthCity": "Hermosillo",
+                        "birthStateProvince": "Sonora",
+                        "birthCountry": "Mexico",
+                        "height": "6' 0\"",
+                        "weight": 225,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Brandon",
+                        "useLastName": "Valenzuela",
+                        "middleName": "Ivar",
+                        "boxscoreName": "Valenzuela",
+                        "gender": "M",
+                        "nameMatrilineal": "Gerardo",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2026-04-05",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Brandon Valenzuela",
+                        "nameSlug": "brandon-valenzuela-678218",
+                        "firstLastName": "Brandon Valenzuela",
+                        "lastFirstName": "Valenzuela, Brandon",
+                        "lastInitName": "Valenzuela, B",
+                        "initLastName": "B Valenzuela",
+                        "fullFMLName": "Brandon Ivar Valenzuela",
+                        "fullLFMName": "Valenzuela, Brandon Ivar",
+                        "strikeZoneTop": 3.219,
+                        "strikeZoneBottom": 1.625
+                    },
+                    "onDeck": {
+                        "id": 649966,
+                        "fullName": "Luis Ur\u00edas",
+                        "link": "/api/v1/people/649966",
+                        "firstName": "Luis",
+                        "lastName": "Ur\u00edas",
+                        "primaryNumber": "48",
+                        "birthDate": "1997-06-03",
+                        "currentAge": 29,
+                        "birthCity": "Magdalena de Kino",
+                        "birthCountry": "Mexico",
+                        "height": "5' 9\"",
+                        "weight": 202,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Luis",
+                        "useLastName": "Ur\u00edas",
+                        "middleName": "Fernando",
+                        "boxscoreName": "Ur\u00edas, L",
+                        "nickName": "Wicho",
+                        "gender": "M",
+                        "nameMatrilineal": "Figueroa",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "oo-REE-ahse",
+                        "mlbDebutDate": "2018-08-28",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luis Ur\u00edas",
+                        "nameSlug": "luis-urias-649966",
+                        "firstLastName": "Luis Ur\u00edas",
+                        "lastFirstName": "Ur\u00edas, Luis",
+                        "lastInitName": "Ur\u00edas, L",
+                        "initLastName": "L Ur\u00edas",
+                        "fullFMLName": "Luis Fernando Ur\u00edas",
+                        "fullLFMName": "Ur\u00edas, Luis Fernando",
+                        "strikeZoneTop": 3.09,
+                        "strikeZoneBottom": 1.56
+                    },
+                    "inHole": {
+                        "id": 664770,
+                        "fullName": "Nathan Lukes",
+                        "link": "/api/v1/people/664770",
+                        "firstName": "Nathan",
+                        "lastName": "Lukes",
+                        "primaryNumber": "38",
+                        "birthDate": "1994-07-12",
+                        "currentAge": 31,
+                        "birthCity": "Sacramento",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 180,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Nathan",
+                        "useLastName": "Lukes",
+                        "middleName": "Donald",
+                        "boxscoreName": "Lukes",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2015,
+                        "pronunciation": "lucas",
+                        "mlbDebutDate": "2023-03-30",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Nathan Lukes",
+                        "nameSlug": "nathan-lukes-664770",
+                        "firstLastName": "Nathan Lukes",
+                        "lastFirstName": "Lukes, Nathan",
+                        "lastInitName": "Lukes, N",
+                        "initLastName": "N Lukes",
+                        "fullFMLName": "Nathan Donald Lukes",
+                        "fullLFMName": "Lukes, Nathan Donald",
+                        "strikeZoneTop": 3.164,
+                        "strikeZoneBottom": 1.597
+                    },
+                    "pitcher": {
+                        "id": 664702,
+                        "fullName": "Myles Straw",
+                        "link": "/api/v1/people/664702",
+                        "firstName": "Myles",
+                        "lastName": "Straw",
+                        "primaryNumber": "3",
+                        "birthDate": "1994-10-17",
+                        "currentAge": 31,
+                        "birthCity": "Garden Grove",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "5' 9\"",
+                        "weight": 178,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Myles",
+                        "useLastName": "Straw",
+                        "middleName": "James Noble",
+                        "boxscoreName": "Straw",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2015,
+                        "mlbDebutDate": "2018-09-15",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Myles Straw",
+                        "nameSlug": "myles-straw-664702",
+                        "firstLastName": "Myles Straw",
+                        "lastFirstName": "Straw, Myles",
+                        "lastInitName": "Straw, M",
+                        "initLastName": "M Straw",
+                        "fullFMLName": "Myles James Noble Straw",
+                        "fullLFMName": "Straw, Myles James Noble",
+                        "strikeZoneTop": 3.073,
+                        "strikeZoneBottom": 1.551
+                    },
+                    "battingOrder": 8,
+                    "team": {
+                        "id": 141,
+                        "name": "Toronto Blue Jays",
+                        "link": "/api/v1/teams/141"
+                    }
+                },
+                "balls": 0,
+                "strikes": 1,
+                "outs": 0
             },
             "venue": {
                 "id": 680,
@@ -4955,12 +4977,12 @@
                                 {
                                     "name": "Over",
                                     "point": 9.0,
-                                    "price": -120
+                                    "price": -122
                                 },
                                 {
                                     "name": "Under",
                                     "point": 9.0,
-                                    "price": 100
+                                    "price": 102
                                 }
                             ]
                         }
@@ -7189,11 +7211,11 @@
                             "outcomes": [
                                 {
                                     "name": "Chicago Cubs",
-                                    "price": -163
+                                    "price": -168
                                 },
                                 {
                                     "name": "St. Louis Cardinals",
-                                    "price": 135
+                                    "price": 139
                                 }
                             ]
                         },
@@ -8092,11 +8114,11 @@
                             "outcomes": [
                                 {
                                     "name": "Atlanta Braves",
-                                    "price": -171
+                                    "price": -185
                                 },
                                 {
                                     "name": "New York Mets",
-                                    "price": 141
+                                    "price": 152
                                 }
                             ]
                         },
@@ -8106,12 +8128,12 @@
                                 {
                                     "name": "Over",
                                     "point": 8.0,
-                                    "price": -104
+                                    "price": -107
                                 },
                                 {
                                     "name": "Under",
                                     "point": 8.0,
-                                    "price": -115
+                                    "price": -112
                                 }
                             ]
                         }
@@ -8991,11 +9013,11 @@
                             "outcomes": [
                                 {
                                     "name": "Colorado Rockies",
-                                    "price": 118
+                                    "price": 109
                                 },
                                 {
                                     "name": "San Francisco Giants",
-                                    "price": -143
+                                    "price": -131
                                 }
                             ]
                         },
@@ -9005,12 +9027,12 @@
                                 {
                                     "name": "Over",
                                     "point": 12.0,
-                                    "price": -112
+                                    "price": -117
                                 },
                                 {
                                     "name": "Under",
                                     "point": 12.0,
-                                    "price": -108
+                                    "price": -103
                                 }
                             ]
                         }
@@ -9907,12 +9929,12 @@
                                 {
                                     "name": "Over",
                                     "point": 9.0,
-                                    "price": -108
+                                    "price": -110
                                 },
                                 {
                                     "name": "Under",
                                     "point": 9.0,
-                                    "price": -111
+                                    "price": -109
                                 }
                             ]
                         }
@@ -10785,11 +10807,11 @@
                             "outcomes": [
                                 {
                                     "name": "Los Angeles Angels",
-                                    "price": 138
+                                    "price": 141
                                 },
                                 {
                                     "name": "Boston Red Sox",
-                                    "price": -167
+                                    "price": -171
                                 }
                             ]
                         },
@@ -10799,7 +10821,7 @@
                                 {
                                     "name": "Over",
                                     "point": 8.5,
-                                    "price": -108
+                                    "price": -107
                                 },
                                 {
                                     "name": "Under",

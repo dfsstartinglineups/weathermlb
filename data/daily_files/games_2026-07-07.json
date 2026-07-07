@@ -11,12 +11,12 @@
             "rescheduledFrom": "2026-05-05T23:45:00Z",
             "rescheduledFromDate": "2026-05-05",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -26,12 +26,13 @@
                         "link": "/api/v1/teams/158"
                     },
                     "leagueRecord": {
-                        "wins": 56,
+                        "wins": 57,
                         "losses": 33,
                         "ties": 0,
-                        "pct": ".629"
+                        "pct": ".633"
                     },
                     "score": 4,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 694819,
                         "fullName": "Jacob Misiorowski",
@@ -93,11 +94,12 @@
                     },
                     "leagueRecord": {
                         "wins": 47,
-                        "losses": 41,
+                        "losses": 42,
                         "ties": 0,
-                        "pct": ".534"
+                        "pct": ".528"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 694335,
                         "fullName": "Matt Svanson",
@@ -292,9 +294,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 0,
@@ -309,7 +312,7 @@
                         "runs": 3,
                         "hits": 5,
                         "errors": 0,
-                        "leftOnBase": 3
+                        "leftOnBase": 4
                     },
                     "away": {
                         "runs": 4,
@@ -432,52 +435,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 663494,
-                        "fullName": "Bryan Torres",
-                        "link": "/api/v1/people/663494",
-                        "firstName": "Bryan",
-                        "lastName": "Torres",
-                        "primaryNumber": "39",
-                        "birthDate": "1997-07-02",
-                        "currentAge": 29,
-                        "birthCity": "Caguas",
-                        "birthCountry": "Puerto Rico",
-                        "height": "5' 7\"",
-                        "weight": 165,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Bryan",
-                        "useLastName": "Torres",
-                        "boxscoreName": "Torres, B",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "mlbDebutDate": "2026-05-23",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Bryan Torres",
-                        "nameSlug": "bryan-torres-663494",
-                        "firstLastName": "Bryan Torres",
-                        "lastFirstName": "Torres, Bryan",
-                        "lastInitName": "Torres, B",
-                        "initLastName": "B Torres",
-                        "fullFMLName": "Bryan Torres",
-                        "fullLFMName": "Torres, Bryan",
-                        "strikeZoneTop": 2.98,
-                        "strikeZoneBottom": 1.5
-                    },
-                    "onDeck": {
                         "id": 701675,
                         "fullName": "Nathan Church",
                         "link": "/api/v1/people/701675",
@@ -526,7 +483,7 @@
                         "strikeZoneTop": 3.11,
                         "strikeZoneBottom": 1.57
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 665877,
                         "fullName": "Jos\u00e9 Ferm\u00edn",
                         "link": "/api/v1/people/665877",
@@ -575,36 +532,36 @@
                         "strikeZoneTop": 3.138,
                         "strikeZoneBottom": 1.583
                     },
-                    "first": {
-                        "id": 691026,
-                        "fullName": "Masyn Winn",
-                        "link": "/api/v1/people/691026",
-                        "firstName": "Masyn",
-                        "lastName": "Winn",
-                        "primaryNumber": "0",
-                        "birthDate": "2002-03-21",
-                        "currentAge": 24,
-                        "birthCity": "Katy",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "5' 9\"",
-                        "weight": 185,
+                    "inHole": {
+                        "id": 686780,
+                        "fullName": "Pedro Pag\u00e9s",
+                        "link": "/api/v1/people/686780",
+                        "firstName": "Pedro",
+                        "lastName": "Pag\u00e9s",
+                        "primaryNumber": "43",
+                        "birthDate": "1998-09-17",
+                        "currentAge": 27,
+                        "birthCity": "Maracay",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 11\"",
+                        "weight": 245,
                         "active": true,
                         "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
                         },
-                        "useName": "Masyn",
-                        "useLastName": "Winn",
-                        "middleName": "Blaze",
-                        "boxscoreName": "Winn",
+                        "useName": "Pedro",
+                        "useLastName": "Pag\u00e9s",
+                        "middleName": "Jose",
+                        "boxscoreName": "Pag\u00e9s, P",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2020,
-                        "mlbDebutDate": "2023-08-18",
+                        "draftYear": 2019,
+                        "pronunciation": "paw-HESS",
+                        "mlbDebutDate": "2024-04-07",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -613,16 +570,16 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Masyn Winn",
-                        "nameSlug": "masyn-winn-691026",
-                        "firstLastName": "Masyn Winn",
-                        "lastFirstName": "Winn, Masyn",
-                        "lastInitName": "Winn, M",
-                        "initLastName": "M Winn",
-                        "fullFMLName": "Masyn Blaze Winn",
-                        "fullLFMName": "Winn, Masyn Blaze",
-                        "strikeZoneTop": 3.081,
-                        "strikeZoneBottom": 1.555
+                        "nameFirstLast": "Pedro Pag\u00e9s",
+                        "nameSlug": "pedro-pages-686780",
+                        "firstLastName": "Pedro Pag\u00e9s",
+                        "lastFirstName": "Pag\u00e9s, Pedro",
+                        "lastInitName": "Pag\u00e9s, P",
+                        "initLastName": "P Pag\u00e9s",
+                        "fullFMLName": "Pedro Jose Pag\u00e9s",
+                        "fullLFMName": "Pag\u00e9s, Pedro Jose",
+                        "strikeZoneTop": 3.174,
+                        "strikeZoneBottom": 1.602
                     },
                     "pitcher": {
                         "id": 677865,
@@ -671,16 +628,16 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 7,
                     "team": {
                         "id": 138,
                         "name": "St. Louis Cardinals",
                         "link": "/api/v1/teams/138"
                     }
                 },
-                "balls": 1,
-                "strikes": 1,
-                "outs": 1
+                "balls": 0,
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 2889,
@@ -692,6 +649,7 @@
             "content": {
                 "link": "/api/v1/game/823062/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "S",
@@ -1104,10 +1062,10 @@
                         "link": "/api/v1/teams/158"
                     },
                     "leagueRecord": {
-                        "wins": 56,
+                        "wins": 57,
                         "losses": 33,
                         "ties": 0,
-                        "pct": ".629"
+                        "pct": ".633"
                     },
                     "probablePitcher": {
                         "id": 688107,
@@ -1169,9 +1127,9 @@
                     },
                     "leagueRecord": {
                         "wins": 47,
-                        "losses": 41,
+                        "losses": 42,
                         "ties": 0,
-                        "pct": ".534"
+                        "pct": ".528"
                     },
                     "probablePitcher": {
                         "id": 690928,

@@ -229,10 +229,13 @@ function getWeatherEmojiString(g) {
 
 async function initBotCapture() {
     const now = new Date();
-    document.getElementById('display-day').innerText = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
-    document.getElementById('display-date').innerText = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+    
+    // 🛡️ FORCE TIMEZONE: Ensure the header always reads as US Eastern Time
+    document.getElementById('display-day').innerText = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', weekday: 'long' }).toUpperCase();
+    document.getElementById('display-date').innerText = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 
-    const todayStr = now.toLocaleDateString('en-CA');
+    // 🛡️ FORCE TIMEZONE: Ensure it fetches today's JSON based on EST, not UTC
+    const todayStr = now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
     try {
         const res = await fetch(`/data/daily_files/games_${todayStr}.json?v=${now.getTime()}`);
@@ -259,7 +262,13 @@ async function initBotCapture() {
             const awayAbbr = getTeamAbbr(teams.away?.team?.name);
             const homeAbbr = getTeamAbbr(teams.home?.team?.name);
 
-            let gameTime = raw.gameDate ? new Date(raw.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "TBD";
+            // 🛡️ FORCE TIMEZONE: Render the individual game times in EST
+            let gameTime = raw.gameDate ? new Date(raw.gameDate).toLocaleTimeString('en-US', {
+                timeZone: 'America/New_York', 
+                hour: 'numeric', 
+                minute: '2-digit'
+            }) : "TBD";
+            
             let timeBadgeClass = "bg-light text-dark border";
             const matchState = raw.status?.detailedState || "";
             if (matchState.includes("Postponed")) { gameTime = "Postponed"; timeBadgeClass = "bg-danger text-white"; }

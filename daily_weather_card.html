@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, initial-scale=1.0">
+    <title>Bot Capture - MLB Weather</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* RESET & BOT-SPECIFIC SIZING */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: #0f1115; 
+            color: #ffffff; 
+            font-family: 'Montserrat', sans-serif;
+            /* Force exact width for Playwright screenshot */
+            width: 1080px; 
+            min-height: 1080px;
+        }
+        
+        /* MAIN CAPTURE WRAPPER */
+        #capture-area {
+            width: 1080px;
+            padding: 40px;
+            background: linear-gradient(135deg, #0f1115 0%, #1a1d24 100%);
+            position: relative;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #00e676;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        .header .subtitle {
+            font-size: 16px;
+            color: #8892a3;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .header-date {
+            text-align: right;
+        }
+        .header-date .day { font-size: 28px; font-weight: 800; color: #00e676; }
+        .header-date .full-date { font-size: 16px; color: #8892a3; font-weight: 700; }
+
+        /* GRID LAYOUT (2 Columns for up to 15 games) */
+        #games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* INDIVIDUAL GAME CARD */
+        .weather-card {
+            background: rgba(25, 28, 36, 0.95);
+            border: 1px solid #2d323b;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .matchup-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d323b;
+            padding-bottom: 12px;
+        }
+        .team-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .team-abbr {
+            font-size: 26px;
+            font-weight: 800;
+        }
+        .pitcher {
+            font-size: 13px;
+            color: #8892a3;
+        }
+        .vs {
+            font-size: 18px;
+            font-weight: 700;
+            color: #555;
+        }
+
+        /* WEATHER METRICS */
+        .weather-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+        .metric {
+            background: #121419;
+            border: 1px solid #252933;
+            border-radius: 8px;
+            padding: 10px 5px;
+        }
+        .metric-val {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .metric-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #8892a3;
+            font-weight: 700;
+        }
+        .risk-high { color: #ff1744 !important; }
+        .risk-med { color: #ffb300 !important; }
+        .risk-low { color: #00e676 !important; }
+
+        .status-bar {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px;
+            border-radius: 6px;
+            background: #121419;
+            color: #aaa;
+        }
+        
+        /* WATERMARK */
+        .watermark {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #444;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="capture-area">
+    <div class="header">
+        <div>
+            <h1>MLB Weather Report</h1>
+            <div class="subtitle">Daily Park Factors & Wind Impacts</div>
+        </div>
+        <div class="header-date">
+            <div class="day" id="display-day">TODAY</div>
+            <div class="full-date" id="display-date">Loading...</div>
+        </div>
+    </div>
+
+    <div id="games-grid">
+        </div>
+    
+    <div class="watermark">WEATHERMLB.COM | @MLBSTARTINGNINE</div>
+</div>
+
+<script>
+// --- HELPER FUNCTIONS ---
+function getTeamAbbr(fullName) {
+    const map = {
+        "Arizona Diamondbacks": "ARI", "Atlanta Braves": "ATL", "Baltimore Orioles": "BAL",
+        "Boston Red Sox": "BOS", "Chicago Cubs": "CHC", "Chicago White Sox": "CWS",
+        "Cincinnati Reds": "CIN", "Cleveland Guardians": "CLE", "Colorado Rockies": "COL",
+        "Detroit Tigers": "DET", "Houston Astros": "HOU", "Kansas City Royals": "KC",
+        "Los Angeles Angels": "LAA", "Los Angeles Dodgers": "LAD", "Miami Marlins": "MIA",
+        "Milwaukee Brewers": "MIL", "Minnesota Twins": "MIN", "New York Mets": "NYM",
+        "New York Yankees": "NYY", "Athletics": "OAK", "Philadelphia Phillies": "PHI",
+        "Pittsburgh Pirates": "PIT", "San Diego Padres": "SD", "San Francisco Giants": "SF",
+        "Seattle Mariners": "SEA", "St. Louis Cardinals": "STL", "Tampa Bay Rays": "TB",
+        "Texas Rangers": "TEX", "Toronto Blue Jays": "TOR", "Washington Nationals": "WSH"
+    };
+    return map[fullName] || fullName.substring(0, 3).toUpperCase();
+}
+
+function getWindArrow(dir) {
+    if (!dir) return "";
+    const d = dir.toUpperCase();
+    if(d.includes("NNE") || d.includes("NE") || d.includes("ENE")) return "↗️";
+    if(d.includes("NNW") || d.includes("NW") || d.includes("WNW")) return "↖️";
+    if(d.includes("SSE") || d.includes("SE") || d.includes("ESE")) return "↘️";
+    if(d.includes("SSW") || d.includes("SW") || d.includes("WSW")) return "↙️";
+    if(d === "N") return "⬆️";
+    if(d === "S") return "⬇️";
+    if(d === "E") return "➡️";
+    if(d === "W") return "⬅️";
+    return "";
+}
+
+async function initBotCapture() {
+    const now = new Date();
+    
+    // Set Header Dates
+    document.getElementById('display-day').innerText = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+    document.getElementById('display-date').innerText = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+
+    // Ensure we match your YYYY-MM-DD fetching logic perfectly
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
+
+    try {
+        // Fetch exactly the same payload your main site uses
+        const res = await fetch(`/data/games_${todayStr}.json?v=${now.getTime()}`);
+        const data = await res.json();
+        const games = data.games || [];
+
+        // Sort chronologically
+        games.sort((a, b) => new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate));
+
+        const grid = document.getElementById('games-grid');
+        let html = "";
+
+        games.forEach(g => {
+            const raw = g.gameRaw;
+            const teams = raw.teams;
+            
+            const awayAbbr = getTeamAbbr(teams.away.team.name);
+            const homeAbbr = getTeamAbbr(teams.home.team.name);
+            
+            const awayP = teams.away.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
+            const homeP = teams.home.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
+
+            const w = g.weather || {};
+            const isRoofClosed = w.condition && (w.condition.toLowerCase().includes("roof closed") || w.condition.toLowerCase().includes("dome"));
+            
+            let temp = Math.round(Number(w.temp) || 0);
+            let rain = Math.round(Number(w.pop) || 0);
+            let wind = Math.round(Number(w.windSpeed) || 0);
+            let arrow = getWindArrow(w.windDirection);
+
+            // Roof Overrides
+            if (isRoofClosed) {
+                rain = 0; wind = 0; arrow = "🏠";
+            }
+
+            // Risk Colors
+            const rainColor = rain >= 40 ? "risk-high" : (rain >= 15 ? "risk-med" : "risk-low");
+            const windColor = wind >= 15 ? "risk-high" : (wind >= 10 ? "risk-med" : "risk-low");
+
+            const statusText = isRoofClosed ? "ROOF CLOSED / DOME" : (w.condition || "Forecast Pending").toUpperCase();
+
+            html += `
+                <div class="weather-card">
+                    <div class="matchup-row">
+                        <div class="team-block">
+                            <div>
+                                <div class="team-abbr">${awayAbbr}</div>
+                                <div class="pitcher">${awayP}</div>
+                            </div>
+                        </div>
+                        <div class="vs">@</div>
+                        <div class="team-block" style="text-align: right;">
+                            <div>
+                                <div class="team-abbr">${homeAbbr}</div>
+                                <div class="pitcher">${homeP}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weather-metrics">
+                        <div class="metric">
+                            <div class="metric-val ${rainColor}">${rain}%</div>
+                            <div class="metric-label">Rain</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-val">${temp}°</div>
+                            <div class="metric-label">Temp</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-val ${windColor}">${wind} <span style="font-size: 14px">mph</span></div>
+                            <div class="metric-label">Wind Spd</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-val">${arrow || '-'}</div>
+                            <div class="metric-label">Direction</div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-bar">${statusText}</div>
+                </div>
+            `;
+        });
+
+        grid.innerHTML = html;
+
+    } catch (err) {
+        document.getElementById('games-grid').innerHTML = `<h2 style="color: #ff1744">Error loading weather data: ${err.message}</h2>`;
+    }
+}
+
+// Fire the script immediately
+initBotCapture();
+</script>
+</body>
+</html>

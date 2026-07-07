@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, initial-scale=1.0">
-    <title>Bot Capture - Full Weather Card View</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <title>Bot Capture - Compact Weather Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* RESET & BOT-SPECIFIC SIZING */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,23 +51,23 @@
         .header-date .day { font-size: 24px; font-weight: 800; color: #00e676; }
         .header-date .full-date { font-size: 14px; color: #8892a3; font-weight: 700; }
 
-        /* GRID LAYOUT (2 Columns for wide full-cards) */
+        /* 3-COLUMN COMPACT GRID (Fits up to 18 games easily in one square image) */
         #games-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
         }
 
-        /* FULL WEATHER CARD (Recreating Screenshot) */
-        .game-card {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        /* COMPACT RIBBON CARD */
+        .ribbon-card {
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             border: 2px solid #ced4da;
-            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            justify-content: space-between;
+            min-height: 85px;
         }
         
         /* Weather Background Tints */
@@ -78,13 +78,12 @@
         .bg-weather-snow   { background-color: #f3e5f5; border-color: #ce93d8; }
         .bg-weather-roof   { background-color: #e9ecef; border-color: #adb5bd; }
 
-        /* Top Row: Time & Stadium */
-        .card-top-row {
+        /* Top Row: Time Badge & Emoji String */
+        .top-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            font-weight: 700;
+            justify-content: space-between;
+            margin-bottom: 8px;
         }
         .badge-time {
             background: #f1f3f5;
@@ -93,143 +92,63 @@
             padding: 3px 8px;
             border-radius: 6px;
             font-size: 11px;
+            font-weight: 700;
         }
-        .badge-total {
-            background: #e2e8f0;
-            color: #334155;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            margin-left: 6px;
+        .weather-emoji-line {
+            font-size: 12px;
+            font-weight: 800;
+            color: #111;
+            letter-spacing: 0.2px;
+            text-align: right;
+            flex-grow: 1;
+            margin-left: 8px;
+        }
+
+        /* Bottom Row: Matchup Logos & Stadium Name */
+        .bottom-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .matchup-left {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .team-logo {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
+        .team-abbr {
+            font-size: 14px;
+            font-weight: 800;
+            color: #111;
+            line-height: 1;
+        }
+        .vs-at {
+            font-size: 12px;
+            font-weight: 700;
+            color: #6c757d;
+            margin: 0 2px;
         }
         .stadium-name {
+            font-size: 11px;
+            font-weight: 700;
             color: #495057;
-            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 180px;
+            text-align: right;
+            opacity: 0.85;
         }
-
-        /* Matchup Row: Logos & Names */
-        .matchup-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2px 0;
-        }
-        .team-block {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            width: 44%;
-        }
-        .team-block.right { justify-content: flex-end; }
-        .team-logo { width: 22px; height: 22px; object-fit: contain; }
-        .team-abbr { font-size: 18px; font-weight: 800; color: #111; }
-        .vs-symbol { font-size: 14px; font-weight: 700; color: #888; }
-
-        /* Pitcher Row */
-        .pitcher-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #6c757d;
-            font-weight: 600;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            padding-bottom: 8px;
-        }
-        .ml-badge {
-            font-family: 'Roboto Mono', monospace;
-            font-weight: 700;
-            color: #333;
-            background: rgba(0,0,0,0.06);
-            padding: 1px 5px;
-            border-radius: 4px;
-            margin-left: 4px;
-        }
-
-        /* 4-Column Weather Row */
-        .weather-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            text-align: center;
-            background: rgba(255,255,255,0.6);
-            border-radius: 8px;
-            padding: 8px 4px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .w-col { border-right: 1px solid rgba(0,0,0,0.1); }
-        .w-col:last-child { border-right: none; }
-        .w-val { font-size: 15px; font-weight: 800; color: #111; line-height: 1.1; }
-        .w-val.rain { color: #0288d1; }
-        .w-lbl { font-size: 10px; text-transform: uppercase; color: #6c757d; font-weight: 700; margin-top: 2px; }
-        
-        /* Wind Badge */
-        .wind-badge {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-            margin-top: 2px;
-        }
-        .wind-low  { background-color: #2e7d32; }
-        .wind-med  { background-color: #f57f17; }
-        .wind-high { background-color: #c62828; }
-
-        /* Hourly Scroll Strip */
-        .hourly-strip {
-            display: flex;
-            gap: 6px;
-            overflow: hidden;
-            padding: 4px 0;
-        }
-        .hour-card {
-            flex: 1;
-            background: rgba(255,255,255,0.7);
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 6px;
-            padding: 4px 2px;
-            text-align: center;
-            font-size: 10px;
-            min-width: 45px;
-        }
-        .hour-time { font-weight: 700; color: #495057; font-size: 9px; }
-        .hour-icon { font-size: 14px; margin: 2px 0; }
-        .hour-pop  { color: #0288d1; font-weight: 800; font-size: 9px; }
-        .hour-temp { font-weight: 700; color: #212529; }
-
-        /* Radar Button */
-        .btn-radar {
-            width: 100%;
-            padding: 6px;
-            background: transparent;
-            border: 1px solid #0d6efd;
-            color: #0d6efd;
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: 6px;
-            text-align: center;
-        }
-
-        /* Analysis Box */
-        .analysis-box {
-            background: rgba(255,255,255,0.8);
-            border-left: 3px solid #0d6efd;
-            padding: 8px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            color: #333;
-            line-height: 1.3;
-        }
-        .analysis-title { font-weight: 800; color: #0d6efd; display: block; margin-bottom: 2px; text-transform: uppercase; font-size: 10px; }
 
         /* WATERMARK */
         .watermark {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 30px;
             font-size: 13px;
             font-weight: 700;
             color: #555;
@@ -243,7 +162,7 @@
     <div class="header">
         <div>
             <h1>MLB Weather Report</h1>
-            <div class="subtitle">Full Game Cards & Impact Analysis</div>
+            <div class="subtitle">Daily Park Factors & Hitting Conditions</div>
         </div>
         <div class="header-date">
             <div class="day" id="display-day">TODAY</div>
@@ -297,21 +216,22 @@ function getWindArrow(dir) {
     return "💨";
 }
 
-function generateMatchupAnalysis(weather, windSpd, isRoofClosed, stadiumName) {
-    if (isRoofClosed) return "✅ <b>Roof Closed:</b> Controlled indoor stadium with zero weather impact.";
-    let notes = [];
-    if (weather.isThunderstorm) notes.push("⚡ <b>Lightning Risk:</b> Thunderstorms detected. Delay risk high.");
-    if (weather.isSnow) notes.push("❄️ <b>Snow Risk:</b> Low visibility and cold conditions.");
-    
-    const rain = Math.round(Number(weather.maxPrecipChance !== undefined ? weather.maxPrecipChance : weather.pop) || 0);
-    if (rain >= 70) notes.push("☔ <b>Severe Delay Risk:</b> Heavy rain expected. Delays or postponement likely.");
-    else if (rain >= 30) notes.push("☔ <b>Delay Risk:</b> Scattered showers could interrupt play.");
-    
-    if (windSpd >= 15) notes.push(`💨 <b>High Wind:</b> Strong ${windSpd}mph winds will heavily impact ball flight.`);
-    else if (windSpd >= 10) notes.push(`💨 <b>Breezy:</b> Moderate ${windSpd}mph winds affecting outfield carry.`);
-    
-    if (notes.length === 0) notes.push("☀️ <b>Favorable Conditions:</b> Minimal weather impact expected for this matchup.");
-    return notes.join("<br>");
+function getWeatherEmojiString(g) {
+    const w = g.weather || {};
+    let arrow = getWindArrow(w.windDir || w.windDirection);
+
+    const isRoofClosed = g.roof || (w.condition && (w.condition.toLowerCase().includes("roof closed") || w.condition.toLowerCase().includes("dome")));
+    const rain = isRoofClosed ? 0 : Math.round(Number(w.maxPrecipChance !== undefined ? w.maxPrecipChance : w.pop) || 0);
+    const temp = Math.round(Number(w.temp) || 0);
+    const hum = Math.round(Number(w.humidity) || 0);
+    const windSpd = isRoofClosed ? 0 : Math.round(Number(w.windSpeed) || 0);
+
+    if (w.status === "too_early" || w.temp === '--' || w.temp === undefined) {
+        return `Forecast Unavailable`;
+    } else if (isRoofClosed) {
+        return `Roof Closed 🌡️${temp}° 💧${hum}%`;
+    }
+    return `🌧️${rain}% 🌡️${temp}° 💧${hum}% ${arrow}${windSpd}mph`;
 }
 
 async function initBotCapture() {
@@ -329,7 +249,7 @@ async function initBotCapture() {
         const games = Array.isArray(data) ? data : (data.games || []);
 
         if (games.length === 0) {
-            document.getElementById('games-grid').innerHTML = `<h3 style="color: #ffb300; grid-column: span 2; text-align: center;">No games found in games_${todayStr}.json</h3>`;
+            document.getElementById('games-grid').innerHTML = `<h3 style="color: #ffb300; grid-column: span 3; text-align: center;">No games found in games_${todayStr}.json</h3>`;
             return;
         }
 
@@ -345,9 +265,6 @@ async function initBotCapture() {
             const homeId = teams.home?.team?.id || 100;
             const awayAbbr = getTeamAbbr(teams.away?.team?.name);
             const homeAbbr = getTeamAbbr(teams.home?.team?.name);
-            
-            const awayP = teams.away?.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
-            const homeP = teams.home?.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
 
             let gameTime = raw.gameDate ? new Date(raw.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "TBD";
             const matchState = raw.status?.detailedState || "";
@@ -356,16 +273,9 @@ async function initBotCapture() {
 
             const w = g.weather || {};
             const isRoofClosed = g.roof || (w.condition && (w.condition.toLowerCase().includes("roof closed") || w.condition.toLowerCase().includes("dome")));
-            
-            let temp = Math.round(Number(w.temp) || 0);
-            let hum = Math.round(Number(w.humidity) || 0);
-            let rain = Math.round(Number(w.maxPrecipChance !== undefined ? w.maxPrecipChance : w.pop) || 0);
-            let wind = Math.round(Number(w.windSpeed) || 0);
-            let arrow = getWindArrow(w.windDir || w.windDirection);
+            const rain = Math.round(Number(w.maxPrecipChance !== undefined ? w.maxPrecipChance : w.pop) || 0);
 
-            if (isRoofClosed) { rain = 0; wind = 0; arrow = "🏠"; }
-
-            // Background Tint
+            // Background Tint Logic
             let bgClass = "bg-weather-sunny";
             if (isRoofClosed) bgClass = "bg-weather-roof";
             else if (w.isThunderstorm) bgClass = "bg-weather-storm";
@@ -373,98 +283,25 @@ async function initBotCapture() {
             else if (rain >= 50) bgClass = "bg-weather-rain";
             else if (rain >= 20) bgClass = "bg-weather-cloudy";
 
-            // Wind Badge Color
-            const windCss = wind >= 15 ? "wind-high" : (wind >= 10 ? "wind-med" : "wind-low");
-
-            // Odds extraction
-            let awayML = "-", homeML = "-", totalVal = "O/U -";
-            if (g.odds?.bookmakers?.[0]?.markets) {
-                const h2h = g.odds.bookmakers[0].markets.find(m => m.key === 'h2h');
-                if (h2h?.outcomes) {
-                    const aOut = h2h.outcomes.find(o => o.name === teams.away?.team?.name);
-                    const hOut = h2h.outcomes.find(o => o.name === teams.home?.team?.name);
-                    if (aOut) awayML = aOut.price > 0 ? `+${aOut.price}` : `${aOut.price}`;
-                    if (hOut) homeML = hOut.price > 0 ? `+${hOut.price}` : `${hOut.price}`;
-                }
-                const tot = g.odds.bookmakers[0].markets.find(m => m.key === 'totals');
-                if (tot?.outcomes?.[0]?.point) totalVal = `O/U ${tot.outcomes[0].point}`;
-            }
-
-            // Hourly Forecast Cards (Slice first 5 hours)
-            let hourlyHtml = "";
-            if (isRoofClosed) {
-                hourlyHtml = `<div style="text-align:center; padding:8px; font-size:11px; color:#6c757d; font-weight:700;">Indoor Stadium Conditions</div>`;
-            } else if (w.hourly && w.hourly.length > 0) {
-                const cards = w.hourly.slice(0, 5).map(h => {
-                    const d = h.timestamp ? new Date(h.timestamp) : new Date();
-                    const timeLbl = `${d.getHours() % 12 || 12}${d.getHours() >= 12 ? 'PM' : 'AM'}`;
-                    let icon = h.precipChance >= 30 ? (h.isThunderstorm ? '⛈️' : '🌧️') : (h.precipChance > 0 ? '⛅' : '☀️');
-                    return `
-                        <div class="hour-card">
-                            <div class="hour-time">${timeLbl}</div>
-                            <div class="hour-icon">${icon}</div>
-                            <div class="hour-pop">${h.precipChance || 0}%</div>
-                            <div class="hour-temp">${h.temp !== undefined ? h.temp + '°' : '--'}</div>
-                        </div>`;
-                }).join('');
-                hourlyHtml = `<div class="hourly-strip">${cards}</div>`;
-            }
-
-            const analysis = generateMatchupAnalysis(w, wind, isRoofClosed, raw.venue?.name);
+            const emojiLine = getWeatherEmojiString(g);
 
             html += `
-                <div class="game-card ${bgClass}">
-                    <div class="card-top-row">
-                        <div>
-                            <span class="badge-time">${gameTime}</span>
-                            <span class="badge-total">${totalVal}</span>
-                        </div>
-                        <span class="stadium-name">${raw.venue?.name || 'Stadium'}</span>
+                <div class="ribbon-card ${bgClass}">
+                    <div class="top-row">
+                        <span class="badge-time">${gameTime}</span>
+                        <div class="weather-emoji-line">${emojiLine}</div>
                     </div>
-
-                    <div class="matchup-row">
-                        <div class="team-block">
+                    
+                    <div class="bottom-row">
+                        <div class="matchup-left">
                             <img src="https://www.mlbstatic.com/team-logos/team-cap-on-light/${awayId}.svg" class="team-logo" onerror="this.style.display='none'">
                             <span class="team-abbr">${awayAbbr}</span>
-                        </div>
-                        <span class="vs-symbol">@</span>
-                        <div class="team-block right">
-                            <span class="team-abbr">${homeAbbr}</span>
+                            <span class="vs-at">@</span>
                             <img src="https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg" class="team-logo" onerror="this.style.display='none'">
+                            <span class="team-abbr">${homeAbbr}</span>
                         </div>
-                    </div>
-
-                    <div class="pitcher-row">
-                        <div>${awayP} <span class="ml-badge">${awayML}</span></div>
-                        <div>${homeP} <span class="ml-badge">${homeML}</span></div>
-                    </div>
-
-                    <div class="weather-row">
-                        <div class="w-col">
-                            <div class="w-val">${temp}°F</div>
-                            <div class="w-lbl">Temp</div>
-                        </div>
-                        <div class="w-col">
-                            <div class="w-val">${hum}%</div>
-                            <div class="w-lbl">Hum</div>
-                        </div>
-                        <div class="w-col">
-                            <div class="w-val rain">${rain}%</div>
-                            <div class="w-lbl">Rain</div>
-                        </div>
-                        <div class="w-col">
-                            <div class="w-val" style="font-size:13px;">${wind} <span style="font-size:10px;">mph</span></div>
-                            <span class="wind-badge ${windCss}">${arrow}</span>
-                        </div>
-                    </div>
-
-                    ${hourlyHtml}
-
-                    <div class="btn-radar">🗺️ View Live Radar</div>
-
-                    <div class="analysis-box">
-                        <span class="analysis-title">✨ Weather Impact</span>
-                        ${analysis}
+                        
+                        <div class="stadium-name">${raw.venue?.name || 'Stadium'}</div>
                     </div>
                 </div>
             `;
@@ -473,7 +310,7 @@ async function initBotCapture() {
         grid.innerHTML = html;
 
     } catch (err) {
-        document.getElementById('games-grid').innerHTML = `<h2 style="color: #ff1744; grid-column: span 2; text-align: center;">Error loading weather data: ${err.message}</h2>`;
+        document.getElementById('games-grid').innerHTML = `<h2 style="color: #ff1744; grid-column: span 3; text-align: center;">Error loading weather data: ${err.message}</h2>`;
     }
 }
 

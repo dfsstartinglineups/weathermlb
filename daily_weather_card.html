@@ -217,7 +217,7 @@ async function initBotCapture() {
 
     try {
         // Fetch exactly the same payload your main site uses
-        const res = await fetch(`/data/games_${todayStr}.json?v=${now.getTime()}`);
+        const res = await fetch(`/data/daily_files/games_${todayStr}.json?v=${now.getTime()}`);
         const data = await res.json();
         const games = data.games || [];
 

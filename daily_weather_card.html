@@ -209,17 +209,22 @@ async function initBotCapture() {
     document.getElementById('display-day').innerText = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
     document.getElementById('display-date').innerText = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 
-    // Ensure we match your YYYY-MM-DD fetching logic perfectly
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const todayStr = `${year}-${month}-${day}`;
+    // 🛡️ FIX 1: Use en-CA to safely get YYYY-MM-DD in local time (matches script.js!)
+    const todayStr = now.toLocaleDateString('en-CA');
 
     try {
-        // Fetch exactly the same payload your main site uses
         const res = await fetch(`/data/daily_files/games_${todayStr}.json?v=${now.getTime()}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}: Could not find games_${todayStr}.json`);
+        
         const data = await res.json();
-        const games = data.games || [];
+        
+        // 🛡️ FIX 2: Handle direct JSON arrays [...] vs wrapped objects { games: [...] }
+        const games = Array.isArray(data) ? data : (data.games || []);
+
+        if (games.length === 0) {
+            document.getElementById('games-grid').innerHTML = `<h3 style="color: #ffb300; grid-column: span 2; text-align: center;">No games found in games_${todayStr}.json</h3>`;
+            return;
+        }
 
         // Sort chronologically
         games.sort((a, b) => new Date(a.gameRaw.gameDate) - new Date(b.gameRaw.gameDate));
@@ -228,22 +233,24 @@ async function initBotCapture() {
         let html = "";
 
         games.forEach(g => {
-            const raw = g.gameRaw;
-            const teams = raw.teams;
+            const raw = g.gameRaw || {};
+            const teams = raw.teams || {};
             
-            const awayAbbr = getTeamAbbr(teams.away.team.name);
-            const homeAbbr = getTeamAbbr(teams.home.team.name);
+            const awayAbbr = getTeamAbbr(teams.away?.team?.name || "AWAY");
+            const homeAbbr = getTeamAbbr(teams.home?.team?.name || "HOME");
             
-            const awayP = teams.away.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
-            const homeP = teams.home.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
+            const awayP = teams.away?.probablePitcher ? teams.away.probablePitcher.fullName.split(' ').pop() : "TBD";
+            const homeP = teams.home?.probablePitcher ? teams.home.probablePitcher.fullName.split(' ').pop() : "TBD";
 
             const w = g.weather || {};
-            const isRoofClosed = w.condition && (w.condition.toLowerCase().includes("roof closed") || w.condition.toLowerCase().includes("dome"));
+            
+            // 🛡️ FIX 3: Accurately map your WeatherMLB JSON properties (roof, maxPrecipChance, windDir)
+            const isRoofClosed = g.roof || (w.condition && (w.condition.toLowerCase().includes("roof closed") || w.condition.toLowerCase().includes("dome")));
             
             let temp = Math.round(Number(w.temp) || 0);
-            let rain = Math.round(Number(w.pop) || 0);
+            let rain = Math.round(Number(w.maxPrecipChance !== undefined ? w.maxPrecipChance : w.pop) || 0);
             let wind = Math.round(Number(w.windSpeed) || 0);
-            let arrow = getWindArrow(w.windDirection);
+            let arrow = getWindArrow(w.windDir || w.windDirection);
 
             // Roof Overrides
             if (isRoofClosed) {
@@ -301,7 +308,7 @@ async function initBotCapture() {
         grid.innerHTML = html;
 
     } catch (err) {
-        document.getElementById('games-grid').innerHTML = `<h2 style="color: #ff1744">Error loading weather data: ${err.message}</h2>`;
+        document.getElementById('games-grid').innerHTML = `<h2 style="color: #ff1744; grid-column: span 2; text-align: center;">Error loading weather data: ${err.message}</h2>`;
     }
 }
 

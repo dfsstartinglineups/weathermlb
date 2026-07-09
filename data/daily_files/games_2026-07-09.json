@@ -5199,12 +5199,12 @@
             "gameDate": "2026-07-09T18:10:00Z",
             "officialDate": "2026-07-09",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -5214,12 +5214,13 @@
                         "link": "/api/v1/teams/111"
                     },
                     "leagueRecord": {
-                        "wins": 42,
+                        "wins": 43,
                         "losses": 48,
                         "ties": 0,
-                        "pct": ".467"
+                        "pct": ".473"
                     },
                     "score": 2,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 663776,
                         "fullName": "Patrick Sandoval",
@@ -5280,11 +5281,12 @@
                     },
                     "leagueRecord": {
                         "wins": 47,
-                        "losses": 44,
+                        "losses": 45,
                         "ties": 0,
-                        "pct": ".516"
+                        "pct": ".511"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 641743,
                         "fullName": "Anthony Kay",
@@ -5478,6 +5480,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -5619,104 +5622,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 803011,
-                        "fullName": "Sam Antonacci",
-                        "link": "/api/v1/people/803011",
-                        "firstName": "Samuel",
-                        "lastName": "Antonacci",
-                        "primaryNumber": "17",
-                        "birthDate": "2003-02-06",
-                        "currentAge": 23,
-                        "birthCity": "Springfield",
-                        "birthStateProvince": "IL",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 193,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Sam",
-                        "useLastName": "Antonacci",
-                        "middleName": "Joseph",
-                        "boxscoreName": "Antonacci",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2024,
-                        "mlbDebutDate": "2026-04-15",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Sam Antonacci",
-                        "nameSlug": "sam-antonacci-803011",
-                        "firstLastName": "Sam Antonacci",
-                        "lastFirstName": "Antonacci, Sam",
-                        "lastInitName": "Antonacci, S",
-                        "initLastName": "S Antonacci",
-                        "fullFMLName": "Samuel Joseph Antonacci",
-                        "fullLFMName": "Antonacci, Samuel Joseph",
-                        "strikeZoneTop": 3.15,
-                        "strikeZoneBottom": 1.59
-                    },
-                    "onDeck": {
-                        "id": 695731,
-                        "fullName": "Braden Montgomery",
-                        "link": "/api/v1/people/695731",
-                        "firstName": "Braden",
-                        "lastName": "Montgomery",
-                        "primaryNumber": "24",
-                        "birthDate": "2003-04-16",
-                        "currentAge": 23,
-                        "birthCity": "Des Moines",
-                        "birthStateProvince": "IA",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 220,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Braden",
-                        "useLastName": "Montgomery",
-                        "middleName": "Abraham",
-                        "boxscoreName": "Montgomery, B",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2024,
-                        "mlbDebutDate": "2026-06-09",
-                        "batSide": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Braden Montgomery",
-                        "nameSlug": "braden-montgomery-695731",
-                        "firstLastName": "Braden Montgomery",
-                        "lastFirstName": "Montgomery, Braden",
-                        "lastInitName": "Montgomery, B",
-                        "initLastName": "B Montgomery",
-                        "fullFMLName": "Braden Abraham Montgomery",
-                        "fullLFMName": "Montgomery, Braden Abraham",
-                        "strikeZoneTop": 3.28,
-                        "strikeZoneBottom": 1.66
-                    },
-                    "inHole": {
                         "id": 694378,
                         "fullName": "Jacob Gonzalez",
                         "link": "/api/v1/people/694378",
@@ -5764,6 +5669,105 @@
                         "fullLFMName": "Gonzalez, Jacob Jesus",
                         "strikeZoneTop": 3.29,
                         "strikeZoneBottom": 1.66
+                    },
+                    "onDeck": {
+                        "id": 691019,
+                        "fullName": "Kyle Teel",
+                        "link": "/api/v1/people/691019",
+                        "firstName": "Kyle",
+                        "lastName": "Teel",
+                        "primaryNumber": "8",
+                        "birthDate": "2002-02-15",
+                        "currentAge": 24,
+                        "birthCity": "Ridgewood",
+                        "birthStateProvince": "NJ",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 210,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Kyle",
+                        "useLastName": "Teel",
+                        "middleName": "Henry",
+                        "boxscoreName": "Teel",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "mlbDebutDate": "2025-06-06",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Kyle Teel",
+                        "nameSlug": "kyle-teel-691019",
+                        "firstLastName": "Kyle Teel",
+                        "lastFirstName": "Teel, Kyle",
+                        "lastInitName": "Teel, K",
+                        "initLastName": "K Teel",
+                        "fullFMLName": "Kyle Henry Teel",
+                        "fullLFMName": "Teel, Kyle Henry",
+                        "strikeZoneTop": 3.154,
+                        "strikeZoneBottom": 1.592
+                    },
+                    "inHole": {
+                        "id": 805367,
+                        "fullName": "Chase Meidroth",
+                        "link": "/api/v1/people/805367",
+                        "firstName": "Chase",
+                        "lastName": "Meidroth",
+                        "primaryNumber": "10",
+                        "birthDate": "2001-07-23",
+                        "currentAge": 24,
+                        "birthCity": "Torrance",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "5' 9\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Chase",
+                        "useLastName": "Meidroth",
+                        "middleName": "Gregory",
+                        "boxscoreName": "Meidroth",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "pronunciation": "MY-drawth",
+                        "mlbDebutDate": "2025-04-11",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Chase Meidroth",
+                        "nameSlug": "chase-meidroth-805367",
+                        "firstLastName": "Chase Meidroth",
+                        "lastFirstName": "Meidroth, Chase",
+                        "lastInitName": "Meidroth, C",
+                        "initLastName": "C Meidroth",
+                        "fullFMLName": "Chase Gregory Meidroth",
+                        "fullLFMName": "Meidroth, Chase Gregory",
+                        "strikeZoneTop": 3.07,
+                        "strikeZoneBottom": 1.55
                     },
                     "pitcher": {
                         "id": 699823,
@@ -5813,7 +5817,7 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 8,
                     "team": {
                         "id": 145,
                         "name": "Chicago White Sox",
@@ -5821,8 +5825,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 0,
-                "outs": 0
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 4,
@@ -5834,6 +5838,7 @@
             "content": {
                 "link": "/api/v1/game/824577/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -6376,17 +6381,34 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     }
                 },
                 "defense": {
@@ -6478,6 +6500,22 @@
                         "fullName": "Matt Vierling",
                         "link": "/api/v1/people/663837"
                     },
+                    "batter": {
+                        "id": 805808,
+                        "fullName": "Kevin McGonigle",
+                        "link": "/api/v1/people/805808"
+                    },
+                    "onDeck": {
+                        "id": 663837,
+                        "fullName": "Matt Vierling",
+                        "link": "/api/v1/people/663837"
+                    },
+                    "inHole": {
+                        "id": 679529,
+                        "fullName": "Spencer Torkelson",
+                        "link": "/api/v1/people/679529"
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 116,
                         "name": "Detroit Tigers",
@@ -6631,6 +6669,56 @@
                         "fullLFMName": "Langeliers, Shea Ryan",
                         "strikeZoneTop": 3.182,
                         "strikeZoneBottom": 1.606
+                    },
+                    "pitcher": {
+                        "id": 660761,
+                        "fullName": "Jos\u00e9 Suarez",
+                        "link": "/api/v1/people/660761",
+                        "firstName": "Jos\u00e9",
+                        "lastName": "Suarez",
+                        "primaryNumber": "54",
+                        "birthDate": "1998-01-03",
+                        "currentAge": 28,
+                        "birthCity": "Naguanagua",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 10\"",
+                        "weight": 225,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Jos\u00e9",
+                        "useLastName": "Suarez",
+                        "middleName": "Rances",
+                        "boxscoreName": "Suarez, J",
+                        "nickName": "Ranciss",
+                        "gender": "M",
+                        "nameMatrilineal": "Quintero",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "pronunciation": "SWAR-ez",
+                        "mlbDebutDate": "2019-06-02",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Jos\u00e9 Suarez",
+                        "nameSlug": "jose-suarez-660761",
+                        "firstLastName": "Jos\u00e9 Suarez",
+                        "lastFirstName": "Suarez, Jos\u00e9",
+                        "lastInitName": "Suarez, J",
+                        "initLastName": "J Suarez",
+                        "fullFMLName": "Jos\u00e9 Rances Suarez",
+                        "fullLFMName": "Suarez, Jos\u00e9 Rances",
+                        "strikeZoneTop": 3.121,
+                        "strikeZoneBottom": 1.575
                     },
                     "battingOrder": 1,
                     "team": {
@@ -10342,16 +10430,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 109,
-                        "name": "Arizona Diamondbacks",
-                        "link": "/api/v1/teams/109"
+                        "id": 135,
+                        "name": "San Diego Padres",
+                        "link": "/api/v1/teams/135"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 135,
-                        "name": "San Diego Padres",
-                        "link": "/api/v1/teams/135"
+                        "id": 109,
+                        "name": "Arizona Diamondbacks",
+                        "link": "/api/v1/teams/109"
                     }
                 }
             },

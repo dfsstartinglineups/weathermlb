@@ -1,0 +1,41 @@
+name: Generate Team Weather Pages
+
+# This workflow runs manually, or automatically if you update the python script
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'generate_weather_pages.py'
+
+# Grants GitHub Actions permission to commit the generated folders back to your repo
+permissions:
+  contents: write
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out your repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # 3. Run your generator script
+      - name: Run page generator
+        run: python generate_weather_pages.py
+
+      # 4. Commit the new folders and index.html files back to your repo
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          # The '|| true' prevents the workflow from failing if no files changed
+          git commit -m "Auto-generated team weather subfolders" || true
+          git push

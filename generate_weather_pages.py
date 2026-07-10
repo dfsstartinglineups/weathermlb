@@ -4,42 +4,31 @@ import os
 # 1. THE MASTER 30 MLB TEAMS DICTIONARY
 # ==========================================
 MLB_TEAMS = [
-    # AL East
     {"id": 110, "slug": "baltimore-orioles", "name": "Baltimore Orioles", "stadium": "Oriole Park at Camden Yards"},
     {"id": 111, "slug": "boston-red-sox", "name": "Boston Red Sox", "stadium": "Fenway Park"},
     {"id": 147, "slug": "new-york-yankees", "name": "New York Yankees", "stadium": "Yankee Stadium"},
     {"id": 139, "slug": "tampa-bay-rays", "name": "Tampa Bay Rays", "stadium": "Tropicana Field"},
     {"id": 141, "slug": "toronto-blue-jays", "name": "Toronto Blue Jays", "stadium": "Rogers Centre"},
-    
-    # AL Central
     {"id": 145, "slug": "chicago-white-sox", "name": "Chicago White Sox", "stadium": "Guaranteed Rate Field"},
     {"id": 114, "slug": "cleveland-guardians", "name": "Cleveland Guardians", "stadium": "Progressive Field"},
     {"id": 116, "slug": "detroit-tigers", "name": "Detroit Tigers", "stadium": "Comerica Park"},
     {"id": 118, "slug": "kansas-city-royals", "name": "Kansas City Royals", "stadium": "Kauffman Stadium"},
     {"id": 142, "slug": "minnesota-twins", "name": "Minnesota Twins", "stadium": "Target Field"},
-    
-    # AL West
     {"id": 117, "slug": "houston-astros", "name": "Houston Astros", "stadium": "Minute Maid Park"},
     {"id": 108, "slug": "los-angeles-angels", "name": "Los Angeles Angels", "stadium": "Angel Stadium"},
     {"id": 133, "slug": "athletics", "name": "Athletics", "stadium": "Sutter Health Park"},
     {"id": 136, "slug": "seattle-mariners", "name": "Seattle Mariners", "stadium": "T-Mobile Park"},
     {"id": 140, "slug": "texas-rangers", "name": "Texas Rangers", "stadium": "Globe Life Field"},
-    
-    # NL East
     {"id": 144, "slug": "atlanta-braves", "name": "Atlanta Braves", "stadium": "Truist Park"},
     {"id": 146, "slug": "miami-marlins", "name": "Miami Marlins", "stadium": "loanDepot park"},
     {"id": 121, "slug": "new-york-mets", "name": "New York Mets", "stadium": "Citi Field"},
     {"id": 143, "slug": "philadelphia-phillies", "name": "Philadelphia Phillies", "stadium": "Citizens Bank Park"},
     {"id": 120, "slug": "washington-nationals", "name": "Washington Nationals", "stadium": "Nationals Park"},
-    
-    # NL Central
     {"id": 112, "slug": "chicago-cubs", "name": "Chicago Cubs", "stadium": "Wrigley Field"},
     {"id": 113, "slug": "cincinnati-reds", "name": "Cincinnati Reds", "stadium": "Great American Ball Park"},
     {"id": 158, "slug": "milwaukee-brewers", "name": "Milwaukee Brewers", "stadium": "American Family Field"},
     {"id": 134, "slug": "pittsburgh-pirates", "name": "Pittsburgh Pirates", "stadium": "PNC Park"},
     {"id": 138, "slug": "st-louis-cardinals", "name": "St. Louis Cardinals", "stadium": "Busch Stadium"},
-    
-    # NL West
     {"id": 109, "slug": "arizona-diamondbacks", "name": "Arizona Diamondbacks", "stadium": "Chase Field"},
     {"id": 115, "slug": "colorado-rockies", "name": "Colorado Rockies", "stadium": "Coors Field"},
     {"id": 119, "slug": "los-angeles-dodgers", "name": "Los Angeles Dodgers", "stadium": "Dodger Stadium"},
@@ -47,9 +36,6 @@ MLB_TEAMS = [
     {"id": 137, "slug": "san-francisco-giants", "name": "San Francisco Giants", "stadium": "Oracle Park"}
 ]
 
-# ==========================================
-# 2. THE HARDCODED STATIC HTML TEMPLATE
-# ==========================================
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,7 +116,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </nav>
 
     <div class="main-container">
-        <!-- Target container where JavaScript renders the report card -->
         <div id="team-weather-container">
             <div class="text-center p-5 text-muted">
                 <div class="spinner-border spinner-border-sm text-primary me-2"></div>
@@ -146,12 +131,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </footer>
 
-    <!-- Pass this unique team's context directly down to your engine script -->
     <script>
         window.TARGET_TEAM_ID = {team_id};
         window.TARGET_TEAM_SLUG = "{team_slug}";
         
-        // Auto-select this team in the dropdown menu on page load
         document.addEventListener("DOMContentLoaded", () => {
             const selectMenu = document.getElementById("team-nav-select");
             if (selectMenu) {
@@ -160,37 +143,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         });
     </script>
     
-    <!-- Uses ../../ to step out of /team_slug/ AND /team_pages/ to find script.js -->
-    <script src="../../script.js"></script>
+    <!-- CHANGED HERE: Points to your new standalone inner JS page engine -->
+    <script src="../../weather_team_page.js"></script>
 </body>
 </html>
 """
 
-# ==========================================
-# 3. BUILD ENGINE
-# ==========================================
 def generate_all_weather_pages():
-    # 1. Establish base directory and the new team_pages parent directory
     base_dir = os.path.dirname(os.path.abspath(__file__))
     parent_dir = os.path.join(base_dir, "team_pages")
     
-    print("🌤️ Starting Programmatic Weather Page Generator Engine...")
-    
-    # Create the /team_pages/ folder if it doesn't exist
     if not os.path.exists(parent_dir):
         os.makedirs(parent_dir)
-        print(f"📁 Created master directory: {parent_dir}")
         
-    # 2. Build the dynamic dropdown list alphabetically so we don't need hardcoded HTML
     dropdown_options = ""
     sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])
     for t in sorted_teams:
         dropdown_options += f'<option value="/team_pages/{t["slug"]}/">{t["name"]}</option>\n                    '
     
-    # 3. Loop through and create each individual page inside /team_pages/
     for team in MLB_TEAMS:
         team_dir = os.path.join(parent_dir, team["slug"])
-        
         if not os.path.exists(team_dir):
             os.makedirs(team_dir)
             
@@ -203,13 +175,10 @@ def generate_all_weather_pages():
         )
         
         file_path = os.path.join(team_dir, "index.html")
-        
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(file_content)
             
-        print(f"✅ Generated: /team_pages/{team['slug']}/index.html")
-        
-    print("\n🚀 Successfully compiled all 30 inner team media folders into /team_pages/!")
+    print("🚀 Successfully compiled all 30 inner team media folders into /team_pages/!")
 
 if __name__ == "__main__":
     generate_all_weather_pages()

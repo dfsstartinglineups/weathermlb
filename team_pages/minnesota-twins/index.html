@@ -107,7 +107,6 @@
     </nav>
 
     <div class="main-container">
-        <!-- Target container where JavaScript renders the report card -->
         <div id="team-weather-container">
             <div class="text-center p-5 text-muted">
                 <div class="spinner-border spinner-border-sm text-primary me-2"></div>
@@ -123,12 +122,10 @@
         </div>
     </footer>
 
-    <!-- Pass this unique team's context directly down to your engine script -->
     <script>
         window.TARGET_TEAM_ID = 142;
         window.TARGET_TEAM_SLUG = "minnesota-twins";
         
-        // Auto-select this team in the dropdown menu on page load
         document.addEventListener("DOMContentLoaded", () => {
             const selectMenu = document.getElementById("team-nav-select");
             if (selectMenu) {
@@ -137,7 +134,7 @@
         });
     </script>
     
-    <!-- Uses ../../ to step out of /team_slug/ AND /team_pages/ to find script.js -->
-    <script src="../../script.js"></script>
+    <!-- CHANGED HERE: Points to your new standalone inner JS page engine -->
+    <script src="../../weather_team_page.js"></script>
 </body>
 </html>

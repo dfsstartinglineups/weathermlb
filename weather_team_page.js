@@ -148,6 +148,9 @@ function createStandaloneWeatherCard(data) {
         let windArrow = windInfo ? `<span class="arrow-emoji">${windInfo.arrow}</span>` : "💨";
         let windCss = windInfo ? windInfo.cssClass : "bg-secondary";
 
+        // ADDED: Dynamically generate the correct stadium radar map coordinates
+        const radarUrl = `https://embed.windy.com/embed2.html?lat=${stadium.lat}&lon=${stadium.lon}&detailLat=${stadium.lat}&detailLon=${stadium.lon}&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1`;
+
         weatherHtml = `
             <div class="weather-row row text-center align-items-center mt-2">
                 <div class="col-3 border-end px-1"><div class="fw-bold">${weather.temp}°F</div><div class="small text-muted" style="font-size: 0.7rem;">Temp</div></div>
@@ -156,6 +159,14 @@ function createStandaloneWeatherCard(data) {
                 <div class="col-3 px-1"><div class="fw-bold">${weather.windSpeed} <span style="font-size:0.7em">mph</span></div><span class="wind-badge ${windCss}" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;">${windArrow}</span></div>
             </div>
             ${hourlyHtml}
+            
+            <!-- ADDED: Live Radar Map Button -->
+            <div class="mt-2 mb-2">
+                <a href="${radarUrl}" target="_blank" class="btn btn-sm btn-outline-primary w-100 py-1" style="font-weight: 600; font-size: 0.8rem;">
+                    🗺️ View Live Radar Map
+                </a>
+            </div>
+
             <div class="analysis-box">
                 <span class="analysis-title">✨ Weather Impact Analysis</span>
                 ${generateMatchupAnalysis(weather, windInfo, isRoofClosed, isRoofPending, stadium)}

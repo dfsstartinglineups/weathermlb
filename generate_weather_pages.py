@@ -3,7 +3,6 @@ import os
 # ==========================================
 # 1. THE MASTER 30 MLB TEAMS DICTIONARY
 # ==========================================
-# Maps exact MLB API IDs to clean URL slugs, display names, and home stadiums
 MLB_TEAMS = [
     # AL East
     {"id": 110, "slug": "baltimore-orioles", "name": "Baltimore Orioles", "stadium": "Oriole Park at Camden Yards"},
@@ -54,7 +53,6 @@ MLB_TEAMS = [
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TNW6W5ZVN"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -66,23 +64,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- DYNAMIC SEO META TAGS -->
     <title>{team_name} Game Weather Today at {stadium_name} | Rain & Wind Forecast</title>
     <meta name="description" content="View the live weather forecast for today's {team_name} game at {stadium_name}. Track real-time rain delay risks, stadium wind direction, hourly temperatures, and betting odds.">
     <meta name="keywords" content="{team_name} weather, {stadium_name} wind direction, {stadium_name} rain delay, {team_name} game weather today, fantasy baseball weather">
-    <link rel="canonical" href="https://weathermlb.com/{team_slug}/" />
+    <link rel="canonical" href="https://weathermlb.com/team_pages/{team_slug}/" />
     
-    <!-- OpenGraph Metadata -->
     <meta property="og:title" content="{team_name} Game Weather Today at {stadium_name} - Weather MLB">
     <meta property="og:description" content="Track stadium wind, hourly rain risks, and weather impact analytics for the {team_name} game at {stadium_name}.">
-    <meta property="og:url" content="https://weathermlb.com/{team_slug}/">
+    <meta property="og:url" content="https://weathermlb.com/team_pages/{team_slug}/">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://weathermlb.com/social-share.png">
     
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@weathermlbdaily">
     
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
@@ -125,36 +120,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div class="d-flex align-items-center gap-2">
                 <select id="team-nav-select" class="form-select form-select-sm fw-bold" style="background-color: #1e293b; color: #adb5bd; border: 1px solid #334155; cursor: pointer; max-width: 180px;" onchange="if(this.value) window.location.href=this.value;">
                     <option value="">Switch Team</option>
-                    <option value="/arizona-diamondbacks/">Arizona Diamondbacks</option>
-                    <option value="/athletics/">Athletics</option>
-                    <option value="/atlanta-braves/">Atlanta Braves</option>
-                    <option value="/baltimore-orioles/">Baltimore Orioles</option>
-                    <option value="/boston-red-sox/">Boston Red Sox</option>
-                    <option value="/chicago-cubs/">Chicago Cubs</option>
-                    <option value="/chicago-white-sox/">Chicago White Sox</option>
-                    <option value="/cincinnati-reds/">Cincinnati Reds</option>
-                    <option value="/cleveland-guardians/">Cleveland Guardians</option>
-                    <option value="/colorado-rockies/">Colorado Rockies</option>
-                    <option value="/detroit-tigers/">Detroit Tigers</option>
-                    <option value="/houston-astros/">Houston Astros</option>
-                    <option value="/kansas-city-royals/">Kansas City Royals</option>
-                    <option value="/los-angeles-angels/">Los Angeles Angels</option>
-                    <option value="/los-angeles-dodgers/">Los Angeles Dodgers</option>
-                    <option value="/miami-marlins/">Miami Marlins</option>
-                    <option value="/milwaukee-brewers/">Milwaukee Brewers</option>
-                    <option value="/minnesota-twins/">Minnesota Twins</option>
-                    <option value="/new-york-mets/">New York Mets</option>
-                    <option value="/new-york-yankees/">New York Yankees</option>
-                    <option value="/philadelphia-phillies/">Philadelphia Phillies</option>
-                    <option value="/pittsburgh-pirates/">Pittsburgh Pirates</option>
-                    <option value="/san-diego-padres/">San Diego Padres</option>
-                    <option value="/san-francisco-giants/">San Francisco Giants</option>
-                    <option value="/seattle-mariners/">Seattle Mariners</option>
-                    <option value="/st-louis-cardinals/">St. Louis Cardinals</option>
-                    <option value="/tampa-bay-rays/">Tampa Bay Rays</option>
-                    <option value="/texas-rangers/">Texas Rangers</option>
-                    <option value="/toronto-blue-jays/">Toronto Blue Jays</option>
-                    <option value="/washington-nationals/">Washington Nationals</option>
+                    {dropdown_options}
                 </select>
                 <a href="/" class="btn btn-sm btn-outline-light px-3 fw-bold" style="font-size: 0.75rem;">
                     Full Slate
@@ -189,12 +155,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.addEventListener("DOMContentLoaded", () => {
             const selectMenu = document.getElementById("team-nav-select");
             if (selectMenu) {
-                selectMenu.value = `/${window.TARGET_TEAM_SLUG}/`;
+                selectMenu.value = `/team_pages/${window.TARGET_TEAM_SLUG}/`;
             }
         });
     </script>
-    <!-- Use ../ to look one directory up to the root where script.js lives -->
-    <script src="../script.js"></script>
+    
+    <!-- Uses ../../ to step out of /team_slug/ AND /team_pages/ to find script.js -->
+    <script src="../../script.js"></script>
 </body>
 </html>
 """
@@ -203,23 +170,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 # 3. BUILD ENGINE
 # ==========================================
 def generate_all_weather_pages():
+    # 1. Establish base directory and the new team_pages parent directory
     base_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.join(base_dir, "team_pages")
     
     print("🌤️ Starting Programmatic Weather Page Generator Engine...")
     
-    for team in MLB_TEAMS:
-        team_dir = os.path.join(base_dir, team["slug"])
+    # Create the /team_pages/ folder if it doesn't exist
+    if not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)
+        print(f"📁 Created master directory: {parent_dir}")
         
-        # Create team folder if it doesn't exist
+    # 2. Build the dynamic dropdown list alphabetically so we don't need hardcoded HTML
+    dropdown_options = ""
+    sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])
+    for t in sorted_teams:
+        dropdown_options += f'<option value="/team_pages/{t["slug"]}/">{t["name"]}</option>\n                    '
+    
+    # 3. Loop through and create each individual page inside /team_pages/
+    for team in MLB_TEAMS:
+        team_dir = os.path.join(parent_dir, team["slug"])
+        
         if not os.path.exists(team_dir):
             os.makedirs(team_dir)
             
-        # Format the HTML template with this specific team's data
         file_content = (
             HTML_TEMPLATE.replace("{team_name}", team["name"])
                          .replace("{team_slug}", team["slug"])
                          .replace("{stadium_name}", team["stadium"])
                          .replace("{team_id}", str(team["id"]))
+                         .replace("{dropdown_options}", dropdown_options.strip())
         )
         
         file_path = os.path.join(team_dir, "index.html")
@@ -227,9 +207,9 @@ def generate_all_weather_pages():
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(file_content)
             
-        print(f"✅ Generated: /{team['slug']}/index.html (Stadium: {team['stadium']})")
+        print(f"✅ Generated: /team_pages/{team['slug']}/index.html")
         
-    print("\n🚀 Successfully compiled all 30 inner team media folders!")
+    print("\n🚀 Successfully compiled all 30 inner team media folders into /team_pages/!")
 
 if __name__ == "__main__":
     generate_all_weather_pages()

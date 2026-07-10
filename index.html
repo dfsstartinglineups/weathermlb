@@ -284,30 +284,68 @@
     </div>
     
     <div class="sticky-top bg-light border-bottom py-3 mb-4 shadow-sm" style="z-index: 100;">
-        <div class="container">
-            <div class="row g-2 align-items-center">
-                <div class="col-12 col-md-4">
-                    <input type="text" id="team-search" class="form-control" placeholder="🔍 Search Team...">
-                </div>
-                <div class="col-12 col-md-4">
-                    <select id="sort-filter" class="form-select">
-                        <option value="time">Sort: Game Time ⏰</option>
-                        <option value="wind">Sort: Highest Wind 💨</option>
-                        <option value="rain">Sort: Rain Chance 🌧️</option>
-                        <option value="temp">Sort: Temperature 🔥</option>
-                        <option value="humidity">Sort: Humidity 💧</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="form-check form-switch d-flex align-items-center justify-content-center bg-white border rounded p-2" style="height: 38px;">
-                        <input class="form-check-input me-2" type="checkbox" id="risk-only">
-                        <label class="form-check-label small fw-bold" for="risk-only" style="white-space: nowrap;">Toggle ON for games at ⚠️Risk</label>
-                    </div>
+    <div class="container">
+        <div class="row g-2 align-items-center">
+            
+            <!-- THIS REPLACES THE SEARCH BOX INSIDE YOUR BLACK CIRCLE -->
+            <div class="col-12 col-md-4">
+                <select class="form-select fw-bold text-muted px-3" style="border: 1px solid #dee2e6; border-radius: 20px; height: 38px; cursor: pointer;" onchange="if(this.value) window.location.href=this.value;">
+                    <option value="">🔍 Go to Team Report...</option>
+                    <option value="/team_pages/arizona-diamondbacks/">Arizona Diamondbacks</option>
+                    <option value="/team_pages/athletics/">Athletics</option>
+                    <option value="/team_pages/atlanta-braves/">Atlanta Braves</option>
+                    <option value="/team_pages/baltimore-orioles/">Baltimore Orioles</option>
+                    <option value="/team_pages/boston-red-sox/">Boston Red Sox</option>
+                    <option value="/team_pages/chicago-cubs/">Chicago Cubs</option>
+                    <option value="/team_pages/chicago-white-sox/">Chicago White Sox</option>
+                    <option value="/team_pages/cincinnati-reds/">Cincinnati Reds</option>
+                    <option value="/team_pages/cleveland-guardians/">Cleveland Guardians</option>
+                    <option value="/team_pages/colorado-rockies/">Colorado Rockies</option>
+                    <option value="/team_pages/detroit-tigers/">Detroit Tigers</option>
+                    <option value="/team_pages/houston-astros/">Houston Astros</option>
+                    <option value="/team_pages/kansas-city-royals/">Kansas City Royals</option>
+                    <option value="/team_pages/los-angeles-angels/">Los Angeles Angels</option>
+                    <option value="/team_pages/los-angeles-dodgers/">Los Angeles Dodgers</option>
+                    <option value="/team_pages/miami-marlins/">Miami Marlins</option>
+                    <option value="/team_pages/milwaukee-brewers/">Milwaukee Brewers</option>
+                    <option value="/team_pages/minnesota-twins/">Minnesota Twins</option>
+                    <option value="/team_pages/new-york-mets/">New York Mets</option>
+                    <option value="/team_pages/new-york-yankees/">New York Yankees</option>
+                    <option value="/team_pages/philadelphia-phillies/">Philadelphia Phillies</option>
+                    <option value="/team_pages/pittsburgh-pirates/">Pittsburgh Pirates</option>
+                    <option value="/team_pages/san-diego-padres/">San Diego Padres</option>
+                    <option value="/team_pages/san-francisco-giants/">San Francisco Giants</option>
+                    <option value="/team_pages/seattle-mariners/">Seattle Mariners</option>
+                    <option value="/team_pages/st-louis-cardinals/">St. Louis Cardinals</option>
+                    <option value="/team_pages/tampa-bay-rays/">Tampa Bay Rays</option>
+                    <option value="/team_pages/texas-rangers/">Texas Rangers</option>
+                    <option value="/team_pages/toronto-blue-jays/">Toronto Blue Jays</option>
+                    <option value="/team_pages/washington-nationals/">Washington Nationals</option>
+                </select>
+            </div>
+            
+            <div class="col-12 col-md-4">
+                <select id="sort-filter" class="form-select">
+                    <option value="time">Sort: Game Time ⏰</option>
+                    <option value="wind">Sort: Highest Wind 💨</option>
+                    <option value="rain">Sort: Rain Chance 🌧️</option>
+                    <option value="temp">Sort: Temperature 🔥</option>
+                    <option value="humidity">Sort: Humidity 💧</option>
+                </select>
+            </div>
+            
+            <div class="col-12 col-md-4">
+                <div class="form-check form-switch d-flex align-items-center justify-content-center bg-white border rounded p-2" style="height: 38px;">
+                    <input class="form-check-input me-2" type="checkbox" id="risk-only">
+                    <label class="form-check-label small fw-bold" for="risk-only" style="white-space: nowrap;">Toggle ON for games at ⚠️Risk</label>
                 </div>
             </div>
-         </div>
-    </div>
-
+            
+        </div>
+     </div>
+</div>
+<!-- Hidden fallback so script.js doesn't crash without its search element -->
+<input type="text" id="team-search" value="" class="d-none">
     <div id="games-container" class="row justify-content-center">
         <noscript>
             <div class="col-12 text-center py-5">

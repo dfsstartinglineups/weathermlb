@@ -1227,9 +1227,9 @@
             "officialDate": "2026-07-11",
             "status": {
                 "abstractGameState": "Preview",
-                "codedGameState": "S",
-                "detailedState": "Scheduled",
-                "statusCode": "S",
+                "codedGameState": "P",
+                "detailedState": "Pre-Game",
+                "statusCode": "P",
                 "startTimeTBD": false,
                 "abstractGameCode": "P"
             },
@@ -1372,16 +1372,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 142,
-                        "name": "Minnesota Twins",
-                        "link": "/api/v1/teams/142"
+                        "id": 108,
+                        "name": "Los Angeles Angels",
+                        "link": "/api/v1/teams/108"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 108,
-                        "name": "Los Angeles Angels",
-                        "link": "/api/v1/teams/108"
+                        "id": 142,
+                        "name": "Minnesota Twins",
+                        "link": "/api/v1/teams/142"
                     }
                 }
             },
@@ -1412,7 +1412,136 @@
             "recordSource": "S",
             "ifNecessary": "N",
             "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "lineups": {
+                "awayPlayers": [
+                    {
+                        "id": 687263,
+                        "fullName": "Zach Neto",
+                        "link": "/api/v1/people/687263",
+                        "firstName": "Zachary",
+                        "lastName": "Neto",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Zach"
+                    },
+                    {
+                        "id": 545361,
+                        "fullName": "Mike Trout",
+                        "link": "/api/v1/people/545361",
+                        "firstName": "Michael",
+                        "lastName": "Trout",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Mike"
+                    },
+                    {
+                        "id": 694384,
+                        "fullName": "Nolan Schanuel",
+                        "link": "/api/v1/people/694384",
+                        "firstName": "Nolan",
+                        "lastName": "Schanuel",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Nolan"
+                    },
+                    {
+                        "id": 624585,
+                        "fullName": "Jorge Soler",
+                        "link": "/api/v1/people/624585",
+                        "firstName": "Jorge",
+                        "lastName": "Soler",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Jorge"
+                    },
+                    {
+                        "id": 687093,
+                        "fullName": "Vaughn Grissom",
+                        "link": "/api/v1/people/687093",
+                        "firstName": "Vaughn",
+                        "lastName": "Grissom",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Vaughn"
+                    },
+                    {
+                        "id": 666176,
+                        "fullName": "Jo Adell",
+                        "link": "/api/v1/people/666176",
+                        "firstName": "Jordon",
+                        "lastName": "Adell",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Jo"
+                    },
+                    {
+                        "id": 685133,
+                        "fullName": "Wade Meckler",
+                        "link": "/api/v1/people/685133",
+                        "firstName": "Wade",
+                        "lastName": "Meckler",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Wade"
+                    },
+                    {
+                        "id": 694203,
+                        "fullName": "Denzer Guzman",
+                        "link": "/api/v1/people/694203",
+                        "firstName": "Denzer",
+                        "lastName": "Guzman",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Denzer"
+                    },
+                    {
+                        "id": 681351,
+                        "fullName": "Logan O'Hoppe",
+                        "link": "/api/v1/people/681351",
+                        "firstName": "Logan",
+                        "lastName": "O'Hoppe",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Logan"
+                    }
+                ]
+            }
         },
         "stadium": {
             "id": 3312,
@@ -1554,6 +1683,7 @@
                         "ties": 0,
                         "pct": ".436"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 695611,
                         "fullName": "Gage Jump",
@@ -1618,6 +1748,7 @@
                         "ties": 0,
                         "pct": ".516"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 663542,
                         "fullName": "Bryan Hudson",
@@ -1672,26 +1803,364 @@
                 }
             },
             "linescore": {
+                "currentInning": 1,
+                "currentInningOrdinal": "1st",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
-                    "home": {},
-                    "away": {}
+                    "home": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    },
+                    "away": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 663542,
+                        "fullName": "Bryan Hudson",
+                        "link": "/api/v1/people/663542",
+                        "firstName": "Bryan",
+                        "lastName": "Hudson",
+                        "primaryNumber": "60",
+                        "birthDate": "1997-05-08",
+                        "currentAge": 29,
+                        "birthCity": "Godfrey",
+                        "birthStateProvince": "IL",
+                        "birthCountry": "USA",
+                        "height": "6' 8\"",
+                        "weight": 248,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Bryan",
+                        "useLastName": "Hudson",
+                        "middleName": "Michael",
+                        "boxscoreName": "Hudson, B",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2015,
+                        "mlbDebutDate": "2023-06-17",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Bryan Hudson",
+                        "nameSlug": "bryan-hudson-663542",
+                        "firstLastName": "Bryan Hudson",
+                        "lastFirstName": "Hudson, Bryan",
+                        "lastInitName": "Hudson, B",
+                        "initLastName": "B Hudson",
+                        "fullFMLName": "Bryan Michael Hudson",
+                        "fullLFMName": "Hudson, Bryan Michael",
+                        "strikeZoneTop": 3.567,
+                        "strikeZoneBottom": 1.8
+                    },
+                    "catcher": {
+                        "id": 691011,
+                        "fullName": "Drew Romo",
+                        "link": "/api/v1/people/691011"
+                    },
+                    "first": {
+                        "id": 678246,
+                        "fullName": "Miguel Vargas",
+                        "link": "/api/v1/people/678246"
+                    },
+                    "second": {
+                        "id": 805367,
+                        "fullName": "Chase Meidroth",
+                        "link": "/api/v1/people/805367"
+                    },
+                    "third": {
+                        "id": 695657,
+                        "fullName": "Colson Montgomery",
+                        "link": "/api/v1/people/695657"
+                    },
+                    "shortstop": {
+                        "id": 682668,
+                        "fullName": "Luisangel Acu\u00f1a",
+                        "link": "/api/v1/people/682668"
+                    },
+                    "left": {
+                        "id": 545341,
+                        "fullName": "Randal Grichuk",
+                        "link": "/api/v1/people/545341"
+                    },
+                    "center": {
+                        "id": 678577,
+                        "fullName": "Junior Perez",
+                        "link": "/api/v1/people/678577"
+                    },
+                    "right": {
+                        "id": 695731,
+                        "fullName": "Braden Montgomery",
+                        "link": "/api/v1/people/695731"
+                    },
+                    "batter": {
+                        "id": 545341,
+                        "fullName": "Randal Grichuk",
+                        "link": "/api/v1/people/545341"
+                    },
+                    "onDeck": {
+                        "id": 808959,
+                        "fullName": "Munetaka Murakami",
+                        "link": "/api/v1/people/808959"
+                    },
+                    "inHole": {
+                        "id": 678246,
+                        "fullName": "Miguel Vargas",
+                        "link": "/api/v1/people/678246"
+                    },
+                    "battingOrder": 1,
+                    "team": {
+                        "id": 145,
+                        "name": "Chicago White Sox",
+                        "link": "/api/v1/teams/145"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 805779,
+                        "fullName": "Jacob Wilson",
+                        "link": "/api/v1/people/805779",
+                        "firstName": "Jacob",
+                        "lastName": "Wilson",
+                        "primaryNumber": "5",
+                        "birthDate": "2002-03-30",
+                        "currentAge": 24,
+                        "birthCity": "Los Angeles",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Jacob",
+                        "useLastName": "Wilson",
+                        "boxscoreName": "Wilson, J",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "mlbDebutDate": "2024-07-19",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Jacob Wilson",
+                        "nameTitle": "Jr.",
+                        "nameSuffix": "Jr.",
+                        "nameSlug": "jacob-wilson-805779",
+                        "firstLastName": "Jacob Wilson",
+                        "lastFirstName": "Wilson, Jacob",
+                        "lastInitName": "Wilson, J",
+                        "initLastName": "J Wilson",
+                        "fullFMLName": "Jacob Wilson",
+                        "fullLFMName": "Wilson, Jacob",
+                        "strikeZoneTop": 3.291,
+                        "strikeZoneBottom": 1.661
+                    },
+                    "onDeck": {
+                        "id": 691016,
+                        "fullName": "Tyler Soderstrom",
+                        "link": "/api/v1/people/691016",
+                        "firstName": "Tyler",
+                        "lastName": "Soderstrom",
+                        "primaryNumber": "21",
+                        "birthDate": "2001-11-24",
+                        "currentAge": 24,
+                        "birthCity": "Turlock",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Tyler",
+                        "useLastName": "Soderstrom",
+                        "middleName": "Christian",
+                        "boxscoreName": "Soderstrom",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2020,
+                        "pronunciation": "SOH-der-strum",
+                        "mlbDebutDate": "2023-07-14",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Tyler Soderstrom",
+                        "nameSlug": "tyler-soderstrom-691016",
+                        "firstLastName": "Tyler Soderstrom",
+                        "lastFirstName": "Soderstrom, Tyler",
+                        "lastInitName": "Soderstrom, T",
+                        "initLastName": "T Soderstrom",
+                        "fullFMLName": "Tyler Christian Soderstrom",
+                        "fullLFMName": "Soderstrom, Tyler Christian",
+                        "strikeZoneTop": 3.29,
+                        "strikeZoneBottom": 1.66
+                    },
+                    "inHole": {
+                        "id": 669127,
+                        "fullName": "Shea Langeliers",
+                        "link": "/api/v1/people/669127",
+                        "firstName": "Shea",
+                        "lastName": "Langeliers",
+                        "primaryNumber": "23",
+                        "birthDate": "1997-11-18",
+                        "currentAge": 28,
+                        "birthCity": "Portland",
+                        "birthStateProvince": "OR",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 205,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Shea",
+                        "useLastName": "Langeliers",
+                        "middleName": "Ryan",
+                        "boxscoreName": "Langeliers",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "pronunciation": "LAYNG-uh-leers",
+                        "mlbDebutDate": "2022-08-16",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Shea Langeliers",
+                        "nameSlug": "shea-langeliers-669127",
+                        "firstLastName": "Shea Langeliers",
+                        "lastFirstName": "Langeliers, Shea",
+                        "lastInitName": "Langeliers, S",
+                        "initLastName": "S Langeliers",
+                        "fullFMLName": "Shea Ryan Langeliers",
+                        "fullLFMName": "Langeliers, Shea Ryan",
+                        "strikeZoneTop": 3.182,
+                        "strikeZoneBottom": 1.606
+                    },
+                    "pitcher": {
+                        "id": 695611,
+                        "fullName": "Gage Jump",
+                        "link": "/api/v1/people/695611",
+                        "firstName": "Gage",
+                        "lastName": "Jump",
+                        "primaryNumber": "61",
+                        "birthDate": "2003-04-12",
+                        "currentAge": 23,
+                        "birthCity": "Aliso Viejo",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Gage",
+                        "useLastName": "Jump",
+                        "middleName": "Lee",
+                        "boxscoreName": "Jump",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2024,
+                        "mlbDebutDate": "2026-05-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Gage Jump",
+                        "nameSlug": "gage-jump-695611",
+                        "firstLastName": "Gage Jump",
+                        "lastFirstName": "Jump, Gage",
+                        "lastInitName": "Jump, G",
+                        "initLastName": "G Jump",
+                        "fullFMLName": "Gage Lee Jump",
+                        "fullLFMName": "Jump, Gage Lee",
+                        "strikeZoneTop": 3.32,
+                        "strikeZoneBottom": 1.51
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 133,
                         "name": "Athletics",
                         "link": "/api/v1/teams/133"
                     }
                 },
-                "offense": {
-                    "team": {
-                        "id": 145,
-                        "name": "Chicago White Sox",
-                        "link": "/api/v1/teams/145"
-                    }
-                }
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 4,
@@ -1847,6 +2316,134 @@
                             "abbreviation": "C"
                         },
                         "useName": "Drew"
+                    }
+                ],
+                "awayPlayers": [
+                    {
+                        "id": 805779,
+                        "fullName": "Jacob Wilson",
+                        "link": "/api/v1/people/805779",
+                        "firstName": "Jacob",
+                        "lastName": "Wilson",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Jacob"
+                    },
+                    {
+                        "id": 691016,
+                        "fullName": "Tyler Soderstrom",
+                        "link": "/api/v1/people/691016",
+                        "firstName": "Tyler",
+                        "lastName": "Soderstrom",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Tyler"
+                    },
+                    {
+                        "id": 669127,
+                        "fullName": "Shea Langeliers",
+                        "link": "/api/v1/people/669127",
+                        "firstName": "Shea",
+                        "lastName": "Langeliers",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Shea"
+                    },
+                    {
+                        "id": 641680,
+                        "fullName": "Jonah Heim",
+                        "link": "/api/v1/people/641680",
+                        "firstName": "Jonah",
+                        "lastName": "Heim",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Jonah"
+                    },
+                    {
+                        "id": 811965,
+                        "fullName": "Joshua Kuroda-Grauer",
+                        "link": "/api/v1/people/811965",
+                        "firstName": "Joshua",
+                        "lastName": "Kuroda-Grauer",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Joshua"
+                    },
+                    {
+                        "id": 671732,
+                        "fullName": "Lawrence Butler",
+                        "link": "/api/v1/people/671732",
+                        "firstName": "Lawrence",
+                        "lastName": "Butler",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Lawrence"
+                    },
+                    {
+                        "id": 666126,
+                        "fullName": "Carlos Cortes",
+                        "link": "/api/v1/people/666126",
+                        "firstName": "Carlos",
+                        "lastName": "Cortes",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Carlos"
+                    },
+                    {
+                        "id": 643446,
+                        "fullName": "Jeff McNeil",
+                        "link": "/api/v1/people/643446",
+                        "firstName": "Jeffrey",
+                        "lastName": "McNeil",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Jeff"
+                    },
+                    {
+                        "id": 703607,
+                        "fullName": "Henry Bolte",
+                        "link": "/api/v1/people/703607",
+                        "firstName": "Henry",
+                        "lastName": "Bolte",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Henry"
                     }
                 ]
             }

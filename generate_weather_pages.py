@@ -1,4 +1,6 @@
 import os
+import json
+from datetime import datetime
 
 # ==========================================
 # 1. THE MASTER 30 MLB TEAMS DICTIONARY
@@ -35,6 +37,39 @@ MLB_TEAMS = [
     {"id": 135, "slug": "san-diego-padres", "name": "San Diego Padres", "stadium": "Petco Park"},
     {"id": 137, "slug": "san-francisco-giants", "name": "San Francisco Giants", "stadium": "Oracle Park"}
 ]
+
+# ==========================================
+# 2. LOCAL JSON DATA & HELPER FUNCS
+# ==========================================
+def get_live_schedule():
+    """Fetches the live MLB schedule directly from today's static JSON file."""
+    # Format today's date to match the file naming convention
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    filepath = f"data/daily_files/games_{today_str}.json"
+    
+    try:
+        with open(filepath, 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"⚠️ Error pulling schedule from {filepath}: {e}")
+        return []
+
+def find_next_game(team_id, schedule):
+    """Searches the daily JSON array to find the team's current matchup."""
+    if not schedule:
+        return None
+        
+    for game in schedule:
+        try:
+            home_id = game['gameRaw']['teams']['home']['team']['id']
+            away_id = game['gameRaw']['teams']['away']['team']['id']
+            
+            if home_id == team_id or away_id == team_id:
+                return game
+        except KeyError:
+            continue
+            
+    return None
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -143,7 +178,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         });
     </script>
     
-    <!-- CHANGED HERE: Points to your new standalone inner JS page engine -->
     <script src="../../weather_team_page.js"></script>
 </body>
 </html>
@@ -160,16 +194,31 @@ def generate_all_weather_pages():
     sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])
     for t in sorted_teams:
         dropdown_options += f'<option value="/team_pages/{t["slug"]}/">{t["name"]}</option>\n                    '
+        
+    # Grab today's live schedule from the JSON file
+    live_schedule = get_live_schedule()
     
     for team in MLB_TEAMS:
         team_dir = os.path.join(parent_dir, team["slug"])
         if not os.path.exists(team_dir):
             os.makedirs(team_dir)
             
+        # --- SMART STADIUM LOGIC ---
+        actual_stadium = team["stadium"] # Safely default to home stadium if they have the day off
+        game = find_next_game(team["id"], live_schedule)
+        
+        if game:
+            try:
+                # Drill down into the specific JSON hierarchy provided
+                actual_stadium = game['gameRaw']['venue']['name']
+            except KeyError:
+                pass
+        # ---------------------------
+            
         file_content = (
             HTML_TEMPLATE.replace("{team_name}", team["name"])
                          .replace("{team_slug}", team["slug"])
-                         .replace("{stadium_name}", team["stadium"])
+                         .replace("{stadium_name}", actual_stadium)
                          .replace("{team_id}", str(team["id"]))
                          .replace("{dropdown_options}", dropdown_options.strip())
         )

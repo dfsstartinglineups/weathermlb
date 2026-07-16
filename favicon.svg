@@ -1,9 +1,125 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="30" fill="#ffffff" stroke="#212529" stroke-width="4"/>
-  <path d="M 16 14 Q 28 32 16 50" fill="none" stroke="#dc3545" stroke-width="3" stroke-linecap="round"/>
-  <path d="M 48 14 Q 36 32 48 50" fill="none" stroke="#dc3545" stroke-width="3" stroke-linecap="round"/>
-  
-  <path d="M 32 28 L 24 44 L 34 44 L 28 58 L 44 40 L 34 40 Z" fill="#ffc107" stroke="#212529" stroke-width="3" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><defs>
+    <!-- Realistic 3D Baseball Radial Gradient -->
+    <radialGradient id="baseball-grad" cx="35%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#ffffff"></stop>
+      <stop offset="55%" stop-color="#f8fafc"></stop>
+      <stop offset="85%" stop-color="#e2e8f0"></stop>
+      <stop offset="97%" stop-color="#cbd5e1"></stop>
+      <stop offset="100%" stop-color="#94a3b8"></stop>
+    </radialGradient>
 
-  <path d="M 16 32 A 10 10 0 0 1 20 16 A 14 14 0 0 1 44 14 A 12 12 0 0 1 52 32 Z" fill="#6c757d" stroke="#212529" stroke-width="4" stroke-linejoin="round"/>
-</svg>
+    <!-- Red Seam Gradient -->
+    <linearGradient id="seam-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f87171"></stop>
+      <stop offset="50%" stop-color="#dc2626"></stop>
+      <stop offset="100%" stop-color="#991b1b"></stop>
+    </linearGradient>
+
+    <!-- Soft Drop Shadow for Depth -->
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="6" dy="10" stdDeviation="8" flood-color="#020617" flood-opacity="0.8"></feDropShadow>
+    </filter>
+
+    <!-- Lightning Glow Effect (Bloom) -->
+    <filter id="lightning-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+
+    <!-- Dark Storm Cloud Gradients -->
+    <linearGradient id="cloud-grad-back" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569"></stop>
+      <stop offset="100%" stop-color="#1e293b"></stop>
+    </linearGradient>
+
+    <linearGradient id="cloud-grad-front" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#64748b"></stop>
+      <stop offset="60%" stop-color="#334155"></stop>
+      <stop offset="100%" stop-color="#0f172a"></stop>
+    </linearGradient>
+
+    <!-- Clipping path for baseball boundaries -->
+    <clipPath id="baseball-boundary">
+      <circle cx="0" cy="60" r="160"></circle>
+    </clipPath>
+  </defs><g transform="translate(256, 240) scale(1.1)">
+    
+    <!-- 1. Jumbo Realistic Baseball with Drop Shadow -->
+    <g transform="translate(0, 60) rotate(-15)" filter="url(#drop-shadow)">
+      <!-- Spherical Baseball Body -->
+      <circle cx="0" cy="60" r="160" fill="url(#baseball-grad)"></circle>
+
+      <!-- Clipped Seams and Stitching -->
+      <g clip-path="url(#baseball-boundary)">
+        <!-- Left Seam Shadow/Base -->
+        <path d="M -130 -90 C -20 -20, -20 140, -130 210" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round" opacity="0.6"></path>
+        <!-- Left Seam (Red raised welt) -->
+        <path d="M -130 -90 C -20 -20, -20 140, -130 210" fill="none" stroke="url(#seam-grad)" stroke-width="6" stroke-linecap="round"></path>
+        <!-- Left Stitch Dashes -->
+        <path d="M -130 -90 C -20 -20, -20 140, -130 210" fill="none" stroke="#7f1d1d" stroke-width="14" stroke-dasharray="2, 16" stroke-linecap="round" opacity="0.95"></path>
+        
+        <!-- Right Seam Shadow/Base -->
+        <path d="M 130 -90 C 20 -20, 20 140, 130 210" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round" opacity="0.6"></path>
+        <!-- Right Seam (Red raised welt) -->
+        <path d="M 130 -90 C 20 -20, 20 140, 130 210" fill="none" stroke="url(#seam-grad)" stroke-width="6" stroke-linecap="round"></path>
+        <!-- Right Stitch Dashes -->
+        <path d="M 130 -90 C 20 -20, 20 140, 130 210" fill="none" stroke="#7f1d1d" stroke-width="14" stroke-dasharray="2, 16" stroke-linecap="round" opacity="0.95"></path>
+      </g>
+    </g>
+
+    <!-- 2. Volumetric Multilayered Storm Cloud -->
+    <!-- Back darker cloud layer -->
+    <path d="M -175 -60 
+             A 75 75 0 0 1 -65 -150 
+             A 110 110 0 0 1 115 -150 
+             A 75 75 0 0 1 175 -60 
+             A 60 60 0 0 1 135 20 
+             L -135 20 
+             A 60 60 0 0 1 -175 -60 Z" fill="url(#cloud-grad-back)" filter="url(#drop-shadow)"></path>
+          
+    <!-- Front highlighted cloud layer -->
+    <path d="M -155 -40 
+             A 65 65 0 0 1 -60 -120 
+             A 90 90 0 0 1 90 -120 
+             A 65 65 0 0 1 145 -40 
+             A 50 50 0 0 1 115 30 
+             L -115 30 
+             A 50 50 0 0 1 -155 -40 Z" fill="url(#cloud-grad-front)"></path>
+
+    <!-- 3. Dynamic Lightning Bolt with Realistic Electric Bloom -->
+    <!-- LAYER 1: Deep Outer Shadow Mask -->
+    <path d="M 24 -115 
+             L -46 0 
+             L 14 0 
+             L -116 220 
+             L 54 -20 
+             L -11 -20 Z" fill="#090d16" stroke="#090d16" stroke-width="20" stroke-linejoin="round" opacity="0.9"></path>
+
+    <!-- LAYER 2: Wide Neon Yellow Glow (Bloom) -->
+    <path d="M 24 -115 
+             L -46 0 
+             L 14 0 
+             L -116 220 
+             L 54 -20 
+             L -11 -20 Z" fill="#eab308" stroke="#facc15" stroke-width="12" stroke-linejoin="round" filter="url(#lightning-glow)" opacity="0.8"></path>
+
+    <!-- LAYER 3: Hot Yellow Core -->
+    <path d="M 24 -115 
+             L -46 0 
+             L 14 0 
+             L -116 220 
+             L 54 -20 
+             L -11 -20 Z" fill="#facc15" stroke="#fef08a" stroke-width="4" stroke-linejoin="round"></path>
+
+    <!-- LAYER 4: Blazing White Hot Center -->
+    <path d="M 24 -112 
+             L -44 -2 
+             L 12 -2 
+             L -112 214 
+             L 50 -18 
+             L -9 -18 Z" fill="#ffffff"></path>
+  </g></svg>

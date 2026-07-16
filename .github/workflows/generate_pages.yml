@@ -1,7 +1,10 @@
 name: Generate Team Weather Pages
 
-# This workflow runs manually, or automatically if you update the python script
+# This workflow runs automatically at 4am EST, manually, or on changes
 on:
+  schedule:
+    # Runs at 9:00 AM UTC (4:00 AM EST / 5:00 AM EDT) every single day
+    - cron: '0 9 * * *'
   workflow_dispatch:
   push:
     paths:

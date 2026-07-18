@@ -6098,9 +6098,9 @@
             "officialDate": "2026-07-18",
             "status": {
                 "abstractGameState": "Final",
-                "codedGameState": "O",
-                "detailedState": "Game Over",
-                "statusCode": "O",
+                "codedGameState": "F",
+                "detailedState": "Final",
+                "statusCode": "F",
                 "startTimeTBD": false,
                 "abstractGameCode": "F"
             },
@@ -7461,13 +7461,15 @@
                         "runs": 6,
                         "hits": 9,
                         "errors": 0,
-                        "leftOnBase": 4
+                        "leftOnBase": 4,
+                        "isWinner": true
                     },
                     "away": {
                         "runs": 1,
                         "hits": 6,
                         "errors": 0,
-                        "leftOnBase": 7
+                        "leftOnBase": 7,
+                        "isWinner": false
                     }
                 },
                 "defense": {
@@ -9381,11 +9383,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 8,
-                "currentInningOrdinal": "8th",
-                "inningState": "Bottom",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 9,
+                "currentInningOrdinal": "9th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -9504,12 +9506,27 @@
                         "num": 8,
                         "ordinalNum": "8th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
                         },
                         "away": {
                             "runs": 0,
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    },
+                    {
+                        "num": 9,
+                        "ordinalNum": "9th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -9531,6 +9548,267 @@
                     }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 547973,
+                        "fullName": "Aroldis Chapman",
+                        "link": "/api/v1/people/547973",
+                        "firstName": "Albertin",
+                        "lastName": "Chapman",
+                        "primaryNumber": "44",
+                        "birthDate": "1988-02-28",
+                        "currentAge": 38,
+                        "birthCity": "Holguin",
+                        "birthCountry": "Cuba",
+                        "height": "6' 4\"",
+                        "weight": 235,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Aroldis",
+                        "useLastName": "Chapman",
+                        "middleName": "Aroldis",
+                        "boxscoreName": "Chapman",
+                        "nickName": "The Missile",
+                        "gender": "M",
+                        "nameMatrilineal": "De La Cruz",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "ah-ROL-diss",
+                        "mlbDebutDate": "2010-08-31",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Aroldis Chapman",
+                        "nameSlug": "aroldis-chapman-547973",
+                        "firstLastName": "Aroldis Chapman",
+                        "lastFirstName": "Chapman, Aroldis",
+                        "lastInitName": "Chapman, A",
+                        "initLastName": "A Chapman",
+                        "fullFMLName": "Albertin Aroldis Chapman",
+                        "fullLFMName": "Chapman, Albertin Aroldis",
+                        "strikeZoneTop": 3.388,
+                        "strikeZoneBottom": 1.71
+                    },
+                    "catcher": {
+                        "id": 657136,
+                        "fullName": "Connor Wong",
+                        "link": "/api/v1/people/657136"
+                    },
+                    "first": {
+                        "id": 575929,
+                        "fullName": "Willson Contreras",
+                        "link": "/api/v1/people/575929"
+                    },
+                    "second": {
+                        "id": 678011,
+                        "fullName": "Anthony Seigler",
+                        "link": "/api/v1/people/678011"
+                    },
+                    "third": {
+                        "id": 702332,
+                        "fullName": "Caleb Durbin",
+                        "link": "/api/v1/people/702332"
+                    },
+                    "shortstop": {
+                        "id": 655316,
+                        "fullName": "Andruw Monasterio",
+                        "link": "/api/v1/people/655316"
+                    },
+                    "left": {
+                        "id": 680776,
+                        "fullName": "Jarren Duran",
+                        "link": "/api/v1/people/680776"
+                    },
+                    "center": {
+                        "id": 678882,
+                        "fullName": "Ceddanne Rafaela",
+                        "link": "/api/v1/people/678882"
+                    },
+                    "right": {
+                        "id": 677800,
+                        "fullName": "Wilyer Abreu",
+                        "link": "/api/v1/people/677800"
+                    },
+                    "batter": {
+                        "id": 657136,
+                        "fullName": "Connor Wong",
+                        "link": "/api/v1/people/657136"
+                    },
+                    "onDeck": {
+                        "id": 678011,
+                        "fullName": "Anthony Seigler",
+                        "link": "/api/v1/people/678011"
+                    },
+                    "inHole": {
+                        "id": 678882,
+                        "fullName": "Ceddanne Rafaela",
+                        "link": "/api/v1/people/678882"
+                    },
+                    "battingOrder": 9,
+                    "team": {
+                        "id": 111,
+                        "name": "Boston Red Sox",
+                        "link": "/api/v1/teams/111"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 683748,
+                        "fullName": "Victor Mesa Jr.",
+                        "link": "/api/v1/people/683748",
+                        "firstName": "Victor",
+                        "lastName": "Mesa",
+                        "primaryNumber": "25",
+                        "birthDate": "2001-09-08",
+                        "currentAge": 24,
+                        "birthCity": "Havana",
+                        "birthCountry": "Cuba",
+                        "height": "5' 11\"",
+                        "weight": 195,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Victor",
+                        "useLastName": "Mesa Jr.",
+                        "boxscoreName": "Mesa Jr.",
+                        "gender": "M",
+                        "nameMatrilineal": "Rios",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2025-05-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Victor Mesa Jr.",
+                        "nameTitle": "Jr.",
+                        "nameSuffix": "Jr.",
+                        "nameSlug": "victor-mesa-jr-683748",
+                        "firstLastName": "Victor Mesa Jr.",
+                        "lastFirstName": "Mesa Jr., Victor",
+                        "lastInitName": "Mesa Jr., V",
+                        "initLastName": "V Mesa Jr.",
+                        "fullFMLName": "Victor  Mesa Jr.",
+                        "fullLFMName": "Mesa Jr., Victor",
+                        "strikeZoneTop": 3.16,
+                        "strikeZoneBottom": 1.59
+                    },
+                    "onDeck": {
+                        "id": 663743,
+                        "fullName": "Nick Fortes",
+                        "link": "/api/v1/people/663743",
+                        "firstName": "Nicholas",
+                        "lastName": "Fortes",
+                        "primaryNumber": "40",
+                        "birthDate": "1996-11-11",
+                        "currentAge": 29,
+                        "birthCity": "Miami",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 198,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Nick",
+                        "useLastName": "Fortes",
+                        "boxscoreName": "Fortes",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "pronunciation": "For-tez",
+                        "mlbDebutDate": "2021-09-18",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Nick Fortes",
+                        "nameSlug": "nick-fortes-663743",
+                        "firstLastName": "Nick Fortes",
+                        "lastFirstName": "Fortes, Nick",
+                        "lastInitName": "Fortes, N",
+                        "initLastName": "N Fortes",
+                        "fullFMLName": "Nicholas Fortes",
+                        "fullLFMName": "Fortes, Nicholas",
+                        "strikeZoneTop": 3.161,
+                        "strikeZoneBottom": 1.595
+                    },
+                    "inHole": {
+                        "id": 680700,
+                        "fullName": "Richie Palacios",
+                        "link": "/api/v1/people/680700",
+                        "firstName": "Richard",
+                        "lastName": "Palacios",
+                        "primaryNumber": "1",
+                        "birthDate": "1997-05-16",
+                        "currentAge": 29,
+                        "birthCity": "Brooklyn",
+                        "birthStateProvince": "NY",
+                        "birthCountry": "USA",
+                        "height": "5' 8\"",
+                        "weight": 185,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Richie",
+                        "useLastName": "Palacios",
+                        "middleName": "Jordan",
+                        "boxscoreName": "Palacios, R",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "pronunciation": "puh-LAH-see-ohs",
+                        "mlbDebutDate": "2022-04-25",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Richie Palacios",
+                        "nameSlug": "richie-palacios-680700",
+                        "firstLastName": "Richie Palacios",
+                        "lastFirstName": "Palacios, Richie",
+                        "lastInitName": "Palacios, R",
+                        "initLastName": "R Palacios",
+                        "fullFMLName": "Richard  Palacios",
+                        "fullLFMName": "Palacios, Richard ",
+                        "strikeZoneTop": 3.04,
+                        "strikeZoneBottom": 1.53
+                    },
                     "pitcher": {
                         "id": 592155,
                         "fullName": "Cam Booser",
@@ -9579,61 +9857,6 @@
                         "strikeZoneTop": 3.344,
                         "strikeZoneBottom": 1.688
                     },
-                    "catcher": {
-                        "id": 663743,
-                        "fullName": "Nick Fortes",
-                        "link": "/api/v1/people/663743"
-                    },
-                    "first": {
-                        "id": 666018,
-                        "fullName": "Jonathan Aranda",
-                        "link": "/api/v1/people/666018"
-                    },
-                    "second": {
-                        "id": 680700,
-                        "fullName": "Richie Palacios",
-                        "link": "/api/v1/people/680700"
-                    },
-                    "third": {
-                        "id": 691406,
-                        "fullName": "Junior Caminero",
-                        "link": "/api/v1/people/691406"
-                    },
-                    "shortstop": {
-                        "id": 810938,
-                        "fullName": "Ben Williamson",
-                        "link": "/api/v1/people/810938"
-                    },
-                    "left": {
-                        "id": 802415,
-                        "fullName": "Chandler Simpson",
-                        "link": "/api/v1/people/802415"
-                    },
-                    "center": {
-                        "id": 676356,
-                        "fullName": "Jonny DeLuca",
-                        "link": "/api/v1/people/676356"
-                    },
-                    "right": {
-                        "id": 683748,
-                        "fullName": "Victor Mesa Jr.",
-                        "link": "/api/v1/people/683748"
-                    },
-                    "batter": {
-                        "id": 683748,
-                        "fullName": "Victor Mesa Jr.",
-                        "link": "/api/v1/people/683748"
-                    },
-                    "onDeck": {
-                        "id": 663743,
-                        "fullName": "Nick Fortes",
-                        "link": "/api/v1/people/663743"
-                    },
-                    "inHole": {
-                        "id": 680700,
-                        "fullName": "Richie Palacios",
-                        "link": "/api/v1/people/680700"
-                    },
                     "battingOrder": 7,
                     "team": {
                         "id": 139,
@@ -9641,214 +9864,9 @@
                         "link": "/api/v1/teams/139"
                     }
                 },
-                "offense": {
-                    "batter": {
-                        "id": 655316,
-                        "fullName": "Andruw Monasterio",
-                        "link": "/api/v1/people/655316",
-                        "firstName": "Andruw",
-                        "lastName": "Monasterio",
-                        "primaryNumber": "32",
-                        "birthDate": "1997-05-30",
-                        "currentAge": 29,
-                        "birthCity": "Caracas",
-                        "birthCountry": "Venezuela",
-                        "height": "5' 11\"",
-                        "weight": 195,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Andruw",
-                        "useLastName": "Monasterio",
-                        "middleName": "Jos\u00e9",
-                        "boxscoreName": "Monasterio",
-                        "gender": "M",
-                        "nameMatrilineal": "Palacios",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "AHN-drew",
-                        "mlbDebutDate": "2023-05-28",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Andruw Monasterio",
-                        "nameSlug": "andruw-monasterio-655316",
-                        "firstLastName": "Andruw Monasterio",
-                        "lastFirstName": "Monasterio, Andruw",
-                        "lastInitName": "Monasterio, A",
-                        "initLastName": "A Monasterio",
-                        "fullFMLName": "Andruw Jos\u00e9 Monasterio",
-                        "fullLFMName": "Monasterio, Andruw Jos\u00e9",
-                        "strikeZoneTop": 3.148,
-                        "strikeZoneBottom": 1.589
-                    },
-                    "onDeck": {
-                        "id": 680776,
-                        "fullName": "Jarren Duran",
-                        "link": "/api/v1/people/680776",
-                        "firstName": "Jarren",
-                        "lastName": "Duran",
-                        "primaryNumber": "16",
-                        "birthDate": "1996-09-05",
-                        "currentAge": 29,
-                        "birthCity": "Corona",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 205,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Jarren",
-                        "useLastName": "Duran",
-                        "middleName": "William",
-                        "boxscoreName": "Duran, Ja",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2018,
-                        "pronunciation": "duh-RAN",
-                        "mlbDebutDate": "2021-07-17",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jarren Duran",
-                        "nameSlug": "jarren-duran-680776",
-                        "firstLastName": "Jarren Duran",
-                        "lastFirstName": "Duran, Jarren",
-                        "lastInitName": "Duran, J",
-                        "initLastName": "J Duran",
-                        "fullFMLName": "Jarren William Duran",
-                        "fullLFMName": "Duran, Jarren William",
-                        "strikeZoneTop": 3.23,
-                        "strikeZoneBottom": 1.63
-                    },
-                    "inHole": {
-                        "id": 657136,
-                        "fullName": "Connor Wong",
-                        "link": "/api/v1/people/657136",
-                        "firstName": "Connor",
-                        "lastName": "Wong",
-                        "primaryNumber": "12",
-                        "birthDate": "1996-05-19",
-                        "currentAge": 30,
-                        "birthCity": "Houston",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 190,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Connor",
-                        "useLastName": "Wong",
-                        "middleName": "Sun-Han",
-                        "boxscoreName": "Wong",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2017,
-                        "mlbDebutDate": "2021-06-22",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Connor Wong",
-                        "nameSlug": "connor-wong-657136",
-                        "firstLastName": "Connor Wong",
-                        "lastFirstName": "Wong, Connor",
-                        "lastInitName": "Wong, C",
-                        "initLastName": "C Wong",
-                        "fullFMLName": "Connor Sun-Han Wong",
-                        "fullLFMName": "Wong, Connor Sun-Han",
-                        "strikeZoneTop": 3.106,
-                        "strikeZoneBottom": 1.567
-                    },
-                    "pitcher": {
-                        "id": 676477,
-                        "fullName": "Garrett Whitlock",
-                        "link": "/api/v1/people/676477",
-                        "firstName": "Garrett",
-                        "lastName": "Whitlock",
-                        "primaryNumber": "22",
-                        "birthDate": "1996-06-11",
-                        "currentAge": 30,
-                        "birthCity": "Snellville",
-                        "birthStateProvince": "GA",
-                        "birthCountry": "USA",
-                        "height": "6' 5\"",
-                        "weight": 222,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Garrett",
-                        "useLastName": "Whitlock",
-                        "middleName": "Getts",
-                        "boxscoreName": "Whitlock",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2017,
-                        "mlbDebutDate": "2021-04-04",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Garrett Whitlock",
-                        "nameSlug": "garrett-whitlock-676477",
-                        "firstLastName": "Garrett Whitlock",
-                        "lastFirstName": "Whitlock, Garrett",
-                        "lastInitName": "Whitlock, G",
-                        "initLastName": "G Whitlock",
-                        "fullFMLName": "Garrett Getts Whitlock",
-                        "fullLFMName": "Whitlock, Garrett Getts",
-                        "strikeZoneTop": 3.433,
-                        "strikeZoneBottom": 1.733
-                    },
-                    "battingOrder": 7,
-                    "team": {
-                        "id": 111,
-                        "name": "Boston Red Sox",
-                        "link": "/api/v1/teams/111"
-                    }
-                },
-                "balls": 1,
+                "balls": 0,
                 "strikes": 0,
-                "outs": 1
+                "outs": 0
             },
             "venue": {
                 "id": 3,
@@ -12334,12 +12352,12 @@
             "gameDate": "2026-07-19T00:08:00Z",
             "officialDate": "2026-07-18",
             "status": {
-                "abstractGameState": "Preview",
+                "abstractGameState": "Live",
                 "codedGameState": "P",
-                "detailedState": "Pre-Game",
-                "statusCode": "P",
+                "detailedState": "Warmup",
+                "statusCode": "PW",
                 "startTimeTBD": false,
-                "abstractGameCode": "P"
+                "abstractGameCode": "L"
             },
             "teams": {
                 "away": {
@@ -14041,11 +14059,11 @@
                             "outcomes": [
                                 {
                                     "name": "Athletics",
-                                    "price": -113
+                                    "price": -109
                                 },
                                 {
                                     "name": "Washington Nationals",
-                                    "price": -106
+                                    "price": -110
                                 }
                             ]
                         },

@@ -149,9 +149,9 @@
             "linescore": {
                 "currentInning": 2,
                 "currentInningOrdinal": "2nd",
-                "inningState": "Middle",
-                "inningHalf": "Top",
-                "isTopInning": true,
+                "inningState": "Bottom",
+                "inningHalf": "Bottom",
+                "isTopInning": false,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -312,55 +312,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 800325,
-                        "fullName": "Luis Lara",
-                        "link": "/api/v1/people/800325",
-                        "firstName": "Luis",
-                        "lastName": "Lara",
-                        "primaryNumber": "18",
-                        "birthDate": "2004-11-17",
-                        "currentAge": 21,
-                        "birthCity": "San Felipe",
-                        "birthCountry": "Venezuela",
-                        "height": "5' 7\"",
-                        "weight": 169,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "8",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "CF"
-                        },
-                        "useName": "Luis",
-                        "useLastName": "Lara",
-                        "middleName": "Alexander",
-                        "boxscoreName": "Lara",
-                        "gender": "M",
-                        "nameMatrilineal": "Chirinos",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "LAH-ruh",
-                        "mlbDebutDate": "2026-07-07",
-                        "batSide": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Luis Lara",
-                        "nameSlug": "luis-lara-800325",
-                        "firstLastName": "Luis Lara",
-                        "lastFirstName": "Lara, Luis",
-                        "lastInitName": "Lara, L",
-                        "initLastName": "L Lara",
-                        "fullFMLName": "Luis Alexander Lara",
-                        "fullLFMName": "Lara, Luis Alexander",
-                        "strikeZoneTop": 3.01,
-                        "strikeZoneBottom": 1.52
-                    },
-                    "onDeck": {
                         "id": 641343,
                         "fullName": "Jake Bauers",
                         "link": "/api/v1/people/641343",
@@ -410,7 +361,7 @@
                         "strikeZoneTop": 3.22,
                         "strikeZoneBottom": 1.62
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 687401,
                         "fullName": "Joey Ortiz",
                         "link": "/api/v1/people/687401",
@@ -456,6 +407,55 @@
                         "initLastName": "J Ortiz",
                         "fullFMLName": "Joseph Anthony Ortiz",
                         "fullLFMName": "Ortiz, Joseph Anthony",
+                        "strikeZoneTop": 3.14,
+                        "strikeZoneBottom": 1.58
+                    },
+                    "inHole": {
+                        "id": 666152,
+                        "fullName": "David Hamilton",
+                        "link": "/api/v1/people/666152",
+                        "firstName": "David",
+                        "lastName": "Hamilton",
+                        "primaryNumber": "6",
+                        "birthDate": "1997-09-29",
+                        "currentAge": 28,
+                        "birthCity": "San Marcos",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "5' 10\"",
+                        "weight": 192,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "David",
+                        "useLastName": "Hamilton",
+                        "middleName": "Lewis",
+                        "boxscoreName": "Hamilton, D",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2023-06-21",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "David Hamilton",
+                        "nameSlug": "david-hamilton-666152",
+                        "firstLastName": "David Hamilton",
+                        "lastFirstName": "Hamilton, David",
+                        "lastInitName": "Hamilton, D",
+                        "initLastName": "D Hamilton",
+                        "fullFMLName": "David Lewis Hamilton",
+                        "fullLFMName": "Hamilton, David Lewis",
                         "strikeZoneTop": 3.14,
                         "strikeZoneBottom": 1.58
                     },
@@ -508,7 +508,7 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 7,
                     "team": {
                         "id": 158,
                         "name": "Milwaukee Brewers",
@@ -516,8 +516,8 @@
                     }
                 },
                 "balls": 1,
-                "strikes": 3,
-                "outs": 3
+                "strikes": 2,
+                "outs": 1
             },
             "venue": {
                 "id": 32,
@@ -9053,6 +9053,7 @@
                         "ties": 0,
                         "pct": ".495"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 682243,
                         "fullName": "Bryce Miller",
@@ -9117,6 +9118,7 @@
                         "ties": 0,
                         "pct": ".500"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 669022,
                         "fullName": "MacKenzie Gore",
@@ -9171,26 +9173,359 @@
                 }
             },
             "linescore": {
+                "currentInning": 1,
+                "currentInningOrdinal": "1st",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
-                    "home": {},
-                    "away": {}
+                    "home": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    },
+                    "away": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 669022,
+                        "fullName": "MacKenzie Gore",
+                        "link": "/api/v1/people/669022",
+                        "firstName": "MacKenzie",
+                        "lastName": "Gore",
+                        "primaryNumber": "1",
+                        "birthDate": "1999-02-24",
+                        "currentAge": 27,
+                        "birthCity": "Wilmington",
+                        "birthStateProvince": "NC",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 193,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "MacKenzie",
+                        "useLastName": "Gore",
+                        "middleName": "Evan",
+                        "boxscoreName": "Gore",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2017,
+                        "mlbDebutDate": "2022-04-15",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "MacKenzie Gore",
+                        "nameSlug": "mackenzie-gore-669022",
+                        "firstLastName": "MacKenzie Gore",
+                        "lastFirstName": "Gore, MacKenzie",
+                        "lastInitName": "Gore, M",
+                        "initLastName": "M Gore",
+                        "fullFMLName": "MacKenzie Evan Gore",
+                        "fullLFMName": "Gore, MacKenzie Evan",
+                        "strikeZoneTop": 3.299,
+                        "strikeZoneBottom": 1.665
+                    },
+                    "catcher": {
+                        "id": 553869,
+                        "fullName": "Elias D\u00edaz",
+                        "link": "/api/v1/people/553869"
+                    },
+                    "first": {
+                        "id": 669394,
+                        "fullName": "Jake Burger",
+                        "link": "/api/v1/people/669394"
+                    },
+                    "second": {
+                        "id": 695508,
+                        "fullName": "Cam Cauley",
+                        "link": "/api/v1/people/695508"
+                    },
+                    "third": {
+                        "id": 677649,
+                        "fullName": "Ezequiel Duran",
+                        "link": "/api/v1/people/677649"
+                    },
+                    "shortstop": {
+                        "id": 670032,
+                        "fullName": "Nicky Lopez",
+                        "link": "/api/v1/people/670032"
+                    },
+                    "left": {
+                        "id": 694671,
+                        "fullName": "Wyatt Langford",
+                        "link": "/api/v1/people/694671"
+                    },
+                    "center": {
+                        "id": 694497,
+                        "fullName": "Evan Carter",
+                        "link": "/api/v1/people/694497"
+                    },
+                    "right": {
+                        "id": 607043,
+                        "fullName": "Brandon Nimmo",
+                        "link": "/api/v1/people/607043"
+                    },
+                    "batter": {
+                        "id": 592626,
+                        "fullName": "Joc Pederson",
+                        "link": "/api/v1/people/592626"
+                    },
+                    "onDeck": {
+                        "id": 694671,
+                        "fullName": "Wyatt Langford",
+                        "link": "/api/v1/people/694671"
+                    },
+                    "inHole": {
+                        "id": 677649,
+                        "fullName": "Ezequiel Duran",
+                        "link": "/api/v1/people/677649"
+                    },
+                    "battingOrder": 1,
+                    "team": {
+                        "id": 140,
+                        "name": "Texas Rangers",
+                        "link": "/api/v1/teams/140"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 668227,
+                        "fullName": "Randy Arozarena",
+                        "link": "/api/v1/people/668227",
+                        "firstName": "Randy",
+                        "lastName": "Arozarena",
+                        "primaryNumber": "56",
+                        "birthDate": "1995-02-28",
+                        "currentAge": 31,
+                        "birthCity": "Havana",
+                        "birthCountry": "Cuba",
+                        "height": "5' 10\"",
+                        "weight": 185,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Randy",
+                        "useLastName": "Arozarena",
+                        "boxscoreName": "Arozarena",
+                        "gender": "M",
+                        "nameMatrilineal": "Gonzalez",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "ah-row-sah-RAY-nah",
+                        "mlbDebutDate": "2019-08-14",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Randy Arozarena",
+                        "nameSlug": "randy-arozarena-668227",
+                        "firstLastName": "Randy Arozarena",
+                        "lastFirstName": "Arozarena, Randy",
+                        "lastInitName": "Arozarena, R",
+                        "initLastName": "R Arozarena",
+                        "fullFMLName": "Randy Arozarena",
+                        "fullLFMName": "Arozarena, Randy",
+                        "strikeZoneTop": 3.128,
+                        "strikeZoneBottom": 1.579
+                    },
+                    "onDeck": {
+                        "id": 677594,
+                        "fullName": "Julio Rodr\u00edguez",
+                        "link": "/api/v1/people/677594",
+                        "firstName": "Julio",
+                        "lastName": "Rodr\u00edguez",
+                        "primaryNumber": "44",
+                        "birthDate": "2000-12-29",
+                        "currentAge": 25,
+                        "birthCity": "Loma de Cabrera",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 4\"",
+                        "weight": 228,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Julio",
+                        "useLastName": "Rodr\u00edguez",
+                        "middleName": "Yamel",
+                        "boxscoreName": "Rodr\u00edguez, J",
+                        "gender": "M",
+                        "nameMatrilineal": "Reyes",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2022-04-08",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Julio Rodr\u00edguez",
+                        "nameSlug": "julio-rodriguez-677594",
+                        "firstLastName": "Julio Rodr\u00edguez",
+                        "lastFirstName": "Rodr\u00edguez, Julio",
+                        "lastInitName": "Rodr\u00edguez, J",
+                        "initLastName": "J Rodr\u00edguez",
+                        "fullFMLName": "Julio Yamel Rodr\u00edguez",
+                        "fullLFMName": "Rodr\u00edguez, Julio Yamel",
+                        "strikeZoneTop": 3.378,
+                        "strikeZoneBottom": 1.705
+                    },
+                    "inHole": {
+                        "id": 686527,
+                        "fullName": "Dominic Canzone",
+                        "link": "/api/v1/people/686527",
+                        "firstName": "Dominic",
+                        "lastName": "Canzone",
+                        "primaryNumber": "8",
+                        "birthDate": "1997-08-16",
+                        "currentAge": 28,
+                        "birthCity": "Cleveland",
+                        "birthStateProvince": "OH",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Dominic",
+                        "useLastName": "Canzone",
+                        "middleName": "Gene",
+                        "boxscoreName": "Canzone",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2023-07-08",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Dominic Canzone",
+                        "nameSlug": "dominic-canzone-686527",
+                        "firstLastName": "Dominic Canzone",
+                        "lastFirstName": "Canzone, Dominic",
+                        "lastInitName": "Canzone, D",
+                        "initLastName": "D Canzone",
+                        "fullFMLName": "Dominic Gene Canzone",
+                        "fullLFMName": "Canzone, Dominic Gene",
+                        "strikeZoneTop": 3.209,
+                        "strikeZoneBottom": 1.619
+                    },
+                    "pitcher": {
+                        "id": 682243,
+                        "fullName": "Bryce Miller",
+                        "link": "/api/v1/people/682243",
+                        "firstName": "Bryce",
+                        "lastName": "Miller",
+                        "primaryNumber": "50",
+                        "birthDate": "1998-08-23",
+                        "currentAge": 27,
+                        "birthCity": "Mount Pleasant",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Bryce",
+                        "useLastName": "Miller",
+                        "middleName": "Austen",
+                        "boxscoreName": "Miller, B",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2023-05-02",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Bryce Miller",
+                        "nameSlug": "bryce-miller-682243",
+                        "firstLastName": "Bryce Miller",
+                        "lastFirstName": "Miller, Bryce",
+                        "lastInitName": "Miller, B",
+                        "initLastName": "B Miller",
+                        "fullFMLName": "Bryce Austen Miller",
+                        "fullLFMName": "Miller, Bryce Austen",
+                        "strikeZoneTop": 3.299,
+                        "strikeZoneBottom": 1.665
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 136,
                         "name": "Seattle Mariners",
                         "link": "/api/v1/teams/136"
                     }
                 },
-                "offense": {
-                    "team": {
-                        "id": 140,
-                        "name": "Texas Rangers",
-                        "link": "/api/v1/teams/140"
-                    }
-                }
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 5325,
@@ -9346,6 +9681,134 @@
                             "abbreviation": "2B"
                         },
                         "useName": "Cam"
+                    }
+                ],
+                "awayPlayers": [
+                    {
+                        "id": 668227,
+                        "fullName": "Randy Arozarena",
+                        "link": "/api/v1/people/668227",
+                        "firstName": "Randy",
+                        "lastName": "Arozarena",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Randy"
+                    },
+                    {
+                        "id": 677594,
+                        "fullName": "Julio Rodr\u00edguez",
+                        "link": "/api/v1/people/677594",
+                        "firstName": "Julio",
+                        "lastName": "Rodr\u00edguez",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Julio"
+                    },
+                    {
+                        "id": 686527,
+                        "fullName": "Dominic Canzone",
+                        "link": "/api/v1/people/686527",
+                        "firstName": "Dominic",
+                        "lastName": "Canzone",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Dominic"
+                    },
+                    {
+                        "id": 663728,
+                        "fullName": "Cal Raleigh",
+                        "link": "/api/v1/people/663728",
+                        "firstName": "Caleb",
+                        "lastName": "Raleigh",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Cal"
+                    },
+                    {
+                        "id": 647304,
+                        "fullName": "Josh Naylor",
+                        "link": "/api/v1/people/647304",
+                        "firstName": "Joshua-Douglas",
+                        "lastName": "Naylor",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Josh"
+                    },
+                    {
+                        "id": 702284,
+                        "fullName": "Cole Young",
+                        "link": "/api/v1/people/702284",
+                        "firstName": "Cole",
+                        "lastName": "Young",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Cole"
+                    },
+                    {
+                        "id": 641598,
+                        "fullName": "Mitch Garver",
+                        "link": "/api/v1/people/641598",
+                        "firstName": "Mitchell",
+                        "lastName": "Garver",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Mitch"
+                    },
+                    {
+                        "id": 642215,
+                        "fullName": "Weston Wilson",
+                        "link": "/api/v1/people/642215",
+                        "firstName": "Weston",
+                        "lastName": "Wilson",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Weston"
+                    },
+                    {
+                        "id": 806068,
+                        "fullName": "Colt Emerson",
+                        "link": "/api/v1/people/806068",
+                        "firstName": "Colt",
+                        "lastName": "Emerson",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Colt"
                     }
                 ]
             }

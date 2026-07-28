@@ -11,12 +11,12 @@
             "rescheduledFrom": "2026-07-27T23:10:00Z",
             "rescheduledFromDate": "2026-07-27",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -26,12 +26,13 @@
                         "link": "/api/v1/teams/114"
                     },
                     "leagueRecord": {
-                        "wins": 54,
+                        "wins": 55,
                         "losses": 53,
                         "ties": 0,
-                        "pct": ".505"
+                        "pct": ".509"
                     },
                     "score": 6,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 677944,
                         "fullName": "Slade Cecconi",
@@ -92,11 +93,12 @@
                     },
                     "leagueRecord": {
                         "wins": 49,
-                        "losses": 55,
+                        "losses": 56,
                         "ties": 0,
-                        "pct": ".471"
+                        "pct": ".467"
                     },
                     "score": 5,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 695505,
                         "fullName": "Chase Burns",
@@ -289,9 +291,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 0,
@@ -306,7 +309,7 @@
                         "runs": 5,
                         "hits": 11,
                         "errors": 1,
-                        "leftOnBase": 6
+                        "leftOnBase": 7
                     },
                     "away": {
                         "runs": 6,
@@ -429,55 +432,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 701398,
-                        "fullName": "Sal Stewart",
-                        "link": "/api/v1/people/701398",
-                        "firstName": "Sal",
-                        "lastName": "Stewart",
-                        "primaryNumber": "27",
-                        "birthDate": "2003-12-07",
-                        "currentAge": 22,
-                        "birthCity": "Miami",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 224,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Sal",
-                        "useLastName": "Stewart",
-                        "middleName": "Maxwell",
-                        "boxscoreName": "Stewart, S",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2025-09-01",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Sal Stewart",
-                        "nameSlug": "sal-stewart-701398",
-                        "firstLastName": "Sal Stewart",
-                        "lastFirstName": "Stewart, Sal",
-                        "lastInitName": "Stewart, S",
-                        "initLastName": "S Stewart",
-                        "fullFMLName": "Sal Maxwell Stewart",
-                        "fullLFMName": "Stewart, Sal Maxwell",
-                        "strikeZoneTop": 3.239,
-                        "strikeZoneBottom": 1.635
-                    },
-                    "onDeck": {
                         "id": 668709,
                         "fullName": "JJ Bleday",
                         "link": "/api/v1/people/668709",
@@ -526,7 +480,7 @@
                         "strikeZoneTop": 3.287,
                         "strikeZoneBottom": 1.659
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 553993,
                         "fullName": "Eugenio Su\u00e1rez",
                         "link": "/api/v1/people/553993",
@@ -574,6 +528,55 @@
                         "fullLFMName": "Su\u00e1rez, Eugenio Alejandro",
                         "strikeZoneTop": 3.17,
                         "strikeZoneBottom": 1.6
+                    },
+                    "inHole": {
+                        "id": 671155,
+                        "fullName": "Ivan Johnson",
+                        "link": "/api/v1/people/671155",
+                        "firstName": "Vincent",
+                        "lastName": "Johnson",
+                        "primaryNumber": "63",
+                        "birthDate": "1998-10-11",
+                        "currentAge": 27,
+                        "birthCity": "Atlanta",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Ivan",
+                        "useLastName": "Johnson",
+                        "middleName": "Ivan",
+                        "boxscoreName": "Johnson",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2026-06-30",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ivan Johnson",
+                        "nameSlug": "ivan-johnson-671155",
+                        "firstLastName": "Ivan Johnson",
+                        "lastFirstName": "Johnson, Ivan",
+                        "lastInitName": "Johnson, I",
+                        "initLastName": "I Johnson",
+                        "fullFMLName": "Vincent Ivan Johnson",
+                        "fullLFMName": "Johnson, Vincent Ivan",
+                        "strikeZoneTop": 3.2,
+                        "strikeZoneBottom": 1.615
                     },
                     "pitcher": {
                         "id": 695534,
@@ -624,16 +627,16 @@
                         "strikeZoneTop": 3.411,
                         "strikeZoneBottom": 1.565
                     },
-                    "battingOrder": 2,
+                    "battingOrder": 3,
                     "team": {
                         "id": 113,
                         "name": "Cincinnati Reds",
                         "link": "/api/v1/teams/113"
                     }
                 },
-                "balls": 2,
-                "strikes": 1,
-                "outs": 2
+                "balls": 1,
+                "strikes": 0,
+                "outs": 3
             },
             "venue": {
                 "id": 2602,
@@ -645,6 +648,7 @@
             "content": {
                 "link": "/api/v1/game/824490/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "S",
@@ -976,7 +980,7 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270067.930012,
+            "lastUpdated": 1785271276.547017,
             "temp": 83,
             "humidity": 76,
             "maxPrecipChance": 0,
@@ -1008,14 +1012,14 @@
                 },
                 {
                     "timestamp": "2026-07-28T19:00Z",
-                    "temp": 85,
+                    "temp": 84,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-28T20:00Z",
-                    "temp": 87,
+                    "temp": 85,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -1057,10 +1061,10 @@
                         "link": "/api/v1/teams/114"
                     },
                     "leagueRecord": {
-                        "wins": 54,
+                        "wins": 55,
                         "losses": 53,
                         "ties": 0,
-                        "pct": ".505"
+                        "pct": ".509"
                     },
                     "probablePitcher": {
                         "id": 668909,
@@ -1122,9 +1126,9 @@
                     },
                     "leagueRecord": {
                         "wins": 49,
-                        "losses": 55,
+                        "losses": 56,
                         "ties": 0,
-                        "pct": ".471"
+                        "pct": ".467"
                     },
                     "splitSquad": false,
                     "seriesNumber": 35
@@ -1235,25 +1239,25 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270069.084209,
-            "temp": 86,
-            "humidity": 49,
+            "lastUpdated": 1785271277.71235,
+            "temp": 85,
+            "humidity": 54,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 9,
-            "windDir": 346,
+            "windSpeed": 8,
+            "windDir": 352,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T22:00Z",
-                    "temp": 87,
+                    "temp": 86,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-28T23:00Z",
-                    "temp": 86,
+                    "temp": 85,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -1267,7 +1271,7 @@
                 },
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 80,
+                    "temp": 79,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -2140,25 +2144,25 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270070.237969,
-            "temp": 81,
-            "humidity": 50,
+            "lastUpdated": 1785271278.894824,
+            "temp": 80,
+            "humidity": 52,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 13,
-            "windDir": 348,
+            "windSpeed": 12,
+            "windDir": 345,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T21:00Z",
-                    "temp": 81,
+                    "temp": 80,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-28T22:00Z",
-                    "temp": 81,
+                    "temp": 80,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -2580,39 +2584,39 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270071.39221,
-            "temp": 79,
-            "humidity": 63,
+            "lastUpdated": 1785271280.06016,
+            "temp": 80,
+            "humidity": 64,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 10,
-            "windDir": 321,
+            "windDir": 320,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T21:00Z",
-                    "temp": 80,
+                    "temp": 81,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-28T22:00Z",
-                    "temp": 79,
+                    "temp": 80,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-28T23:00Z",
-                    "temp": 77,
+                    "temp": 78,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T00:00Z",
-                    "temp": 74,
+                    "temp": 75,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -3491,14 +3495,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270072.547245,
+            "lastUpdated": 1785271281.225724,
             "temp": 84,
-            "humidity": 77,
+            "humidity": 80,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 254,
+            "windDir": 248,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T21:00Z",
@@ -3516,7 +3520,7 @@
                 },
                 {
                     "timestamp": "2026-07-28T23:00Z",
-                    "temp": 83,
+                    "temp": 82,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -3530,7 +3534,7 @@
                 },
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 79,
+                    "temp": 80,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -4402,14 +4406,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270073.725767,
+            "lastUpdated": 1785271282.401615,
             "temp": 86,
-            "humidity": 75,
+            "humidity": 67,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 215,
+            "windDir": 234,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T21:00Z",
@@ -4427,14 +4431,14 @@
                 },
                 {
                     "timestamp": "2026-07-28T23:00Z",
-                    "temp": 85,
+                    "temp": 84,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T00:00Z",
-                    "temp": 83,
+                    "temp": 82,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -5312,18 +5316,18 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270074.902384,
+            "lastUpdated": 1785271283.57432,
             "temp": 85,
             "humidity": 59,
             "maxPrecipChance": 80,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 11,
-            "windDir": 304,
+            "windSpeed": 6,
+            "windDir": 173,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T21:00Z",
-                    "temp": 85,
+                    "temp": 86,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -5331,27 +5335,27 @@
                 {
                     "timestamp": "2026-07-28T22:00Z",
                     "temp": 85,
-                    "precipChance": 80,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-07-28T23:00Z",
-                    "temp": 72,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
+                    "timestamp": "2026-07-28T23:00Z",
+                    "temp": 79,
+                    "precipChance": 80,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
                     "timestamp": "2026-07-29T00:00Z",
-                    "temp": 72,
+                    "temp": 76,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 72,
+                    "temp": 75,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -5359,9 +5363,9 @@
             ]
         },
         "wind": {
-            "text": "Cross (L to R)",
-            "cssClass": "bg-cross",
-            "arrow": "\u27a1"
+            "text": "Out to Left",
+            "cssClass": "bg-out",
+            "arrow": "\u2196"
         },
         "roof": false,
         "roofPending": false,
@@ -6218,32 +6222,32 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270076.056906,
-            "temp": 90,
-            "humidity": 40,
+            "lastUpdated": 1785271284.74112,
+            "temp": 89,
+            "humidity": 44,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 4,
-            "windDir": 14,
+            "windSpeed": 2,
+            "windDir": 76,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T22:00Z",
-                    "temp": 90,
+                    "temp": 89,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-28T23:00Z",
-                    "temp": 90,
+                    "temp": 89,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T00:00Z",
-                    "temp": 89,
+                    "temp": 88,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -6265,9 +6269,9 @@
             ]
         },
         "wind": {
-            "text": "In from Left",
+            "text": "In from Right",
             "cssClass": "bg-in",
-            "arrow": "\u2198"
+            "arrow": "\u2199"
         },
         "roof": false,
         "roofPending": false,
@@ -6656,18 +6660,18 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270077.210891,
+            "lastUpdated": 1785271285.906614,
             "temp": 69,
             "humidity": 83,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 12,
-            "windDir": 355,
+            "windDir": 350,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T22:00Z",
-                    "temp": 70,
+                    "temp": 69,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -7094,13 +7098,13 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270078.364984,
-            "temp": 93,
-            "humidity": 50,
+            "lastUpdated": 1785271287.071812,
+            "temp": 92,
+            "humidity": 54,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 9,
+            "windSpeed": 7,
             "windDir": 20,
             "hourly": [
                 {
@@ -7112,7 +7116,7 @@
                 },
                 {
                     "timestamp": "2026-07-28T23:00Z",
-                    "temp": 93,
+                    "temp": 92,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -7126,14 +7130,14 @@
                 },
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 87,
+                    "temp": 86,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T02:00Z",
-                    "temp": 84,
+                    "temp": 83,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -7403,14 +7407,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270079.519162,
-            "temp": 79,
-            "humidity": 66,
+            "lastUpdated": 1785271288.237535,
+            "temp": 78,
+            "humidity": 65,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 8,
-            "windDir": 227,
+            "windDir": 224,
             "hourly": [
                 {
                     "timestamp": "2026-07-29T00:00Z",
@@ -7421,21 +7425,21 @@
                 },
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 79,
+                    "temp": 78,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T02:00Z",
-                    "temp": 75,
+                    "temp": 74,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T03:00Z",
-                    "temp": 72,
+                    "temp": 71,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -7711,25 +7715,25 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270080.673627,
-            "temp": 93,
-            "humidity": 25,
+            "lastUpdated": 1785271289.402994,
+            "temp": 92,
+            "humidity": 24,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 10,
-            "windDir": 233,
+            "windDir": 234,
             "hourly": [
                 {
                     "timestamp": "2026-07-29T00:00Z",
-                    "temp": 96,
+                    "temp": 95,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 93,
+                    "temp": 92,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -8149,14 +8153,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270081.827845,
+            "lastUpdated": 1785271290.568332,
             "temp": 74,
             "humidity": 79,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 6,
-            "windDir": 234,
+            "windDir": 231,
             "hourly": [
                 {
                     "timestamp": "2026-07-29T00:00Z",
@@ -8174,7 +8178,7 @@
                 },
                 {
                     "timestamp": "2026-07-29T02:00Z",
-                    "temp": 72,
+                    "temp": 71,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -8188,7 +8192,7 @@
                 },
                 {
                     "timestamp": "2026-07-29T04:00Z",
-                    "temp": 70,
+                    "temp": 69,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -8458,18 +8462,18 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270082.982402,
+            "lastUpdated": 1785271291.732921,
             "temp": 68,
-            "humidity": 70,
+            "humidity": 71,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 18,
-            "windDir": 290,
+            "windDir": 291,
             "hourly": [
                 {
                     "timestamp": "2026-07-29T00:00Z",
-                    "temp": 70,
+                    "temp": 71,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -8766,32 +8770,32 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270084.136425,
-            "temp": 75,
-            "humidity": 73,
+            "lastUpdated": 1785271292.898541,
+            "temp": 74,
+            "humidity": 74,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 7,
-            "windDir": 247,
+            "windDir": 251,
             "hourly": [
                 {
                     "timestamp": "2026-07-29T01:00Z",
-                    "temp": 79,
+                    "temp": 78,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T02:00Z",
-                    "temp": 75,
+                    "temp": 74,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
                     "timestamp": "2026-07-29T03:00Z",
-                    "temp": 71,
+                    "temp": 70,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
@@ -9056,46 +9060,46 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785270085.290581,
-            "temp": 77,
-            "humidity": 78,
+            "lastUpdated": 1785271294.063637,
+            "temp": 76,
+            "humidity": 83,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 12,
-            "windDir": 152,
+            "windDir": 156,
             "hourly": [
                 {
                     "timestamp": "2026-07-28T22:00Z",
-                    "temp": 78,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-07-28T23:00Z",
                     "temp": 77,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-07-29T00:00Z",
+                    "timestamp": "2026-07-28T23:00Z",
                     "temp": 76,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-07-29T01:00Z",
+                    "timestamp": "2026-07-29T00:00Z",
                     "temp": 75,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
+                    "timestamp": "2026-07-29T01:00Z",
+                    "temp": 74,
+                    "precipChance": 0,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
                     "timestamp": "2026-07-29T02:00Z",
-                    "temp": 75,
+                    "temp": 74,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false

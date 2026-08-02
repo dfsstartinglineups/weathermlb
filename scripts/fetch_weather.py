@@ -227,7 +227,7 @@ def main():
                 time_since_update = current_est_time.timestamp() - last_updated
                 
                 # Cache refresh: 5 minutes for today's games, 3 hours for tomorrow
-                if days_away == 0 and time_since_update < 300: 
+                if days_away == 0 and time_since_update < 200: 
                     needs_weather_fetch = False
                 elif 0 < days_away <= 2 and time_since_update < 10800: 
                     needs_weather_fetch = False

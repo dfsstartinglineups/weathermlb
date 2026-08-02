@@ -12,11 +12,14 @@ DAILY_FILES_DIR = os.path.join(DATA_DIR, 'daily_files')
 STADIUMS_FILE = os.path.join(DATA_DIR, 'stadiums.json')
 ODDS_FILE = os.path.join(DATA_DIR, 'odds.json')
 
+# 🔑 Read key securely from GitHub Actions environment variable
+WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
+
 os.makedirs(DAILY_FILES_DIR, exist_ok=True)
 
 # --- API TRACKING ---
 API_CALL_TRACKER = {
-    "schedule": 0, "open_meteo": 0
+    "schedule": 0, "weather_api": 0
 }
 
 def load_json(path, default_val):
@@ -55,56 +58,40 @@ def calculate_wind(wind_direction, stadium_bearing):
 def fetch_game_weather(session, lat, lon, game_date_iso):
     global API_CALL_TRACKER
     
+    if not WEATHER_API_KEY:
+        print("⚠️ WEATHER_API_KEY environment variable is missing!")
+        return {"temp": "--", "hourly": []}
+
     utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
-    date_str = utc_time.strftime('%Y-%m-%d')
-    next_day_obj = utc_time + timedelta(days=1)
-    next_date_str = next_day_obj.strftime('%Y-%m-%d')
-    
     today_utc = datetime.now(timezone.utc).date()
-    is_historical = utc_time.date() < today_utc
     days_diff = (utc_time.date() - today_utc).days
 
-    if not is_historical and days_diff > 16:
+    # Strictly 2-day horizon (today and tomorrow)
+    if days_diff > 2 or days_diff < 0:
         return {"status": "too_early", "temp": "--"}
 
-    if is_historical or date_str == "2024-09-25":
-        url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT"
-    else:
-        url = (
-            f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}"
-            f"&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m"
-            f"&minutely_15=precipitation,weather_code"
-            f"&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m"
-            f"&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT"
-            f"&start_date={date_str}&end_date={next_date_str}"
-        )
+    url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={lat},{lon}&days=3&aqi=no&alerts=no"
 
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            API_CALL_TRACKER["open_meteo"] += 1
+            API_CALL_TRACKER["weather_api"] += 1
             res = session.get(url, timeout=15) 
             
-            if res.status_code == 400: return {"status": "too_early", "temp": "--"}
-            if res.status_code != 200: return {"temp": "--", "hourly": []}
+            if res.status_code != 200: 
+                print(f"⚠️ WeatherAPI returned status code {res.status_code}")
+                return {"temp": "--", "hourly": []}
             
             data = res.json()
-            time_array = data['hourly']['time']
-            target_time_str = utc_time.strftime('%Y-%m-%dT%H:00')
-            
-            try: start_idx = time_array.index(target_time_str)
-            except ValueError: start_idx = 0
-
-            minutely_data = data.get('minutely_15', {})
-            m_times = minutely_data.get('time', [])
-            m_precip = minutely_data.get('precipitation', [])
-            m_codes = minutely_data.get('weather_code', [])
-            
             current_data = data.get('current', {})
+            current_epoch = int(datetime.now(timezone.utc).timestamp())
             
-            # --- FIX: BROAD CURRENT HOUR IDENTIFICATION ---
-            current_utc = datetime.now(timezone.utc)
-            current_hour_prefix = current_utc.strftime('%Y-%m-%dT%H') 
+            all_hours = []
+            for day in data.get('forecast', {}).get('forecastday', []):
+                all_hours.extend(day.get('hour', []))
+                
+            target_epoch = int(utc_time.replace(minute=0, second=0, microsecond=0).timestamp())
+            start_idx = next((i for i, h in enumerate(all_hours) if h['time_epoch'] == target_epoch), 0)
 
             hourly_slice = []
             max_chance_in_window = 0
@@ -112,77 +99,55 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             is_game_snow = False
 
             actual_start = max(0, start_idx - 1)
-            actual_end = min(len(time_array), start_idx + 4)
+            actual_end = min(len(all_hours), start_idx + 4)
 
             for i in range(actual_start, actual_end):
-                hour_timestamp = time_array[i] 
+                hour = all_hours[i]
                 
-                prob = data['hourly'].get('precipitation_probability', [0]*len(time_array))[i] or 0
-                amount = data['hourly'].get('precipitation', [0]*len(time_array))[i] or 0
-                code = data['hourly']['weather_code'][i]
+                chance = hour.get('chance_of_rain', 0)
+                condition_text = hour.get('condition', {}).get('text', '').lower()
+                is_hour_thunderstorm = "thunder" in condition_text
+                is_hour_snow = "snow" in condition_text or "ice" in condition_text or "blizzard" in condition_text
                 
-                m_indices = [idx for idx, t in enumerate(m_times) if t.startswith(hour_timestamp[:13])]
-                
-                if m_indices:
-                    min_precip_sum = sum(m_precip[idx] or 0 for idx in m_indices)
-                    max_min_code = max((m_codes[idx] for idx in m_indices if m_codes[idx] is not None), default=code)
+                # Live observation override for the current hour block
+                is_current_hour = (hour['time_epoch'] <= current_epoch < hour['time_epoch'] + 3600)
+                if is_current_hour and current_data:
+                    curr_precip = current_data.get('precip_in', 0)
+                    curr_condition = current_data.get('condition', {}).get('text', '').lower()
                     
-                    if min_precip_sum > amount: amount = min_precip_sum
-                    if max_min_code > code: code = max_min_code
+                    if curr_precip > 0 or "rain" in curr_condition or "drizzle" in curr_condition:
+                        chance = 100
+                    if "thunder" in curr_condition:
+                        is_hour_thunderstorm = True
+                    if "snow" in curr_condition or "ice" in curr_condition:
+                        is_hour_snow = True
 
-                # --- FIX: FORCED CURRENT OVERRIDE ---
-                # Check if this hourly block belongs to the ACTIVE current hour using just the prefix (YYYY-MM-DDTHH)
-                if current_data and hour_timestamp.startswith(current_hour_prefix):
-                    curr_precip = current_data.get('precipitation', 0) or 0
-                    curr_code = current_data.get('weather_code', 0)
-                    
-                    # Force overwrite the hourly models if the current live reading says it's raining
-                    if curr_precip > amount:
-                        amount = curr_precip
-                    if curr_code > code:
-                        code = curr_code
-
-                # Open-Meteo WMO Codes:
-                # 0-3: Clear/Cloudy
-                # 51-69: Drizzle/Rain
-                # 71-77: Snow
-                # 80-82: Showers
-                # 95-99: Thunderstorms
-                
-                if amount >= 0.10: chance = max(80, prob)
-                elif amount >= 0.05: chance = max(60, prob)
-                elif amount >= 0.01: chance = max(30, prob)
-                elif amount > 0: chance = max(15, prob)
-                elif code > 3: chance = max(10, prob) # Ensure WMO codes indicating precip get at least 10%
-                else: chance = 0
-
-                is_hour_thunderstorm = 95 <= code <= 99
-                is_hour_snow = code in [71, 73, 75, 77, 85, 86]
-                
                 if is_hour_thunderstorm: is_game_thunderstorm = True
                 if is_hour_snow: is_game_snow = True
                 if chance > max_chance_in_window: max_chance_in_window = chance
                     
-                temp_val = data['hourly']['temperature_2m'][i]
+                hour_iso = datetime.fromtimestamp(hour['time_epoch'], timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
                 
                 hourly_slice.append({
-                    "timestamp": hour_timestamp + "Z",
-                    "temp": round(temp_val) if temp_val is not None else "--",
+                    "timestamp": hour_iso,
+                    "temp": round(hour.get('temp_f', 0)),
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
                     "isSnow": is_hour_snow
                 })
 
+            start_hour = all_hours[start_idx] if len(all_hours) > start_idx else all_hours[0]
+            
             return {
                 "status": "ok",
                 "lastUpdated": datetime.now(timezone.utc).timestamp(),
-                "temp": round(data['hourly']['temperature_2m'][start_idx]),
-                "humidity": round(data['hourly']['relative_humidity_2m'][start_idx]),
+                "temp": round(start_hour.get('temp_f', 70)),
+                "humidity": round(start_hour.get('humidity', 50)),
                 "maxPrecipChance": max_chance_in_window,
                 "isThunderstorm": is_game_thunderstorm,
                 "isSnow": is_game_snow,
-                "windSpeed": round(data['hourly']['wind_speed_10m'][start_idx]),
-                "windDir": data['hourly']['wind_direction_10m'][start_idx],
+                "windSpeed": round(start_hour.get('wind_mph', 0)),
+                "windDir": start_hour.get('wind_degree', 0),
                 "hourly": hourly_slice
             }
             
@@ -199,10 +164,10 @@ def main():
         print(f"💤 SLEEP MODE ACTIVE: It is currently {current_est_time.strftime('%I:%M %p')} EST.")
         return
         
-    start_date = (current_est_time - timedelta(days=1)).strftime('%Y-%m-%d')
-    end_date = (current_est_time + timedelta(days=7)).strftime('%Y-%m-%d') 
+    start_date = current_est_time.strftime('%Y-%m-%d')
+    end_date = (current_est_time + timedelta(days=2)).strftime('%Y-%m-%d') 
     
-    print(f"🚀 Building WeatherMLB Master JSONs (7-Day Horizon)")
+    print(f"🚀 Building WeatherMLB Master JSONs (2-Day Horizon)")
     
     session = requests.Session()
     stadiums = load_json(STADIUMS_FILE, [])
@@ -261,11 +226,10 @@ def main():
                 last_updated = weather_data.get('lastUpdated', 0)
                 time_since_update = current_est_time.timestamp() - last_updated
                 
-                if days_away == 0 and time_since_update < 200: 
+                # Cache refresh: 5 minutes for today's games, 3 hours for tomorrow
+                if days_away == 0 and time_since_update < 300: 
                     needs_weather_fetch = False
                 elif 0 < days_away <= 2 and time_since_update < 10800: 
-                    needs_weather_fetch = False
-                elif days_away > 2 and time_since_update < 43200: 
                     needs_weather_fetch = False
                     
             if stadium and needs_weather_fetch:
@@ -274,7 +238,7 @@ def main():
                 new_weather = fetch_game_weather(session, stadium['lat'], stadium['lon'], game['gameDate'])
                 
                 if new_weather.get('temp') == '--' and weather_data and weather_data.get('temp') != '--':
-                    print("      🛡️ Fetch failed, but keeping existing cached weather to prevent data loss.")
+                    print("      🛡️ Fetch failed, keeping existing cached weather.")
                 else:
                     weather_data = new_weather
                 
@@ -284,7 +248,6 @@ def main():
             is_roof_closed = False
             is_roof_pending = False
 
-            # --- NEW: MLB OFFICIAL ROOF STATUS CHECK ---
             if stadium and stadium.get('roof'):
                 try:
                     live_feed_url = f"https://statsapi.mlb.com/api/v1.1/game/{game_pk}/feed/live"
@@ -294,10 +257,9 @@ def main():
                         game_data = live_json.get('gameData', {})
                         mlb_weather = game_data.get('weather', {})
                         
-                        # Check the official condition string from the stadium
-                        if mlb_weather.get('condition') == "Roof Closed" or mlb_weather.get('condition') == "Dome":
+                        if mlb_weather.get('condition') in ["Roof Closed", "Dome"]:
                             is_roof_closed = True
-                            print(f"      🏟️ OVERRIDE: MLB official feed confirms roof is CLOSED.")
+                            print(f"      🏟️ OVERRIDE: MLB feed confirms roof is CLOSED.")
                 except Exception as e:
                     print(f"      ⚠️ Failed to check MLB live feed for roof status: {e}")
             
@@ -306,7 +268,7 @@ def main():
                 
                 if stadium.get('dome'):
                     is_roof_closed = True
-                elif stadium.get('roof') and not is_roof_closed: # <-- Added the check here
+                elif stadium.get('roof') and not is_roof_closed:
                     temp = weather_data.get('temp', 70)
                     precip = weather_data.get('maxPrecipChance', 0)
                     

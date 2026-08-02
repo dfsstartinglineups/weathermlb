@@ -67,7 +67,6 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
     if not is_historical and days_diff > 16:
         return {"status": "too_early", "temp": "--"}
 
-    # Include `current`, `minutely_15`, and `hourly` in one call
     if is_historical or date_str == "2024-09-25":
         url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={date_str}&end_date={next_date_str}&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=GMT"
     else:
@@ -96,14 +95,16 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             try: start_idx = time_array.index(target_time_str)
             except ValueError: start_idx = 0
 
-            # Extract minutely_15 and current data if available
             minutely_data = data.get('minutely_15', {})
             m_times = minutely_data.get('time', [])
             m_precip = minutely_data.get('precipitation', [])
             m_codes = minutely_data.get('weather_code', [])
             
             current_data = data.get('current', {})
-            current_time_str = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:00')
+            
+            # --- FIX: BROAD CURRENT HOUR IDENTIFICATION ---
+            current_utc = datetime.now(timezone.utc)
+            current_hour_prefix = current_utc.strftime('%Y-%m-%dT%H') 
 
             hourly_slice = []
             max_chance_in_window = 0
@@ -114,43 +115,45 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             actual_end = min(len(time_array), start_idx + 4)
 
             for i in range(actual_start, actual_end):
-                hour_timestamp = time_array[i] # e.g., "2026-08-02T18:00"
+                hour_timestamp = time_array[i] 
                 
-                # Default hourly model values
                 prob = data['hourly'].get('precipitation_probability', [0]*len(time_array))[i] or 0
                 amount = data['hourly'].get('precipitation', [0]*len(time_array))[i] or 0
                 code = data['hourly']['weather_code'][i]
                 
-                # --- AGGREGATE 15-MINUTE DATA ---
-                # Find all 15-min intervals belonging to this hour (e.g. "2026-08-02T18:00", "18:15", "18:30", "18:45")
                 m_indices = [idx for idx, t in enumerate(m_times) if t.startswith(hour_timestamp[:13])]
                 
                 if m_indices:
                     min_precip_sum = sum(m_precip[idx] or 0 for idx in m_indices)
                     max_min_code = max((m_codes[idx] for idx in m_indices if m_codes[idx] is not None), default=code)
                     
-                    # Use 15-min data if it detected rain when hourly missed it
-                    if min_precip_sum > amount:
-                        amount = min_precip_sum
-                    if max_min_code > code:
-                        code = max_min_code
+                    if min_precip_sum > amount: amount = min_precip_sum
+                    if max_min_code > code: code = max_min_code
 
-                # --- APPLY LIVE CURRENT OVERRIDE ---
-                # If this hourly block is the current hour, factor in live observation
-                if current_data and hour_timestamp == current_time_str:
+                # --- FIX: FORCED CURRENT OVERRIDE ---
+                # Check if this hourly block belongs to the ACTIVE current hour using just the prefix (YYYY-MM-DDTHH)
+                if current_data and hour_timestamp.startswith(current_hour_prefix):
                     curr_precip = current_data.get('precipitation', 0) or 0
                     curr_code = current_data.get('weather_code', 0)
+                    
+                    # Force overwrite the hourly models if the current live reading says it's raining
                     if curr_precip > amount:
                         amount = curr_precip
                     if curr_code > code:
                         code = curr_code
 
-                # --- CALCULATE FINAL PRECIP PROBABILITY ---
+                # Open-Meteo WMO Codes:
+                # 0-3: Clear/Cloudy
+                # 51-69: Drizzle/Rain
+                # 71-77: Snow
+                # 80-82: Showers
+                # 95-99: Thunderstorms
+                
                 if amount >= 0.10: chance = max(80, prob)
                 elif amount >= 0.05: chance = max(60, prob)
                 elif amount >= 0.01: chance = max(30, prob)
                 elif amount > 0: chance = max(15, prob)
-                elif code > 3: chance = max(10, prob)
+                elif code > 3: chance = max(10, prob) # Ensure WMO codes indicating precip get at least 10%
                 else: chance = 0
 
                 is_hour_thunderstorm = 95 <= code <= 99
@@ -162,7 +165,6 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                     
                 temp_val = data['hourly']['temperature_2m'][i]
                 
-                # Keep exact original object structure
                 hourly_slice.append({
                     "timestamp": hour_timestamp + "Z",
                     "temp": round(temp_val) if temp_val is not None else "--",

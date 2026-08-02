@@ -27,7 +27,8 @@ jobs:
           pip install requests
 
       - name: Run Update Script
-        # Pointing to the new fetch_weather script in the scripts folder
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         run: python scripts/fetch_weather.py
 
       - name: Commit and Push changes

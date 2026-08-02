@@ -115,9 +115,17 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                     curr_precip = current_data.get('precip_in', 0)
                     curr_condition = current_data.get('condition', {}).get('text', '').lower()
                     
-                    if curr_precip > 0 or "rain" in curr_condition or "drizzle" in curr_condition:
-                        chance = 100
-                    if "thunder" in curr_condition:
+                    # Be strict: Only force 100% if actively raining > 0.01 inches OR if it's heavy/moderate rain
+                    is_heavy_rain_text = any(x in curr_condition for x in ["heavy rain", "moderate rain", "torrential", "thunderstorm"])
+                    is_light_rain_text = "rain" in curr_condition and not "possible" in curr_condition and not "patchy" in curr_condition
+                    
+                    if curr_precip > 0.01 or is_heavy_rain_text or (is_light_rain_text and curr_precip > 0):
+                        chance = 100 
+                    elif curr_precip > 0:
+                        # If the gauge caught a tiny bit of water but it's not heavy, bump the chance to 50% instead of 100%
+                        chance = max(chance, 50)
+                        
+                    if "thunder" in curr_condition and not "possible" in curr_condition:
                         is_hour_thunderstorm = True
                     if "snow" in curr_condition or "ice" in curr_condition:
                         is_hour_snow = True

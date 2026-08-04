@@ -24,10 +24,10 @@
                         "link": "/api/v1/teams/108"
                     },
                     "leagueRecord": {
-                        "wins": 42,
+                        "wins": 43,
                         "losses": 69,
                         "ties": 0,
-                        "pct": ".378"
+                        "pct": ".384"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -40,9 +40,58 @@
                     },
                     "leagueRecord": {
                         "wins": 54,
-                        "losses": 57,
+                        "losses": 58,
                         "ties": 0,
-                        "pct": ".486"
+                        "pct": ".482"
+                    },
+                    "probablePitcher": {
+                        "id": 687064,
+                        "fullName": "Brandon Young",
+                        "link": "/api/v1/people/687064",
+                        "firstName": "Brandon",
+                        "lastName": "Young",
+                        "primaryNumber": "63",
+                        "birthDate": "1998-08-19",
+                        "currentAge": 27,
+                        "birthCity": "Lumberton",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "6' 6\"",
+                        "weight": 230,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Brandon",
+                        "useLastName": "Young",
+                        "middleName": "Wayne",
+                        "boxscoreName": "Young",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2025-04-19",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Brandon Young",
+                        "nameSlug": "brandon-young-687064",
+                        "firstLastName": "Brandon Young",
+                        "lastFirstName": "Young, Brandon",
+                        "lastInitName": "Young, B",
+                        "initLastName": "B Young",
+                        "fullFMLName": "Brandon Wayne Young",
+                        "fullLFMName": "Young, Brandon Wayne",
+                        "strikeZoneTop": 3.478,
+                        "strikeZoneBottom": 1.755
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -57,16 +106,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 110,
-                        "name": "Baltimore Orioles",
-                        "link": "/api/v1/teams/110"
+                        "id": 108,
+                        "name": "Los Angeles Angels",
+                        "link": "/api/v1/teams/108"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 108,
-                        "name": "Los Angeles Angels",
-                        "link": "/api/v1/teams/108"
+                        "id": 110,
+                        "name": "Baltimore Orioles",
+                        "link": "/api/v1/teams/110"
                     }
                 }
             },
@@ -96,7 +145,8 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {}
         },
         "stadium": {
             "id": 2,
@@ -106,50 +156,93 @@
             "lon": -76.6216,
             "bearing": 25
         },
-        "odds": null,
+        "odds": {
+            "id": "401816384",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T22:35Z",
+            "home_team": "Baltimore Orioles",
+            "away_team": "Los Angeles Angels",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Baltimore Orioles",
+                                    "price": -136
+                                },
+                                {
+                                    "name": "Los Angeles Angels",
+                                    "price": 113
+                                }
+                            ]
+                        },
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 8.5,
+                                    "price": -115
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 8.5,
+                                    "price": -105
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688552.795249,
-            "temp": 89,
-            "humidity": 52,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816055.023526,
+            "temp": 88,
+            "humidity": 59,
+            "maxPrecipChance": 13,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 9,
+            "windSpeed": 7,
             "windDir": 203,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T15:00Z",
-                    "temp": 84,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T15:00:00Z",
+                    "temp": 85,
+                    "precipChance": 13,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T16:00Z",
-                    "temp": 89,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T16:00:00Z",
+                    "temp": 88,
+                    "precipChance": 4,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T17:00Z",
+                    "timestamp": "2026-08-06T17:00:00Z",
+                    "temp": 90,
+                    "precipChance": 7,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-06T18:00:00Z",
+                    "temp": 91,
+                    "precipChance": 4,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-06T19:00:00Z",
                     "temp": 92,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T18:00Z",
-                    "temp": 94,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T19:00Z",
-                    "temp": 92,
-                    "precipChance": 0,
+                    "precipChance": 4,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
@@ -191,9 +284,9 @@
                     },
                     "leagueRecord": {
                         "wins": 45,
-                        "losses": 66,
+                        "losses": 67,
                         "ties": 0,
-                        "pct": ".405"
+                        "pct": ".402"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -205,10 +298,10 @@
                         "link": "/api/v1/teams/113"
                     },
                     "leagueRecord": {
-                        "wins": 52,
+                        "wins": 53,
                         "losses": 58,
                         "ties": 0,
-                        "pct": ".473"
+                        "pct": ".477"
                     },
                     "probablePitcher": {
                         "id": 668881,
@@ -311,8 +404,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 2602,
@@ -322,50 +414,93 @@
             "lon": -84.5082,
             "bearing": 135
         },
-        "odds": null,
+        "odds": {
+            "id": "401816385",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T22:40Z",
+            "home_team": "Cincinnati Reds",
+            "away_team": "Athletics",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Cincinnati Reds",
+                                    "price": -142
+                                },
+                                {
+                                    "name": "Athletics",
+                                    "price": 118
+                                }
+                            ]
+                        },
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 9.0,
+                                    "price": -113
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 9.0,
+                                    "price": -107
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688553.949925,
-            "temp": 89,
-            "humidity": 47,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816056.039132,
+            "temp": 85,
+            "humidity": 59,
+            "maxPrecipChance": 17,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 10,
-            "windDir": 213,
+            "windSpeed": 5,
+            "windDir": 241,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T15:00Z",
+                    "timestamp": "2026-08-06T15:00:00Z",
+                    "temp": 83,
+                    "precipChance": 17,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-06T16:00:00Z",
                     "temp": 85,
-                    "precipChance": 0,
+                    "precipChance": 12,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T16:00Z",
-                    "temp": 89,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T17:00:00Z",
+                    "temp": 88,
+                    "precipChance": 3,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T17:00Z",
-                    "temp": 92,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T18:00:00Z",
+                    "temp": 91,
+                    "precipChance": 2,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T18:00Z",
+                    "timestamp": "2026-08-06T19:00:00Z",
                     "temp": 93,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T19:00Z",
-                    "temp": 95,
-                    "precipChance": 0,
+                    "precipChance": 2,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
@@ -407,9 +542,9 @@
                     },
                     "leagueRecord": {
                         "wins": 47,
-                        "losses": 65,
+                        "losses": 66,
                         "ties": 0,
-                        "pct": ".420"
+                        "pct": ".416"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -421,10 +556,10 @@
                         "link": "/api/v1/teams/114"
                     },
                     "leagueRecord": {
-                        "wins": 56,
+                        "wins": 57,
                         "losses": 56,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".504"
                     },
                     "probablePitcher": {
                         "id": 676440,
@@ -489,16 +624,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 121,
-                        "name": "New York Mets",
-                        "link": "/api/v1/teams/121"
+                        "id": 114,
+                        "name": "Cleveland Guardians",
+                        "link": "/api/v1/teams/114"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 114,
-                        "name": "Cleveland Guardians",
-                        "link": "/api/v1/teams/114"
+                        "id": 121,
+                        "name": "New York Mets",
+                        "link": "/api/v1/teams/121"
                     }
                 }
             },
@@ -528,8 +663,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 5,
@@ -539,59 +673,102 @@
             "lon": -81.6852,
             "bearing": 0
         },
-        "odds": null,
+        "odds": {
+            "id": "401816388",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T22:40Z",
+            "home_team": "Cleveland Guardians",
+            "away_team": "New York Mets",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 7.5,
+                                    "price": -112
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 7.5,
+                                    "price": -108
+                                }
+                            ]
+                        },
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Cleveland Guardians",
+                                    "price": -142
+                                },
+                                {
+                                    "name": "New York Mets",
+                                    "price": 118
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688555.104917,
-            "temp": 81,
-            "humidity": 77,
-            "maxPrecipChance": 60,
-            "isThunderstorm": true,
+            "lastUpdated": 1785816057.054432,
+            "temp": 78,
+            "humidity": 68,
+            "maxPrecipChance": 25,
+            "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 13,
-            "windDir": 248,
+            "windSpeed": 6,
+            "windDir": 341,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T16:00Z",
-                    "temp": 84,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T16:00:00Z",
+                    "temp": 77,
+                    "precipChance": 7,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T17:00Z",
-                    "temp": 81,
-                    "precipChance": 60,
-                    "isThunderstorm": true,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T18:00Z",
-                    "temp": 84,
-                    "precipChance": 15,
+                    "timestamp": "2026-08-06T17:00:00Z",
+                    "temp": 78,
+                    "precipChance": 19,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T19:00Z",
-                    "temp": 84,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T18:00:00Z",
+                    "temp": 79,
+                    "precipChance": 8,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T20:00Z",
-                    "temp": 84,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T19:00:00Z",
+                    "temp": 79,
+                    "precipChance": 6,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-06T20:00:00Z",
+                    "temp": 79,
+                    "precipChance": 25,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
             ]
         },
         "wind": {
-            "text": "Cross (L to R)",
-            "cssClass": "bg-cross",
-            "arrow": "\u27a1"
+            "text": "Blowing IN",
+            "cssClass": "bg-in",
+            "arrow": "\u2b07"
         },
         "roof": false,
         "roofPending": false,
@@ -623,8 +800,8 @@
                         "link": "/api/v1/teams/134"
                     },
                     "leagueRecord": {
-                        "wins": 56,
-                        "losses": 56,
+                        "wins": 57,
+                        "losses": 57,
                         "ties": 0,
                         "pct": ".500"
                     },
@@ -687,9 +864,9 @@
                     },
                     "leagueRecord": {
                         "wins": 69,
-                        "losses": 41,
+                        "losses": 43,
                         "ties": 0,
-                        "pct": ".627"
+                        "pct": ".616"
                     },
                     "probablePitcher": {
                         "id": 675660,
@@ -792,8 +969,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 32,
@@ -805,10 +981,10 @@
             "roof": true
         },
         "odds": {
-            "id": "401816380",
+            "id": "401816393",
             "sport_key": "baseball_mlb",
             "sport_title": "MLB",
-            "commence_time": "2026-08-03T23:40Z",
+            "commence_time": "2026-08-04T23:40Z",
             "home_team": "Milwaukee Brewers",
             "away_team": "Pittsburgh Pirates",
             "bookmakers": [
@@ -821,11 +997,11 @@
                             "outcomes": [
                                 {
                                     "name": "Milwaukee Brewers",
-                                    "price": -144
+                                    "price": -164
                                 },
                                 {
                                     "name": "Pittsburgh Pirates",
-                                    "price": 119
+                                    "price": 136
                                 }
                             ]
                         },
@@ -834,13 +1010,13 @@
                             "outcomes": [
                                 {
                                     "name": "Over",
-                                    "point": 8.5,
-                                    "price": -108
+                                    "point": 7.5,
+                                    "price": -115
                                 },
                                 {
                                     "name": "Under",
-                                    "point": 8.5,
-                                    "price": -112
+                                    "point": 7.5,
+                                    "price": -105
                                 }
                             ]
                         }
@@ -850,56 +1026,49 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688556.260181,
-            "temp": 78,
-            "humidity": 58,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816058.070185,
+            "temp": 62,
+            "humidity": 87,
+            "maxPrecipChance": 14,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 6,
-            "windDir": 55,
+            "windDir": 3,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T17:00Z",
-                    "temp": 76,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T05:00:00Z",
+                    "temp": 62,
+                    "precipChance": 12,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T18:00Z",
-                    "temp": 78,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T06:00:00Z",
+                    "temp": 61,
+                    "precipChance": 13,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T19:00Z",
-                    "temp": 78,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T07:00:00Z",
+                    "temp": 61,
+                    "precipChance": 14,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T20:00Z",
-                    "temp": 78,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T21:00Z",
-                    "temp": 78,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T08:00:00Z",
+                    "temp": 60,
+                    "precipChance": 14,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
             ]
         },
         "wind": {
-            "text": "Cross (L to R)",
-            "cssClass": "bg-cross",
-            "arrow": "\u27a1"
+            "text": "Out to Right",
+            "cssClass": "bg-out",
+            "arrow": "\u2197"
         },
         "roof": false,
         "roofPending": false,
@@ -933,10 +1102,10 @@
                         "link": "/api/v1/teams/141"
                     },
                     "leagueRecord": {
-                        "wins": 52,
-                        "losses": 59,
+                        "wins": 53,
+                        "losses": 60,
                         "ties": 0,
-                        "pct": ".468"
+                        "pct": ".469"
                     },
                     "splitSquad": false,
                     "seriesNumber": 38
@@ -948,10 +1117,10 @@
                         "link": "/api/v1/teams/112"
                     },
                     "leagueRecord": {
-                        "wins": 63,
-                        "losses": 48,
+                        "wins": 64,
+                        "losses": 49,
                         "ties": 0,
-                        "pct": ".568"
+                        "pct": ".566"
                     },
                     "splitSquad": false,
                     "seriesNumber": 38
@@ -1019,47 +1188,40 @@
         "odds": null,
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688557.507808,
-            "temp": 71,
-            "humidity": 86,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816059.174025,
+            "temp": 68,
+            "humidity": 91,
+            "maxPrecipChance": 15,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 9,
-            "windDir": 28,
+            "windSpeed": 10,
+            "windDir": 17,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T17:00Z",
-                    "temp": 70,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T05:00:00Z",
+                    "temp": 68,
+                    "precipChance": 14,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T18:00Z",
-                    "temp": 71,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T06:00:00Z",
+                    "temp": 68,
+                    "precipChance": 15,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T19:00Z",
-                    "temp": 73,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T07:00:00Z",
+                    "temp": 68,
+                    "precipChance": 14,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T20:00Z",
-                    "temp": 74,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T21:00Z",
-                    "temp": 74,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T08:00:00Z",
+                    "temp": 68,
+                    "precipChance": 14,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
@@ -1100,10 +1262,10 @@
                         "link": "/api/v1/teams/116"
                     },
                     "leagueRecord": {
-                        "wins": 53,
+                        "wins": 54,
                         "losses": 58,
                         "ties": 0,
-                        "pct": ".477"
+                        "pct": ".482"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1115,10 +1277,59 @@
                         "link": "/api/v1/teams/136"
                     },
                     "leagueRecord": {
-                        "wins": 54,
+                        "wins": 55,
                         "losses": 58,
                         "ties": 0,
-                        "pct": ".482"
+                        "pct": ".487"
+                    },
+                    "probablePitcher": {
+                        "id": 682243,
+                        "fullName": "Bryce Miller",
+                        "link": "/api/v1/people/682243",
+                        "firstName": "Bryce",
+                        "lastName": "Miller",
+                        "primaryNumber": "50",
+                        "birthDate": "1998-08-23",
+                        "currentAge": 27,
+                        "birthCity": "Mount Pleasant",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Bryce",
+                        "useLastName": "Miller",
+                        "middleName": "Austen",
+                        "boxscoreName": "Miller, B",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2023-05-02",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Bryce Miller",
+                        "nameSlug": "bryce-miller-682243",
+                        "firstLastName": "Bryce Miller",
+                        "lastFirstName": "Miller, Bryce",
+                        "lastInitName": "Miller, B",
+                        "initLastName": "B Miller",
+                        "fullFMLName": "Bryce Austen Miller",
+                        "fullLFMName": "Miller, Bryce Austen",
+                        "strikeZoneTop": 3.299,
+                        "strikeZoneBottom": 1.665
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1133,16 +1344,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 136,
-                        "name": "Seattle Mariners",
-                        "link": "/api/v1/teams/136"
+                        "id": 116,
+                        "name": "Detroit Tigers",
+                        "link": "/api/v1/teams/116"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 116,
-                        "name": "Detroit Tigers",
-                        "link": "/api/v1/teams/116"
+                        "id": 136,
+                        "name": "Seattle Mariners",
+                        "link": "/api/v1/teams/136"
                     }
                 }
             },
@@ -1172,7 +1383,8 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {}
         },
         "stadium": {
             "id": 680,
@@ -1186,59 +1398,52 @@
         "odds": null,
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688558.662432,
-            "temp": 94,
-            "humidity": 20,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816060.189716,
+            "temp": 56,
+            "humidity": 80,
+            "maxPrecipChance": 11,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 1,
-            "windDir": 292,
+            "windSpeed": 2,
+            "windDir": 55,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T19:00Z",
-                    "temp": 90,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T07:00:00Z",
+                    "temp": 56,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T20:00Z",
-                    "temp": 94,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T08:00:00Z",
+                    "temp": 54,
+                    "precipChance": 11,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T21:00Z",
-                    "temp": 96,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T09:00:00Z",
+                    "temp": 54,
+                    "precipChance": 11,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T22:00Z",
-                    "temp": 98,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T23:00Z",
-                    "temp": 98,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T10:00:00Z",
+                    "temp": 53,
+                    "precipChance": 11,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
             ]
         },
         "wind": {
-            "text": "Cross (L to R)",
-            "cssClass": "bg-cross",
-            "arrow": "\u27a1"
+            "text": "Blowing IN",
+            "cssClass": "bg-in",
+            "arrow": "\u2b07"
         },
         "roof": false,
-        "roofPending": true,
+        "roofPending": false,
         "lineupHandedness": {},
         "lineupPositions": {}
     },
@@ -1268,58 +1473,9 @@
                     },
                     "leagueRecord": {
                         "wins": 55,
-                        "losses": 57,
+                        "losses": 59,
                         "ties": 0,
-                        "pct": ".491"
-                    },
-                    "probablePitcher": {
-                        "id": 656492,
-                        "fullName": "Foster Griffin",
-                        "link": "/api/v1/people/656492",
-                        "firstName": "Fred",
-                        "lastName": "Griffin",
-                        "primaryNumber": "22",
-                        "birthDate": "1995-07-27",
-                        "currentAge": 31,
-                        "birthCity": "Orlando",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 225,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Foster",
-                        "useLastName": "Griffin",
-                        "middleName": "Foster",
-                        "boxscoreName": "Griffin",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2014,
-                        "mlbDebutDate": "2020-07-27",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Foster Griffin",
-                        "nameSlug": "foster-griffin-656492",
-                        "firstLastName": "Foster Griffin",
-                        "lastFirstName": "Griffin, Foster",
-                        "lastInitName": "Griffin, F",
-                        "initLastName": "F Griffin",
-                        "fullFMLName": "Fred Foster Griffin",
-                        "fullLFMName": "Griffin, Fred Foster",
-                        "strikeZoneTop": 3.344,
-                        "strikeZoneBottom": 1.688
+                        "pct": ".482"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1331,10 +1487,10 @@
                         "link": "/api/v1/teams/143"
                     },
                     "leagueRecord": {
-                        "wins": 58,
+                        "wins": 60,
                         "losses": 53,
                         "ties": 0,
-                        "pct": ".523"
+                        "pct": ".531"
                     },
                     "probablePitcher": {
                         "id": 650911,
@@ -1448,50 +1604,93 @@
             "lon": -75.1665,
             "bearing": 10
         },
-        "odds": null,
+        "odds": {
+            "id": "401816390",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T22:40Z",
+            "home_team": "Philadelphia Phillies",
+            "away_team": "Washington Nationals",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Philadelphia Phillies",
+                                    "price": -230
+                                },
+                                {
+                                    "name": "Washington Nationals",
+                                    "price": 187
+                                }
+                            ]
+                        },
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 9.0,
+                                    "price": -101
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 9.0,
+                                    "price": -119
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688559.909167,
-            "temp": 91,
-            "humidity": 49,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816061.295084,
+            "temp": 90,
+            "humidity": 50,
+            "maxPrecipChance": 20,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 11,
-            "windDir": 215,
+            "windSpeed": 8,
+            "windDir": 220,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T21:00Z",
-                    "temp": 92,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-06T22:00Z",
+                    "timestamp": "2026-08-06T21:00:00Z",
                     "temp": 91,
-                    "precipChance": 0,
+                    "precipChance": 8,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T23:00Z",
-                    "temp": 88,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T22:00:00Z",
+                    "temp": 90,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T00:00Z",
-                    "temp": 87,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-06T23:00:00Z",
+                    "temp": 89,
+                    "precipChance": 5,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T01:00Z",
-                    "temp": 85,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-07T00:00:00Z",
+                    "temp": 86,
+                    "precipChance": 6,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-07T01:00:00Z",
+                    "temp": 84,
+                    "precipChance": 20,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
@@ -1532,10 +1731,58 @@
                         "link": "/api/v1/teams/145"
                     },
                     "leagueRecord": {
-                        "wins": 58,
+                        "wins": 59,
                         "losses": 52,
                         "ties": 0,
-                        "pct": ".527"
+                        "pct": ".532"
+                    },
+                    "probablePitcher": {
+                        "id": 622491,
+                        "fullName": "Luis Castillo",
+                        "link": "/api/v1/people/622491",
+                        "firstName": "Luis",
+                        "lastName": "Castillo",
+                        "primaryNumber": "58",
+                        "birthDate": "1992-12-12",
+                        "currentAge": 33,
+                        "birthCity": "Bani",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 2\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Luis",
+                        "useLastName": "Castillo",
+                        "middleName": "Miguel",
+                        "boxscoreName": "Castillo, L",
+                        "nickName": "La Piedra",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2017-06-23",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luis Castillo",
+                        "nameSlug": "luis-castillo-622491",
+                        "firstLastName": "Luis Castillo",
+                        "lastFirstName": "Castillo, Luis",
+                        "lastInitName": "Castillo, L",
+                        "initLastName": "L Castillo",
+                        "fullFMLName": "Luis Miguel Castillo",
+                        "fullLFMName": "Castillo, Luis Miguel",
+                        "strikeZoneTop": 3.44,
+                        "strikeZoneBottom": 1.59
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1547,10 +1794,10 @@
                         "link": "/api/v1/teams/111"
                     },
                     "leagueRecord": {
-                        "wins": 59,
+                        "wins": 60,
                         "losses": 51,
                         "ties": 0,
-                        "pct": ".536"
+                        "pct": ".541"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1565,16 +1812,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 111,
-                        "name": "Boston Red Sox",
-                        "link": "/api/v1/teams/111"
+                        "id": 145,
+                        "name": "Chicago White Sox",
+                        "link": "/api/v1/teams/145"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 145,
-                        "name": "Chicago White Sox",
-                        "link": "/api/v1/teams/145"
+                        "id": 111,
+                        "name": "Boston Red Sox",
+                        "link": "/api/v1/teams/111"
                     }
                 }
             },
@@ -1614,50 +1861,93 @@
             "lon": -71.0972,
             "bearing": 45
         },
-        "odds": null,
+        "odds": {
+            "id": "401816386",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T23:10Z",
+            "home_team": "Boston Red Sox",
+            "away_team": "Chicago White Sox",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Boston Red Sox",
+                                    "price": -122
+                                },
+                                {
+                                    "name": "Chicago White Sox",
+                                    "price": 102
+                                }
+                            ]
+                        },
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 9.0,
+                                    "price": -105
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 9.0,
+                                    "price": -115
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688561.063626,
-            "temp": 85,
-            "humidity": 61,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816062.310819,
+            "temp": 84,
+            "humidity": 67,
+            "maxPrecipChance": 18,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 10,
-            "windDir": 208,
+            "windSpeed": 6,
+            "windDir": 214,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T22:00Z",
+                    "timestamp": "2026-08-06T22:00:00Z",
+                    "temp": 87,
+                    "precipChance": 5,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-06T23:00:00Z",
                     "temp": 84,
-                    "precipChance": 0,
+                    "precipChance": 7,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T23:00Z",
-                    "temp": 85,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-07T00:00:00Z",
+                    "temp": 80,
+                    "precipChance": 18,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T00:00Z",
-                    "temp": 82,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-07T01:00Z",
-                    "temp": 79,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-07T02:00Z",
+                    "timestamp": "2026-08-07T01:00:00Z",
                     "temp": 78,
-                    "precipChance": 0,
+                    "precipChance": 12,
+                    "isThunderstorm": false,
+                    "isSnow": false
+                },
+                {
+                    "timestamp": "2026-08-07T02:00:00Z",
+                    "temp": 78,
+                    "precipChance": 12,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
@@ -1698,10 +1988,10 @@
                         "link": "/api/v1/teams/146"
                     },
                     "leagueRecord": {
-                        "wins": 57,
+                        "wins": 58,
                         "losses": 55,
                         "ties": 0,
-                        "pct": ".509"
+                        "pct": ".513"
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1713,25 +2003,24 @@
                         "link": "/api/v1/teams/144"
                     },
                     "leagueRecord": {
-                        "wins": 66,
+                        "wins": 67,
                         "losses": 45,
                         "ties": 0,
-                        "pct": ".595"
+                        "pct": ".598"
                     },
                     "probablePitcher": {
-                        "id": 693821,
-                        "fullName": "Bryce Elder",
-                        "link": "/api/v1/people/693821",
-                        "firstName": "Bryce",
-                        "lastName": "Elder",
-                        "primaryNumber": "55",
-                        "birthDate": "1999-05-19",
-                        "currentAge": 27,
-                        "birthCity": "Decatur",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 220,
+                        "id": 527048,
+                        "fullName": "Mart\u00edn P\u00e9rez",
+                        "link": "/api/v1/people/527048",
+                        "firstName": "Mart\u00edn",
+                        "lastName": "P\u00e9rez",
+                        "primaryNumber": "33",
+                        "birthDate": "1991-04-04",
+                        "currentAge": 35,
+                        "birthCity": "Guanare",
+                        "birthCountry": "Venezuela",
+                        "height": "6' 0\"",
+                        "weight": 210,
                         "active": true,
                         "primaryPosition": {
                             "code": "1",
@@ -1739,33 +2028,34 @@
                             "type": "Pitcher",
                             "abbreviation": "P"
                         },
-                        "useName": "Bryce",
-                        "useLastName": "Elder",
-                        "middleName": "Cason",
-                        "boxscoreName": "Elder",
+                        "useName": "Mart\u00edn",
+                        "useLastName": "P\u00e9rez",
+                        "boxscoreName": "P\u00e9rez, M",
+                        "nickName": "El De Las Matas",
                         "gender": "M",
+                        "nameMatrilineal": "Jimenez",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2020,
-                        "mlbDebutDate": "2022-04-12",
+                        "pronunciation": "mar-TEEN",
+                        "mlbDebutDate": "2012-06-27",
                         "batSide": {
-                            "code": "R",
-                            "description": "Right"
+                            "code": "L",
+                            "description": "Left"
                         },
                         "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
+                            "code": "L",
+                            "description": "Left"
                         },
-                        "nameFirstLast": "Bryce Elder",
-                        "nameSlug": "bryce-elder-693821",
-                        "firstLastName": "Bryce Elder",
-                        "lastFirstName": "Elder, Bryce",
-                        "lastInitName": "Elder, B",
-                        "initLastName": "B Elder",
-                        "fullFMLName": "Bryce Cason Elder",
-                        "fullLFMName": "Elder, Bryce Cason",
-                        "strikeZoneTop": 3.299,
-                        "strikeZoneBottom": 1.665
+                        "nameFirstLast": "Mart\u00edn P\u00e9rez",
+                        "nameSlug": "martin-perez-527048",
+                        "firstLastName": "Mart\u00edn P\u00e9rez",
+                        "lastFirstName": "P\u00e9rez, Mart\u00edn",
+                        "lastInitName": "P\u00e9rez, M",
+                        "initLastName": "M P\u00e9rez",
+                        "fullFMLName": "Mart\u00edn P\u00e9rez",
+                        "fullLFMName": "P\u00e9rez, Mart\u00edn",
+                        "strikeZoneTop": 3.21,
+                        "strikeZoneBottom": 1.62
                     },
                     "splitSquad": false,
                     "seriesNumber": 37
@@ -1830,59 +2120,102 @@
             "lon": -84.4677,
             "bearing": 145
         },
-        "odds": null,
+        "odds": {
+            "id": "401816387",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T23:15Z",
+            "home_team": "Atlanta Braves",
+            "away_team": "Miami Marlins",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Atlanta Braves",
+                                    "price": -136
+                                },
+                                {
+                                    "name": "Miami Marlins",
+                                    "price": 113
+                                }
+                            ]
+                        },
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 9.0,
+                                    "price": -120
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 9.0,
+                                    "price": 100
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688562.219136,
-            "temp": 74,
-            "humidity": 90,
-            "maxPrecipChance": 80,
+            "lastUpdated": 1785816063.326782,
+            "temp": 86,
+            "humidity": 51,
+            "maxPrecipChance": 36,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 9,
-            "windDir": 283,
+            "windSpeed": 2,
+            "windDir": 42,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T22:00Z",
-                    "temp": 88,
-                    "precipChance": 15,
+                    "timestamp": "2026-08-06T22:00:00Z",
+                    "temp": 87,
+                    "precipChance": 10,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T23:00Z",
-                    "temp": 74,
-                    "precipChance": 80,
+                    "timestamp": "2026-08-06T23:00:00Z",
+                    "temp": 86,
+                    "precipChance": 5,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T00:00Z",
-                    "temp": 73,
-                    "precipChance": 80,
+                    "timestamp": "2026-08-07T00:00:00Z",
+                    "temp": 81,
+                    "precipChance": 6,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T01:00Z",
-                    "temp": 73,
-                    "precipChance": 60,
+                    "timestamp": "2026-08-07T01:00:00Z",
+                    "temp": 79,
+                    "precipChance": 36,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T02:00Z",
-                    "temp": 76,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-07T02:00:00Z",
+                    "temp": 78,
+                    "precipChance": 7,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
             ]
         },
         "wind": {
-            "text": "Out to Left",
-            "cssClass": "bg-out",
-            "arrow": "\u2196"
+            "text": "Cross (L to R)",
+            "cssClass": "bg-cross",
+            "arrow": "\u27a1"
         },
         "roof": false,
         "roofPending": false,
@@ -1915,9 +2248,9 @@
                     },
                     "leagueRecord": {
                         "wins": 56,
-                        "losses": 56,
+                        "losses": 57,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".496"
                     },
                     "probablePitcher": {
                         "id": 641927,
@@ -1981,9 +2314,9 @@
                     },
                     "leagueRecord": {
                         "wins": 46,
-                        "losses": 66,
+                        "losses": 67,
                         "ties": 0,
-                        "pct": ".411"
+                        "pct": ".407"
                     },
                     "probablePitcher": {
                         "id": 608379,
@@ -2088,8 +2421,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 7,
@@ -2099,59 +2431,95 @@
             "lon": -94.4803,
             "bearing": 45
         },
-        "odds": null,
+        "odds": {
+            "id": "401816392",
+            "sport_key": "baseball_mlb",
+            "sport_title": "MLB",
+            "commence_time": "2026-08-04T23:40Z",
+            "home_team": "Kansas City Royals",
+            "away_team": "Minnesota Twins",
+            "bookmakers": [
+                {
+                    "key": "draftkings",
+                    "title": "DraftKings",
+                    "markets": [
+                        {
+                            "key": "h2h",
+                            "outcomes": [
+                                {
+                                    "name": "Kansas City Royals",
+                                    "price": 123
+                                },
+                                {
+                                    "name": "Minnesota Twins",
+                                    "price": -149
+                                }
+                            ]
+                        },
+                        {
+                            "key": "totals",
+                            "outcomes": [
+                                {
+                                    "name": "Over",
+                                    "point": 9.0,
+                                    "price": -115
+                                },
+                                {
+                                    "name": "Under",
+                                    "point": 9.0,
+                                    "price": -105
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1785688563.374196,
-            "temp": 88,
-            "humidity": 48,
-            "maxPrecipChance": 0,
+            "lastUpdated": 1785816064.342651,
+            "temp": 72,
+            "humidity": 78,
+            "maxPrecipChance": 10,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 7,
-            "windDir": 101,
+            "windSpeed": 3,
+            "windDir": 165,
             "hourly": [
                 {
-                    "timestamp": "2026-08-06T22:00Z",
-                    "temp": 89,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T05:00:00Z",
+                    "temp": 72,
+                    "precipChance": 8,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-06T23:00Z",
-                    "temp": 88,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T06:00:00Z",
+                    "temp": 72,
+                    "precipChance": 7,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T00:00Z",
-                    "temp": 85,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T07:00:00Z",
+                    "temp": 70,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false
                 },
                 {
-                    "timestamp": "2026-08-07T01:00Z",
-                    "temp": 80,
-                    "precipChance": 0,
-                    "isThunderstorm": false,
-                    "isSnow": false
-                },
-                {
-                    "timestamp": "2026-08-07T02:00Z",
-                    "temp": 77,
-                    "precipChance": 0,
+                    "timestamp": "2026-08-03T08:00:00Z",
+                    "temp": 69,
+                    "precipChance": 10,
                     "isThunderstorm": false,
                     "isSnow": false
                 }
             ]
         },
         "wind": {
-            "text": "In from Right",
-            "cssClass": "bg-in",
-            "arrow": "\u2199"
+            "text": "Out to Left",
+            "cssClass": "bg-out",
+            "arrow": "\u2196"
         },
         "roof": false,
         "roofPending": false,
@@ -2183,10 +2551,10 @@
                         "link": "/api/v1/teams/135"
                     },
                     "leagueRecord": {
-                        "wins": 57,
+                        "wins": 58,
                         "losses": 54,
                         "ties": 0,
-                        "pct": ".514"
+                        "pct": ".518"
                     },
                     "probablePitcher": {
                         "id": 621111,
@@ -2250,9 +2618,9 @@
                     },
                     "leagueRecord": {
                         "wins": 59,
-                        "losses": 52,
+                        "losses": 53,
                         "ties": 0,
-                        "pct": ".532"
+                        "pct": ".527"
                     },
                     "probablePitcher": {
                         "id": 684442,
@@ -2355,8 +2723,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 15,
@@ -2384,11 +2751,11 @@
                             "outcomes": [
                                 {
                                     "name": "Arizona Diamondbacks",
-                                    "price": -110
+                                    "price": -114
                                 },
                                 {
                                     "name": "San Diego Padres",
-                                    "price": -110
+                                    "price": -105
                                 }
                             ]
                         },
@@ -2397,13 +2764,13 @@
                             "outcomes": [
                                 {
                                     "name": "Over",
-                                    "point": 8.0,
-                                    "price": -120
+                                    "point": 9.0,
+                                    "price": -103
                                 },
                                 {
                                     "name": "Under",
-                                    "point": 8.0,
-                                    "price": -101
+                                    "point": 9.0,
+                                    "price": -117
                                 }
                             ]
                         }

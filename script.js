@@ -433,13 +433,23 @@ function createGameCard(data) {
                         dateObj.setHours(h.hour, 0, 0, 0); 
                     }
 
-                    const hour12 = dateObj.getHours() % 12 || 12;
-                    const ampm = dateObj.getHours() >= 12 ? 'PM' : 'AM';
-                    const timeLabel = `${hour12}${ampm}`;
+                    // Force the time display to Eastern Time (ET) to match MLB slate times
+                    const timeLabel = new Intl.DateTimeFormat('en-US', { 
+                        hour: 'numeric', 
+                        hour12: true, 
+                        timeZone: 'America/New_York' 
+                    }).format(dateObj).replace(' ', '');
 
                     let icon = '';
                     let popHtml = '&nbsp;'; 
-                    const isNight = h.hour >= 20 || h.hour < 6;
+                    
+                    // Derive hour in Eastern Time for day/night icon selection
+                    const etHour = parseInt(new Intl.DateTimeFormat('en-US', { 
+                        hour: 'numeric', 
+                        hour12: false, 
+                        timeZone: 'America/New_York' 
+                    }).format(dateObj), 10);
+                    const isNight = etHour >= 20 || etHour < 6;
 
                     if (h.precipChance >= 30) {
                         if (h.isThunderstorm) icon = '⛈️';

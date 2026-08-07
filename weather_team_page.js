@@ -137,10 +137,38 @@ function createStandaloneWeatherCard(data) {
         else if (weather.hourly?.length > 0) {
             const hoursMarkup = weather.hourly.map(h => {
                 const dateObj = h.timestamp ? new Date(h.timestamp) : new Date();
-                const hr12 = dateObj.getHours() % 12 || 12;
-                const ampm = dateObj.getHours() >= 12 ? 'PM' : 'AM';
-                let icon = h.precipChance >= 30 ? (h.isThunderstorm ? '⛈️' : '🌧️') : (dateObj.getHours() >= 20 || dateObj.getHours() < 6 ? '🌙' : '☀️');
-                return `<div class="hour-card"><div class="hour-time">${hr12}${ampm}</div><div class="hour-icon">${icon}</div><div class="hour-pop">${h.precipChance >= 20 ? h.precipChance+'%' : '&nbsp;'}</div><div class="hour-temp">${h.temp}°</div></div>`;
+
+                // Force the time display to Eastern Time (ET) to match MLB slate times
+                const timeLabel = new Intl.DateTimeFormat('en-US', { 
+                    hour: 'numeric', 
+                    hour12: true, 
+                    timeZone: 'America/New_York' 
+                }).format(dateObj).replace(' ', '');
+
+                let icon = '';
+                let popHtml = '&nbsp;'; 
+
+                // Derive hour in Eastern Time for day/night icon selection
+                const etHour = parseInt(new Intl.DateTimeFormat('en-US', { 
+                    hour: 'numeric', 
+                    hour12: false, 
+                    timeZone: 'America/New_York' 
+                }).format(dateObj), 10);
+                const isNight = etHour >= 20 || etHour < 6;
+
+                if (h.precipChance >= 30) {
+                    if (h.isThunderstorm) icon = '⛈️';
+                    else if (h.isSnow) icon = '🌨️';
+                    else icon = '🌧️';
+                    popHtml = `${h.precipChance}%`;
+                } else if (h.precipChance > 0) {
+                    icon = '⛅'; 
+                    popHtml = `${h.precipChance}%`;
+                } else {
+                    icon = isNight ? '🌙' : '☀️';
+                }
+
+                return `<div class="hour-card"><div class="hour-time">${timeLabel}</div><div class="hour-icon">${icon}</div><div class="hour-pop">${popHtml}</div><div class="hour-temp">${h.temp}°</div></div>`;
             }).join('');
             hourlyHtml = `<div class="hourly-scroll-container">${hoursMarkup}</div>`;
         }

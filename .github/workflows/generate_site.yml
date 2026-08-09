@@ -3,6 +3,9 @@ name: Generate Static Weather Site
 on:
   workflow_dispatch: # Allows you to manually trigger the script from the Actions tab
 
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

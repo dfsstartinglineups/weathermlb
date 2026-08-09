@@ -66,12 +66,24 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
     today_utc = datetime.now(timezone.utc).date()
     days_diff = (utc_time.date() - today_utc).days
 
-    # Strictly 2-day horizon (today and tomorrow)
     if days_diff > 2 or days_diff < 0:
         return {"status": "too_early", "temp": "--"}
 
-    # Tomorrow.io API Endpoint (v4 Forecast) - Forcing Imperial units
-    url = f"https://api.tomorrow.io/v4/weather/forecast?location={lat},{lon}&units=imperial&apikey={WEATHER_API_KEY}"
+    # Define exact start and end times for the Timeline endpoint
+    start_time = (utc_time - timedelta(hours=1)).strftime('%Y-%m-%dT%H:00:00Z')
+    end_time = (utc_time + timedelta(hours=4)).strftime('%Y-%m-%dT%H:00:00Z')
+
+    # Use /v4/timelines to request the exact 5-hour game window
+    url = (
+        f"https://api.tomorrow.io/v4/timelines"
+        f"?location={lat},{lon}"
+        f"&fields=temperature,humidity,precipitationProbability,weatherCode,windSpeed,windDirection"
+        f"&timesteps=1h"
+        f"&units=imperial"
+        f"&startTime={start_time}"
+        f"&endTime={end_time}"
+        f"&apikey={WEATHER_API_KEY}"
+    )
 
     max_retries = 3
     for attempt in range(max_retries):
@@ -84,40 +96,19 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                 return {"temp": "--", "hourly": []}
             
             data = res.json()
-            all_hours = data.get('timelines', {}).get('hourly', [])
-            if not all_hours:
+            timelines = data.get('data', {}).get('timelines', [])
+            if not timelines:
                 return {"temp": "--", "hourly": []}
-            
-            # Target game time normalized to top of the hour
-            target_time = utc_time.replace(minute=0, second=0, microsecond=0)
-            
-            # Find the index corresponding to game start time
-            start_idx = None
-            for i, h in enumerate(all_hours):
-                h_time = datetime.fromisoformat(h['time'].replace('Z', '+00:00')).replace(minute=0, second=0, microsecond=0)
-                if h_time == target_time:
-                    start_idx = i
-                    break
-
-            # Fallback: locate closest hour if exact match fails (prevents defaulting to index 0)
-            if start_idx is None:
-                start_idx = min(
-                    range(len(all_hours)),
-                    key=lambda i: abs((datetime.fromisoformat(all_hours[i]['time'].replace('Z', '+00:00')) - target_time).total_seconds())
-                )
-
-            # Retrieves: 1 hour before (-1), game hour (0), and next 4 hours (+1, +2, +3, +4)
-            actual_start = max(0, start_idx - 1)
-            actual_end = min(len(all_hours), start_idx + 5)
+                
+            intervals = timelines[0].get('intervals', [])
             
             hourly_slice = []
             max_chance_in_window = 0
             is_game_thunderstorm = False
             is_game_snow = False
 
-            for i in range(actual_start, actual_end):
-                hour = all_hours[i]
-                hour_time_str = hour.get('time')
+            for hour in intervals:
+                hour_time_str = hour.get('startTime')
                 vals = hour.get('values', {})
                 
                 chance = int(vals.get('precipitationProbability', 0))
@@ -138,7 +129,8 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                     "isSnow": is_hour_snow
                 })
 
-            start_hour_vals = all_hours[start_idx].get('values', {})
+            # The game start time is usually index 1 (since index 0 is 1 hour prior)
+            start_hour_vals = intervals[1].get('values', {}) if len(intervals) > 1 else intervals[0].get('values', {})
             
             return {
                 "status": "ok",
@@ -227,9 +219,13 @@ def main():
             if stadium and weather_data and weather_data.get('temp') != '--':
                 last_updated = weather_data.get('lastUpdated', 0)
                 time_since_update = current_est_time.timestamp() - last_updated
+                game_status = game.get('status', {}).get('abstractGameState', '')
                 
+                # Freeze weather updates for completed games
+                if game_status in ['Final', 'Game Over']:
+                    needs_weather_fetch = False
                 # Cache refresh: 5 minutes for today's games, 3 hours for tomorrow
-                if days_away == 0 and time_since_update < 200: 
+                elif days_away == 0 and time_since_update < 200: 
                     needs_weather_fetch = False
                 elif 0 < days_away <= 2 and time_since_update < 10800: 
                     needs_weather_fetch = False

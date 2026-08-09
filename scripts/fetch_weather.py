@@ -70,7 +70,8 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
     if days_diff > 2 or days_diff < 0:
         return {"status": "too_early", "temp": "--"}
 
-    url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={lat},{lon}&days=3&aqi=no&alerts=no"
+    # Tomorrow.io API Endpoint (v4 Forecast) - Forcing Imperial units
+    url = f"https://api.tomorrow.io/v4/weather/forecast?location={lat},{lon}&units=imperial&apikey={WEATHER_API_KEY}"
 
     max_retries = 3
     for attempt in range(max_retries):
@@ -79,88 +80,73 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             res = session.get(url, timeout=15) 
             
             if res.status_code != 200: 
-                print(f"⚠️ WeatherAPI returned status code {res.status_code}")
+                print(f"⚠️ Tomorrow.io returned status code {res.status_code}: {res.text}")
                 return {"temp": "--", "hourly": []}
             
             data = res.json()
-            current_data = data.get('current', {})
-            current_epoch = int(datetime.now(timezone.utc).timestamp())
             
-            all_hours = []
-            for day in data.get('forecast', {}).get('forecastday', []):
-                all_hours.extend(day.get('hour', []))
-                
+            # Tomorrow.io returns hourly data inside timelines.hourly
+            all_hours = data.get('timelines', {}).get('hourly', [])
+            
             target_epoch = int(utc_time.replace(minute=0, second=0, microsecond=0).timestamp())
-            start_idx = next((i for i, h in enumerate(all_hours) if h['time_epoch'] == target_epoch), 0)
+            
+            # Find the starting index for our game time by matching the UTC timestamps
+            start_idx = next((i for i, h in enumerate(all_hours) if int(datetime.fromisoformat(h['time'].replace('Z', '+00:00')).timestamp()) == target_epoch), 0)
 
             hourly_slice = []
             max_chance_in_window = 0
             is_game_thunderstorm = False
             is_game_snow = False
 
+            # Grab the hour before and up to 4 hours after the start of the game
             actual_start = max(0, start_idx - 1)
             actual_end = min(len(all_hours), start_idx + 4)
-
+            
             for i in range(actual_start, actual_end):
                 hour = all_hours[i]
+                hour_time_str = hour.get('time')
+                vals = hour.get('values', {})
                 
-                chance = hour.get('chance_of_rain', 0)
-                condition_text = hour.get('condition', {}).get('text', '').lower()
-                is_hour_thunderstorm = "thunder" in condition_text
-                is_hour_snow = "snow" in condition_text or "ice" in condition_text or "blizzard" in condition_text
+                # Precipitation chance is now mapped directly to their probability field
+                chance = int(vals.get('precipitationProbability', 0))
+                weather_code = vals.get('weatherCode', 1000)
                 
-                # Live observation override for the current hour block
-                is_current_hour = (hour['time_epoch'] <= current_epoch < hour['time_epoch'] + 3600)
-                if is_current_hour and current_data:
-                    curr_precip = current_data.get('precip_in', 0)
-                    curr_condition = current_data.get('condition', {}).get('text', '').lower()
-                    
-                    # Be strict: Only force 100% if actively raining > 0.01 inches OR if it's heavy/moderate rain
-                    is_heavy_rain_text = any(x in curr_condition for x in ["heavy rain", "moderate rain", "torrential", "thunderstorm"])
-                    is_light_rain_text = "rain" in curr_condition and not "possible" in curr_condition and not "patchy" in curr_condition
-                    
-                    if curr_precip > 0.01 or is_heavy_rain_text or (is_light_rain_text and curr_precip > 0):
-                        chance = 100 
-                    elif curr_precip > 0:
-                        # If the gauge caught a tiny bit of water but it's not heavy, bump the chance to 50% instead of 100%
-                        chance = max(chance, 50)
-                        
-                    if "thunder" in curr_condition and not "possible" in curr_condition:
-                        is_hour_thunderstorm = True
-                    if "snow" in curr_condition or "ice" in curr_condition:
-                        is_hour_snow = True
-
+                # Thunderstorm code in Tomorrow.io is exactly 8000
+                is_hour_thunderstorm = (weather_code == 8000)
+                
+                # Snow and Ice codes are isolated in the 5000, 6000, and 7000 blocks
+                is_hour_snow = (5000 <= weather_code < 8000)
+                
                 if is_hour_thunderstorm: is_game_thunderstorm = True
                 if is_hour_snow: is_game_snow = True
                 if chance > max_chance_in_window: max_chance_in_window = chance
                     
-                hour_iso = datetime.fromtimestamp(hour['time_epoch'], timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-                
                 hourly_slice.append({
-                    "timestamp": hour_iso,
-                    "temp": round(hour.get('temp_f', 0)),
+                    "timestamp": hour_time_str,
+                    "temp": round(vals.get('temperature', 0)),
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
                     "isSnow": is_hour_snow
                 })
 
-            start_hour = all_hours[start_idx] if len(all_hours) > start_idx else all_hours[0]
+            # Safely grab the start hour data, or fallback to the current hour if out of bounds
+            start_hour_vals = all_hours[start_idx].get('values', {}) if len(all_hours) > start_idx else all_hours[0].get('values', {})
             
             return {
                 "status": "ok",
                 "lastUpdated": datetime.now(timezone.utc).timestamp(),
-                "temp": round(start_hour.get('temp_f', 70)),
-                "humidity": round(start_hour.get('humidity', 50)),
+                "temp": round(start_hour_vals.get('temperature', 70)),
+                "humidity": round(start_hour_vals.get('humidity', 50)),
                 "maxPrecipChance": max_chance_in_window,
                 "isThunderstorm": is_game_thunderstorm,
                 "isSnow": is_game_snow,
-                "windSpeed": round(start_hour.get('wind_mph', 0)),
-                "windDir": start_hour.get('wind_degree', 0),
+                "windSpeed": round(start_hour_vals.get('windSpeed', 0)),
+                "windDir": start_hour_vals.get('windDirection', 0),
                 "hourly": hourly_slice
             }
             
         except Exception as e:
-            print(f"⚠️ Weather fetch failed with error: {e}")
+            print(f"⚠️ Tomorrow.io fetch failed with error: {e}")
             return {"temp": "--", "hourly": []}
 
 def main():

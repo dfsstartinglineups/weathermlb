@@ -103,7 +103,11 @@ function createStandaloneWeatherCard(data) {
     const awayLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${game.teams.away.team.id}.svg`;
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${game.teams.home.team.id}.svg`;
     
-    let gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    let gameTime = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/New_York'
+    }).format(new Date(game.gameDate));
     let timeBadgeClass = "bg-light text-dark border";
     if (game.status?.detailedState.includes("Postponed")) { gameTime = "Postponed"; timeBadgeClass = "bg-danger text-white"; }
     else if (game.status?.detailedState.includes("Delay")) { gameTime = "Delayed"; timeBadgeClass = "bg-warning text-dark"; }

@@ -154,6 +154,11 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
         except Exception as e:
             print(f"⚠️ Tomorrow.io fetch failed with error: {e}")
             return {"temp": "--", "hourly": []}
+            
+    # --- ADD THIS BLOCK AT THE VERY END OF THE FUNCTION ---
+    # If the loop exhausts all retries (e.g., rate limited 3 times), return the default dictionary
+    print("⚠️ Exhausted all API retries. Falling back to cached weather.")
+    return {"temp": "--", "hourly": []}
 
 def main():
     global API_CALL_TRACKER

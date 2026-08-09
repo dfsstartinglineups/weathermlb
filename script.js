@@ -301,7 +301,11 @@ function createGameCard(data) {
 
     const awayLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${awayId}.svg`;
     const homeLogo = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${homeId}.svg`;
-    let gameTime = new Date(game.gameDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    let gameTime = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/New_York'
+    }).format(new Date(game.gameDate));
     let timeBadgeClass = "bg-light text-dark border";
 
     // --- GAME STATUS OVERRIDES ---

@@ -66,7 +66,8 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
     today_utc = datetime.now(timezone.utc).date()
     days_diff = (utc_time.date() - today_utc).days
 
-    if days_diff > 2 or days_diff < 0:
+    # Strictly 1-day horizon (today only) to stay under the 25 req/hr limit
+    if days_diff != 0:
         return {"status": "too_early", "temp": "--"}
 
     # Define exact start and end times for the Timeline endpoint
@@ -91,7 +92,12 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             API_CALL_TRACKER["weather_api"] += 1
             res = session.get(url, timeout=15) 
             
-            if res.status_code != 200: 
+            # Handle the rate limit gracefully
+            if res.status_code == 429: 
+                print(f"⚠️ Tomorrow.io Rate Limit Hit. Waiting 5 seconds...")
+                time.sleep(5)
+                continue
+            elif res.status_code != 200: 
                 print(f"⚠️ Tomorrow.io returned status code {res.status_code}: {res.text}")
                 return {"temp": "--", "hourly": []}
             
@@ -159,9 +165,9 @@ def main():
         return
         
     start_date = current_est_time.strftime('%Y-%m-%d')
-    end_date = (current_est_time + timedelta(days=2)).strftime('%Y-%m-%d') 
+    end_date = current_est_time.strftime('%Y-%m-%d')  # Cut this down to 1 day
     
-    print(f"🚀 Building WeatherMLB Master JSONs (2-Day Horizon)")
+    print(f"🚀 Building WeatherMLB Master JSONs (1-Day Horizon)")
     
     session = requests.Session()
     stadiums = load_json(STADIUMS_FILE, [])

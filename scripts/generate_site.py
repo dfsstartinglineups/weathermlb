@@ -593,7 +593,8 @@ function showRadar(url, venueName) {
 # ==========================================
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(base_dir, "data", "daily_files")
+    root_dir = os.path.dirname(base_dir) # Steps up to the root folder
+    data_dir = os.path.join(root_dir, "data", "daily_files")
     
     today_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     daily_file = os.path.join(data_dir, f"games_{today_str}.json")
@@ -631,7 +632,7 @@ def main():
         '''
 
     # Load main template structure
-    main_template_path = os.path.join(base_dir, "index.html")
+    main_template_path = os.path.join(root_dir, "index.html")
     with open(main_template_path, 'r', encoding='utf-8') as f:
         main_html = f.read()
 
@@ -653,7 +654,7 @@ def main():
     # ------------------------------------------
     # 5B. BUILD 30 INNER TEAM PAGES
     # ------------------------------------------
-    team_pages_dir = os.path.join(base_dir, "team_pages")
+    team_pages_dir = os.path.join(root_dir, "team_pages")
     os.makedirs(team_pages_dir, exist_ok=True)
 
     sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])

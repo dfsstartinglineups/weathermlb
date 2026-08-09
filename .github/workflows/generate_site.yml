@@ -1,0 +1,45 @@
+name: Generate Static Weather Site
+
+on:
+  workflow_dispatch: # Allows you to manually trigger the script from the Actions tab
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetches full history so the action can push commits back
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' 
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests tzdata
+
+      - name: Run Site Generator
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        run: |
+          python scripts/generate_site.py
+
+      - name: Commit and Push Changes
+        run: |
+          # Configure the git bot identity
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Stage the updated files
+          git add data/
+          git add index.html
+          git add team_pages/
+          
+          # Commit and push (the '|| echo' prevents the action from failing if data hasn't changed)
+          git commit -m "Automated update: Weather JSON and static HTML pages" || echo "No changes to commit"
+          git push

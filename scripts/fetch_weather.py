@@ -236,7 +236,7 @@ def main():
                 if game_status in ['Final', 'Game Over']:
                     needs_weather_fetch = False
                 # Cache refresh: 5 minutes for today's games, 3 hours for tomorrow
-                elif days_away == 0 and time_since_update < 200: 
+                elif days_away == 0 and time_since_update < 3600: 
                     needs_weather_fetch = False
                 elif 0 < days_away <= 2 and time_since_update < 10800: 
                     needs_weather_fetch = False

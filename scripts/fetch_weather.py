@@ -84,37 +84,46 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                 return {"temp": "--", "hourly": []}
             
             data = res.json()
-            
-            # Tomorrow.io returns hourly data inside timelines.hourly
             all_hours = data.get('timelines', {}).get('hourly', [])
+            if not all_hours:
+                return {"temp": "--", "hourly": []}
             
-            target_epoch = int(utc_time.replace(minute=0, second=0, microsecond=0).timestamp())
+            # Target game time normalized to top of the hour
+            target_time = utc_time.replace(minute=0, second=0, microsecond=0)
             
-            # Find the starting index for our game time by matching the UTC timestamps
-            start_idx = next((i for i, h in enumerate(all_hours) if int(datetime.fromisoformat(h['time'].replace('Z', '+00:00')).timestamp()) == target_epoch), 0)
+            # Find the index corresponding to game start time
+            start_idx = None
+            for i, h in enumerate(all_hours):
+                h_time = datetime.fromisoformat(h['time'].replace('Z', '+00:00')).replace(minute=0, second=0, microsecond=0)
+                if h_time == target_time:
+                    start_idx = i
+                    break
 
+            # Fallback: locate closest hour if exact match fails (prevents defaulting to index 0)
+            if start_idx is None:
+                start_idx = min(
+                    range(len(all_hours)),
+                    key=lambda i: abs((datetime.fromisoformat(all_hours[i]['time'].replace('Z', '+00:00')) - target_time).total_seconds())
+                )
+
+            # Retrieves: 1 hour before (-1), game hour (0), and next 4 hours (+1, +2, +3, +4)
+            actual_start = max(0, start_idx - 1)
+            actual_end = min(len(all_hours), start_idx + 5)
+            
             hourly_slice = []
             max_chance_in_window = 0
             is_game_thunderstorm = False
             is_game_snow = False
 
-            # Grab the hour before and up to 4 hours after the start of the game
-            actual_start = max(0, start_idx - 1)
-            actual_end = min(len(all_hours), start_idx + 4)
-            
             for i in range(actual_start, actual_end):
                 hour = all_hours[i]
                 hour_time_str = hour.get('time')
                 vals = hour.get('values', {})
                 
-                # Precipitation chance is now mapped directly to their probability field
                 chance = int(vals.get('precipitationProbability', 0))
                 weather_code = vals.get('weatherCode', 1000)
                 
-                # Thunderstorm code in Tomorrow.io is exactly 8000
                 is_hour_thunderstorm = (weather_code == 8000)
-                
-                # Snow and Ice codes are isolated in the 5000, 6000, and 7000 blocks
                 is_hour_snow = (5000 <= weather_code < 8000)
                 
                 if is_hour_thunderstorm: is_game_thunderstorm = True
@@ -129,8 +138,7 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                     "isSnow": is_hour_snow
                 })
 
-            # Safely grab the start hour data, or fallback to the current hour if out of bounds
-            start_hour_vals = all_hours[start_idx].get('values', {}) if len(all_hours) > start_idx else all_hours[0].get('values', {})
+            start_hour_vals = all_hours[start_idx].get('values', {})
             
             return {
                 "status": "ok",

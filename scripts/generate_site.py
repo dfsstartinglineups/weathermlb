@@ -838,14 +838,6 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
         <a href="https://weathermlb.com" class="navbar-brand text-white fw-bold m-0 text-decoration-none" style="font-style: italic; letter-spacing: 0.5px; font-size: 2.0rem;">
             Weather <span style="color: #5ac8fa;">MLB</span>
         </a>
-        <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-light d-flex align-items-center justify-content-center px-3" onclick="generateDailyReport()">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="white" class="me-2">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                </svg>
-                Report
-            </button>
-        </div>
     </div>
 </nav>
 
@@ -885,7 +877,7 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
 
     <input type="text" id="team-search" value="" class="d-none">
     
-    <div id="games-container" class="row justify-content-center">
+    <div id="games-container" class="row justify-content-start">
         {main_cards_content}
     </div>
 </div>
@@ -903,25 +895,6 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
       </div>
       <div class="modal-body p-0" style="height: 500px;">
         <iframe id="radarFrame" src="" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="tweetModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">🐦 Daily Weather Briefing</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <label class="small text-muted mb-2">Ready-to-post update:</label>
-        <textarea id="tweet-text" class="form-control mb-3" rows="8" style="font-size: 0.9rem;"></textarea>
-        <div class="d-grid gap-2">
-            <button class="btn btn-dark" onclick="copyTweet()">📋 Copy to Clipboard</button>
-            <a id="twitter-link" href="#" target="_blank" class="btn btn-outline-primary">🚀 Open X / Twitter</a>
-        </div>
       </div>
     </div>
   </div>
@@ -1004,39 +977,6 @@ function showRadar(url, venueName) {{
     const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
     if (iframe) iframe.src = url;
     myModal.show();
-}}
-
-function copyTweet() {{
-    const copyText = document.getElementById("tweet-text");
-    copyText.select();
-    navigator.clipboard.writeText(copyText.value);
-    const btn = document.querySelector('#tweetModal .btn-dark');
-    btn.innerText = "✅ Copied!";
-    setTimeout(() => btn.innerText = "📋 Copy to Clipboard", 2000);
-}}
-
-function generateDailyReport() {{
-    const cards = document.querySelectorAll('.game-card-wrapper');
-    if (cards.length === 0) {{
-        alert("No games data available to report!");
-        return;
-    }}
-    let reportText = "⚾ MLB Weather Report by https://weathermlb.com\\n\\n";
-    cards.forEach(card => {{
-        const ribbon = card.querySelector('.ribbon-view');
-        if (ribbon) {{
-            const text = ribbon.innerText.replace(/\\n+/g, ' ').trim();
-            reportText += "• " + text + "\\n";
-        }}
-    }});
-    reportText += "\\n#MLB #FantasyBaseball #MLBWeather";
-    const textArea = document.getElementById('tweet-text');
-    if (textArea) textArea.value = reportText;
-    const modalElement = document.getElementById('tweetModal');
-    if (modalElement) {{
-        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-        modal.show();
-    }}
 }}
 </script>
 </body>

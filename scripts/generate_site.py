@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import time
 import requests
@@ -20,6 +21,7 @@ MAIN_INDEX_FILE = os.path.join(ROOT_DIR, 'index.html')
 SITEMAP_FILE = os.path.join(ROOT_DIR, 'sitemap.xml')
 
 WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
+INDEXNOW_KEY = "720a7241f9ed46778f358f5e4ab98695"
 
 os.makedirs(DAILY_FILES_DIR, exist_ok=True)
 os.makedirs(TEAM_PAGES_DIR, exist_ok=True)
@@ -183,9 +185,6 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
 
 def run_weather_update(est_now):
     global API_CALL_TRACKER
-    if 3 <= est_now.hour < 8:
-        print(f"💤 SLEEP MODE ACTIVE: It is currently {est_now.strftime('%I:%M %p')} EST.")
-        return []
 
     date_str = est_now.strftime('%Y-%m-%d')
     print(f"🚀 Updating Weather Data for {date_str} (EST)")
@@ -752,15 +751,7 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
       gtag('js', new Date());
       gtag('config', 'G-0TNW6W5ZVN');
     </script>
-    <script type="application/ld+json">
-    {{
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Weather MLB",
-      "alternateName": ["WeatherMLB"],
-      "url": "https://weathermlb.com/"
-    }}
-    </script>
+    {schema_json}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather MLB | MLB Weather Forecasts, DFS Lineups & Odds for {display_date}</title>
@@ -993,6 +984,7 @@ TEAM_PAGE_TEMPLATE = """<!DOCTYPE html>
       gtag('js', new Date());
       gtag('config', 'G-0TNW6W5ZVN');
     </script>
+    {schema_json}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{team_name} Game Weather Today | {display_date} Forecast at {stadium_name}</title>
@@ -1077,18 +1069,19 @@ TEAM_PAGE_TEMPLATE = """<!DOCTYPE html>
 """
 
 # ==========================================
-# 5. SITEMAP GENERATOR
+# 5. SITEMAP & INDEXNOW GENERATOR
 # ==========================================
-def generate_sitemap(est_now):
+def generate_sitemap_and_ping(est_now):
     iso_time = est_now.isoformat()
     urls = [
-        ("https://weathermlb.com/", "1.0"),
+        "https://weathermlb.com/"
     ]
     for team in sorted(MLB_TEAMS, key=lambda x: x["name"]):
-        urls.append((f"https://weathermlb.com/team_pages/{team['slug']}/", "0.8"))
+        urls.append(f"https://weathermlb.com/team_pages/{team['slug']}/")
 
     sitemap_entries = []
-    for url, priority in urls:
+    for i, url in enumerate(urls):
+        priority = "1.0" if i == 0 else "0.8"
         sitemap_entries.append(
             f"  <url>\n"
             f"    <loc>{url}</loc>\n"
@@ -1109,12 +1102,37 @@ def generate_sitemap(est_now):
         f.write(sitemap_xml)
     print("✅ Generated sitemap.xml with updated <lastmod> timestamps!")
 
+    if API_CALL_TRACKER["weather_api"] == 0:
+        print("ℹ️ No new Tomorrow.io weather data fetched this run. Skipping IndexNow ping.")
+        return
+
+    payload = {
+        "host": "weathermlb.com",
+        "key": INDEXNOW_KEY,
+        "keyLocation": f"https://weathermlb.com/{INDEXNOW_KEY}.txt",
+        "urlList": urls
+    }
+
+    try:
+        res = requests.post("https://api.indexnow.org/indexnow", json=payload, timeout=10)
+        if res.status_code in [200, 202]:
+            print(f"🚀 Successfully pinged IndexNow with {len(urls)} URLs following weather update!")
+        else:
+            print(f"⚠️ IndexNow ping failed: {res.status_code} - {res.text}")
+    except Exception as e:
+        print(f"⚠️ IndexNow ping exception: {e}")
+
 # ==========================================
 # 6. MAIN CONTROLLER PIPELINE
 # ==========================================
 def main():
     est_tz = zoneinfo.ZoneInfo("America/New_York")
     est_now = datetime.now(est_tz)
+    
+    if 3 <= est_now.hour < 8:
+        print(f"💤 SLEEP MODE ACTIVE: It is currently {est_now.strftime('%I:%M %p')} EST. Halting script to preserve yesterday's site data.")
+        sys.exit(0)
+
     date_str = est_now.strftime('%Y-%m-%d')
     display_date = est_now.strftime('%B %d, %Y').replace(' 0', ' ')
 
@@ -1151,7 +1169,17 @@ def main():
         '''
 
     # Step 4: Write Main index.html
+    main_schema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Weather MLB",
+      "alternateName": ["WeatherMLB"],
+      "url": "https://weathermlb.com/"
+    }
+    main_schema_json = f'<script type="application/ld+json">\n{json.dumps(main_schema, indent=4)}\n    </script>'
+
     main_html = MAIN_SITE_TEMPLATE.format(
+        schema_json=main_schema_json,
         display_date=display_date,
         team_options=team_options,
         main_cards_content=main_cards_content
@@ -1177,6 +1205,28 @@ def main():
         if target_game:
             card_markup = render_standalone_team_card(target_game)
             actual_stadium = target_game['gameRaw'].get('venue', {}).get('name', team['stadium'])
+            
+            game_date_iso = target_game['gameRaw']['gameDate']
+            home_name = target_game['gameRaw']['teams']['home']['team']['name']
+            away_name = target_game['gameRaw']['teams']['away']['team']['name']
+            
+            weather_desc = "Forecast unavailable."
+            if target_game.get('weather') and target_game['weather'].get('temp') != '--':
+                weather_desc = f"Game weather forecast: {target_game['weather'].get('temp')}°F, {target_game['weather'].get('maxPrecipChance')}% chance of rain, winds {target_game['weather'].get('windSpeed')}mph."
+            
+            schema_dict = {
+                "@context": "https://schema.org",
+                "@type": "SportsEvent",
+                "name": f"{away_name} at {home_name}",
+                "startDate": game_date_iso,
+                "location": {
+                    "@type": "Place",
+                    "name": actual_stadium
+                },
+                "homeTeam": {"@type": "SportsTeam", "name": home_name},
+                "awayTeam": {"@type": "SportsTeam", "name": away_name},
+                "description": f"Live weather, lineups, and odds for {away_name} at {home_name}. {weather_desc}"
+            }
         else:
             actual_stadium = team['stadium']
             card_markup = '''
@@ -1185,8 +1235,17 @@ def main():
                 <p class="small mb-0">This team has an off-day, travel day, or their matchup was postponed early.</p>
             </div>
             '''
+            schema_dict = {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": f"{team['name']} Weather Forecasts",
+                "description": f"Daily MLB weather forecasts, wind directions, and odds for the {team['name']}."
+            }
+
+        schema_json = f'<script type="application/ld+json">\n{json.dumps(schema_dict, indent=4)}\n    </script>'
 
         team_html = TEAM_PAGE_TEMPLATE.format(
+            schema_json=schema_json,
             team_name=team["name"],
             team_slug=team["slug"],
             stadium_name=actual_stadium,
@@ -1200,8 +1259,8 @@ def main():
 
     print("🚀 Pre-rendered all 30 inner team pages using embedded templates!")
 
-    # Step 6: Generate Sitemap
-    generate_sitemap(est_now)
+    # Step 6: Generate Sitemap and Ping IndexNow
+    generate_sitemap_and_ping(est_now)
     print("🎉 All-in-one site generation pipeline completed successfully!")
 
 if __name__ == "__main__":

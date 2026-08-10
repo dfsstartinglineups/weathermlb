@@ -535,7 +535,7 @@ def render_main_game_card(data):
     is_risk = 1 if (weather and not is_roof_closed and precip_chance >= 30) else 0
 
     return f'''
-    <div class="col-md-6 col-lg-4 col-xl-3 col-xxl-2 animate-card mb-2 px-1 game-card-wrapper" 
+    <div class="col-md-6 col-lg-4 col-xl-3 animate-card mb-2 px-1 game-card-wrapper" 
          id="game-{game['gamePk']}"
          data-game-date="{game_date_iso}"
          data-wind="{wind_val}"
@@ -763,8 +763,8 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather MLB | Today's MLB Weather Forecasts, DFS Lineups & Betting Odds</title>
-    <meta name="description" content="Daily MLB weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds. The ultimate tool for fantasy baseball & DFS.">
+    <title>Weather MLB | MLB Weather Forecasts, DFS Lineups & Odds for {display_date}</title>
+    <meta name="description" content="MLB weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds for {display_date}.">
     <meta name="keywords" content="MLB weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, moneyline, stadium wind direction, fantasy baseball, DFS weather, rain delay risk, baseball odds">
     <meta name="author" content="WeatherMLB">
     
@@ -839,8 +839,6 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
             Weather <span style="color: #5ac8fa;">MLB</span>
         </a>
         <div class="d-flex align-items-center gap-2">
-            <input type="date" id="date-picker" value="{today_date}" class="form-control text-center fw-bold" 
-                   style="background-color: #1e293b; color: #ffffff; border: 1px solid #334155; color-scheme: dark; max-width: 160px;">
             <button class="btn btn-outline-light d-flex align-items-center justify-content-center px-3" onclick="generateDailyReport()">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="white" class="me-2">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
@@ -853,7 +851,7 @@ MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
 
 <div class="container-fluid px-3 px-xl-5 mt-2">
     <div class="text-center mt-3 mb-3">
-        <h1 class="h5 fw-bold text-dark mb-1">Weather MLB | Daily MLB Weather Forecasts, Starting Lineups & Odds</h1>
+        <h1 class="h5 fw-bold text-dark mb-1">Weather MLB | Daily Forecasts, Lineups & Odds for {display_date}</h1>
         <p class="text-muted mb-0" style="font-size: 0.85rem;">Track stadium wind direction, rain delay risks, probable pitchers, and live betting lines.</p>
     </div>
     
@@ -1057,8 +1055,8 @@ TEAM_PAGE_TEMPLATE = """<!DOCTYPE html>
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{team_name} Game Weather Today at {stadium_name} | Rain & Wind Forecast</title>
-    <meta name="description" content="View the live weather forecast for today's {team_name} game at {stadium_name}. Track real-time rain delay risks, stadium wind direction, hourly temperatures, and betting odds.">
+    <title>{team_name} Game Weather Today | {display_date} Forecast at {stadium_name}</title>
+    <meta name="description" content="View the live weather forecast for today's {team_name} game at {stadium_name} for {display_date}. Track real-time rain delay risks, stadium wind direction, hourly temperatures, and betting odds.">
     <meta name="keywords" content="{team_name} weather, {stadium_name} wind direction, {stadium_name} rain delay, {team_name} game weather today, fantasy baseball weather">
     <link rel="canonical" href="https://weathermlb.com/team_pages/{team_slug}/" />
     <meta property="og:title" content="{team_name} Game Weather Today at {stadium_name} - Weather MLB">
@@ -1114,6 +1112,10 @@ TEAM_PAGE_TEMPLATE = """<!DOCTYPE html>
         </div>
     </nav>
     <div class="main-container">
+        <div class="text-center mt-3 mb-3">
+            <h1 class="h5 fw-bold text-dark mb-1">{team_name} Weather Today</h1>
+            <p class="text-muted mb-0" style="font-size: 0.85rem;">{display_date} at {stadium_name}</p>
+        </div>
         <div id="team-weather-container">
             {team_card_content}
         </div>
@@ -1174,6 +1176,7 @@ def main():
     est_tz = zoneinfo.ZoneInfo("America/New_York")
     est_now = datetime.now(est_tz)
     date_str = est_now.strftime('%Y-%m-%d')
+    display_date = est_now.strftime('%B %d, %Y').replace(' 0', ' ')
 
     print(f"🎬 Starting All-In-One Static Site Pipeline for {date_str} (EST)...")
 
@@ -1202,14 +1205,14 @@ def main():
         main_cards_content = f'''
         <div class="col-12 text-center mt-5">
             <div class="alert alert-light border shadow-sm py-4">
-                <h4 class="text-muted">No games scheduled for {date_str}</h4>
+                <h4 class="text-muted">No games scheduled for {display_date}</h4>
             </div>
         </div>
         '''
 
     # Step 4: Write Main index.html
     main_html = MAIN_SITE_TEMPLATE.format(
-        today_date=date_str,
+        display_date=display_date,
         team_options=team_options,
         main_cards_content=main_cards_content
     )
@@ -1247,6 +1250,7 @@ def main():
             team_name=team["name"],
             team_slug=team["slug"],
             stadium_name=actual_stadium,
+            display_date=display_date,
             team_options=team_options,
             team_card_content=card_markup
         )

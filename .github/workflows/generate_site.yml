@@ -2,6 +2,8 @@ name: Generate Static Weather Site
 
 on:
   workflow_dispatch: # Allows you to manually trigger the script from the Actions tab
+  repository_dispatch:
+    types: [generate-weather] # Matches the event_type in your cron-org payload
 
 permissions:
   contents: write

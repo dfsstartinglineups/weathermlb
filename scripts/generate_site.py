@@ -1,11 +1,29 @@
 import os
 import json
+import time
+import requests
 import zoneinfo
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 # ==========================================
-# 1. MASTER MLB TEAMS LIST
+# 1. PATH CONFIGURATION & MASTER DATA
 # ==========================================
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(SCRIPT_DIR)
+
+DATA_DIR = os.path.join(ROOT_DIR, 'data')
+DAILY_FILES_DIR = os.path.join(DATA_DIR, 'daily_files')
+STADIUMS_FILE = os.path.join(DATA_DIR, 'stadiums.json')
+ODDS_FILE = os.path.join(DATA_DIR, 'odds.json')
+TEAM_PAGES_DIR = os.path.join(ROOT_DIR, 'team_pages')
+MAIN_INDEX_FILE = os.path.join(ROOT_DIR, 'index.html')
+SITEMAP_FILE = os.path.join(ROOT_DIR, 'sitemap.xml')
+
+WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
+
+os.makedirs(DAILY_FILES_DIR, exist_ok=True)
+os.makedirs(TEAM_PAGES_DIR, exist_ok=True)
+
 MLB_TEAMS = [
     {"id": 110, "slug": "baltimore-orioles", "name": "Baltimore Orioles", "stadium": "Oriole Park at Camden Yards"},
     {"id": 111, "slug": "boston-red-sox", "name": "Boston Red Sox", "stadium": "Fenway Park"},
@@ -39,8 +57,247 @@ MLB_TEAMS = [
     {"id": 137, "slug": "san-francisco-giants", "name": "San Francisco Giants", "stadium": "Oracle Park"}
 ]
 
+API_CALL_TRACKER = {"schedule": 0, "weather_api": 0}
+
 # ==========================================
-# 2. HELPER FORMATTING FUNCTIONS
+# 2. WEATHER FETCHING ENGINE
+# ==========================================
+def load_json(path, default_val):
+    if os.path.exists(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as f: return json.load(f)
+        except Exception: pass
+    return default_val
+
+def save_json(path, data):
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=4)
+
+def get_active_sport_ids():
+    current_date = datetime.now(timezone.utc).date()
+    wbc_start = datetime(2026, 3, 4).date()
+    wbc_end = datetime(2026, 3, 17).date()
+    if wbc_start <= current_date <= wbc_end: return "1,51"
+    return "1"
+
+def calculate_wind(wind_direction, stadium_bearing):
+    if wind_direction is None or stadium_bearing is None:
+        return {"text": "Unknown", "cssClass": "bg-secondary", "arrow": "💨"}
+    diff = (wind_direction - stadium_bearing + 360) % 360
+    if diff >= 337.5 or diff < 22.5: return {"text": "Blowing IN", "cssClass": "bg-in", "arrow": "⬇"}
+    if 22.5 <= diff < 67.5: return {"text": "In from Right", "cssClass": "bg-in", "arrow": "↙"}
+    if 67.5 <= diff < 112.5: return {"text": "Cross (R to L)", "cssClass": "bg-cross", "arrow": "⬅"}
+    if 112.5 <= diff < 157.5: return {"text": "Out to Left", "cssClass": "bg-out", "arrow": "↖"}
+    if 157.5 <= diff < 202.5: return {"text": "Blowing OUT", "cssClass": "bg-out", "arrow": "⬆"}
+    if 202.5 <= diff < 247.5: return {"text": "Out to Right", "cssClass": "bg-out", "arrow": "↗"}
+    if 247.5 <= diff < 292.5: return {"text": "Cross (L to R)", "cssClass": "bg-cross", "arrow": "➡"}
+    return {"text": "In from Left", "cssClass": "bg-in", "arrow": "↘"}
+
+def fetch_game_weather(session, lat, lon, game_date_iso):
+    global API_CALL_TRACKER
+    if not WEATHER_API_KEY:
+        print("⚠️ WEATHER_API_KEY environment variable is missing!")
+        return {"temp": "--", "hourly": []}
+
+    utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
+    today_utc = datetime.now(timezone.utc).date()
+    days_diff = (utc_time.date() - today_utc).days
+
+    if days_diff != 0:
+        return {"status": "too_early", "temp": "--"}
+
+    start_time = (utc_time - timedelta(hours=1)).strftime('%Y-%m-%dT%H:00:00Z')
+    end_time = (utc_time + timedelta(hours=4)).strftime('%Y-%m-%dT%H:00:00Z')
+
+    url = (
+        f"https://api.tomorrow.io/v4/timelines"
+        f"?location={lat},{lon}"
+        f"&fields=temperature,humidity,precipitationProbability,weatherCode,windSpeed,windDirection"
+        f"&timesteps=1h"
+        f"&units=imperial"
+        f"&startTime={start_time}"
+        f"&endTime={end_time}"
+        f"&apikey={WEATHER_API_KEY}"
+    )
+
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            API_CALL_TRACKER["weather_api"] += 1
+            res = session.get(url, timeout=15)
+            if res.status_code == 429:
+                print("⚠️ Tomorrow.io Rate Limit Hit. Waiting 5 seconds...")
+                time.sleep(5)
+                continue
+            elif res.status_code != 200:
+                print(f"⚠️ Tomorrow.io returned status code {res.status_code}: {res.text}")
+                return {"temp": "--", "hourly": []}
+
+            data = res.json()
+            timelines = data.get('data', {}).get('timelines', [])
+            if not timelines: return {"temp": "--", "hourly": []}
+
+            intervals = timelines[0].get('intervals', [])
+            hourly_slice, max_chance_in_window = [], 0
+            is_game_thunderstorm, is_game_snow = False, False
+
+            for hour in intervals:
+                hour_time_str = hour.get('startTime')
+                vals = hour.get('values', {})
+                chance = int(vals.get('precipitationProbability', 0))
+                weather_code = vals.get('weatherCode', 1000)
+                is_hour_thunderstorm = (weather_code == 8000)
+                is_hour_snow = (5000 <= weather_code < 8000)
+
+                if is_hour_thunderstorm: is_game_thunderstorm = True
+                if is_hour_snow: is_game_snow = True
+                if chance > max_chance_in_window: max_chance_in_window = chance
+
+                hourly_slice.append({
+                    "timestamp": hour_time_str,
+                    "temp": round(vals.get('temperature', 0)),
+                    "precipChance": chance,
+                    "isThunderstorm": is_hour_thunderstorm,
+                    "isSnow": is_hour_snow
+                })
+
+            start_hour_vals = intervals[1].get('values', {}) if len(intervals) > 1 else intervals[0].get('values', {})
+            return {
+                "status": "ok",
+                "lastUpdated": datetime.now(timezone.utc).timestamp(),
+                "temp": round(start_hour_vals.get('temperature', 70)),
+                "humidity": round(start_hour_vals.get('humidity', 50)),
+                "maxPrecipChance": max_chance_in_window,
+                "isThunderstorm": is_game_thunderstorm,
+                "isSnow": is_game_snow,
+                "windSpeed": round(start_hour_vals.get('windSpeed', 0)),
+                "windDir": start_hour_vals.get('windDirection', 0),
+                "hourly": hourly_slice
+            }
+        except Exception as e:
+            print(f"⚠️ Tomorrow.io fetch failed with error: {e}")
+            return {"temp": "--", "hourly": []}
+
+    print("⚠️ Exhausted all API retries. Falling back to cached weather.")
+    return {"temp": "--", "hourly": []}
+
+def run_weather_update(est_now):
+    global API_CALL_TRACKER
+    if 3 <= est_now.hour < 8:
+        print(f"💤 SLEEP MODE ACTIVE: It is currently {est_now.strftime('%I:%M %p')} EST.")
+        return []
+
+    date_str = est_now.strftime('%Y-%m-%d')
+    print(f"🚀 Updating Weather Data for {date_str} (EST)")
+
+    session = requests.Session()
+    stadiums = load_json(STADIUMS_FILE, [])
+    odds_data = load_json(ODDS_FILE, {}).get('odds', [])
+
+    API_CALL_TRACKER["schedule"] += 1
+    sport_ids = get_active_sport_ids()
+    schedule_url = f"https://statsapi.mlb.com/api/v1/schedule?sportId={sport_ids}&startDate={date_str}&endDate={date_str}&hydrate=linescore,venue,probablePitcher,lineups,person"
+
+    try:
+        schedule_data = session.get(schedule_url, timeout=15).json()
+    except Exception as e:
+        print(f"❌ Failed to fetch schedule: {e}")
+        return []
+
+    daily_file_path = os.path.join(DAILY_FILES_DIR, f'games_{date_str}.json')
+    daily_memory = {}
+    if os.path.exists(daily_file_path):
+        for g in load_json(daily_file_path, []):
+            daily_memory[str(g['gameRaw']['gamePk'])] = g
+
+    games_list = []
+    for date_item in schedule_data.get('dates', []):
+        for game in date_item.get('games', []):
+            game_pk = str(game['gamePk'])
+            existing_game_state = daily_memory.get(game_pk, {})
+
+            game_odds = None
+            away_team_name = game.get('teams', {}).get('away', {}).get('team', {}).get('name', '')
+            home_team_name = game.get('teams', {}).get('home', {}).get('team', {}).get('name', '')
+            game_time_ms = datetime.strptime(game['gameDate'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp() * 1000
+
+            def parse_odds_time(d_str):
+                if d_str.endswith('Z'): d_str = d_str[:-1]
+                if len(d_str.split(':')) == 2: d_str += ":00"
+                return datetime.strptime(d_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp() * 1000
+
+            potential_odds = [o for o in odds_data if o['home_team'] == home_team_name and o['away_team'] == away_team_name]
+            if potential_odds:
+                game_odds = sorted(potential_odds, key=lambda o: abs(parse_odds_time(o['commence_time']) - game_time_ms))[0]
+
+            venue_id = game.get('venue', {}).get('id')
+            stadium = next((s for s in stadiums if s.get('id') == venue_id), None)
+            weather_data = existing_game_state.get('weather')
+            needs_weather_fetch = True
+
+            if stadium and weather_data and weather_data.get('temp') != '--':
+                last_updated = weather_data.get('lastUpdated', 0)
+                time_since_update = est_now.timestamp() - last_updated
+                game_status = game.get('status', {}).get('abstractGameState', '')
+
+                if game_status in ['Final', 'Game Over']:
+                    needs_weather_fetch = False
+                elif time_since_update < 3600:
+                    needs_weather_fetch = False
+
+            if stadium and needs_weather_fetch:
+                print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name}")
+                new_weather = fetch_game_weather(session, stadium['lat'], stadium['lon'], game['gameDate'])
+                if new_weather.get('temp') == '--' and weather_data and weather_data.get('temp') != '--':
+                    print("      🛡️ Fetch failed, keeping existing cached weather.")
+                else:
+                    weather_data = new_weather
+                time.sleep(1.0)
+
+            wind_data, is_roof_closed, is_roof_pending = None, False, False
+
+            if stadium and stadium.get('roof'):
+                try:
+                    live_feed_url = f"https://statsapi.mlb.com/api/v1.1/game/{game_pk}/feed/live"
+                    live_res = session.get(live_feed_url, timeout=5)
+                    if live_res.status_code == 200:
+                        mlb_weather = live_res.json().get('gameData', {}).get('weather', {})
+                        if mlb_weather.get('condition') in ["Roof Closed", "Dome"]:
+                            is_roof_closed = True
+                except Exception: pass
+
+            if stadium and weather_data and weather_data.get('status') != "too_early" and weather_data.get('temp') != '--':
+                wind_data = calculate_wind(weather_data.get('windDir'), stadium.get('bearing'))
+                if stadium.get('dome'):
+                    is_roof_closed = True
+                elif stadium.get('roof') and not is_roof_closed:
+                    temp = weather_data.get('temp', 70)
+                    precip = weather_data.get('maxPrecipChance', 0)
+                    if precip >= 30 or temp <= 50 or temp >= 95: is_roof_closed = True
+                    elif precip >= 15 or temp <= 55 or temp >= 90: is_roof_pending = True
+
+                if is_roof_closed:
+                    wind_data = {"text": "Roof Closed", "cssClass": "bg-secondary text-white", "arrow": ""}
+                    weather_data['windSpeed'] = 0
+
+            games_list.append({
+                "gameRaw": game,
+                "stadium": stadium,
+                "odds": game_odds,
+                "weather": weather_data,
+                "wind": wind_data,
+                "roof": is_roof_closed,
+                "roofPending": is_roof_pending,
+                "lineupHandedness": existing_game_state.get('lineupHandedness', {}),
+                "lineupPositions": existing_game_state.get('lineupPositions', {})
+            })
+
+    save_json(daily_file_path, games_list)
+    print(f"✅ Created/Updated {daily_file_path} with {len(games_list)} games.")
+    return games_list
+
+# ==========================================
+# 3. HTML & CARD BUILDER HELPERS
 # ==========================================
 def get_short_team_name(full_name):
     if not full_name: return ""
@@ -63,7 +320,6 @@ def get_wind_arrow_emoji(direction):
         val = int((direction / 22.5) + 0.5)
         arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
         direction = arr[(val % 16)]
-    
     mapping = {
         "N": "⬇️", "NNE": "⬇️", "NE": "↙️", "ENE": "↙️",
         "E": "⬅️", "ESE": "⬅️", "SE": "↖️", "SSE": "↖️",
@@ -76,7 +332,6 @@ def get_weather_emoji_string(data):
     w = data.get('weather') or {}
     wind = data.get('wind') or {}
     arrow = wind.get('arrow') or get_wind_arrow_emoji(w.get('windDir'))
-    
     is_roof_closed = data.get('roof', False)
     rain = 0 if is_roof_closed else round(float(w.get('maxPrecipChance') or 0))
     temp = round(float(w.get('temp') or 0))
@@ -95,7 +350,7 @@ def generate_matchup_analysis(weather, wind_info, is_roof_closed, is_roof_pendin
 
     notes = []
     if is_roof_pending:
-        notes.push("🏟️ <b>Roof Status Pending:</b> Borderline weather. The team may elect to close the roof.") if hasattr(notes, 'push') else notes.append("🏟️ <b>Roof Status Pending:</b> Borderline weather. The team may elect to close the roof.")
+        notes.append("🏟️ <b>Roof Status Pending:</b> Borderline weather. The team may elect to close the roof.")
 
     if weather.get('isThunderstorm'):
         if stadium and stadium.get('roof'):
@@ -108,8 +363,8 @@ def generate_matchup_analysis(weather, wind_info, is_roof_closed, is_roof_pendin
 
     hourly = weather.get('hourly', [])
     sustained_rain = len([h for h in hourly if h.get('precipChance', 0) >= 60])
-
     max_precip = weather.get('maxPrecipChance', 0)
+
     if sustained_rain >= 3:
         notes.append("🌧️ <b>Rainout Risk:</b> Sustained heavy rain. High probability of postponement.")
     elif max_precip >= 70:
@@ -144,10 +399,7 @@ def generate_matchup_analysis(weather, wind_info, is_roof_closed, is_roof_pendin
         return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage."
     return "<br>".join(notes)
 
-# ==========================================
-# 3. CARD GENERATION LOGIC
-# ==========================================
-def render_main_game_card(data, index):
+def render_main_game_card(data):
     game = data['gameRaw']
     stadium = data.get('stadium') or {}
     weather = data.get('weather') or {}
@@ -155,7 +407,6 @@ def render_main_game_card(data, index):
     is_roof_closed = data.get('roof', False)
     is_roof_pending = data.get('roofPending', False)
 
-    # Border Class
     border_class = ""
     if weather and not is_roof_closed and weather.get('temp') != '--':
         hourly = weather.get('hourly', [])
@@ -167,7 +418,6 @@ def render_main_game_card(data, index):
         elif weather.get('maxPrecipChance', 0) >= 30:
             border_class = "border-warning border-3"
 
-    # Background Class
     bg_class = "bg-weather-sunny"
     if is_roof_closed:
         bg_class = "bg-weather-roof"
@@ -180,15 +430,13 @@ def render_main_game_card(data, index):
     else:
         bg_class = "bg-light"
 
-    away_team = game['teams']['away']
-    home_team = game['teams']['home']
+    away_team, home_team = game['teams']['away'], game['teams']['home']
     away_id, home_id = away_team['team']['id'], home_team['team']['id']
     away_name, home_name = away_team['team']['name'], home_team['team']['name']
     away_short, home_short = get_short_team_name(away_name), get_short_team_name(home_name)
     away_logo = f"https://www.mlbstatic.com/team-logos/team-cap-on-light/{away_id}.svg"
     home_logo = f"https://www.mlbstatic.com/team-logos/team-cap-on-light/{home_id}.svg"
 
-    # Time formatting in Eastern Time
     utc_date = datetime.fromisoformat(game['gameDate'].replace('Z', '+00:00'))
     et_date = utc_date.astimezone(zoneinfo.ZoneInfo("America/New_York"))
     game_time = et_date.strftime("%I:%M %p").lstrip("0")
@@ -201,14 +449,12 @@ def render_main_game_card(data, index):
     elif match_state in ["In Progress", "Live"]: game_time = "Live"; time_badge_class = "bg-success text-white"
     elif game.get('status', {}).get('abstractGameState') == "Final": game_time = "Final"; time_badge_class = "bg-secondary text-white"
 
-    # Probable Pitchers
-    away_pitcher_info = away_team.get('probablePitcher')
-    away_pitcher = format_player_name(away_pitcher_info['fullName']) + (f" ({away_pitcher_info['pitchHand']['code']})" if away_pitcher_info and 'pitchHand' in away_pitcher_info else "") if away_pitcher_info else "TBD"
-    
-    home_pitcher_info = home_team.get('probablePitcher')
-    home_pitcher = format_player_name(home_pitcher_info['fullName']) + (f" ({home_pitcher_info['pitchHand']['code']})" if home_pitcher_info and 'pitchHand' in home_pitcher_info else "") if home_pitcher_info else "TBD"
+    away_p_info = away_team.get('probablePitcher')
+    away_pitcher = format_player_name(away_p_info['fullName']) + (f" ({away_p_info['pitchHand']['code']})" if away_p_info and 'pitchHand' in away_p_info else "") if away_p_info else "TBD"
 
-    # Odds
+    home_p_info = home_team.get('probablePitcher')
+    home_pitcher = format_player_name(home_p_info['fullName']) + (f" ({home_p_info['pitchHand']['code']})" if home_p_info and 'pitchHand' in home_p_info else "") if home_p_info else "TBD"
+
     odds_data = data.get('odds')
     ml_away = '<span class="badge bg-light text-muted border" style="font-size: 0.65rem;">TBD</span>'
     ml_home = '<span class="badge bg-light text-muted border" style="font-size: 0.65rem;">TBD</span>'
@@ -228,7 +474,6 @@ def render_main_game_card(data, index):
             if totals and totals.get('outcomes'):
                 total_badge = f'<span class="badge bg-secondary ms-1" style="font-size: 0.65rem;">O/U {totals["outcomes"][0]["point"]}</span>'
 
-    # Weather
     weather_html = '<div class="text-muted p-3 text-center small">Weather forecast unavailable.<br></div>'
     if stadium and weather:
         if weather.get('status') == "too_early":
@@ -251,8 +496,7 @@ def render_main_game_card(data, index):
                     ts = h.get('timestamp')
                     h_dt = datetime.fromisoformat(ts.replace('Z', '+00:00')).astimezone(zoneinfo.ZoneInfo("America/New_York")) if ts else datetime.now(zoneinfo.ZoneInfo("America/New_York"))
                     time_label = h_dt.strftime("%I%p").lstrip("0")
-                    et_hour = h_dt.hour
-                    is_night = et_hour >= 20 or et_hour < 6
+                    is_night = h_dt.hour >= 20 or h_dt.hour < 6
 
                     pop_html = '&nbsp;'
                     if h.get('precipChance', 0) >= 30:
@@ -395,7 +639,7 @@ def render_standalone_team_card(data):
 
     away_p_info = away_team.get('probablePitcher')
     away_pitcher = format_player_name(away_p_info['fullName']) + (f" ({away_p_info['pitchHand']['code']})" if away_p_info and 'pitchHand' in away_p_info else "") if away_p_info else "TBD"
-    
+
     home_p_info = home_team.get('probablePitcher')
     home_pitcher = format_player_name(home_p_info['fullName']) + (f" ({home_p_info['pitchHand']['code']})" if home_p_info and 'pitchHand' in home_p_info else "") if home_p_info else "TBD"
 
@@ -413,7 +657,7 @@ def render_standalone_team_card(data):
                 ho = next((o for o in h2h['outcomes'] if o['name'] == home_team['team']['name']), None)
                 if ao: ml_away = f'<span class="badge bg-light text-dark border" style="font-size: 0.65rem;">{("+" + str(ao["price"])) if ao["price"] > 0 else ao["price"]}</span>'
                 if ho: ml_home = f'<span class="badge bg-light text-dark border" style="font-size: 0.65rem;">{("+" + str(ho["price"])) if ho["price"] > 0 else ho["price"]}</span>'
-            
+
             totals = next((m for m in bookie['markets'] if m['key'] == 'totals'), None)
             if totals and totals.get('outcomes'):
                 total_badge = f'<span class="badge bg-secondary ms-1" style="font-size: 0.65rem;">O/U {totals["outcomes"][0]["point"]}</span>'
@@ -496,196 +740,312 @@ def render_standalone_team_card(data):
     '''
 
 # ==========================================
-# 4. LIGHTWEIGHT CLIENT-SIDE JS INJECTION
+# 4. MASTER HTML TEMPLATES (EMBEDDED)
 # ==========================================
-MAIN_PAGE_INTERACTIVE_JS = """
+MAIN_SITE_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TNW6W5ZVN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', 'G-0TNW6W5ZVN');
+    </script>
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Weather MLB",
+      "alternateName": ["WeatherMLB"],
+      "url": "https://weathermlb.com/"
+    }}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather MLB | Today's MLB Weather Forecasts, DFS Lineups & Betting Odds</title>
+    <meta name="description" content="Daily MLB weather forecasts, stadium wind direction, starting lineups, probable pitchers, and live betting odds. The ultimate tool for fantasy baseball & DFS.">
+    <meta name="keywords" content="MLB weather, baseball weather, MLB starting lineups, probable pitchers, MLB betting odds, moneyline, stadium wind direction, fantasy baseball, DFS weather, rain delay risk, baseball odds">
+    <meta name="author" content="WeatherMLB">
+    
+    <meta property="og:title" content="Weather MLB - MLB Weather, Lineups & Live Odds">
+    <meta property="og:description" content="Track stadium wind, rain delay risks, starting lineups, pitchers, and live betting odds for every MLB game in one place.">
+    <meta property="og:image" content="https://weathermlb.com/social-share.png">
+    <meta property="og:site_name" content="Weather MLB">
+    <meta property="og:url" content="https://weathermlb.com">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Weather MLB - MLB Weather, Lineups & Live Odds">
+    <meta name="twitter:description" content="Track stadium wind, rain delay risks, starting lineups, pitchers, and live betting odds for every MLB game in one place.">
+    <meta name="twitter:image" content="https://weathermlb.com/social-share.png">
+    <meta name="twitter:site" content="@weathermlbdaily">
+    
+    <link rel="canonical" href="https://weathermlb.com/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {{ background-color: #f8f9fa; }} 
+        .game-card {{ 
+            border: 1px solid #dee2e6; 
+            border-radius: 12px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; 
+            background: white;
+            overflow: hidden; 
+        }}
+        .game-card:hover {{ 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            border-color: #0d6efd; 
+        }}
+        .team-logo {{ width: 60px; height: 60px; object-fit: contain; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1)); }}
+        .weather-row {{ font-size: 0.9rem; border-top: 1px solid #f1f3f5; padding-top: 4px; margin-top: 4px; padding-bottom: 2px; }}
+        .stadium-name {{ color: #6c757d; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }}
+        .wind-badge {{ font-size: 0.85rem; padding: 6px 12px; border-radius: 20px; font-weight: 600; }}
+        .wind-badge .arrow-emoji {{ font-size: 1.2rem; line-height: 0.5; vertical-align: middle; }}
+        .bg-out {{ background-color: #d1e7dd; color: #0f5132; }} 
+        .bg-in {{ background-color: #f8d7da; color: #842029; }}
+        .bg-cross {{ background-color: #fff3cd; color: #664d03; }}
+        .bg-secondary.text-white {{ background-color: #adb5bd !important; color: #fff !important; }}
+        .analysis-box {{ background-color: #f8f9fa; border-left: 4px solid #0d6efd; padding: 6px 10px; margin-top: 10px; margin-bottom: 0px; font-size: 0.8rem; color: #495057; line-height: 1.3; border-radius: 0 4px 4px 0; }}
+        .analysis-title {{ font-weight: 800; text-transform: uppercase; font-size: 0.7rem; color: #0d6efd; display: block; margin-bottom: 3px; letter-spacing: 0.5px; }}
+        .hourly-scroll-container {{ display: flex; overflow-x: hidden; gap: 4px; padding: 4px 2px; margin-top: 2px; border-top: 1px solid #f1f3f5; scrollbar-width: none; -ms-overflow-style: none; }}
+        .hourly-scroll-container::-webkit-scrollbar {{ display: none; }}
+        .hour-card {{ display: flex; flex: 1; flex-direction: column; align-items: center; min-width: 0; text-align: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
+        .hour-time {{ font-size: 0.8rem; font-weight: 600; color: #6c757d; margin-bottom: 4px; }}
+        .hour-icon {{ font-size: 1.5rem; line-height: 1; margin-bottom: 0px; }}
+        .hour-pop {{ font-size: 0.7rem; color: #5ac8fa; font-weight: 700; line-height: 1; height: 12px; display: flex; align-items: center; margin-bottom: 2px; margin-top: 2px; }}
+        .hour-temp {{ font-size: 0.95rem; font-weight: 600; margin-top: 0px; color: #212529; line-height: 1; }}
+
+        @keyframes weather-flow {{ 0% {{ background-position: 0% 50%; }} 50% {{ background-position: 100% 50%; }} 100% {{ background-position: 0% 50%; }} }}
+        .bg-weather-sunny {{ background: linear-gradient(-45deg, #e3f2fd, #e1f5fe, #f1f8e9); background-size: 300% 300%; animation: weather-flow 15s ease infinite; }}
+        .bg-weather-cloudy {{ background: linear-gradient(-45deg, #f5f5f5, #e0e0e0, #eeeeee); background-size: 300% 300%; animation: weather-flow 20s ease infinite; }}
+        .bg-weather-rain {{ background: linear-gradient(180deg, #e3f2fd, #cfd8dc, #eceff1); background-size: 200% 200%; animation: weather-flow 8s ease infinite; }}
+        .bg-weather-storm {{ background: linear-gradient(-45deg, #e1bee7, #cfd8dc, #e0e0e0); background-size: 300% 300%; animation: weather-flow 10s ease infinite; }}
+        .bg-weather-snow {{ background: linear-gradient(-45deg, #f3e5f5, #e3f2fd, #ffffff); background-size: 300% 300%; animation: weather-flow 15s ease infinite; }}
+        .bg-weather-roof {{ background-color: #ffffff; }}
+    </style>
+</head>
+<body>
+
+<nav class="navbar shadow-sm py-2 mb-0 sticky-top border-bottom border-dark" style="background-color: #0f172a;">
+    <div class="container d-flex justify-content-between align-items-center flex-row">
+        <a href="https://weathermlb.com" class="navbar-brand text-white fw-bold m-0 text-decoration-none" style="font-style: italic; letter-spacing: 0.5px; font-size: 2.0rem;">
+            Weather <span style="color: #5ac8fa;">MLB</span>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+            <input type="date" id="date-picker" value="{today_date}" class="form-control text-center fw-bold" 
+                   style="background-color: #1e293b; color: #ffffff; border: 1px solid #334155; color-scheme: dark; max-width: 160px;">
+            <button class="btn btn-outline-light d-flex align-items-center justify-content-center px-3" onclick="generateDailyReport()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="white" class="me-2">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+                Report
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid px-3 px-xl-5 mt-2">
+    <div class="text-center mt-3 mb-3">
+        <h1 class="h5 fw-bold text-dark mb-1">Weather MLB | Daily MLB Weather Forecasts, Starting Lineups & Odds</h1>
+        <p class="text-muted mb-0" style="font-size: 0.85rem;">Track stadium wind direction, rain delay risks, probable pitchers, and live betting lines.</p>
+    </div>
+    
+    <div class="sticky-top bg-light border-bottom py-3 mb-4 shadow-sm" style="z-index: 100;">
+        <div class="container">
+            <div class="row g-2 align-items-center">
+                <div class="col-12 col-md-4">
+                    <select class="form-select fw-bold text-muted px-3" style="border: 1px solid #dee2e6; border-radius: 20px; height: 38px; cursor: pointer;" onchange="if(this.value) window.location.href=this.value;">
+                        <option value="">🔍 Go to Team Report...</option>
+                        {team_options}
+                    </select>
+                </div>
+                <div class="col-12 col-md-4">
+                    <select id="sort-filter" class="form-select">
+                        <option value="time">Sort: Game Time ⏰</option>
+                        <option value="wind">Sort: Highest Wind 💨</option>
+                        <option value="rain">Sort: Rain Chance 🌧️</option>
+                        <option value="temp">Sort: Temperature 🔥</option>
+                        <option value="humidity">Sort: Humidity 💧</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="form-check form-switch d-flex align-items-center justify-content-center bg-white border rounded p-2" style="height: 38px;">
+                        <input class="form-check-input me-2" type="checkbox" id="risk-only">
+                        <label class="form-check-label small fw-bold" for="risk-only" style="white-space: nowrap;">Toggle ON for games at ⚠️Risk</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" id="team-search" value="" class="d-none">
+    
+    <div id="games-container" class="row justify-content-center">
+        {main_cards_content}
+    </div>
+</div>
+
+<footer class="text-center py-5 text-muted mt-5">
+    <small>Data provided by MLB Stats API & Open-Meteo Historical Weather. Not affiliated with Major League Baseball.</small>
+</footer>
+
+<div class="modal fade" id="radarModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Live Radar & Forecast</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0" style="height: 500px;">
+        <iframe id="radarFrame" src="" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="tweetModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">🐦 Daily Weather Briefing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label class="small text-muted mb-2">Ready-to-post update:</label>
+        <textarea id="tweet-text" class="form-control mb-3" rows="8" style="font-size: 0.9rem;"></textarea>
+        <div class="d-grid gap-2">
+            <button class="btn btn-dark" onclick="copyTweet()">📋 Copy to Clipboard</button>
+            <a id="twitter-link" href="#" target="_blank" class="btn btn-outline-primary">🚀 Open X / Twitter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 let ARE_ALL_EXPANDED = false;
 
-function toggleSingleCard(e, gamePk) {
+function toggleSingleCard(e, gamePk) {{
     if (e && e.target.closest('a, button, input, label, [data-bs-toggle="collapse"]')) return;
-    const card = document.getElementById(`game-${gamePk}`);
+    const card = document.getElementById(`game-${{gamePk}}`);
     if (!card) return;
     const ribbon = card.querySelector('.ribbon-view');
     const full = card.querySelector('.full-card-view');
-    if (ribbon.style.display === 'none') {
+    if (ribbon.style.display === 'none') {{
         ribbon.style.display = 'block'; full.style.display = 'none';
-    } else {
+    }} else {{
         ribbon.style.display = 'none'; full.style.display = 'block';
-    }
-}
+    }}
+}}
 
-function toggleAllWeatherCards() {
+function toggleAllWeatherCards() {{
     ARE_ALL_EXPANDED = !ARE_ALL_EXPANDED;
     const btnText = document.getElementById('expand-toggle-text');
     const btnIcon = document.getElementById('expand-toggle-icon');
-    if (btnText && btnIcon) {
+    if (btnText && btnIcon) {{
         btnText.innerText = ARE_ALL_EXPANDED ? 'Collapse All Cards' : 'Expand All Cards';
         btnIcon.innerText = ARE_ALL_EXPANDED ? '▲' : '▼';
-    }
-    document.querySelectorAll('.game-card-wrapper').forEach(card => {
+    }}
+    document.querySelectorAll('.game-card-wrapper').forEach(card => {{
         const ribbon = card.querySelector('.ribbon-view');
         const full = card.querySelector('.full-card-view');
-        if (ribbon && full) {
+        if (ribbon && full) {{
             ribbon.style.display = ARE_ALL_EXPANDED ? 'none' : 'block';
             full.style.display = ARE_ALL_EXPANDED ? 'block' : 'none';
-        }
-    });
-}
+        }}
+    }});
+}}
 
-function filterAndSortGames() {
+function filterAndSortGames() {{
     const container = document.getElementById('games-container');
     const cards = Array.from(container.querySelectorAll('.game-card-wrapper'));
     const sortMode = document.getElementById('sort-filter').value;
     const riskOnly = document.getElementById('risk-only').checked;
 
-    cards.forEach(card => {
+    cards.forEach(card => {{
         const isRisk = card.getAttribute('data-risk') === '1';
-        if (riskOnly && !isRisk) {
+        if (riskOnly && !isRisk) {{
             card.style.display = 'none';
-        } else {
+        }} else {{
             card.style.display = 'block';
-        }
-    });
+        }}
+    }});
 
-    cards.sort((a, b) => {
+    cards.sort((a, b) => {{
         if (sortMode === 'wind') return parseFloat(b.getAttribute('data-wind')) - parseFloat(a.getAttribute('data-wind'));
         if (sortMode === 'rain') return parseFloat(b.getAttribute('data-rain')) - parseFloat(a.getAttribute('data-rain'));
         if (sortMode === 'temp') return parseFloat(b.getAttribute('data-temp')) - parseFloat(a.getAttribute('data-temp'));
         if (sortMode === 'humidity') return parseFloat(b.getAttribute('data-humidity')) - parseFloat(a.getAttribute('data-humidity'));
         return new Date(a.getAttribute('data-game-date')) - new Date(b.getAttribute('data-game-date'));
-    });
+    }});
 
     cards.forEach(card => container.appendChild(card));
-}
+}}
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {{
     const sortFilter = document.getElementById('sort-filter');
     const riskToggle = document.getElementById('risk-only');
-    const datePicker = document.getElementById('date-picker');
-
     if (sortFilter) sortFilter.addEventListener('change', filterAndSortGames);
     if (riskToggle) riskToggle.addEventListener('change', filterAndSortGames);
+}});
 
-    if (datePicker) {
-        datePicker.addEventListener('change', (e) => {
-            if (e.target.value) {
-                window.location.href = `/?date=${e.target.value}`;
-            }
-        });
-    }
-});
-
-function showRadar(url, venueName) {
+function showRadar(url, venueName) {{
     const modalElement = document.getElementById('radarModal');
     const modalTitle = document.querySelector('#radarModal .modal-title');
     const iframe = document.getElementById('radarFrame');
-    if (modalTitle) modalTitle.innerText = `Radar: ${venueName}`;
+    if (modalTitle) modalTitle.innerText = `Radar: ${{venueName}}`;
     const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
     if (iframe) iframe.src = url;
     myModal.show();
-}
+}}
+
+function copyTweet() {{
+    const copyText = document.getElementById("tweet-text");
+    copyText.select();
+    navigator.clipboard.writeText(copyText.value);
+    const btn = document.querySelector('#tweetModal .btn-dark');
+    btn.innerText = "✅ Copied!";
+    setTimeout(() => btn.innerText = "📋 Copy to Clipboard", 2000);
+}}
+
+function generateDailyReport() {{
+    const cards = document.querySelectorAll('.game-card-wrapper');
+    if (cards.length === 0) {{
+        alert("No games data available to report!");
+        return;
+    }}
+    let reportText = "⚾ MLB Weather Report by https://weathermlb.com\\n\\n";
+    cards.forEach(card => {{
+        const ribbon = card.querySelector('.ribbon-view');
+        if (ribbon) {{
+            const text = ribbon.innerText.replace(/\\n+/g, ' ').trim();
+            reportText += "• " + text + "\\n";
+        }}
+    }});
+    reportText += "\\n#MLB #FantasyBaseball #MLBWeather";
+    const textArea = document.getElementById('tweet-text');
+    if (textArea) textArea.value = reportText;
+    const modalElement = document.getElementById('tweetModal');
+    if (modalElement) {{
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modal.show();
+    }}
+}}
 </script>
+</body>
+</html>
 """
 
-# ==========================================
-# 5. MAIN GENERATOR ENGINE
-# ==========================================
-def main():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.dirname(base_dir) # Steps up to the root folder
-    data_dir = os.path.join(root_dir, "data", "daily_files")
-    
-    today_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-    daily_file = os.path.join(data_dir, f"games_{today_str}.json")
-
-    games_data = []
-    if os.path.exists(daily_file):
-        with open(daily_file, 'r', encoding='utf-8') as f:
-            games_data = json.load(f)
-    else:
-        print(f"⚠️ No game JSON file found for {today_str}. Creating fallback containers.")
-
-    # ------------------------------------------
-    # 5A. BUILD MAIN INDEX.HTML
-    # ------------------------------------------
-    cards_html_list = []
-    if games_data:
-        for idx, item in enumerate(games_data):
-            cards_html_list.append(render_main_game_card(item, idx))
-        cards_container_html = f'''
-        <div class="col-12 text-center mb-3 mt-1 position-relative">
-            <button class="btn btn-sm shadow-sm fw-bold px-4 py-1" style="background-color: #fff; border: 1px solid #dee2e6; color: #495057; border-radius: 20px;" onclick="toggleAllWeatherCards()">
-                <span id="expand-toggle-icon">▼</span> 
-                <span id="expand-toggle-text">Expand All Cards</span>
-            </button>
-        </div>
-        {"".join(cards_html_list)}
-        '''
-    else:
-        cards_container_html = f'''
-        <div class="col-12 text-center mt-5">
-            <div class="alert alert-light border shadow-sm py-4">
-                <h4 class="text-muted">No games scheduled for {today_str}</h4>
-            </div>
-        </div>
-        '''
-
-    # Load main template structure
-    main_template_path = os.path.join(root_dir, "index.html")
-    with open(main_template_path, 'r', encoding='utf-8') as f:
-        main_html = f.read()
-
-    # Replace container content and inject lightweight client JS
-    main_html = main_html.replace(
-        '<div id="games-container" class="row justify-content-center">',
-        f'<div id="games-container" class="row justify-content-center">\n{cards_container_html}'
-    )
-    main_html = main_html.replace('</body>', f'{MAIN_PAGE_INTERACTIVE_JS}\n</body>')
-
-    # Remove dynamic client-side JS script include
-    main_html = main_html.replace('<script src="script.js"></script>', '')
-
-    with open(main_template_path, 'w', encoding='utf-8') as f:
-        f.write(main_html)
-
-    print("✅ Pre-rendered main index.html with static weather cards!")
-
-    # ------------------------------------------
-    # 5B. BUILD 30 INNER TEAM PAGES
-    # ------------------------------------------
-    team_pages_dir = os.path.join(root_dir, "team_pages")
-    os.makedirs(team_pages_dir, exist_ok=True)
-
-    sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])
-    dropdown_options = "\n".join([f'<option value="/team_pages/{t["slug"]}/">{t["name"]}</option>' for t in sorted_teams])
-
-    for team in MLB_TEAMS:
-        t_dir = os.path.join(team_pages_dir, team["slug"])
-        os.makedirs(t_dir, exist_ok=True)
-
-        target_game = None
-        if games_data:
-            for g in games_data:
-                home_id = g['gameRaw']['teams']['home']['team']['id']
-                away_id = g['gameRaw']['teams']['away']['team']['id']
-                if home_id == team["id"] or away_id == team["id"]:
-                    target_game = g
-                    break
-
-        if target_game:
-            card_markup = render_standalone_team_card(target_game)
-            actual_stadium = target_game['gameRaw'].get('venue', {}).get('name', team['stadium'])
-        else:
-            actual_stadium = team['stadium']
-            card_markup = '''
-            <div class="card p-5 text-center text-muted" style="border: 2px dashed #dee2e6; border-radius: 12px; background: #fff;">
-                <h3 class="h5 fw-bold text-dark mb-2">No Game Scheduled Today</h3>
-                <p class="small mb-0">This team has an off-day, travel day, or their matchup was postponed early.</p>
-            </div>
-            '''
-
-        team_html = f'''<!DOCTYPE html>
+TEAM_PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TNW6W5ZVN"></script>
@@ -697,13 +1057,13 @@ def main():
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{team["name"]} Game Weather Today at {actual_stadium} | Rain & Wind Forecast</title>
-    <meta name="description" content="View the live weather forecast for today's {team["name"]} game at {actual_stadium}. Track real-time rain delay risks, stadium wind direction, hourly temperatures, and betting odds.">
-    <meta name="keywords" content="{team["name"]} weather, {actual_stadium} wind direction, {actual_stadium} rain delay, {team["name"]} game weather today, fantasy baseball weather">
-    <link rel="canonical" href="https://weathermlb.com/team_pages/{team["slug"]}/" />
-    <meta property="og:title" content="{team["name"]} Game Weather Today at {actual_stadium} - Weather MLB">
-    <meta property="og:description" content="Track stadium wind, hourly rain risks, and weather impact analytics for the {team["name"]} game at {actual_stadium}.">
-    <meta property="og:url" content="https://weathermlb.com/team_pages/{team["slug"]}/">
+    <title>{team_name} Game Weather Today at {stadium_name} | Rain & Wind Forecast</title>
+    <meta name="description" content="View the live weather forecast for today's {team_name} game at {stadium_name}. Track real-time rain delay risks, stadium wind direction, hourly temperatures, and betting odds.">
+    <meta name="keywords" content="{team_name} weather, {stadium_name} wind direction, {stadium_name} rain delay, {team_name} game weather today, fantasy baseball weather">
+    <link rel="canonical" href="https://weathermlb.com/team_pages/{team_slug}/" />
+    <meta property="og:title" content="{team_name} Game Weather Today at {stadium_name} - Weather MLB">
+    <meta property="og:description" content="Track stadium wind, hourly rain risks, and weather impact analytics for the {team_name} game at {stadium_name}.">
+    <meta property="og:url" content="https://weathermlb.com/team_pages/{team_slug}/">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://weathermlb.com/social-share.png">
     <meta name="twitter:card" content="summary">
@@ -747,7 +1107,7 @@ def main():
             <div class="d-flex align-items-center gap-2">
                 <select id="team-nav-select" class="form-select form-select-sm fw-bold" style="background-color: #1e293b; color: #adb5bd; border: 1px solid #334155; cursor: pointer; max-width: 180px;" onchange="if(this.value) window.location.href=this.value;">
                     <option value="">Switch Team</option>
-                    {dropdown_options}
+                    {team_options}
                 </select>
                 <a href="/" class="btn btn-sm btn-outline-light px-3 fw-bold" style="font-size: 0.75rem;">Full Slate</a>
             </div>
@@ -755,7 +1115,7 @@ def main():
     </nav>
     <div class="main-container">
         <div id="team-weather-container">
-            {card_markup}
+            {team_card_content}
         </div>
     </div>
     <footer class="text-center py-4 text-muted mt-5" style="font-size: 0.75rem;">
@@ -767,16 +1127,138 @@ def main():
     <script>
         document.addEventListener("DOMContentLoaded", () => {{
             const selectMenu = document.getElementById("team-nav-select");
-            if (selectMenu) selectMenu.value = "/team_pages/{team['slug']}/";
+            if (selectMenu) selectMenu.value = "/team_pages/{team_slug}/";
         }});
     </script>
 </body>
-</html>'''
+</html>
+"""
+
+# ==========================================
+# 5. SITEMAP GENERATOR
+# ==========================================
+def generate_sitemap(est_now):
+    iso_time = est_now.isoformat()
+    urls = [
+        ("https://weathermlb.com/", "1.0"),
+    ]
+    for team in sorted(MLB_TEAMS, key=lambda x: x["name"]):
+        urls.append((f"https://weathermlb.com/team_pages/{team['slug']}/", "0.8"))
+
+    sitemap_entries = []
+    for url, priority in urls:
+        sitemap_entries.append(
+            f"  <url>\n"
+            f"    <loc>{url}</loc>\n"
+            f"    <lastmod>{iso_time}</lastmod>\n"
+            f"    <changefreq>hourly</changefreq>\n"
+            f"    <priority>{priority}</priority>\n"
+            f"  </url>"
+        )
+
+    sitemap_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(sitemap_entries) +
+        '\n</urlset>'
+    )
+
+    with open(SITEMAP_FILE, 'w', encoding='utf-8') as f:
+        f.write(sitemap_xml)
+    print("✅ Generated sitemap.xml with updated <lastmod> timestamps!")
+
+# ==========================================
+# 6. MAIN CONTROLLER PIPELINE
+# ==========================================
+def main():
+    est_tz = zoneinfo.ZoneInfo("America/New_York")
+    est_now = datetime.now(est_tz)
+    date_str = est_now.strftime('%Y-%m-%d')
+
+    print(f"🎬 Starting All-In-One Static Site Pipeline for {date_str} (EST)...")
+
+    # Step 1: Run weather updates first
+    games_data = run_weather_update(est_now)
+
+    # Step 2: Render Dropdown Options
+    sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])
+    team_options = "\n".join([f'<option value="/team_pages/{t["slug"]}/">{t["name"]}</option>' for t in sorted_teams])
+
+    # Step 3: Render Main Page Cards
+    cards_html_list = []
+    if games_data:
+        for item in games_data:
+            cards_html_list.append(render_main_game_card(item))
+        main_cards_content = f'''
+        <div class="col-12 text-center mb-3 mt-1 position-relative">
+            <button class="btn btn-sm shadow-sm fw-bold px-4 py-1" style="background-color: #fff; border: 1px solid #dee2e6; color: #495057; border-radius: 20px;" onclick="toggleAllWeatherCards()">
+                <span id="expand-toggle-icon">▼</span> 
+                <span id="expand-toggle-text">Expand All Cards</span>
+            </button>
+        </div>
+        {"".join(cards_html_list)}
+        '''
+    else:
+        main_cards_content = f'''
+        <div class="col-12 text-center mt-5">
+            <div class="alert alert-light border shadow-sm py-4">
+                <h4 class="text-muted">No games scheduled for {date_str}</h4>
+            </div>
+        </div>
+        '''
+
+    # Step 4: Write Main index.html
+    main_html = MAIN_SITE_TEMPLATE.format(
+        today_date=date_str,
+        team_options=team_options,
+        main_cards_content=main_cards_content
+    )
+    with open(MAIN_INDEX_FILE, 'w', encoding='utf-8') as f:
+        f.write(main_html)
+    print("✅ Pre-rendered main index.html using embedded template!")
+
+    # Step 5: Render and Write 30 Team Pages
+    for team in MLB_TEAMS:
+        t_dir = os.path.join(TEAM_PAGES_DIR, team["slug"])
+        os.makedirs(t_dir, exist_ok=True)
+
+        target_game = None
+        if games_data:
+            for g in games_data:
+                home_id = g['gameRaw']['teams']['home']['team']['id']
+                away_id = g['gameRaw']['teams']['away']['team']['id']
+                if home_id == team["id"] or away_id == team["id"]:
+                    target_game = g
+                    break
+
+        if target_game:
+            card_markup = render_standalone_team_card(target_game)
+            actual_stadium = target_game['gameRaw'].get('venue', {}).get('name', team['stadium'])
+        else:
+            actual_stadium = team['stadium']
+            card_markup = '''
+            <div class="card p-5 text-center text-muted" style="border: 2px dashed #dee2e6; border-radius: 12px; background: #fff;">
+                <h3 class="h5 fw-bold text-dark mb-2">No Game Scheduled Today</h3>
+                <p class="small mb-0">This team has an off-day, travel day, or their matchup was postponed early.</p>
+            </div>
+            '''
+
+        team_html = TEAM_PAGE_TEMPLATE.format(
+            team_name=team["name"],
+            team_slug=team["slug"],
+            stadium_name=actual_stadium,
+            team_options=team_options,
+            team_card_content=card_markup
+        )
 
         with open(os.path.join(t_dir, "index.html"), "w", encoding="utf-8") as f:
             f.write(team_html)
 
-    print("🚀 Pre-rendered all 30 inner team pages with static weather cards!")
+    print("🚀 Pre-rendered all 30 inner team pages using embedded templates!")
+
+    # Step 6: Generate Sitemap
+    generate_sitemap(est_now)
+    print("🎉 All-in-one site generation pipeline completed successfully!")
 
 if __name__ == "__main__":
     main()

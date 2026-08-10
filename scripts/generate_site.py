@@ -161,7 +161,8 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                     "temp": round(vals.get('temperature', 0)),
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
-                    "isSnow": is_hour_snow
+                    "isSnow": is_hour_snow,
+                    "weatherCode": weather_code
                 })
 
             start_hour_vals = intervals[1].get('values', {}) if len(intervals) > 1 else intervals[0].get('values', {})
@@ -407,6 +408,33 @@ def generate_matchup_analysis(weather, wind_info, is_roof_closed, is_roof_pendin
         return "✅ <b>Neutral:</b> Fair weather conditions. No significant advantage."
     return "<br>".join(notes)
 
+def get_hourly_icon(code, precip_chance, is_night, is_thunderstorm=False, is_snow=False):
+    if is_thunderstorm or code == 8000:
+        return '⛈️'
+    if is_snow or (5000 <= code < 6000):
+        return '🌨️'
+    if (4000 <= code < 5000) or precip_chance >= 50:
+        return '🌧️'
+    
+    # Cloud & Sky Condition Mapping
+    if code == 1000:          # Clear
+        return '🌙' if is_night else '☀️'
+    elif code == 1100:        # Mostly Clear
+        return '🌙' if is_night else '🌤️'
+    elif code == 1101:        # Partly Cloudy
+        return '🌙' if is_night else '⛅'
+    elif code in [1102, 1001]:# Mostly Cloudy / Overcast
+        return '☁️'
+    elif 2000 <= code < 3000: # Fog / Haze
+        return '🌫️'
+    
+    # Fallback based on rain chance
+    if precip_chance >= 30:
+        return '🌧️'
+    elif precip_chance > 0:
+        return '⛅'
+    return '🌙' if is_night else '☀️'
+
 def render_main_game_card(data):
     game = data['gameRaw']
     stadium = data.get('stadium') or {}
@@ -506,15 +534,12 @@ def render_main_game_card(data):
                     time_label = h_dt.strftime("%I%p").lstrip("0")
                     is_night = h_dt.hour >= 20 or h_dt.hour < 6
 
+                    code = h.get('weatherCode', 1000)
+                    icon = get_hourly_icon(code, h.get('precipChance', 0), is_night, h.get('isThunderstorm'), h.get('isSnow'))
+
                     pop_html = '&nbsp;'
-                    if h.get('precipChance', 0) >= 30:
-                        icon = '⛈️' if h.get('isThunderstorm') else ('🌨️' if h.get('isSnow') else '🌧️')
+                    if h.get('precipChance', 0) > 0:
                         pop_html = f"{h['precipChance']}%"
-                    elif h.get('precipChance', 0) > 0:
-                        icon = '⛅'
-                        pop_html = f"{h['precipChance']}%"
-                    else:
-                        icon = '🌙' if is_night else '☀️'
 
                     cards.append(f'''<div class="hour-card"><div class="hour-time">{time_label}</div><div class="hour-icon">{icon}</div><div class="hour-pop">{pop_html}</div><div class="hour-temp">{h.get("temp", "--")}°</div></div>''')
                 hourly_html = f'''<div class="hourly-scroll-container">{"".join(cards)}</div>'''
@@ -684,15 +709,12 @@ def render_standalone_team_card(data):
                 time_label = h_dt.strftime("%I%p").lstrip("0")
                 is_night = h_dt.hour >= 20 or h_dt.hour < 6
 
-                pop_html = '&nbsp;'
-                if h.get('precipChance', 0) >= 30:
-                    icon = '⛈️' if h.get('isThunderstorm') else ('🌨️' if h.get('isSnow') else '🌧️')
-                    pop_html = f"{h['precipChance']}%"
-                elif h.get('precipChance', 0) > 0:
-                    icon = '⛅'
-                    pop_html = f"{h['precipChance']}%"
-                else:
-                    icon = '🌙' if is_night else '☀️'
+                code = h.get('weatherCode', 1000)
+                    icon = get_hourly_icon(code, h.get('precipChance', 0), is_night, h.get('isThunderstorm'), h.get('isSnow'))
+
+                    pop_html = '&nbsp;'
+                    if h.get('precipChance', 0) > 0:
+                        pop_html = f"{h['precipChance']}%"
 
                 hours_markup.append(f'<div class="hour-card"><div class="hour-time">{time_label}</div><div class="hour-icon">{icon}</div><div class="hour-pop">{pop_html}</div><div class="hour-temp">{h.get("temp", "--")}°</div></div>')
             hourly_html = f'<div class="hourly-scroll-container">{"".join(hours_markup)}</div>'

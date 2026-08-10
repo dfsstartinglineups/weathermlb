@@ -713,8 +713,8 @@ def render_standalone_team_card(data):
                 icon = get_hourly_icon(code, h.get('precipChance', 0), is_night, h.get('isThunderstorm'), h.get('isSnow'))
 
                 pop_html = '&nbsp;'
-                    if h.get('precipChance', 0) > 0:
-                        pop_html = f"{h['precipChance']}%"
+                if h.get('precipChance', 0) > 0:
+                    pop_html = f"{h['precipChance']}%"
 
                 hours_markup.append(f'<div class="hour-card"><div class="hour-time">{time_label}</div><div class="hour-icon">{icon}</div><div class="hour-pop">{pop_html}</div><div class="hour-temp">{h.get("temp", "--")}°</div></div>')
                 hourly_html = f'<div class="hourly-scroll-container">{"".join(hours_markup)}</div>'

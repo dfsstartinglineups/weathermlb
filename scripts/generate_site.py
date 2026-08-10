@@ -103,11 +103,6 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
         return {"temp": "--", "hourly": []}
 
     utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
-    today_utc = datetime.now(timezone.utc).date()
-    days_diff = (utc_time.date() - today_utc).days
-
-    if days_diff != 0:
-        return {"status": "too_early", "temp": "--"}
 
     start_time = (utc_time - timedelta(hours=1)).strftime('%Y-%m-%dT%H:00:00Z')
     end_time = (utc_time + timedelta(hours=4)).strftime('%Y-%m-%dT%H:00:00Z')

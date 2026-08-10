@@ -542,7 +542,7 @@ def render_main_game_card(data):
                         pop_html = f"{h['precipChance']}%"
 
                     cards.append(f'''<div class="hour-card"><div class="hour-time">{time_label}</div><div class="hour-icon">{icon}</div><div class="hour-pop">{pop_html}</div><div class="hour-temp">{h.get("temp", "--")}°</div></div>''')
-                hourly_html = f'''<div class="hourly-scroll-container">{"".join(cards)}</div>'''
+                    hourly_html = f'''<div class="hourly-scroll-container">{"".join(cards)}</div>'''
 
             wind_arrow = f'<span class="arrow-emoji">{wind_info.get("arrow")}</span>' if wind_info else "💨"
             wind_css = wind_info.get("cssClass", "bg-secondary") if wind_info else "bg-secondary"
@@ -710,14 +710,14 @@ def render_standalone_team_card(data):
                 is_night = h_dt.hour >= 20 or h_dt.hour < 6
 
                 code = h.get('weatherCode', 1000)
-                    icon = get_hourly_icon(code, h.get('precipChance', 0), is_night, h.get('isThunderstorm'), h.get('isSnow'))
+                icon = get_hourly_icon(code, h.get('precipChance', 0), is_night, h.get('isThunderstorm'), h.get('isSnow'))
 
-                    pop_html = '&nbsp;'
+                pop_html = '&nbsp;'
                     if h.get('precipChance', 0) > 0:
                         pop_html = f"{h['precipChance']}%"
 
                 hours_markup.append(f'<div class="hour-card"><div class="hour-time">{time_label}</div><div class="hour-icon">{icon}</div><div class="hour-pop">{pop_html}</div><div class="hour-temp">{h.get("temp", "--")}°</div></div>')
-            hourly_html = f'<div class="hourly-scroll-container">{"".join(hours_markup)}</div>'
+                hourly_html = f'<div class="hourly-scroll-container">{"".join(hours_markup)}</div>'
 
         wind_arrow = f'<span class="arrow-emoji">{wind_info.get("arrow")}</span>' if wind_info else "💨"
         wind_css = wind_info.get("cssClass", "bg-secondary") if wind_info else "bg-secondary"

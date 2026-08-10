@@ -235,14 +235,13 @@ def run_weather_update(est_now):
 
             if stadium and weather_data and weather_data.get('temp') != '--':
                 last_updated = weather_data.get('lastUpdated', 0)
-                time_since_update = est_now.timestamp() - last_updated
+                last_updated_dt = datetime.fromtimestamp(last_updated, est_now.tzinfo)
                 game_status = game.get('status', {}).get('abstractGameState', '')
 
                 if game_status in ['Final', 'Game Over']:
                     needs_weather_fetch = False
-                elif time_since_update < 3600:
+                elif last_updated_dt.hour == est_now.hour and last_updated_dt.date() == est_now.date():
                     needs_weather_fetch = False
-
             if calls_made_this_run >= MAX_WEATHER_CALLS_PER_RUN:
                 needs_weather_fetch = False
 

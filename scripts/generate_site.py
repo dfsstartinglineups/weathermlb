@@ -22,6 +22,7 @@ SITEMAP_FILE = os.path.join(ROOT_DIR, 'sitemap.xml')
 
 WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
 INDEXNOW_KEY = "720a7241f9ed46778f358f5e4ab98695"
+MAX_WEATHER_CALLS_PER_RUN = 25  # Prevents exceeding Tomorrow.io's 25/hr limit
 
 os.makedirs(DAILY_FILES_DIR, exist_ok=True)
 os.makedirs(TEAM_PAGES_DIR, exist_ok=True)
@@ -122,17 +123,17 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
         f"&apikey={WEATHER_API_KEY}"
     )
 
-    max_retries = 3
+    max_retries = 2
     for attempt in range(max_retries):
         try:
             API_CALL_TRACKER["weather_api"] += 1
             res = session.get(url, timeout=15)
             if res.status_code == 429:
-                print("⚠️ Tomorrow.io Rate Limit Hit. Waiting 5 seconds...")
-                time.sleep(5)
+                print("⚠️ Tomorrow.io Rate Limit Hit (429). Waiting 10 seconds...")
+                time.sleep(10)
                 continue
             elif res.status_code != 200:
-                print(f"⚠️ Tomorrow.io returned status code {res.status_code}: {res.text}")
+                print(f"⚠️ Tomorrow.io status code {res.status_code}")
                 return {"temp": "--", "hourly": []}
 
             data = res.json()
@@ -180,7 +181,6 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             print(f"⚠️ Tomorrow.io fetch failed with error: {e}")
             return {"temp": "--", "hourly": []}
 
-    print("⚠️ Exhausted all API retries. Falling back to cached weather.")
     return {"temp": "--", "hourly": []}
 
 def run_weather_update(est_now):
@@ -210,6 +210,8 @@ def run_weather_update(est_now):
             daily_memory[str(g['gameRaw']['gamePk'])] = g
 
     games_list = []
+    calls_made_this_run = 0
+
     for date_item in schedule_data.get('dates', []):
         for game in date_item.get('games', []):
             game_pk = str(game['gamePk'])
@@ -218,7 +220,8 @@ def run_weather_update(est_now):
             game_odds = None
             away_team_name = game.get('teams', {}).get('away', {}).get('team', {}).get('name', '')
             home_team_name = game.get('teams', {}).get('home', {}).get('team', {}).get('name', '')
-            game_time_ms = datetime.strptime(game['gameDate'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp() * 1000
+            game_time_dt = datetime.strptime(game['gameDate'], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            game_time_ms = game_time_dt.timestamp() * 1000
 
             def parse_odds_time(d_str):
                 if d_str.endswith('Z'): d_str = d_str[:-1]
@@ -244,14 +247,20 @@ def run_weather_update(est_now):
                 elif time_since_update < 3600:
                     needs_weather_fetch = False
 
+            if calls_made_this_run >= MAX_WEATHER_CALLS_PER_RUN:
+                needs_weather_fetch = False
+
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name}")
                 new_weather = fetch_game_weather(session, stadium['lat'], stadium['lon'], game['gameDate'])
+                calls_made_this_run += 1
+
                 if new_weather.get('temp') == '--' and weather_data and weather_data.get('temp') != '--':
                     print("      🛡️ Fetch failed, keeping existing cached weather.")
                 else:
                     weather_data = new_weather
-                time.sleep(1.0)
+
+                time.sleep(2.5)
 
             wind_data, is_roof_closed, is_roof_pending = None, False, False
 

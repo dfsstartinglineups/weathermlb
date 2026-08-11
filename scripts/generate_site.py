@@ -997,7 +997,7 @@ document.addEventListener('DOMContentLoaded', () => {{
     if (riskToggle) riskToggle.addEventListener('change', filterAndSortGames);
 }});
 
-function showRadar(url, venueName) {
+function showRadar(url, venueName) {{
         const modalElement = document.getElementById('radarModal');
         const modalTitle = document.querySelector('#radarModal .modal-title');
         const iframe = document.getElementById('radarFrame');
@@ -1012,7 +1012,7 @@ function showRadar(url, venueName) {
         };
         modalElement.addEventListener('shown.bs.modal', loadMap);
         myModal.show();
-    }
+    }}
 </script>
 </body>
 </html>

@@ -26,7 +26,7 @@
         "@type": "SportsTeam",
         "name": "Boston Red Sox"
     },
-    "description": "Live weather, lineups, and odds for Boston Red Sox at Toronto Blue Jays. Game weather forecast: 75\u00b0F, 0% chance of rain, winds 6mph."
+    "description": "Live weather, lineups, and odds for Boston Red Sox at Toronto Blue Jays. Game weather forecast: 75\u00b0F, 0% chance of rain, winds 7mph."
 }
     </script>
     <meta charset="UTF-8">
@@ -150,11 +150,11 @@
             
             <div class="weather-row row text-center align-items-center mt-2">
                 <div class="col-3 border-end px-1"><div class="fw-bold">75°F</div><div class="small text-muted" style="font-size: 0.7rem;">Temp</div></div>
-                <div class="col-3 border-end px-1"><div class="fw-bold text-dark">48%</div><div class="small text-muted" style="font-size: 0.7rem;">Hum</div></div>
+                <div class="col-3 border-end px-1"><div class="fw-bold text-dark">53%</div><div class="small text-muted" style="font-size: 0.7rem;">Hum</div></div>
                 <div class="col-3 border-end px-1"><div class="fw-bold text-primary">0%</div><div class="small text-muted" style="font-size: 0.7rem;">Rain</div></div>
-                <div class="col-3 px-1"><div class="fw-bold">6 <span style="font-size:0.7em">mph</span></div><span class="wind-badge bg-cross" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;"><span class="arrow-emoji">⬅</span></span></div>
+                <div class="col-3 px-1"><div class="fw-bold">7 <span style="font-size:0.7em">mph</span></div><span class="wind-badge bg-cross" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;"><span class="arrow-emoji">⬅</span></span></div>
             </div>
-            <div class="hourly-scroll-container"><div class="hour-card"><div class="hour-time">6PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">75°</div></div><div class="hour-card"><div class="hour-time">7PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">75°</div></div><div class="hour-card"><div class="hour-time">8PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">73°</div></div><div class="hour-card"><div class="hour-time">9PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">69°</div></div><div class="hour-card"><div class="hour-time">10PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">68°</div></div><div class="hour-card"><div class="hour-time">11PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">68°</div></div></div>
+            <div class="hourly-scroll-container"><div class="hour-card"><div class="hour-time">6PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">76°</div></div><div class="hour-card"><div class="hour-time">7PM</div><div class="hour-icon">🌤️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">75°</div></div><div class="hour-card"><div class="hour-time">8PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">73°</div></div><div class="hour-card"><div class="hour-time">9PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">70°</div></div><div class="hour-card"><div class="hour-time">10PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">68°</div></div><div class="hour-card"><div class="hour-time">11PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">67°</div></div></div>
             <div class="mt-2 mb-2">
                 <a href="https://embed.windy.com/embed2.html?lat=43.6414&lon=-79.3894&detailLat=43.6414&detailLon=-79.3894&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1" target="_blank" class="btn btn-sm btn-outline-primary w-100 py-1" style="font-weight: 600; font-size: 0.8rem;">🗺️ View Live Radar Map</a>
             </div>
@@ -176,6 +176,23 @@
             const selectMenu = document.getElementById("team-nav-select");
             if (selectMenu) selectMenu.value = "/team_pages/toronto-blue-jays/";
         });
+
+        function showRadar(url, venueName) {
+            const modalElement = document.getElementById('radarModal');
+            const modalTitle = document.querySelector('#radarModal .modal-title');
+            const iframe = document.getElementById('radarFrame');
+            if (modalTitle) modalTitle.innerText = `Radar: ${venueName}`;
+            
+            const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+            if (iframe) iframe.src = '';
+            
+            const loadMap = function () {
+                if(iframe) iframe.src = url; 
+                modalElement.removeEventListener('shown.bs.modal', loadMap); 
+            };
+            modalElement.addEventListener('shown.bs.modal', loadMap);
+            myModal.show();
+        }
     </script>
 </body>
 </html>

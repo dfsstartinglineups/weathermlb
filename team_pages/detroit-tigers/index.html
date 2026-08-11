@@ -26,7 +26,7 @@
         "@type": "SportsTeam",
         "name": "Cleveland Guardians"
     },
-    "description": "Live weather, lineups, and odds for Cleveland Guardians at Detroit Tigers. Game weather forecast: 83\u00b0F, 0% chance of rain, winds 6mph."
+    "description": "Live weather, lineups, and odds for Cleveland Guardians at Detroit Tigers. Game weather forecast: 81\u00b0F, 10% chance of rain, winds 11mph."
 }
     </script>
     <meta charset="UTF-8">
@@ -149,16 +149,16 @@
             </div>
             
             <div class="weather-row row text-center align-items-center mt-2">
-                <div class="col-3 border-end px-1"><div class="fw-bold">83°F</div><div class="small text-muted" style="font-size: 0.7rem;">Temp</div></div>
-                <div class="col-3 border-end px-1"><div class="fw-bold text-dark">60%</div><div class="small text-muted" style="font-size: 0.7rem;">Hum</div></div>
-                <div class="col-3 border-end px-1"><div class="fw-bold text-primary">0%</div><div class="small text-muted" style="font-size: 0.7rem;">Rain</div></div>
-                <div class="col-3 px-1"><div class="fw-bold">6 <span style="font-size:0.7em">mph</span></div><span class="wind-badge bg-cross" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;"><span class="arrow-emoji">⬅</span></span></div>
+                <div class="col-3 border-end px-1"><div class="fw-bold">81°F</div><div class="small text-muted" style="font-size: 0.7rem;">Temp</div></div>
+                <div class="col-3 border-end px-1"><div class="fw-bold text-dark">72%</div><div class="small text-muted" style="font-size: 0.7rem;">Hum</div></div>
+                <div class="col-3 border-end px-1"><div class="fw-bold text-primary">10%</div><div class="small text-muted" style="font-size: 0.7rem;">Rain</div></div>
+                <div class="col-3 px-1"><div class="fw-bold">11 <span style="font-size:0.7em">mph</span></div><span class="wind-badge bg-in" style="font-size: 0.55rem; white-space: nowrap; display: inline-block; padding: 2px 4px;"><span class="arrow-emoji">↙</span></span></div>
             </div>
-            <div class="hourly-scroll-container"><div class="hour-card"><div class="hour-time">5PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">83°</div></div><div class="hour-card"><div class="hour-time">6PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">83°</div></div><div class="hour-card"><div class="hour-time">7PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">82°</div></div><div class="hour-card"><div class="hour-time">8PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">81°</div></div><div class="hour-card"><div class="hour-time">9PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">78°</div></div><div class="hour-card"><div class="hour-time">10PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">76°</div></div></div>
+            <div class="hourly-scroll-container"><div class="hour-card"><div class="hour-time">5PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">82°</div></div><div class="hour-card"><div class="hour-time">6PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">81°</div></div><div class="hour-card"><div class="hour-time">7PM</div><div class="hour-icon">🌧️</div><div class="hour-pop">10%</div><div class="hour-temp">77°</div></div><div class="hour-card"><div class="hour-time">8PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">74°</div></div><div class="hour-card"><div class="hour-time">9PM</div><div class="hour-icon">☁️</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">73°</div></div><div class="hour-card"><div class="hour-time">10PM</div><div class="hour-icon">🌙</div><div class="hour-pop">&nbsp;</div><div class="hour-temp">72°</div></div></div>
             <div class="mt-2 mb-2">
                 <a href="https://embed.windy.com/embed2.html?lat=42.339&lon=-83.0485&detailLat=42.339&detailLon=-83.0485&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1" target="_blank" class="btn btn-sm btn-outline-primary w-100 py-1" style="font-weight: 600; font-size: 0.8rem;">🗺️ View Live Radar Map</a>
             </div>
-            <div class="analysis-box"><span class="analysis-title">✨ Weather Impact Analysis</span>✅ <b>Neutral:</b> Fair weather conditions. No significant advantage.</div>
+            <div class="analysis-box"><span class="analysis-title">✨ Weather Impact Analysis</span>💧 <b>High Humidity (>70%):</b> Breaking balls hang/flatten (Hitter Adv), but the ball travels shorter distances (Pitcher Adv).<br>📉 <b>Lefty Nightmare:</b> Wind blowing in from Right knocks down Lefty power.</div>
         
         </div>
     </div>
@@ -176,6 +176,23 @@
             const selectMenu = document.getElementById("team-nav-select");
             if (selectMenu) selectMenu.value = "/team_pages/detroit-tigers/";
         });
+
+        function showRadar(url, venueName) {
+            const modalElement = document.getElementById('radarModal');
+            const modalTitle = document.querySelector('#radarModal .modal-title');
+            const iframe = document.getElementById('radarFrame');
+            if (modalTitle) modalTitle.innerText = `Radar: ${venueName}`;
+            
+            const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+            if (iframe) iframe.src = '';
+            
+            const loadMap = function () {
+                if(iframe) iframe.src = url; 
+                modalElement.removeEventListener('shown.bs.modal', loadMap); 
+            };
+            modalElement.addEventListener('shown.bs.modal', loadMap);
+            myModal.show();
+        }
     </script>
 </body>
 </html>

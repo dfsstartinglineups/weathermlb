@@ -142,8 +142,12 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
             for hour in intervals:
                 hour_time_str = hour.get('startTime')
                 vals = hour.get('values', {})
-                chance = int(vals.get('precipitationProbability', 0))
-                weather_code = vals.get('weatherCode', 1000)
+                
+                # SAFE PARSING: Tomorrow.io returns null/None for empty fields instead of 0
+                chance_raw = vals.get('precipitationProbability')
+                chance = int(float(chance_raw)) if chance_raw is not None else 0
+                
+                weather_code = vals.get('weatherCode') or 1000
                 is_hour_thunderstorm = (weather_code == 8000)
                 is_hour_snow = (5000 <= weather_code < 8000)
 
@@ -151,9 +155,12 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                 if is_hour_snow: is_game_snow = True
                 if chance > max_chance_in_window: max_chance_in_window = chance
 
+                temp_raw = vals.get('temperature')
+                hour_temp = round(float(temp_raw)) if temp_raw is not None else 0
+
                 hourly_slice.append({
                     "timestamp": hour_time_str,
-                    "temp": round(vals.get('temperature', 0)),
+                    "temp": hour_temp,
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
                     "isSnow": is_hour_snow,
@@ -161,16 +168,21 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
                 })
 
             start_hour_vals = intervals[1].get('values', {}) if len(intervals) > 1 else intervals[0].get('values', {})
+            
+            temp_raw = start_hour_vals.get('temperature')
+            hum_raw = start_hour_vals.get('humidity')
+            wind_raw = start_hour_vals.get('windSpeed')
+            
             return {
                 "status": "ok",
                 "lastUpdated": datetime.now(timezone.utc).timestamp(),
-                "temp": round(start_hour_vals.get('temperature', 70)),
-                "humidity": round(start_hour_vals.get('humidity', 50)),
+                "temp": round(float(temp_raw)) if temp_raw is not None else 70,
+                "humidity": round(float(hum_raw)) if hum_raw is not None else 50,
                 "maxPrecipChance": max_chance_in_window,
                 "isThunderstorm": is_game_thunderstorm,
                 "isSnow": is_game_snow,
-                "windSpeed": round(start_hour_vals.get('windSpeed', 0)),
-                "windDir": start_hour_vals.get('windDirection', 0),
+                "windSpeed": round(float(wind_raw)) if wind_raw is not None else 0,
+                "windDir": start_hour_vals.get('windDirection') or 0,
                 "hourly": hourly_slice
             }
         except Exception as e:

@@ -997,15 +997,22 @@ document.addEventListener('DOMContentLoaded', () => {{
     if (riskToggle) riskToggle.addEventListener('change', filterAndSortGames);
 }});
 
-function showRadar(url, venueName) {{
-    const modalElement = document.getElementById('radarModal');
-    const modalTitle = document.querySelector('#radarModal .modal-title');
-    const iframe = document.getElementById('radarFrame');
-    if (modalTitle) modalTitle.innerText = `Radar: ${{venueName}}`;
-    const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
-    if (iframe) iframe.src = url;
-    myModal.show();
-}}
+function showRadar(url, venueName) {
+        const modalElement = document.getElementById('radarModal');
+        const modalTitle = document.querySelector('#radarModal .modal-title');
+        const iframe = document.getElementById('radarFrame');
+        if (modalTitle) modalTitle.innerText = `Radar: ${venueName}`;
+        
+        const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        if (iframe) iframe.src = '';
+        
+        const loadMap = function () {
+            if(iframe) iframe.src = url; 
+            modalElement.removeEventListener('shown.bs.modal', loadMap); 
+        };
+        modalElement.addEventListener('shown.bs.modal', loadMap);
+        myModal.show();
+    }
 </script>
 </body>
 </html>

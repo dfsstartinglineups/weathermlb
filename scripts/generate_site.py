@@ -22,7 +22,7 @@ SITEMAP_FILE = os.path.join(ROOT_DIR, 'sitemap.xml')
 
 WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
 INDEXNOW_KEY = "720a7241f9ed46778f358f5e4ab98695"
-MAX_WEATHER_CALLS_PER_RUN = 25  # Prevents exceeding Tomorrow.io's 25/hr limit
+
 
 os.makedirs(DAILY_FILES_DIR, exist_ok=True)
 os.makedirs(TEAM_PAGES_DIR, exist_ok=True)
@@ -103,94 +103,73 @@ def fetch_game_weather(session, lat, lon, game_date_iso):
         return {"temp": "--", "hourly": []}
 
     utc_time = datetime.fromisoformat(game_date_iso.replace('Z', '+00:00'))
-
-    start_time = (utc_time - timedelta(hours=1)).strftime('%Y-%m-%dT%H:00:00Z')
-    end_time = (utc_time + timedelta(hours=4)).strftime('%Y-%m-%dT%H:00:00Z')
-
-    url = (
-        f"https://api.tomorrow.io/v4/timelines"
-        f"?location={lat},{lon}"
-        f"&fields=temperature,humidity,precipitationProbability,weatherCode,windSpeed,windDirection"
-        f"&timesteps=1h"
-        f"&units=imperial"
-        f"&startTime={start_time}"
-        f"&endTime={end_time}"
-        f"&apikey={WEATHER_API_KEY}"
-    )
+    url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={lat},{lon}&days=2&aqi=no&alerts=no"
 
     max_retries = 2
     for attempt in range(max_retries):
         try:
             API_CALL_TRACKER["weather_api"] += 1
-            res = session.get(url, timeout=15)
-            if res.status_code == 429:
-                print("⚠️ Tomorrow.io Rate Limit Hit (429). Waiting 10 seconds...")
-                time.sleep(10)
-                continue
-            elif res.status_code != 200:
-                print(f"⚠️ Tomorrow.io status code {res.status_code}")
+            res = session.get(url, timeout=12)
+            if res.status_code != 200:
+                print(f"⚠️ WeatherAPI status code {res.status_code}")
                 return {"temp": "--", "hourly": []}
 
             data = res.json()
-            timelines = data.get('data', {}).get('timelines', [])
-            if not timelines: return {"temp": "--", "hourly": []}
+            all_hours = []
+            for day in data.get('forecast', {}).get('forecastday', []):
+                all_hours.extend(day.get('hour', []))
 
-            intervals = timelines[0].get('intervals', [])
+            target_epoch = int(utc_time.replace(minute=0, second=0, microsecond=0).timestamp())
+            start_idx = next((i for i, h in enumerate(all_hours) if h['time_epoch'] == target_epoch), 0)
+
+            actual_start = max(0, start_idx - 1)
+            actual_end = min(len(all_hours), start_idx + 4)
+
             hourly_slice, max_chance_in_window = [], 0
             is_game_thunderstorm, is_game_snow = False, False
 
-            for hour in intervals:
-                hour_time_str = hour.get('startTime')
-                vals = hour.get('values', {})
-                
-                # SAFE PARSING: Tomorrow.io returns null/None for empty fields instead of 0
-                chance_raw = vals.get('precipitationProbability')
-                chance = int(float(chance_raw)) if chance_raw is not None else 0
-                
-                weather_code = vals.get('weatherCode') or 1000
-                is_hour_thunderstorm = (weather_code == 8000)
-                is_hour_snow = (5000 <= weather_code < 8000)
+            for i in range(actual_start, actual_end):
+                hour = all_hours[i]
+                chance = int(hour.get('chance_of_rain', 0))
+                cond_text = hour.get('condition', {}).get('text', '').lower()
+                weather_code = hour.get('condition', {}).get('code', 1000)
+
+                is_hour_thunderstorm = "thunder" in cond_text
+                is_hour_snow = any(s in cond_text for s in ["snow", "ice", "sleet", "blizzard"])
 
                 if is_hour_thunderstorm: is_game_thunderstorm = True
                 if is_hour_snow: is_game_snow = True
                 if chance > max_chance_in_window: max_chance_in_window = chance
 
-                temp_raw = vals.get('temperature')
-                hour_temp = round(float(temp_raw)) if temp_raw is not None else 0
-
+                hour_iso = datetime.fromtimestamp(hour['time_epoch'], timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
                 hourly_slice.append({
-                    "timestamp": hour_time_str,
-                    "temp": hour_temp,
+                    "timestamp": hour_iso,
+                    "temp": round(hour.get('temp_f', 72)),
                     "precipChance": chance,
                     "isThunderstorm": is_hour_thunderstorm,
                     "isSnow": is_hour_snow,
                     "weatherCode": weather_code
                 })
 
-            start_hour_vals = intervals[1].get('values', {}) if len(intervals) > 1 else intervals[0].get('values', {})
-            
-            temp_raw = start_hour_vals.get('temperature')
-            hum_raw = start_hour_vals.get('humidity')
-            wind_raw = start_hour_vals.get('windSpeed')
-            
+            kickoff_hour = all_hours[start_idx] if len(all_hours) > start_idx else (all_hours[0] if all_hours else {})
+
             return {
                 "status": "ok",
                 "lastUpdated": datetime.now(timezone.utc).timestamp(),
-                "temp": round(float(temp_raw)) if temp_raw is not None else 70,
-                "humidity": round(float(hum_raw)) if hum_raw is not None else 50,
+                "temp": round(kickoff_hour.get('temp_f', 70)),
+                "humidity": round(kickoff_hour.get('humidity', 50)),
                 "maxPrecipChance": max_chance_in_window,
                 "isThunderstorm": is_game_thunderstorm,
                 "isSnow": is_game_snow,
-                "windSpeed": round(float(wind_raw)) if wind_raw is not None else 0,
-                "windDir": start_hour_vals.get('windDirection') or 0,
+                "windSpeed": round(kickoff_hour.get('wind_mph', 0)),
+                "windDir": kickoff_hour.get('wind_degree', 0),
                 "hourly": hourly_slice
             }
         except Exception as e:
-            print(f"⚠️ Tomorrow.io fetch failed with error: {e}")
+            print(f"⚠️ WeatherAPI fetch failed with error: {e}")
             return {"temp": "--", "hourly": []}
 
     return {"temp": "--", "hourly": []}
-
 def run_weather_update(est_now):
     global API_CALL_TRACKER
 
@@ -254,9 +233,6 @@ def run_weather_update(est_now):
                     needs_weather_fetch = False
                 elif last_updated_dt.hour == est_now.hour and last_updated_dt.date() == est_now.date():
                     needs_weather_fetch = False
-            if calls_made_this_run >= MAX_WEATHER_CALLS_PER_RUN:
-                needs_weather_fetch = False
-
             if stadium and needs_weather_fetch:
                 print(f"   ☁️ Fetching Weather for {away_team_name} @ {home_team_name}")
                 new_weather = fetch_game_weather(session, stadium['lat'], stadium['lon'], game['gameDate'])
@@ -267,8 +243,7 @@ def run_weather_update(est_now):
                 else:
                     weather_data = new_weather
 
-                time.sleep(2.5)
-
+                time.sleep(0.2)
             wind_data, is_roof_closed, is_roof_pending = None, False, False
 
             if stadium and stadium.get('roof'):

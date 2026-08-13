@@ -289,6 +289,18 @@ def run_weather_update(est_now):
 # ==========================================
 # 3. HTML & CARD BUILDER HELPERS
 # ==========================================
+def write_if_changed(filepath, new_content):
+    """Compares new HTML against existing HTML. Writes and returns True only if changed."""
+    if os.path.exists(filepath):
+        with open(filepath, 'r', encoding='utf-8') as f:
+            old_content = f.read()
+        if old_content == new_content:
+            return False
+            
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(new_content)
+    return True
+
 def get_short_team_name(full_name):
     if not full_name: return ""
     if "Red Sox" in full_name: return "Red Sox"
@@ -1107,21 +1119,31 @@ TEAM_PAGE_TEMPLATE = """<!DOCTYPE html>
 # ==========================================
 # 5. SITEMAP & INDEXNOW GENERATOR
 # ==========================================
-def generate_sitemap_and_ping(est_now):
-    iso_time = est_now.isoformat()
-    urls = [
-        "https://weathermlb.com/"
+def generate_sitemap_and_ping(changed_urls):
+    urls_with_paths = [
+        ("https://weathermlb.com/", MAIN_INDEX_FILE)
     ]
     for team in sorted(MLB_TEAMS, key=lambda x: x["name"]):
-        urls.append(f"https://weathermlb.com/team_pages/{team['slug']}/")
+        urls_with_paths.append((
+            f"https://weathermlb.com/team_pages/{team['slug']}/",
+            os.path.join(TEAM_PAGES_DIR, team['slug'], "index.html")
+        ))
 
     sitemap_entries = []
-    for i, url in enumerate(urls):
+    for i, (url, filepath) in enumerate(urls_with_paths):
         priority = "1.0" if i == 0 else "0.8"
+        
+        if os.path.exists(filepath):
+            mtime = os.path.getmtime(filepath)
+            dt = datetime.fromtimestamp(mtime, timezone.utc)
+            lastmod = dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+        else:
+            lastmod = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+
         sitemap_entries.append(
             f"  <url>\n"
             f"    <loc>{url}</loc>\n"
-            f"    <lastmod>{iso_time}</lastmod>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
             f"    <changefreq>hourly</changefreq>\n"
             f"    <priority>{priority}</priority>\n"
             f"  </url>"
@@ -1136,23 +1158,23 @@ def generate_sitemap_and_ping(est_now):
 
     with open(SITEMAP_FILE, 'w', encoding='utf-8') as f:
         f.write(sitemap_xml)
-    print("✅ Generated sitemap.xml with updated <lastmod> timestamps!")
+    print("✅ Generated sitemap.xml using actual file modification dates!")
 
-    if API_CALL_TRACKER["weather_api"] == 0:
-        print("ℹ️ No new Tomorrow.io weather data fetched this run. Skipping IndexNow ping.")
+    if not changed_urls:
+        print("ℹ️ No HTML changes detected. Skipping IndexNow ping.")
         return
 
     payload = {
         "host": "weathermlb.com",
         "key": INDEXNOW_KEY,
         "keyLocation": f"https://weathermlb.com/{INDEXNOW_KEY}.txt",
-        "urlList": urls
+        "urlList": changed_urls
     }
 
     try:
         res = requests.post("https://api.indexnow.org/indexnow", json=payload, timeout=10)
         if res.status_code in [200, 202]:
-            print(f"🚀 Successfully pinged IndexNow with {len(urls)} URLs following weather update!")
+            print(f"🚀 Successfully pinged IndexNow with {len(changed_urls)} modified URLs!")
         else:
             print(f"⚠️ IndexNow ping failed: {res.status_code} - {res.text}")
     except Exception as e:
@@ -1176,6 +1198,9 @@ def main():
 
     # Step 1: Run weather updates first
     games_data = run_weather_update(est_now)
+    
+    # Track which URLs actually received new HTML
+    changed_urls = []
 
     # Step 2: Render Dropdown Options
     sorted_teams = sorted(MLB_TEAMS, key=lambda x: x["name"])
@@ -1220,9 +1245,11 @@ def main():
         team_options=team_options,
         main_cards_content=main_cards_content
     )
-    with open(MAIN_INDEX_FILE, 'w', encoding='utf-8') as f:
-        f.write(main_html)
-    print("✅ Pre-rendered main index.html using embedded template!")
+    if write_if_changed(MAIN_INDEX_FILE, main_html):
+        changed_urls.append("https://weathermlb.com/")
+        print("✅ Main index.html updated.")
+    else:
+        print("⏭️ Main index.html unchanged. Skipped write.")
 
     # Step 5: Render and Write 30 Team Pages
     for team in MLB_TEAMS:
@@ -1290,13 +1317,14 @@ def main():
             team_card_content=card_markup
         )
 
-        with open(os.path.join(t_dir, "index.html"), "w", encoding="utf-8") as f:
-            f.write(team_html)
+        output_filepath = os.path.join(t_dir, "index.html")
+        if write_if_changed(output_filepath, team_html):
+            changed_urls.append(f"https://weathermlb.com/team_pages/{team['slug']}/")
 
-    print("🚀 Pre-rendered all 30 inner team pages using embedded templates!")
+    print(f"🚀 HTML parsing complete. {len(changed_urls)} pages required updates.")
 
     # Step 6: Generate Sitemap and Ping IndexNow
-    generate_sitemap_and_ping(est_now)
+    generate_sitemap_and_ping(changed_urls)
     print("🎉 All-in-one site generation pipeline completed successfully!")
 
 if __name__ == "__main__":

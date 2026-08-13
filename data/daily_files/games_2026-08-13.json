@@ -4176,12 +4176,12 @@
             "gameDate": "2026-08-13T19:07:00Z",
             "officialDate": "2026-08-13",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -4191,12 +4191,13 @@
                         "link": "/api/v1/teams/111"
                     },
                     "leagueRecord": {
-                        "wins": 64,
+                        "wins": 65,
                         "losses": 56,
                         "ties": 0,
-                        "pct": ".533"
+                        "pct": ".537"
                     },
                     "score": 7,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 801139,
                         "fullName": "Payton Tolle",
@@ -4257,11 +4258,12 @@
                     },
                     "leagueRecord": {
                         "wins": 59,
-                        "losses": 63,
+                        "losses": 64,
                         "ties": 0,
-                        "pct": ".484"
+                        "pct": ".480"
                     },
                     "score": 0,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 453286,
                         "fullName": "Max Scherzer",
@@ -4457,9 +4459,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 2,
@@ -4474,7 +4477,7 @@
                         "runs": 0,
                         "hits": 2,
                         "errors": 1,
-                        "leftOnBase": 2
+                        "leftOnBase": 3
                     },
                     "away": {
                         "runs": 7,
@@ -4598,55 +4601,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 676391,
-                        "fullName": "Ernie Clement",
-                        "link": "/api/v1/people/676391",
-                        "firstName": "Ernie",
-                        "lastName": "Clement",
-                        "primaryNumber": "22",
-                        "birthDate": "1996-03-22",
-                        "currentAge": 30,
-                        "birthCity": "Rochester",
-                        "birthStateProvince": "NY",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 170,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Ernie",
-                        "useLastName": "Clement",
-                        "middleName": "James",
-                        "boxscoreName": "Clement",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2017,
-                        "mlbDebutDate": "2021-06-13",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Ernie Clement",
-                        "nameSlug": "ernie-clement-676391",
-                        "firstLastName": "Ernie Clement",
-                        "lastFirstName": "Clement, Ernie",
-                        "lastInitName": "Clement, E",
-                        "initLastName": "E Clement",
-                        "fullFMLName": "Ernie James Clement",
-                        "fullLFMName": "Clement, Ernie James",
-                        "strikeZoneTop": 3.191,
-                        "strikeZoneBottom": 1.61
-                    },
-                    "onDeck": {
                         "id": 665489,
                         "fullName": "Vladimir Guerrero Jr.",
                         "link": "/api/v1/people/665489",
@@ -4697,7 +4651,7 @@
                         "strikeZoneTop": 3.209,
                         "strikeZoneBottom": 1.619
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 543807,
                         "fullName": "George Springer",
                         "link": "/api/v1/people/543807",
@@ -4749,6 +4703,52 @@
                         "strikeZoneTop": 3.267,
                         "strikeZoneBottom": 1.649
                     },
+                    "inHole": {
+                        "id": 672960,
+                        "fullName": "Kazuma Okamoto",
+                        "link": "/api/v1/people/672960",
+                        "firstName": "Kazuma",
+                        "lastName": "Okamoto",
+                        "primaryNumber": "7",
+                        "birthDate": "1996-06-30",
+                        "currentAge": 30,
+                        "birthCity": "Gojo",
+                        "birthCountry": "Japan",
+                        "height": "6' 1\"",
+                        "weight": 220,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Kazuma",
+                        "useLastName": "Okamoto",
+                        "boxscoreName": "Okamoto",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2026-03-27",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Kazuma Okamoto",
+                        "nameSlug": "kazuma-okamoto-672960",
+                        "firstLastName": "Kazuma Okamoto",
+                        "lastFirstName": "Okamoto, Kazuma",
+                        "lastInitName": "Okamoto, K",
+                        "initLastName": "K Okamoto",
+                        "fullFMLName": "Kazuma Okamoto",
+                        "fullLFMName": "Okamoto, Kazuma",
+                        "strikeZoneTop": 3.256,
+                        "strikeZoneBottom": 1.643
+                    },
                     "pitcher": {
                         "id": 681751,
                         "fullName": "Lazaro Estrada",
@@ -4798,16 +4798,16 @@
                         "strikeZoneTop": 3.121,
                         "strikeZoneBottom": 1.575
                     },
-                    "battingOrder": 2,
+                    "battingOrder": 3,
                     "team": {
                         "id": 141,
                         "name": "Toronto Blue Jays",
                         "link": "/api/v1/teams/141"
                     }
                 },
-                "balls": 3,
-                "strikes": 2,
-                "outs": 2
+                "balls": 1,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 14,
@@ -4819,6 +4819,7 @@
             "content": {
                 "link": "/api/v1/game/822776/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -5595,106 +5596,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 621020,
-                        "fullName": "Dansby Swanson",
-                        "link": "/api/v1/people/621020",
-                        "firstName": "James",
-                        "lastName": "Swanson",
-                        "primaryNumber": "7",
-                        "birthDate": "1994-02-11",
-                        "currentAge": 32,
-                        "birthCity": "Kennesaw",
-                        "birthStateProvince": "GA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 190,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Dansby",
-                        "useLastName": "Swanson",
-                        "middleName": "Dansby",
-                        "boxscoreName": "Swanson",
-                        "nickName": "Dans",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2016-08-17",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Dansby Swanson",
-                        "nameSlug": "dansby-swanson-621020",
-                        "firstLastName": "Dansby Swanson",
-                        "lastFirstName": "Swanson, Dansby",
-                        "lastInitName": "Swanson, D",
-                        "initLastName": "D Swanson",
-                        "fullFMLName": "James Dansby Swanson",
-                        "fullLFMName": "Swanson, James Dansby",
-                        "strikeZoneTop": 3.218,
-                        "strikeZoneBottom": 1.624
-                    },
-                    "onDeck": {
-                        "id": 624424,
-                        "fullName": "Michael Conforto",
-                        "link": "/api/v1/people/624424",
-                        "firstName": "Michael",
-                        "lastName": "Conforto",
-                        "primaryNumber": "20",
-                        "birthDate": "1993-03-01",
-                        "currentAge": 33,
-                        "birthCity": "Seattle",
-                        "birthStateProvince": "WA",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Michael",
-                        "useLastName": "Conforto",
-                        "middleName": "Thomas",
-                        "boxscoreName": "Conforto",
-                        "nickName": "Forto",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2014,
-                        "mlbDebutDate": "2015-07-24",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Michael Conforto",
-                        "nameSlug": "michael-conforto-624424",
-                        "firstLastName": "Michael Conforto",
-                        "lastFirstName": "Conforto, Michael",
-                        "lastInitName": "Conforto, M",
-                        "initLastName": "M Conforto",
-                        "fullFMLName": "Michael Thomas Conforto",
-                        "fullLFMName": "Conforto, Michael Thomas",
-                        "strikeZoneTop": 3.181,
-                        "strikeZoneBottom": 1.606
-                    },
-                    "inHole": {
                         "id": 665804,
                         "fullName": "Miguel Amaya",
                         "link": "/api/v1/people/665804",
@@ -5742,6 +5643,103 @@
                         "fullLFMName": "Amaya, Miguel Antonio",
                         "strikeZoneTop": 3.249,
                         "strikeZoneBottom": 1.64
+                    },
+                    "onDeck": {
+                        "id": 691718,
+                        "fullName": "Pete Crow-Armstrong",
+                        "link": "/api/v1/people/691718",
+                        "firstName": "Pete",
+                        "lastName": "Crow-Armstrong",
+                        "primaryNumber": "4",
+                        "birthDate": "2002-03-25",
+                        "currentAge": 24,
+                        "birthCity": "Sherman Oaks",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 184,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Pete",
+                        "useLastName": "Crow-Armstrong",
+                        "middleName": "Henry",
+                        "boxscoreName": "Crow-Armstrong",
+                        "nickName": "PCA",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2023-09-11",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Pete Crow-Armstrong",
+                        "nameSlug": "pete-crow-armstrong-691718",
+                        "firstLastName": "Pete Crow-Armstrong",
+                        "lastFirstName": "Crow-Armstrong, Pete",
+                        "lastInitName": "Crow-Armstrong, P",
+                        "initLastName": "P Crow-Armstrong",
+                        "fullFMLName": "Pete Henry Crow-Armstrong",
+                        "fullLFMName": "Crow-Armstrong, Pete Henry",
+                        "strikeZoneTop": 3.202,
+                        "strikeZoneBottom": 1.616
+                    },
+                    "inHole": {
+                        "id": 673548,
+                        "fullName": "Seiya Suzuki",
+                        "link": "/api/v1/people/673548",
+                        "firstName": "Seiya",
+                        "lastName": "Suzuki",
+                        "primaryNumber": "27",
+                        "birthDate": "1994-08-18",
+                        "currentAge": 31,
+                        "birthCity": "Arakawa",
+                        "birthCountry": "Japan",
+                        "height": "5' 11\"",
+                        "weight": 182,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Seiya",
+                        "useLastName": "Suzuki",
+                        "boxscoreName": "Suzuki",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "SAY-ya",
+                        "mlbDebutDate": "2022-04-07",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Seiya Suzuki",
+                        "nameSlug": "seiya-suzuki-673548",
+                        "firstLastName": "Seiya Suzuki",
+                        "lastFirstName": "Suzuki, Seiya",
+                        "lastInitName": "Suzuki, S",
+                        "initLastName": "S Suzuki",
+                        "fullFMLName": "Seiya Suzuki",
+                        "fullLFMName": "Suzuki, Seiya ",
+                        "strikeZoneTop": 3.178,
+                        "strikeZoneBottom": 1.604
                     },
                     "pitcher": {
                         "id": 650644,
@@ -5793,7 +5791,7 @@
                         "strikeZoneTop": 3.255,
                         "strikeZoneBottom": 1.643
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 9,
                     "team": {
                         "id": 112,
                         "name": "Chicago Cubs",
@@ -5801,8 +5799,8 @@
                     }
                 },
                 "balls": 1,
-                "strikes": 0,
-                "outs": 0
+                "strikes": 2,
+                "outs": 2
             },
             "venue": {
                 "id": 3309,
@@ -7278,16 +7276,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 140,
-                        "name": "Texas Rangers",
-                        "link": "/api/v1/teams/140"
+                        "id": 108,
+                        "name": "Los Angeles Angels",
+                        "link": "/api/v1/teams/108"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 108,
-                        "name": "Los Angeles Angels",
-                        "link": "/api/v1/teams/108"
+                        "id": 140,
+                        "name": "Texas Rangers",
+                        "link": "/api/v1/teams/140"
                     }
                 }
             },
@@ -7589,16 +7587,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 158,
-                        "name": "Milwaukee Brewers",
-                        "link": "/api/v1/teams/158"
+                        "id": 119,
+                        "name": "Los Angeles Dodgers",
+                        "link": "/api/v1/teams/119"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 119,
-                        "name": "Los Angeles Dodgers",
-                        "link": "/api/v1/teams/119"
+                        "id": 158,
+                        "name": "Milwaukee Brewers",
+                        "link": "/api/v1/teams/158"
                     }
                 }
             },

@@ -368,7 +368,7 @@ def generate_matchup_analysis(weather, wind_info, is_roof_closed, is_roof_pendin
     max_precip = weather.get('maxPrecipChance', 0)
 
     if sustained_rain >= 3:
-        notes.append("🌧️ <b>Rainout Risk:</b> Sustained heavy rain. High probability of postponement.")
+        notes.append("🌧️ <b>Rainout Risk:</b> Sustained heavy rain. Possibility of postponement.")
     elif max_precip >= 70:
         notes.append("☔ <b>Severe Delay Risk:</b> Heavy rain expected, but should pass. Delays likely.")
     elif max_precip >= 30:

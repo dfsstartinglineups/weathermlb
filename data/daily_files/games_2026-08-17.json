@@ -11,12 +11,12 @@
             "rescheduledFrom": "2026-05-24T17:40:00Z",
             "rescheduledFromDate": "2026-05-24",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -26,12 +26,13 @@
                         "link": "/api/v1/teams/138"
                     },
                     "leagueRecord": {
-                        "wins": 63,
+                        "wins": 64,
                         "losses": 61,
                         "ties": 0,
-                        "pct": ".508"
+                        "pct": ".512"
                     },
                     "score": 2,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 687273,
                         "fullName": "Quinn Mathews",
@@ -92,11 +93,12 @@
                     },
                     "leagueRecord": {
                         "wins": 59,
-                        "losses": 64,
+                        "losses": 65,
                         "ties": 0,
-                        "pct": ".480"
+                        "pct": ".476"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 592288,
                         "fullName": "Kent Emanuel",
@@ -290,6 +292,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -430,55 +433,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 667472,
-                        "fullName": "Dane Myers",
-                        "link": "/api/v1/people/667472",
-                        "firstName": "Dane",
-                        "lastName": "Myers",
-                        "primaryNumber": "17",
-                        "birthDate": "1996-03-08",
-                        "currentAge": 30,
-                        "birthCity": "Columbus",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 205,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "8",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "CF"
-                        },
-                        "useName": "Dane",
-                        "useLastName": "Myers",
-                        "middleName": "Michael",
-                        "boxscoreName": "Myers",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2017,
-                        "mlbDebutDate": "2023-07-04",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Dane Myers",
-                        "nameSlug": "dane-myers-667472",
-                        "firstLastName": "Dane Myers",
-                        "lastFirstName": "Myers, Dane",
-                        "lastInitName": "Myers, D",
-                        "initLastName": "D Myers",
-                        "fullFMLName": "Dane Michael Myers",
-                        "fullLFMName": "Myers, Dane Michael",
-                        "strikeZoneTop": 3.214,
-                        "strikeZoneBottom": 1.622
-                    },
-                    "onDeck": {
                         "id": 669911,
                         "fullName": "Michael Toglia",
                         "link": "/api/v1/people/669911",
@@ -528,7 +482,7 @@
                         "strikeZoneTop": 3.42,
                         "strikeZoneBottom": 1.726
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 680574,
                         "fullName": "Matt McLain",
                         "link": "/api/v1/people/680574",
@@ -576,6 +530,53 @@
                         "fullLFMName": "McLain, Matthew Michael",
                         "strikeZoneTop": 3.047,
                         "strikeZoneBottom": 1.538
+                    },
+                    "inHole": {
+                        "id": 682622,
+                        "fullName": "Noelvi Marte",
+                        "link": "/api/v1/people/682622",
+                        "firstName": "Noelvi",
+                        "lastName": "Marte",
+                        "primaryNumber": "4",
+                        "birthDate": "2001-10-16",
+                        "currentAge": 24,
+                        "birthCity": "Cotui",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 2\"",
+                        "weight": 216,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Noelvi",
+                        "useLastName": "Marte",
+                        "boxscoreName": "Marte, N",
+                        "gender": "M",
+                        "nameMatrilineal": "Diaz",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2023-08-19",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Noelvi Marte",
+                        "nameSlug": "noelvi-marte-682622",
+                        "firstLastName": "Noelvi Marte",
+                        "lastFirstName": "Marte, Noelvi",
+                        "lastInitName": "Marte, N",
+                        "initLastName": "N Marte",
+                        "fullFMLName": "Noelvi  Marte",
+                        "fullLFMName": "Marte, Noelvi",
+                        "strikeZoneTop": 3.3,
+                        "strikeZoneBottom": 1.66
                     },
                     "pitcher": {
                         "id": 594580,
@@ -627,16 +628,16 @@
                         "strikeZoneTop": 3.076,
                         "strikeZoneBottom": 1.553
                     },
-                    "battingOrder": 5,
+                    "battingOrder": 6,
                     "team": {
                         "id": 113,
                         "name": "Cincinnati Reds",
                         "link": "/api/v1/teams/113"
                     }
                 },
-                "balls": 2,
-                "strikes": 2,
-                "outs": 1
+                "balls": 0,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 2602,
@@ -648,6 +649,7 @@
             "content": {
                 "link": "/api/v1/game/824514/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "S",
@@ -1065,10 +1067,10 @@
                         "link": "/api/v1/teams/138"
                     },
                     "leagueRecord": {
-                        "wins": 63,
+                        "wins": 64,
                         "losses": 61,
                         "ties": 0,
-                        "pct": ".508"
+                        "pct": ".512"
                     },
                     "probablePitcher": {
                         "id": 669467,
@@ -1131,9 +1133,9 @@
                     },
                     "leagueRecord": {
                         "wins": 59,
-                        "losses": 64,
+                        "losses": 65,
                         "ties": 0,
-                        "pct": ".480"
+                        "pct": ".476"
                     },
                     "probablePitcher": {
                         "id": 695076,

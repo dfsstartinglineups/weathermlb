@@ -155,17 +155,34 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     }
                 },
                 "defense": {
@@ -258,6 +275,22 @@
                         "fullName": "Esmerlyn Valdez",
                         "link": "/api/v1/people/699013"
                     },
+                    "batter": {
+                        "id": 687462,
+                        "fullName": "Spencer Horwitz",
+                        "link": "/api/v1/people/687462"
+                    },
+                    "onDeck": {
+                        "id": 664040,
+                        "fullName": "Brandon Lowe",
+                        "link": "/api/v1/people/664040"
+                    },
+                    "inHole": {
+                        "id": 668804,
+                        "fullName": "Bryan Reynolds",
+                        "link": "/api/v1/people/668804"
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 134,
                         "name": "Pittsburgh Pirates",
@@ -412,6 +445,55 @@
                         "fullLFMName": "McGonigle, Kevin",
                         "strikeZoneTop": 3.086,
                         "strikeZoneBottom": 1.557
+                    },
+                    "pitcher": {
+                        "id": 695549,
+                        "fullName": "Jackson Jobe",
+                        "link": "/api/v1/people/695549",
+                        "firstName": "Jackson",
+                        "lastName": "Jobe",
+                        "primaryNumber": "21",
+                        "birthDate": "2002-07-30",
+                        "currentAge": 24,
+                        "birthCity": "Irving",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Jackson",
+                        "useLastName": "Jobe",
+                        "middleName": "William",
+                        "boxscoreName": "Jobe",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2024-09-25",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Jackson Jobe",
+                        "nameSlug": "jackson-jobe-695549",
+                        "firstLastName": "Jackson Jobe",
+                        "lastFirstName": "Jobe, Jackson",
+                        "lastInitName": "Jobe, J",
+                        "initLastName": "J Jobe",
+                        "fullFMLName": "Jackson William Jobe",
+                        "fullLFMName": "Jobe, Jackson William",
+                        "strikeZoneTop": 3.467,
+                        "strikeZoneBottom": 1.589
                     },
                     "battingOrder": 1,
                     "team": {
@@ -3095,16 +3177,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 143,
-                        "name": "Philadelphia Phillies",
-                        "link": "/api/v1/teams/143"
+                        "id": 146,
+                        "name": "Miami Marlins",
+                        "link": "/api/v1/teams/146"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 146,
-                        "name": "Miami Marlins",
-                        "link": "/api/v1/teams/146"
+                        "id": 143,
+                        "name": "Philadelphia Phillies",
+                        "link": "/api/v1/teams/143"
                     }
                 }
             },
@@ -3409,16 +3491,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 110,
-                        "name": "Baltimore Orioles",
-                        "link": "/api/v1/teams/110"
+                        "id": 147,
+                        "name": "New York Yankees",
+                        "link": "/api/v1/teams/147"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 147,
-                        "name": "New York Yankees",
-                        "link": "/api/v1/teams/147"
+                        "id": 110,
+                        "name": "Baltimore Orioles",
+                        "link": "/api/v1/teams/110"
                     }
                 }
             },
@@ -4350,16 +4432,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 139,
-                        "name": "Tampa Bay Rays",
-                        "link": "/api/v1/teams/139"
+                        "id": 141,
+                        "name": "Toronto Blue Jays",
+                        "link": "/api/v1/teams/141"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 141,
-                        "name": "Toronto Blue Jays",
-                        "link": "/api/v1/teams/141"
+                        "id": 139,
+                        "name": "Tampa Bay Rays",
+                        "link": "/api/v1/teams/139"
                     }
                 }
             },
@@ -5858,7 +5940,8 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {}
         },
         "stadium": {
             "id": 19,

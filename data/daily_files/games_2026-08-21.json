@@ -9,12 +9,12 @@
             "gameDate": "2026-08-21T20:10:00Z",
             "officialDate": "2026-08-21",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 75,
-                        "losses": 53,
+                        "losses": 54,
                         "ties": 0,
-                        "pct": ".586"
+                        "pct": ".581"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 519242,
                         "fullName": "Chris Sale",
@@ -90,12 +91,13 @@
                         "link": "/api/v1/teams/158"
                     },
                     "leagueRecord": {
-                        "wins": 79,
+                        "wins": 80,
                         "losses": 49,
                         "ties": 0,
-                        "pct": ".617"
+                        "pct": ".620"
                     },
                     "score": 2,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 694819,
                         "fullName": "Jacob Misiorowski",
@@ -295,9 +297,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -312,7 +315,7 @@
                         "runs": 1,
                         "hits": 8,
                         "errors": 0,
-                        "leftOnBase": 8
+                        "leftOnBase": 9
                     }
                 },
                 "defense": {
@@ -581,56 +584,6 @@
                         "strikeZoneTop": 3.372,
                         "strikeZoneBottom": 1.702
                     },
-                    "second": {
-                        "id": 657041,
-                        "fullName": "Lane Thomas",
-                        "link": "/api/v1/people/657041",
-                        "firstName": "Lane",
-                        "lastName": "Thomas",
-                        "primaryNumber": "20",
-                        "birthDate": "1995-08-23",
-                        "currentAge": 30,
-                        "birthCity": "Knoxville",
-                        "birthStateProvince": "TN",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 195,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Lane",
-                        "useLastName": "Thomas",
-                        "middleName": "Michael",
-                        "boxscoreName": "Thomas, L",
-                        "nickName": "Laner",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2014,
-                        "mlbDebutDate": "2019-04-17",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Lane Thomas",
-                        "nameSlug": "lane-thomas-657041",
-                        "firstLastName": "Lane Thomas",
-                        "lastFirstName": "Thomas, Lane",
-                        "lastInitName": "Thomas, L",
-                        "initLastName": "L Thomas",
-                        "fullFMLName": "Lane Michael Thomas",
-                        "fullLFMName": "Thomas, Lane Michael",
-                        "strikeZoneTop": 3.146,
-                        "strikeZoneBottom": 1.588
-                    },
                     "pitcher": {
                         "id": 689266,
                         "fullName": "Dylan Dodd",
@@ -688,8 +641,8 @@
                     }
                 },
                 "balls": 1,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 32,
@@ -701,6 +654,7 @@
             "content": {
                 "link": "/api/v1/game/823746/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

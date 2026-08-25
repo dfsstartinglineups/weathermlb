@@ -3130,12 +3130,12 @@
             "gameDate": "2026-08-24T23:40:00Z",
             "officialDate": "2026-08-24",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -3145,12 +3145,13 @@
                         "link": "/api/v1/teams/140"
                     },
                     "leagueRecord": {
-                        "wins": 65,
+                        "wins": 66,
                         "losses": 66,
                         "ties": 0,
-                        "pct": ".496"
+                        "pct": ".500"
                     },
                     "score": 11,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 677958,
                         "fullName": "Kumar Rocker",
@@ -3211,11 +3212,12 @@
                     },
                     "leagueRecord": {
                         "wins": 68,
-                        "losses": 62,
+                        "losses": 63,
                         "ties": 0,
-                        "pct": ".523"
+                        "pct": ".519"
                     },
                     "score": 2,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 664353,
                         "fullName": "Jos\u00e9 Urquidy",
@@ -3410,6 +3412,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -3551,56 +3554,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 805367,
-                        "fullName": "Chase Meidroth",
-                        "link": "/api/v1/people/805367",
-                        "firstName": "Chase",
-                        "lastName": "Meidroth",
-                        "primaryNumber": "10",
-                        "birthDate": "2001-07-23",
-                        "currentAge": 25,
-                        "birthCity": "Torrance",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "5' 9\"",
-                        "weight": 190,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Chase",
-                        "useLastName": "Meidroth",
-                        "middleName": "Gregory",
-                        "boxscoreName": "Meidroth",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "pronunciation": "MY-drawth",
-                        "mlbDebutDate": "2025-04-11",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Chase Meidroth",
-                        "nameSlug": "chase-meidroth-805367",
-                        "firstLastName": "Chase Meidroth",
-                        "lastFirstName": "Meidroth, Chase",
-                        "lastInitName": "Meidroth, C",
-                        "initLastName": "C Meidroth",
-                        "fullFMLName": "Chase Gregory Meidroth",
-                        "fullLFMName": "Meidroth, Chase Gregory",
-                        "strikeZoneTop": 3.07,
-                        "strikeZoneBottom": 1.55
-                    },
-                    "onDeck": {
                         "id": 671976,
                         "fullName": "Tristan Peters",
                         "link": "/api/v1/people/671976",
@@ -3649,7 +3602,7 @@
                         "strikeZoneTop": 3.197,
                         "strikeZoneBottom": 1.614
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 691011,
                         "fullName": "Drew Romo",
                         "link": "/api/v1/people/691011",
@@ -3697,6 +3650,55 @@
                         "fullLFMName": "Romo, Drew Arthur",
                         "strikeZoneTop": 3.216,
                         "strikeZoneBottom": 1.623
+                    },
+                    "inHole": {
+                        "id": 803011,
+                        "fullName": "Sam Antonacci",
+                        "link": "/api/v1/people/803011",
+                        "firstName": "Samuel",
+                        "lastName": "Antonacci",
+                        "primaryNumber": "17",
+                        "birthDate": "2003-02-06",
+                        "currentAge": 23,
+                        "birthCity": "Springfield",
+                        "birthStateProvince": "IL",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 193,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Sam",
+                        "useLastName": "Antonacci",
+                        "middleName": "Joseph",
+                        "boxscoreName": "Antonacci",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2024,
+                        "mlbDebutDate": "2026-04-15",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Sam Antonacci",
+                        "nameSlug": "sam-antonacci-803011",
+                        "firstLastName": "Sam Antonacci",
+                        "lastFirstName": "Antonacci, Sam",
+                        "lastInitName": "Antonacci, S",
+                        "initLastName": "S Antonacci",
+                        "fullFMLName": "Samuel Joseph Antonacci",
+                        "fullLFMName": "Antonacci, Samuel Joseph",
+                        "strikeZoneTop": 3.15,
+                        "strikeZoneBottom": 1.59
                     },
                     "pitcher": {
                         "id": 682668,
@@ -3748,7 +3750,7 @@
                         "strikeZoneTop": 3.008,
                         "strikeZoneBottom": 1.518
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 8,
                     "team": {
                         "id": 145,
                         "name": "Chicago White Sox",
@@ -3756,8 +3758,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 0,
-                "outs": 1
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 4,
@@ -3769,6 +3771,7 @@
             "content": {
                 "link": "/api/v1/game/824557/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -4311,11 +4314,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 4,
-                "currentInningOrdinal": "4th",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 5,
+                "currentInningOrdinal": "5th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -4381,13 +4384,27 @@
                             "errors": 0,
                             "leftOnBase": 1
                         }
+                    },
+                    {
+                        "num": 5,
+                        "ordinalNum": "5th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 1,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
                     }
                 ],
                 "teams": {
                     "home": {
                         "runs": 1,
                         "hits": 3,
-                        "errors": 1,
+                        "errors": 2,
                         "leftOnBase": 2
                     },
                     "away": {
@@ -4512,6 +4529,154 @@
                 },
                 "offense": {
                     "batter": {
+                        "id": 666176,
+                        "fullName": "Jo Adell",
+                        "link": "/api/v1/people/666176",
+                        "firstName": "Jordon",
+                        "lastName": "Adell",
+                        "primaryNumber": "7",
+                        "birthDate": "1999-04-08",
+                        "currentAge": 27,
+                        "birthCity": "Shelby",
+                        "birthStateProvince": "NC",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 215,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Jo",
+                        "useLastName": "Adell",
+                        "middleName": "Scott",
+                        "boxscoreName": "Adell",
+                        "nickName": "Jo",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2017,
+                        "pronunciation": "Uh-DEL",
+                        "mlbDebutDate": "2020-08-04",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Jo Adell",
+                        "nameSlug": "jo-adell-666176",
+                        "firstLastName": "Jo Adell",
+                        "lastFirstName": "Adell, Jo",
+                        "lastInitName": "Adell, J",
+                        "initLastName": "J Adell",
+                        "fullFMLName": "Jo Adell",
+                        "fullLFMName": "Adell, J",
+                        "strikeZoneTop": 3.305,
+                        "strikeZoneBottom": 1.668
+                    },
+                    "onDeck": {
+                        "id": 663993,
+                        "fullName": "Nathaniel Lowe",
+                        "link": "/api/v1/people/663993",
+                        "firstName": "David",
+                        "lastName": "Lowe",
+                        "primaryNumber": "46",
+                        "birthDate": "1995-07-07",
+                        "currentAge": 31,
+                        "birthCity": "Norfolk",
+                        "birthStateProvince": "VA",
+                        "birthCountry": "USA",
+                        "height": "6' 4\"",
+                        "weight": 220,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Nathaniel",
+                        "useLastName": "Lowe",
+                        "middleName": "Nathaniel",
+                        "boxscoreName": "Lowe, N",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2016,
+                        "mlbDebutDate": "2019-04-29",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Nathaniel Lowe",
+                        "nameSlug": "nathaniel-lowe-663993",
+                        "firstLastName": "Nathaniel Lowe",
+                        "lastFirstName": "Lowe, Nathaniel",
+                        "lastInitName": "Lowe, N",
+                        "initLastName": "N Lowe",
+                        "fullFMLName": "David Nathaniel Lowe",
+                        "fullLFMName": "Lowe, David Nathaniel",
+                        "strikeZoneTop": 3.367,
+                        "strikeZoneBottom": 1.699
+                    },
+                    "inHole": {
+                        "id": 694197,
+                        "fullName": "Angel Genao",
+                        "link": "/api/v1/people/694197",
+                        "firstName": "Angel",
+                        "lastName": "Genao",
+                        "primaryNumber": "17",
+                        "birthDate": "2004-05-19",
+                        "currentAge": 22,
+                        "birthCity": "Castillo",
+                        "birthCountry": "Dominican Republic",
+                        "height": "5' 11\"",
+                        "weight": 150,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Angel",
+                        "useLastName": "Genao",
+                        "middleName": "Luis",
+                        "boxscoreName": "Genao",
+                        "gender": "M",
+                        "nameMatrilineal": "Acosta",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2026-08-05",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Angel Genao",
+                        "nameSlug": "angel-genao-694197",
+                        "firstLastName": "Angel Genao",
+                        "lastFirstName": "Genao, Angel",
+                        "lastInitName": "Genao, A",
+                        "initLastName": "A Genao",
+                        "fullFMLName": "Angel Luis Genao",
+                        "fullLFMName": "Genao, Angel Luis",
+                        "strikeZoneTop": 3.18,
+                        "strikeZoneBottom": 1.6
+                    },
+                    "second": {
                         "id": 677587,
                         "fullName": "Brayan Rocchio",
                         "link": "/api/v1/people/677587",
@@ -4559,103 +4724,6 @@
                         "fullLFMName": "Rocchio, Brayan Hommy",
                         "strikeZoneTop": 3.068,
                         "strikeZoneBottom": 1.548
-                    },
-                    "onDeck": {
-                        "id": 680757,
-                        "fullName": "Steven Kwan",
-                        "link": "/api/v1/people/680757",
-                        "firstName": "Steven",
-                        "lastName": "Kwan",
-                        "primaryNumber": "38",
-                        "birthDate": "1997-09-05",
-                        "currentAge": 28,
-                        "birthCity": "Los Gatos",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "5' 8\"",
-                        "weight": 170,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Steven",
-                        "useLastName": "Kwan",
-                        "middleName": "Robert",
-                        "boxscoreName": "Kwan",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2022-04-07",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Steven Kwan",
-                        "nameSlug": "steven-kwan-680757",
-                        "firstLastName": "Steven Kwan",
-                        "lastFirstName": "Kwan, Steven",
-                        "lastInitName": "Kwan, S",
-                        "initLastName": "S Kwan",
-                        "fullFMLName": "Steven Robert Kwan",
-                        "fullLFMName": "Kwan, Steven Robert",
-                        "strikeZoneTop": 3.023,
-                        "strikeZoneBottom": 1.525
-                    },
-                    "inHole": {
-                        "id": 608070,
-                        "fullName": "Jos\u00e9 Ram\u00edrez",
-                        "link": "/api/v1/people/608070",
-                        "firstName": "Jos\u00e9",
-                        "lastName": "Ram\u00edrez",
-                        "primaryNumber": "11",
-                        "birthDate": "1992-09-17",
-                        "currentAge": 33,
-                        "birthCity": "Bani",
-                        "birthCountry": "Dominican Republic",
-                        "height": "5' 8\"",
-                        "weight": 190,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Jos\u00e9",
-                        "useLastName": "Ram\u00edrez",
-                        "middleName": "Enrique",
-                        "boxscoreName": "Ram\u00edrez, Jo",
-                        "nickName": "Enriquito",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "mlbDebutDate": "2013-09-01",
-                        "batSide": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jos\u00e9 Ram\u00edrez",
-                        "nameSlug": "jose-ramirez-608070",
-                        "firstLastName": "Jos\u00e9 Ram\u00edrez",
-                        "lastFirstName": "Ram\u00edrez, Jos\u00e9",
-                        "lastInitName": "Ram\u00edrez, J",
-                        "initLastName": "J Ram\u00edrez",
-                        "fullFMLName": "Jos\u00e9 Enrique Ram\u00edrez",
-                        "fullLFMName": "Ram\u00edrez, Jos\u00e9 Enrique",
-                        "strikeZoneTop": 3.035,
-                        "strikeZoneBottom": 1.532
                     },
                     "pitcher": {
                         "id": 800048,
@@ -4706,16 +4774,16 @@
                         "strikeZoneTop": 3.21,
                         "strikeZoneBottom": 1.62
                     },
-                    "battingOrder": 9,
+                    "battingOrder": 3,
                     "team": {
                         "id": 114,
                         "name": "Cleveland Guardians",
                         "link": "/api/v1/teams/114"
                     }
                 },
-                "balls": 3,
+                "balls": 2,
                 "strikes": 2,
-                "outs": 3
+                "outs": 2
             },
             "venue": {
                 "id": 1,
@@ -5148,7 +5216,7 @@
                         "ties": 0,
                         "pct": ".573"
                     },
-                    "score": 1,
+                    "score": 2,
                     "probablePitcher": {
                         "id": 592332,
                         "fullName": "Kevin Gausman",
@@ -5271,11 +5339,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 4,
-                "currentInningOrdinal": "4th",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 5,
+                "currentInningOrdinal": "5th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -5341,6 +5409,21 @@
                             "errors": 0,
                             "leftOnBase": 0
                         }
+                    },
+                    {
+                        "num": 5,
+                        "ordinalNum": "5th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "runs": 1,
+                            "hits": 2,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
                     }
                 ],
                 "teams": {
@@ -5351,8 +5434,8 @@
                         "leftOnBase": 1
                     },
                     "away": {
-                        "runs": 1,
-                        "hits": 2,
+                        "runs": 2,
+                        "hits": 4,
                         "errors": 0,
                         "leftOnBase": 3
                     }
@@ -5472,154 +5555,250 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 624424,
-                        "fullName": "Michael Conforto",
-                        "link": "/api/v1/people/624424",
-                        "firstName": "Michael",
-                        "lastName": "Conforto",
-                        "primaryNumber": "20",
-                        "birthDate": "1993-03-01",
-                        "currentAge": 33,
-                        "birthCity": "Seattle",
-                        "birthStateProvince": "WA",
+                        "id": 608324,
+                        "fullName": "Alex Bregman",
+                        "link": "/api/v1/people/608324",
+                        "firstName": "Alexander",
+                        "lastName": "Bregman",
+                        "primaryNumber": "3",
+                        "birthDate": "1994-03-30",
+                        "currentAge": 32,
+                        "birthCity": "Albuquerque",
+                        "birthStateProvince": "NM",
                         "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 215,
+                        "height": "5' 10\"",
+                        "weight": 190,
                         "active": true,
                         "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
                         },
-                        "useName": "Michael",
-                        "useLastName": "Conforto",
-                        "middleName": "Thomas",
-                        "boxscoreName": "Conforto",
-                        "nickName": "Forto",
+                        "useName": "Alex",
+                        "useLastName": "Bregman",
+                        "middleName": "David",
+                        "boxscoreName": "Bregman",
+                        "nickName": "A-Breg",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2014,
-                        "mlbDebutDate": "2015-07-24",
+                        "draftYear": 2015,
+                        "pronunciation": "BREGG-min",
+                        "mlbDebutDate": "2016-07-25",
                         "batSide": {
-                            "code": "L",
-                            "description": "Left"
+                            "code": "R",
+                            "description": "Right"
                         },
                         "pitchHand": {
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Michael Conforto",
-                        "nameSlug": "michael-conforto-624424",
-                        "firstLastName": "Michael Conforto",
-                        "lastFirstName": "Conforto, Michael",
-                        "lastInitName": "Conforto, M",
-                        "initLastName": "M Conforto",
-                        "fullFMLName": "Michael Thomas Conforto",
-                        "fullLFMName": "Conforto, Michael Thomas",
-                        "strikeZoneTop": 3.181,
-                        "strikeZoneBottom": 1.606
+                        "nameFirstLast": "Alex Bregman",
+                        "nameSlug": "alex-bregman-608324",
+                        "firstLastName": "Alex Bregman",
+                        "lastFirstName": "Bregman, Alex",
+                        "lastInitName": "Bregman, A",
+                        "initLastName": "A Bregman",
+                        "fullFMLName": "Alexander David Bregman",
+                        "fullLFMName": "Bregman, Alexander David",
+                        "strikeZoneTop": 3.126,
+                        "strikeZoneBottom": 1.578
                     },
                     "onDeck": {
-                        "id": 608348,
-                        "fullName": "Carson Kelly",
-                        "link": "/api/v1/people/608348",
-                        "firstName": "Carson",
-                        "lastName": "Kelly",
-                        "primaryNumber": "15",
-                        "birthDate": "1994-07-14",
+                        "id": 664023,
+                        "fullName": "Ian Happ",
+                        "link": "/api/v1/people/664023",
+                        "firstName": "Ian",
+                        "lastName": "Happ",
+                        "primaryNumber": "8",
+                        "birthDate": "1994-08-12",
                         "currentAge": 32,
-                        "birthCity": "Chicago",
-                        "birthStateProvince": "IL",
+                        "birthCity": "Pittsburgh",
+                        "birthStateProvince": "PA",
                         "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 212,
+                        "height": "5' 10\"",
+                        "weight": 205,
                         "active": true,
                         "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Carson",
-                        "useLastName": "Kelly",
-                        "middleName": "Franklin",
-                        "boxscoreName": "Kelly, C",
-                        "nickName": "Cars",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2012,
-                        "mlbDebutDate": "2016-09-05",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Carson Kelly",
-                        "nameSlug": "carson-kelly-608348",
-                        "firstLastName": "Carson Kelly",
-                        "lastFirstName": "Kelly, Carson",
-                        "lastInitName": "Kelly, C",
-                        "initLastName": "C Kelly",
-                        "fullFMLName": "Carson Franklin Kelly",
-                        "fullLFMName": "Kelly, Carson Franklin",
-                        "strikeZoneTop": 3.258,
-                        "strikeZoneBottom": 1.644
-                    },
-                    "inHole": {
-                        "id": 691718,
-                        "fullName": "Pete Crow-Armstrong",
-                        "link": "/api/v1/people/691718",
-                        "firstName": "Pete",
-                        "lastName": "Crow-Armstrong",
-                        "primaryNumber": "4",
-                        "birthDate": "2002-03-25",
-                        "currentAge": 24,
-                        "birthCity": "Sherman Oaks",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 184,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "8",
+                            "code": "7",
                             "name": "Outfielder",
                             "type": "Outfielder",
-                            "abbreviation": "CF"
+                            "abbreviation": "LF"
                         },
-                        "useName": "Pete",
-                        "useLastName": "Crow-Armstrong",
-                        "middleName": "Henry",
-                        "boxscoreName": "Crow-Armstrong",
-                        "nickName": "PCA",
+                        "useName": "Ian",
+                        "useLastName": "Happ",
+                        "middleName": "Edward",
+                        "boxscoreName": "Happ",
+                        "nickName": "Happer",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2020,
-                        "mlbDebutDate": "2023-09-11",
+                        "draftYear": 2015,
+                        "mlbDebutDate": "2017-05-13",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ian Happ",
+                        "nameSlug": "ian-happ-664023",
+                        "firstLastName": "Ian Happ",
+                        "lastFirstName": "Happ, Ian",
+                        "lastInitName": "Happ, I",
+                        "initLastName": "I Happ",
+                        "fullFMLName": "Ian Edward Happ",
+                        "fullLFMName": "Happ, Ian Edward",
+                        "strikeZoneTop": 3.137,
+                        "strikeZoneBottom": 1.583
+                    },
+                    "inHole": {
+                        "id": 663538,
+                        "fullName": "Nico Hoerner",
+                        "link": "/api/v1/people/663538",
+                        "firstName": "Nicholas",
+                        "lastName": "Hoerner",
+                        "primaryNumber": "2",
+                        "birthDate": "1997-05-13",
+                        "currentAge": 29,
+                        "birthCity": "Oakland",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Nico",
+                        "useLastName": "Hoerner",
+                        "middleName": "Mackie",
+                        "boxscoreName": "Hoerner",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2019-09-09",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Nico Hoerner",
+                        "nameSlug": "nico-hoerner-663538",
+                        "firstLastName": "Nico Hoerner",
+                        "lastFirstName": "Hoerner, Nico",
+                        "lastInitName": "Hoerner, N",
+                        "initLastName": "N Hoerner",
+                        "fullFMLName": "Nicholas Mackie Hoerner",
+                        "fullLFMName": "Hoerner, Nicholas Mackie",
+                        "strikeZoneTop": 3.186,
+                        "strikeZoneBottom": 1.608
+                    },
+                    "first": {
+                        "id": 683737,
+                        "fullName": "Michael Busch",
+                        "link": "/api/v1/people/683737",
+                        "firstName": "Michael",
+                        "lastName": "Busch",
+                        "primaryNumber": "29",
+                        "birthDate": "1997-11-09",
+                        "currentAge": 28,
+                        "birthCity": "Inver Grove Heights",
+                        "birthStateProvince": "MN",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 210,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Michael",
+                        "useLastName": "Busch",
+                        "middleName": "James",
+                        "boxscoreName": "Busch",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2023-04-25",
                         "batSide": {
                             "code": "L",
                             "description": "Left"
                         },
                         "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
+                            "code": "R",
+                            "description": "Right"
                         },
-                        "nameFirstLast": "Pete Crow-Armstrong",
-                        "nameSlug": "pete-crow-armstrong-691718",
-                        "firstLastName": "Pete Crow-Armstrong",
-                        "lastFirstName": "Crow-Armstrong, Pete",
-                        "lastInitName": "Crow-Armstrong, P",
-                        "initLastName": "P Crow-Armstrong",
-                        "fullFMLName": "Pete Henry Crow-Armstrong",
-                        "fullLFMName": "Crow-Armstrong, Pete Henry",
-                        "strikeZoneTop": 3.202,
-                        "strikeZoneBottom": 1.616
+                        "nameFirstLast": "Michael Busch",
+                        "nameSlug": "michael-busch-683737",
+                        "firstLastName": "Michael Busch",
+                        "lastFirstName": "Busch, Michael",
+                        "lastInitName": "Busch, M",
+                        "initLastName": "M Busch",
+                        "fullFMLName": "Michael James Busch",
+                        "fullLFMName": "Busch, Michael James",
+                        "strikeZoneTop": 3.166,
+                        "strikeZoneBottom": 1.598
+                    },
+                    "second": {
+                        "id": 673548,
+                        "fullName": "Seiya Suzuki",
+                        "link": "/api/v1/people/673548",
+                        "firstName": "Seiya",
+                        "lastName": "Suzuki",
+                        "primaryNumber": "27",
+                        "birthDate": "1994-08-18",
+                        "currentAge": 32,
+                        "birthCity": "Arakawa",
+                        "birthCountry": "Japan",
+                        "height": "5' 11\"",
+                        "weight": 182,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Seiya",
+                        "useLastName": "Suzuki",
+                        "boxscoreName": "Suzuki",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "SAY-ya",
+                        "mlbDebutDate": "2022-04-07",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Seiya Suzuki",
+                        "nameSlug": "seiya-suzuki-673548",
+                        "firstLastName": "Seiya Suzuki",
+                        "lastFirstName": "Suzuki, Seiya",
+                        "lastInitName": "Suzuki, S",
+                        "initLastName": "S Suzuki",
+                        "fullFMLName": "Seiya Suzuki",
+                        "fullLFMName": "Suzuki, Seiya ",
+                        "strikeZoneTop": 3.178,
+                        "strikeZoneBottom": 1.604
                     },
                     "pitcher": {
                         "id": 592332,
@@ -5672,16 +5851,16 @@
                         "strikeZoneTop": 3.59,
                         "strikeZoneBottom": 1.67
                     },
-                    "battingOrder": 8,
+                    "battingOrder": 4,
                     "team": {
                         "id": 112,
                         "name": "Chicago Cubs",
                         "link": "/api/v1/teams/112"
                     }
                 },
-                "balls": 3,
-                "strikes": 1,
-                "outs": 3
+                "balls": 0,
+                "strikes": 0,
+                "outs": 2
             },
             "venue": {
                 "id": 15,
@@ -6237,7 +6416,7 @@
             "linescore": {
                 "currentInning": 5,
                 "currentInningOrdinal": "5th",
-                "inningState": "Top",
+                "inningState": "Middle",
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
@@ -6315,9 +6494,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
-                            "hits": 0,
+                            "runs": 0,
+                            "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -6330,12 +6510,270 @@
                     },
                     "away": {
                         "runs": 0,
-                        "hits": 3,
+                        "hits": 4,
                         "errors": 0,
-                        "leftOnBase": 3
+                        "leftOnBase": 4
                     }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 677952,
+                        "fullName": "Braxton Ashcraft",
+                        "link": "/api/v1/people/677952",
+                        "firstName": "Braxton",
+                        "lastName": "Ashcraft",
+                        "primaryNumber": "35",
+                        "birthDate": "1999-10-05",
+                        "currentAge": 26,
+                        "birthCity": "Waco",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "6' 5\"",
+                        "weight": 218,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Braxton",
+                        "useLastName": "Ashcraft",
+                        "boxscoreName": "Ashcraft, B",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2025-05-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Braxton Ashcraft",
+                        "nameSlug": "braxton-ashcraft-677952",
+                        "firstLastName": "Braxton Ashcraft",
+                        "lastFirstName": "Ashcraft, Braxton",
+                        "lastInitName": "Ashcraft, B",
+                        "initLastName": "B Ashcraft",
+                        "fullFMLName": "Braxton  Ashcraft",
+                        "fullLFMName": "Ashcraft, Braxton",
+                        "strikeZoneTop": 3.433,
+                        "strikeZoneBottom": 1.733
+                    },
+                    "catcher": {
+                        "id": 804668,
+                        "fullName": "Rafael Flores Jr.",
+                        "link": "/api/v1/people/804668"
+                    },
+                    "first": {
+                        "id": 687462,
+                        "fullName": "Spencer Horwitz",
+                        "link": "/api/v1/people/687462"
+                    },
+                    "second": {
+                        "id": 664040,
+                        "fullName": "Brandon Lowe",
+                        "link": "/api/v1/people/664040"
+                    },
+                    "third": {
+                        "id": 694377,
+                        "fullName": "Nick Yorke",
+                        "link": "/api/v1/people/694377"
+                    },
+                    "shortstop": {
+                        "id": 669707,
+                        "fullName": "Jared Triolo",
+                        "link": "/api/v1/people/669707"
+                    },
+                    "left": {
+                        "id": 668804,
+                        "fullName": "Bryan Reynolds",
+                        "link": "/api/v1/people/668804"
+                    },
+                    "center": {
+                        "id": 665833,
+                        "fullName": "Oneil Cruz",
+                        "link": "/api/v1/people/665833"
+                    },
+                    "right": {
+                        "id": 699013,
+                        "fullName": "Esmerlyn Valdez",
+                        "link": "/api/v1/people/699013"
+                    },
+                    "batter": {
+                        "id": 699013,
+                        "fullName": "Esmerlyn Valdez",
+                        "link": "/api/v1/people/699013"
+                    },
+                    "onDeck": {
+                        "id": 668804,
+                        "fullName": "Bryan Reynolds",
+                        "link": "/api/v1/people/668804"
+                    },
+                    "inHole": {
+                        "id": 665833,
+                        "fullName": "Oneil Cruz",
+                        "link": "/api/v1/people/665833"
+                    },
+                    "battingOrder": 2,
+                    "team": {
+                        "id": 134,
+                        "name": "Pittsburgh Pirates",
+                        "link": "/api/v1/teams/134"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 701538,
+                        "fullName": "Jackson Merrill",
+                        "link": "/api/v1/people/701538",
+                        "firstName": "Jackson",
+                        "lastName": "Merrill",
+                        "primaryNumber": "3",
+                        "birthDate": "2003-04-19",
+                        "currentAge": 23,
+                        "birthCity": "Baltimore",
+                        "birthStateProvince": "MD",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 195,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Jackson",
+                        "useLastName": "Merrill",
+                        "middleName": "Peter",
+                        "boxscoreName": "Merrill",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2024-03-20",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Jackson Merrill",
+                        "nameSlug": "jackson-merrill-701538",
+                        "firstLastName": "Jackson Merrill",
+                        "lastFirstName": "Merrill, Jackson",
+                        "lastInitName": "Merrill, J",
+                        "initLastName": "J Merrill",
+                        "fullFMLName": "Jackson Peter Merrill",
+                        "fullLFMName": "Merrill, Jackson Peter",
+                        "strikeZoneTop": 3.32,
+                        "strikeZoneBottom": 1.676
+                    },
+                    "onDeck": {
+                        "id": 593428,
+                        "fullName": "Xander Bogaerts",
+                        "link": "/api/v1/people/593428",
+                        "firstName": "Xander",
+                        "lastName": "Bogaerts",
+                        "primaryNumber": "2",
+                        "birthDate": "1992-10-01",
+                        "currentAge": 33,
+                        "birthCity": "Oranjestad",
+                        "birthCountry": "Aruba",
+                        "height": "6' 2\"",
+                        "weight": 218,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Xander",
+                        "useLastName": "Bogaerts",
+                        "middleName": "Jan",
+                        "boxscoreName": "Bogaerts",
+                        "nickName": "X-Man",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "BOH-garts",
+                        "mlbDebutDate": "2013-08-20",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Xander Bogaerts",
+                        "nameSlug": "xander-bogaerts-593428",
+                        "firstLastName": "Xander Bogaerts",
+                        "lastFirstName": "Bogaerts, Xander",
+                        "lastInitName": "Bogaerts, X",
+                        "initLastName": "X Bogaerts",
+                        "fullFMLName": "Xander Jan Bogaerts",
+                        "fullLFMName": "Bogaerts, Xander Jan",
+                        "strikeZoneTop": 3.285,
+                        "strikeZoneBottom": 1.658
+                    },
+                    "inHole": {
+                        "id": 657757,
+                        "fullName": "Gavin Sheets",
+                        "link": "/api/v1/people/657757",
+                        "firstName": "Gavin",
+                        "lastName": "Sheets",
+                        "primaryNumber": "30",
+                        "birthDate": "1996-04-23",
+                        "currentAge": 30,
+                        "birthCity": "Lutherville",
+                        "birthStateProvince": "MD",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 235,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Gavin",
+                        "useLastName": "Sheets",
+                        "middleName": "Crawford",
+                        "boxscoreName": "Sheets",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2017,
+                        "mlbDebutDate": "2021-06-29",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Gavin Sheets",
+                        "nameSlug": "gavin-sheets-657757",
+                        "firstLastName": "Gavin Sheets",
+                        "lastFirstName": "Sheets, Gavin",
+                        "lastInitName": "Sheets, G",
+                        "initLastName": "G Sheets",
+                        "fullFMLName": "Gavin Crawford Sheets",
+                        "fullLFMName": "Sheets, Gavin Crawford",
+                        "strikeZoneTop": 3.351,
+                        "strikeZoneBottom": 1.691
+                    },
                     "pitcher": {
                         "id": 592662,
                         "fullName": "Robbie Ray",
@@ -6386,61 +6824,6 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "catcher": {
-                        "id": 666023,
-                        "fullName": "Freddy Fermin",
-                        "link": "/api/v1/people/666023"
-                    },
-                    "first": {
-                        "id": 664034,
-                        "fullName": "Ty France",
-                        "link": "/api/v1/people/664034"
-                    },
-                    "second": {
-                        "id": 630105,
-                        "fullName": "Jake Cronenworth",
-                        "link": "/api/v1/people/630105"
-                    },
-                    "third": {
-                        "id": 592518,
-                        "fullName": "Manny Machado",
-                        "link": "/api/v1/people/592518"
-                    },
-                    "shortstop": {
-                        "id": 593428,
-                        "fullName": "Xander Bogaerts",
-                        "link": "/api/v1/people/593428"
-                    },
-                    "left": {
-                        "id": 687957,
-                        "fullName": "Dustin Harris",
-                        "link": "/api/v1/people/687957"
-                    },
-                    "center": {
-                        "id": 701538,
-                        "fullName": "Jackson Merrill",
-                        "link": "/api/v1/people/701538"
-                    },
-                    "right": {
-                        "id": 665487,
-                        "fullName": "Fernando Tatis Jr.",
-                        "link": "/api/v1/people/665487"
-                    },
-                    "batter": {
-                        "id": 701538,
-                        "fullName": "Jackson Merrill",
-                        "link": "/api/v1/people/701538"
-                    },
-                    "onDeck": {
-                        "id": 593428,
-                        "fullName": "Xander Bogaerts",
-                        "link": "/api/v1/people/593428"
-                    },
-                    "inHole": {
-                        "id": 657757,
-                        "fullName": "Gavin Sheets",
-                        "link": "/api/v1/people/657757"
-                    },
                     "battingOrder": 5,
                     "team": {
                         "id": 135,
@@ -6448,214 +6831,9 @@
                         "link": "/api/v1/teams/135"
                     }
                 },
-                "offense": {
-                    "batter": {
-                        "id": 694377,
-                        "fullName": "Nick Yorke",
-                        "link": "/api/v1/people/694377",
-                        "firstName": "Nicholas",
-                        "lastName": "Yorke",
-                        "primaryNumber": "38",
-                        "birthDate": "2002-04-02",
-                        "currentAge": 24,
-                        "birthCity": "Newport Beach",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 220,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Nick",
-                        "useLastName": "Yorke",
-                        "middleName": "Anthony",
-                        "boxscoreName": "Yorke",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2020,
-                        "pronunciation": "YORK",
-                        "mlbDebutDate": "2024-09-16",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Nick Yorke",
-                        "nameSlug": "nick-yorke-694377",
-                        "firstLastName": "Nick Yorke",
-                        "lastFirstName": "Yorke, Nick",
-                        "lastInitName": "Yorke, N",
-                        "initLastName": "N Yorke",
-                        "fullFMLName": "Nicholas Anthony Yorke",
-                        "fullLFMName": "Yorke, Nicholas Anthony",
-                        "strikeZoneTop": 3.19,
-                        "strikeZoneBottom": 1.61
-                    },
-                    "onDeck": {
-                        "id": 687462,
-                        "fullName": "Spencer Horwitz",
-                        "link": "/api/v1/people/687462",
-                        "firstName": "Spencer",
-                        "lastName": "Horwitz",
-                        "primaryNumber": "2",
-                        "birthDate": "1997-11-14",
-                        "currentAge": 28,
-                        "birthCity": "Timonium",
-                        "birthStateProvince": "MD",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 204,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Spencer",
-                        "useLastName": "Horwitz",
-                        "middleName": "Elliott",
-                        "boxscoreName": "Horwitz",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "mlbDebutDate": "2023-06-18",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Spencer Horwitz",
-                        "nameSlug": "spencer-horwitz-687462",
-                        "firstLastName": "Spencer Horwitz",
-                        "lastFirstName": "Horwitz, Spencer",
-                        "lastInitName": "Horwitz, S",
-                        "initLastName": "S Horwitz",
-                        "fullFMLName": "Spencer Elliott Horwitz",
-                        "fullLFMName": "Horwitz, Spencer Elliott",
-                        "strikeZoneTop": 3.133,
-                        "strikeZoneBottom": 1.581
-                    },
-                    "inHole": {
-                        "id": 669707,
-                        "fullName": "Jared Triolo",
-                        "link": "/api/v1/people/669707",
-                        "firstName": "Jared",
-                        "lastName": "Triolo",
-                        "primaryNumber": "19",
-                        "birthDate": "1998-02-08",
-                        "currentAge": 28,
-                        "birthCity": "Nashua",
-                        "birthStateProvince": "NH",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 212,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Jared",
-                        "useLastName": "Triolo",
-                        "middleName": "Robert",
-                        "boxscoreName": "Triolo",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "pronunciation": "TREE-olo",
-                        "mlbDebutDate": "2023-06-28",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jared Triolo",
-                        "nameSlug": "jared-triolo-669707",
-                        "firstLastName": "Jared Triolo",
-                        "lastFirstName": "Triolo, Jared",
-                        "lastInitName": "Triolo, J",
-                        "initLastName": "J Triolo",
-                        "fullFMLName": "Jared Robert Triolo",
-                        "fullLFMName": "Triolo, Jared Robert",
-                        "strikeZoneTop": 3.34,
-                        "strikeZoneBottom": 1.69
-                    },
-                    "pitcher": {
-                        "id": 677952,
-                        "fullName": "Braxton Ashcraft",
-                        "link": "/api/v1/people/677952",
-                        "firstName": "Braxton",
-                        "lastName": "Ashcraft",
-                        "primaryNumber": "35",
-                        "birthDate": "1999-10-05",
-                        "currentAge": 26,
-                        "birthCity": "Waco",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "6' 5\"",
-                        "weight": 218,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Braxton",
-                        "useLastName": "Ashcraft",
-                        "boxscoreName": "Ashcraft, B",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2025-05-26",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Braxton Ashcraft",
-                        "nameSlug": "braxton-ashcraft-677952",
-                        "firstLastName": "Braxton Ashcraft",
-                        "lastFirstName": "Ashcraft, Braxton",
-                        "lastInitName": "Ashcraft, B",
-                        "initLastName": "B Ashcraft",
-                        "fullFMLName": "Braxton  Ashcraft",
-                        "fullLFMName": "Ashcraft, Braxton",
-                        "strikeZoneTop": 3.433,
-                        "strikeZoneBottom": 1.733
-                    },
-                    "battingOrder": 7,
-                    "team": {
-                        "id": 134,
-                        "name": "Pittsburgh Pirates",
-                        "link": "/api/v1/teams/134"
-                    }
-                },
-                "balls": 2,
-                "strikes": 2,
-                "outs": 0
+                "balls": 3,
+                "strikes": 1,
+                "outs": 3
             },
             "venue": {
                 "id": 2680,
@@ -7208,9 +7386,9 @@
                 }
             },
             "linescore": {
-                "currentInning": 4,
-                "currentInningOrdinal": "4th",
-                "inningState": "Middle",
+                "currentInning": 5,
+                "currentInningOrdinal": "5th",
+                "inningState": "Top",
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
@@ -7267,12 +7445,27 @@
                         "num": 4,
                         "ordinalNum": "4th",
                         "home": {
+                            "runs": 0,
+                            "hits": 1,
+                            "errors": 0,
+                            "leftOnBase": 1
+                        },
+                        "away": {
+                            "runs": 0,
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    },
+                    {
+                        "num": 5,
+                        "ordinalNum": "5th",
+                        "home": {
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
                         },
                         "away": {
-                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -7282,9 +7475,9 @@
                 "teams": {
                     "home": {
                         "runs": 1,
-                        "hits": 4,
+                        "hits": 5,
                         "errors": 0,
-                        "leftOnBase": 4
+                        "leftOnBase": 5
                     },
                     "away": {
                         "runs": 2,
@@ -7294,265 +7487,6 @@
                     }
                 },
                 "defense": {
-                    "pitcher": {
-                        "id": 805673,
-                        "fullName": "Zebby Matthews",
-                        "link": "/api/v1/people/805673",
-                        "firstName": "Daniel",
-                        "lastName": "Matthews",
-                        "primaryNumber": "52",
-                        "birthDate": "2000-05-22",
-                        "currentAge": 26,
-                        "birthCity": "Cullowhee",
-                        "birthStateProvince": "NC",
-                        "birthCountry": "USA",
-                        "height": "6' 5\"",
-                        "weight": 225,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Zebby",
-                        "useLastName": "Matthews",
-                        "middleName": "Zebulon",
-                        "boxscoreName": "Matthews",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2024-08-13",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Zebby Matthews",
-                        "nameSlug": "zebby-matthews-805673",
-                        "firstLastName": "Zebby Matthews",
-                        "lastFirstName": "Matthews, Zebby",
-                        "lastInitName": "Matthews, Z",
-                        "initLastName": "Z Matthews",
-                        "fullFMLName": "Daniel Zebulon Matthews",
-                        "fullLFMName": "Matthews, Daniel Zebulon",
-                        "strikeZoneTop": 3.433,
-                        "strikeZoneBottom": 1.733
-                    },
-                    "catcher": {
-                        "id": 680777,
-                        "fullName": "Ryan Jeffers",
-                        "link": "/api/v1/people/680777"
-                    },
-                    "first": {
-                        "id": 668904,
-                        "fullName": "Royce Lewis",
-                        "link": "/api/v1/people/668904"
-                    },
-                    "second": {
-                        "id": 668952,
-                        "fullName": "Ryan Kreidler",
-                        "link": "/api/v1/people/668952"
-                    },
-                    "third": {
-                        "id": 686797,
-                        "fullName": "Brooks Lee",
-                        "link": "/api/v1/people/686797"
-                    },
-                    "shortstop": {
-                        "id": 701785,
-                        "fullName": "Kaelen Culpepper",
-                        "link": "/api/v1/people/701785"
-                    },
-                    "left": {
-                        "id": 665019,
-                        "fullName": "Kody Clemens",
-                        "link": "/api/v1/people/665019"
-                    },
-                    "center": {
-                        "id": 621439,
-                        "fullName": "Byron Buxton",
-                        "link": "/api/v1/people/621439"
-                    },
-                    "right": {
-                        "id": 807712,
-                        "fullName": "Luke Keaschall",
-                        "link": "/api/v1/people/807712"
-                    },
-                    "batter": {
-                        "id": 668952,
-                        "fullName": "Ryan Kreidler",
-                        "link": "/api/v1/people/668952"
-                    },
-                    "onDeck": {
-                        "id": 807712,
-                        "fullName": "Luke Keaschall",
-                        "link": "/api/v1/people/807712"
-                    },
-                    "inHole": {
-                        "id": 621439,
-                        "fullName": "Byron Buxton",
-                        "link": "/api/v1/people/621439"
-                    },
-                    "battingOrder": 9,
-                    "team": {
-                        "id": 142,
-                        "name": "Minnesota Twins",
-                        "link": "/api/v1/teams/142"
-                    }
-                },
-                "offense": {
-                    "batter": {
-                        "id": 622268,
-                        "fullName": "Donovan Walton",
-                        "link": "/api/v1/people/622268",
-                        "firstName": "Donovan",
-                        "lastName": "Walton",
-                        "primaryNumber": "29",
-                        "birthDate": "1994-05-25",
-                        "currentAge": 32,
-                        "birthCity": "Dallas",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "5' 9\"",
-                        "weight": 190,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Donovan",
-                        "useLastName": "Walton",
-                        "middleName": "R.",
-                        "boxscoreName": "Walton",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2016,
-                        "mlbDebutDate": "2019-09-10",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Donovan Walton",
-                        "nameSlug": "donovan-walton-622268",
-                        "firstLastName": "Donovan Walton",
-                        "lastFirstName": "Walton, Donovan",
-                        "lastInitName": "Walton, D",
-                        "initLastName": "D Walton",
-                        "fullFMLName": "Donovan R. Walton",
-                        "fullLFMName": "Walton, Donovan R.",
-                        "strikeZoneTop": 3.094,
-                        "strikeZoneBottom": 1.561
-                    },
-                    "onDeck": {
-                        "id": 691777,
-                        "fullName": "Max Muncy",
-                        "link": "/api/v1/people/691777",
-                        "firstName": "Maxwell",
-                        "lastName": "Muncy",
-                        "primaryNumber": "3",
-                        "birthDate": "2002-08-25",
-                        "currentAge": 24,
-                        "birthCity": "Camarillo",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 180,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Max",
-                        "useLastName": "Muncy",
-                        "middleName": "Price",
-                        "boxscoreName": "Muncy",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2021,
-                        "mlbDebutDate": "2025-03-27",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Max Muncy",
-                        "nameSlug": "max-muncy-691777",
-                        "firstLastName": "Max Muncy",
-                        "lastFirstName": "Muncy, Max",
-                        "lastInitName": "Muncy, M",
-                        "initLastName": "M Muncy",
-                        "fullFMLName": "Maxwell Price Muncy",
-                        "fullLFMName": "Muncy, Maxwell Price",
-                        "strikeZoneTop": 3.228,
-                        "strikeZoneBottom": 1.629
-                    },
-                    "inHole": {
-                        "id": 666126,
-                        "fullName": "Carlos Cortes",
-                        "link": "/api/v1/people/666126",
-                        "firstName": "Carlos",
-                        "lastName": "Cortes",
-                        "primaryNumber": "26",
-                        "birthDate": "1997-06-30",
-                        "currentAge": 29,
-                        "birthCity": "Orlando",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "5' 7\"",
-                        "weight": 197,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Carlos",
-                        "useLastName": "Cortes",
-                        "middleName": "Andres",
-                        "boxscoreName": "Cortes",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2025-07-23",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "nameFirstLast": "Carlos Cortes",
-                        "nameSlug": "carlos-cortes-666126",
-                        "firstLastName": "Carlos Cortes",
-                        "lastFirstName": "Cortes, Carlos",
-                        "lastInitName": "Cortes, C",
-                        "initLastName": "C Cortes",
-                        "fullFMLName": "Carlos Andres Cortes",
-                        "fullLFMName": "Cortes, Carlos Andres",
-                        "strikeZoneTop": 2.99,
-                        "strikeZoneBottom": 1.509
-                    },
                     "pitcher": {
                         "id": 605488,
                         "fullName": "Jeffrey Springs",
@@ -7602,16 +7536,278 @@
                         "strikeZoneTop": 3.344,
                         "strikeZoneBottom": 1.688
                     },
-                    "battingOrder": 6,
+                    "catcher": {
+                        "id": 641680,
+                        "fullName": "Jonah Heim",
+                        "link": "/api/v1/people/641680"
+                    },
+                    "first": {
+                        "id": 643446,
+                        "fullName": "Jeff McNeil",
+                        "link": "/api/v1/people/643446"
+                    },
+                    "second": {
+                        "id": 680869,
+                        "fullName": "Zack Gelof",
+                        "link": "/api/v1/people/680869"
+                    },
+                    "third": {
+                        "id": 695720,
+                        "fullName": "Tommy White",
+                        "link": "/api/v1/people/695720"
+                    },
+                    "shortstop": {
+                        "id": 622268,
+                        "fullName": "Donovan Walton",
+                        "link": "/api/v1/people/622268"
+                    },
+                    "left": {
+                        "id": 691777,
+                        "fullName": "Max Muncy",
+                        "link": "/api/v1/people/691777"
+                    },
+                    "center": {
+                        "id": 703607,
+                        "fullName": "Henry Bolte",
+                        "link": "/api/v1/people/703607"
+                    },
+                    "right": {
+                        "id": 671732,
+                        "fullName": "Lawrence Butler",
+                        "link": "/api/v1/people/671732"
+                    },
+                    "batter": {
+                        "id": 703607,
+                        "fullName": "Henry Bolte",
+                        "link": "/api/v1/people/703607"
+                    },
+                    "onDeck": {
+                        "id": 643446,
+                        "fullName": "Jeff McNeil",
+                        "link": "/api/v1/people/643446"
+                    },
+                    "inHole": {
+                        "id": 680869,
+                        "fullName": "Zack Gelof",
+                        "link": "/api/v1/people/680869"
+                    },
+                    "battingOrder": 10,
                     "team": {
                         "id": 133,
                         "name": "Athletics",
                         "link": "/api/v1/teams/133"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 3
+                "offense": {
+                    "batter": {
+                        "id": 668952,
+                        "fullName": "Ryan Kreidler",
+                        "link": "/api/v1/people/668952",
+                        "firstName": "Ryan",
+                        "lastName": "Kreidler",
+                        "primaryNumber": "5",
+                        "birthDate": "1997-11-12",
+                        "currentAge": 28,
+                        "birthCity": "Davis",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 208,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Ryan",
+                        "useLastName": "Kreidler",
+                        "middleName": "Michael",
+                        "boxscoreName": "Kreidler",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "pronunciation": "cried-ler",
+                        "mlbDebutDate": "2022-09-02",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ryan Kreidler",
+                        "nameSlug": "ryan-kreidler-668952",
+                        "firstLastName": "Ryan Kreidler",
+                        "lastFirstName": "Kreidler, Ryan",
+                        "lastInitName": "Kreidler, R",
+                        "initLastName": "R Kreidler",
+                        "fullFMLName": "Ryan Michael Kreidler",
+                        "fullLFMName": "Kreidler, Ryan Michael",
+                        "strikeZoneTop": 3.34,
+                        "strikeZoneBottom": 1.686
+                    },
+                    "onDeck": {
+                        "id": 807712,
+                        "fullName": "Luke Keaschall",
+                        "link": "/api/v1/people/807712",
+                        "firstName": "Luke",
+                        "lastName": "Keaschall",
+                        "primaryNumber": "15",
+                        "birthDate": "2002-08-15",
+                        "currentAge": 24,
+                        "birthCity": "Watsonville",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Luke",
+                        "useLastName": "Keaschall",
+                        "middleName": "T.",
+                        "boxscoreName": "Keaschall",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "pronunciation": "KEY-shull",
+                        "mlbDebutDate": "2025-04-18",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luke Keaschall",
+                        "nameSlug": "luke-keaschall-807712",
+                        "firstLastName": "Luke Keaschall",
+                        "lastFirstName": "Keaschall, Luke",
+                        "lastInitName": "Keaschall, L",
+                        "initLastName": "L Keaschall",
+                        "fullFMLName": "Luke T. Keaschall",
+                        "fullLFMName": "Keaschall, Luke T.",
+                        "strikeZoneTop": 3.214,
+                        "strikeZoneBottom": 1.622
+                    },
+                    "inHole": {
+                        "id": 621439,
+                        "fullName": "Byron Buxton",
+                        "link": "/api/v1/people/621439",
+                        "firstName": "Byron",
+                        "lastName": "Buxton",
+                        "primaryNumber": "25",
+                        "birthDate": "1993-12-18",
+                        "currentAge": 32,
+                        "birthCity": "Baxley",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Byron",
+                        "useLastName": "Buxton",
+                        "middleName": "Keiron",
+                        "boxscoreName": "Buxton",
+                        "nickName": "Buck",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2012,
+                        "mlbDebutDate": "2015-06-14",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Byron Buxton",
+                        "nameSlug": "byron-buxton-621439",
+                        "firstLastName": "Byron Buxton",
+                        "lastFirstName": "Buxton, Byron",
+                        "lastInitName": "Buxton, B",
+                        "initLastName": "B Buxton",
+                        "fullFMLName": "Byron Keiron Buxton",
+                        "fullLFMName": "Buxton, Byron Keiron",
+                        "strikeZoneTop": 3.258,
+                        "strikeZoneBottom": 1.644
+                    },
+                    "pitcher": {
+                        "id": 805673,
+                        "fullName": "Zebby Matthews",
+                        "link": "/api/v1/people/805673",
+                        "firstName": "Daniel",
+                        "lastName": "Matthews",
+                        "primaryNumber": "52",
+                        "birthDate": "2000-05-22",
+                        "currentAge": 26,
+                        "birthCity": "Cullowhee",
+                        "birthStateProvince": "NC",
+                        "birthCountry": "USA",
+                        "height": "6' 5\"",
+                        "weight": 225,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Zebby",
+                        "useLastName": "Matthews",
+                        "middleName": "Zebulon",
+                        "boxscoreName": "Matthews",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2024-08-13",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Zebby Matthews",
+                        "nameSlug": "zebby-matthews-805673",
+                        "firstLastName": "Zebby Matthews",
+                        "lastFirstName": "Matthews, Zebby",
+                        "lastInitName": "Matthews, Z",
+                        "initLastName": "Z Matthews",
+                        "fullFMLName": "Daniel Zebulon Matthews",
+                        "fullLFMName": "Matthews, Daniel Zebulon",
+                        "strikeZoneTop": 3.433,
+                        "strikeZoneBottom": 1.733
+                    },
+                    "battingOrder": 9,
+                    "team": {
+                        "id": 142,
+                        "name": "Minnesota Twins",
+                        "link": "/api/v1/teams/142"
+                    }
+                },
+                "balls": 1,
+                "strikes": 1,
+                "outs": 0
             },
             "venue": {
                 "id": 2529,
@@ -8166,11 +8362,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 3,
-                "currentInningOrdinal": "3rd",
-                "inningState": "Bottom",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 4,
+                "currentInningOrdinal": "4th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -8210,33 +8406,357 @@
                         "ordinalNum": "3rd",
                         "home": {
                             "runs": 1,
-                            "hits": 1,
+                            "hits": 2,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 3
                         },
                         "away": {
                             "runs": 0,
                             "hits": 1,
-                            "errors": 1,
+                            "errors": 0,
                             "leftOnBase": 1
+                        }
+                    },
+                    {
+                        "num": 4,
+                        "ordinalNum": "4th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 1,
+                            "errors": 0,
+                            "leftOnBase": 0
                         }
                     }
                 ],
                 "teams": {
                     "home": {
                         "runs": 6,
-                        "hits": 5,
+                        "hits": 6,
                         "errors": 0,
-                        "leftOnBase": 0
+                        "leftOnBase": 3
                     },
                     "away": {
                         "runs": 2,
-                        "hits": 4,
-                        "errors": 1,
+                        "hits": 5,
+                        "errors": 0,
                         "leftOnBase": 3
                     }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 669302,
+                        "fullName": "Logan Gilbert",
+                        "link": "/api/v1/people/669302",
+                        "firstName": "Logan",
+                        "lastName": "Gilbert",
+                        "primaryNumber": "36",
+                        "birthDate": "1997-05-05",
+                        "currentAge": 29,
+                        "birthCity": "Winter Park",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "6' 6\"",
+                        "weight": 215,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Logan",
+                        "useLastName": "Gilbert",
+                        "middleName": "Keith",
+                        "boxscoreName": "Gilbert, L",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2021-05-13",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Logan Gilbert",
+                        "nameSlug": "logan-gilbert-669302",
+                        "firstLastName": "Logan Gilbert",
+                        "lastFirstName": "Gilbert, Logan",
+                        "lastInitName": "Gilbert, L",
+                        "initLastName": "L Gilbert",
+                        "fullFMLName": "Logan Keith Gilbert",
+                        "fullLFMName": "Gilbert, Logan Keith",
+                        "strikeZoneTop": 3.478,
+                        "strikeZoneBottom": 1.755
+                    },
+                    "catcher": {
+                        "id": 663728,
+                        "fullName": "Cal Raleigh",
+                        "link": "/api/v1/people/663728"
+                    },
+                    "first": {
+                        "id": 647304,
+                        "fullName": "Josh Naylor",
+                        "link": "/api/v1/people/647304"
+                    },
+                    "second": {
+                        "id": 702284,
+                        "fullName": "Cole Young",
+                        "link": "/api/v1/people/702284"
+                    },
+                    "third": {
+                        "id": 642215,
+                        "fullName": "Weston Wilson",
+                        "link": "/api/v1/people/642215"
+                    },
+                    "shortstop": {
+                        "id": 801126,
+                        "fullName": "Brock Rodden",
+                        "link": "/api/v1/people/801126"
+                    },
+                    "left": {
+                        "id": 668227,
+                        "fullName": "Randy Arozarena",
+                        "link": "/api/v1/people/668227"
+                    },
+                    "center": {
+                        "id": 677594,
+                        "fullName": "Julio Rodr\u00edguez",
+                        "link": "/api/v1/people/677594"
+                    },
+                    "right": {
+                        "id": 686527,
+                        "fullName": "Dominic Canzone",
+                        "link": "/api/v1/people/686527"
+                    },
+                    "batter": {
+                        "id": 668227,
+                        "fullName": "Randy Arozarena",
+                        "link": "/api/v1/people/668227"
+                    },
+                    "onDeck": {
+                        "id": 686527,
+                        "fullName": "Dominic Canzone",
+                        "link": "/api/v1/people/686527"
+                    },
+                    "inHole": {
+                        "id": 677594,
+                        "fullName": "Julio Rodr\u00edguez",
+                        "link": "/api/v1/people/677594"
+                    },
+                    "battingOrder": 10,
+                    "team": {
+                        "id": 136,
+                        "name": "Seattle Mariners",
+                        "link": "/api/v1/teams/136"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 669016,
+                        "fullName": "Brandon Marsh",
+                        "link": "/api/v1/people/669016",
+                        "firstName": "Brandon",
+                        "lastName": "Marsh",
+                        "primaryNumber": "16",
+                        "birthDate": "1997-12-18",
+                        "currentAge": 28,
+                        "birthCity": "Buford",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 215,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Brandon",
+                        "useLastName": "Marsh",
+                        "middleName": "Chase",
+                        "boxscoreName": "Marsh",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2016,
+                        "mlbDebutDate": "2021-07-18",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Brandon Marsh",
+                        "nameSlug": "brandon-marsh-669016",
+                        "firstLastName": "Brandon Marsh",
+                        "lastFirstName": "Marsh, Brandon",
+                        "lastInitName": "Marsh, B",
+                        "initLastName": "B Marsh",
+                        "fullFMLName": "Brandon Chase Marsh",
+                        "fullLFMName": "Marsh, Brandon Chase",
+                        "strikeZoneTop": 3.312,
+                        "strikeZoneBottom": 1.672
+                    },
+                    "onDeck": {
+                        "id": 592663,
+                        "fullName": "J.T. Realmuto",
+                        "link": "/api/v1/people/592663",
+                        "firstName": "Jacob",
+                        "lastName": "Realmuto",
+                        "primaryNumber": "10",
+                        "birthDate": "1991-03-18",
+                        "currentAge": 35,
+                        "birthCity": "Del City",
+                        "birthStateProvince": "OK",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 212,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "J.T.",
+                        "useLastName": "Realmuto",
+                        "middleName": "Tyler",
+                        "boxscoreName": "Realmuto",
+                        "nickName": "Real",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2010,
+                        "pronunciation": "reel-MYOO-toh",
+                        "mlbDebutDate": "2014-06-05",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "J.T. Realmuto",
+                        "nameSlug": "j-t-realmuto-592663",
+                        "firstLastName": "J.T. Realmuto",
+                        "lastFirstName": "Realmuto, J.T.",
+                        "lastInitName": "Realmuto, J",
+                        "initLastName": "J Realmuto",
+                        "fullFMLName": "Jacob Tyler Realmuto",
+                        "fullLFMName": "Realmuto, Jacob Tyler",
+                        "strikeZoneTop": 3.2,
+                        "strikeZoneBottom": 1.615
+                    },
+                    "inHole": {
+                        "id": 702222,
+                        "fullName": "Justin Crawford",
+                        "link": "/api/v1/people/702222",
+                        "firstName": "Justin",
+                        "lastName": "Crawford",
+                        "primaryNumber": "2",
+                        "birthDate": "2004-01-13",
+                        "currentAge": 22,
+                        "birthCity": "Phoenix",
+                        "birthStateProvince": "AZ",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 188,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Justin",
+                        "useLastName": "Crawford",
+                        "boxscoreName": "Crawford",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2026-03-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Justin Crawford",
+                        "nameSlug": "justin-crawford-702222",
+                        "firstLastName": "Justin Crawford",
+                        "lastFirstName": "Crawford, Justin",
+                        "lastInitName": "Crawford, J",
+                        "initLastName": "J Crawford",
+                        "fullFMLName": "Justin Crawford",
+                        "fullLFMName": "Crawford, Justin",
+                        "strikeZoneTop": 3.28,
+                        "strikeZoneBottom": 1.66
+                    },
+                    "first": {
+                        "id": 681082,
+                        "fullName": "Bryson Stott",
+                        "link": "/api/v1/people/681082",
+                        "firstName": "Bryson",
+                        "lastName": "Stott",
+                        "primaryNumber": "5",
+                        "birthDate": "1997-10-06",
+                        "currentAge": 28,
+                        "birthCity": "Las Vegas",
+                        "birthStateProvince": "NV",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Bryson",
+                        "useLastName": "Stott",
+                        "middleName": "Jeremy",
+                        "boxscoreName": "Stott",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "pronunciation": "BRY-sun",
+                        "mlbDebutDate": "2022-04-08",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Bryson Stott",
+                        "nameSlug": "bryson-stott-681082",
+                        "firstLastName": "Bryson Stott",
+                        "lastFirstName": "Stott, Bryson",
+                        "lastInitName": "Stott, B",
+                        "initLastName": "B Stott",
+                        "fullFMLName": "Bryson Jeremy Stott",
+                        "fullLFMName": "Stott, Bryson Jeremy",
+                        "strikeZoneTop": 3.225,
+                        "strikeZoneBottom": 1.628
+                    },
                     "pitcher": {
                         "id": 554430,
                         "fullName": "Zack Wheeler",
@@ -8288,374 +8808,15 @@
                         "strikeZoneTop": 3.61,
                         "strikeZoneBottom": 1.76
                     },
-                    "catcher": {
-                        "id": 592663,
-                        "fullName": "J.T. Realmuto",
-                        "link": "/api/v1/people/592663"
-                    },
-                    "first": {
-                        "id": 664761,
-                        "fullName": "Alec Bohm",
-                        "link": "/api/v1/people/664761"
-                    },
-                    "second": {
-                        "id": 650333,
-                        "fullName": "Luis Arraez",
-                        "link": "/api/v1/people/650333"
-                    },
-                    "third": {
-                        "id": 681082,
-                        "fullName": "Bryson Stott",
-                        "link": "/api/v1/people/681082"
-                    },
-                    "shortstop": {
-                        "id": 607208,
-                        "fullName": "Trea Turner",
-                        "link": "/api/v1/people/607208"
-                    },
-                    "left": {
-                        "id": 669016,
-                        "fullName": "Brandon Marsh",
-                        "link": "/api/v1/people/669016"
-                    },
-                    "center": {
-                        "id": 702222,
-                        "fullName": "Justin Crawford",
-                        "link": "/api/v1/people/702222"
-                    },
-                    "right": {
-                        "id": 547180,
-                        "fullName": "Bryce Harper",
-                        "link": "/api/v1/people/547180"
-                    },
-                    "batter": {
-                        "id": 681082,
-                        "fullName": "Bryson Stott",
-                        "link": "/api/v1/people/681082"
-                    },
-                    "onDeck": {
-                        "id": 669016,
-                        "fullName": "Brandon Marsh",
-                        "link": "/api/v1/people/669016"
-                    },
-                    "inHole": {
-                        "id": 592663,
-                        "fullName": "J.T. Realmuto",
-                        "link": "/api/v1/people/592663"
-                    },
-                    "battingOrder": 6,
+                    "battingOrder": 7,
                     "team": {
                         "id": 143,
                         "name": "Philadelphia Phillies",
                         "link": "/api/v1/teams/143"
                     }
                 },
-                "offense": {
-                    "batter": {
-                        "id": 663728,
-                        "fullName": "Cal Raleigh",
-                        "link": "/api/v1/people/663728",
-                        "firstName": "Caleb",
-                        "lastName": "Raleigh",
-                        "primaryNumber": "29",
-                        "birthDate": "1996-11-26",
-                        "currentAge": 29,
-                        "birthCity": "Harrisonburg",
-                        "birthStateProvince": "VA",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 235,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Cal",
-                        "useLastName": "Raleigh",
-                        "middleName": "John",
-                        "boxscoreName": "Raleigh",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2018,
-                        "pronunciation": "rah-lee",
-                        "mlbDebutDate": "2021-07-11",
-                        "batSide": {
-                            "code": "S",
-                            "description": "Switch"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Cal Raleigh",
-                        "nameSlug": "cal-raleigh-663728",
-                        "firstLastName": "Cal Raleigh",
-                        "lastFirstName": "Raleigh, Cal",
-                        "lastInitName": "Raleigh, C",
-                        "initLastName": "C Raleigh",
-                        "fullFMLName": "Caleb John Raleigh",
-                        "fullLFMName": "Raleigh, Caleb John",
-                        "strikeZoneTop": 3.282,
-                        "strikeZoneBottom": 1.656
-                    },
-                    "onDeck": {
-                        "id": 702284,
-                        "fullName": "Cole Young",
-                        "link": "/api/v1/people/702284",
-                        "firstName": "Cole",
-                        "lastName": "Young",
-                        "primaryNumber": "2",
-                        "birthDate": "2003-07-29",
-                        "currentAge": 23,
-                        "birthCity": "Pittsburgh",
-                        "birthStateProvince": "PA",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 180,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Cole",
-                        "useLastName": "Young",
-                        "middleName": "Douglas",
-                        "boxscoreName": "Young",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2025-05-31",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Cole Young",
-                        "nameSlug": "cole-young-702284",
-                        "firstLastName": "Cole Young",
-                        "lastFirstName": "Young, Cole",
-                        "lastInitName": "Young, C",
-                        "initLastName": "C Young",
-                        "fullFMLName": "Cole Douglas Young",
-                        "fullLFMName": "Young, Cole Douglas",
-                        "strikeZoneTop": 3.133,
-                        "strikeZoneBottom": 1.581
-                    },
-                    "inHole": {
-                        "id": 642215,
-                        "fullName": "Weston Wilson",
-                        "link": "/api/v1/people/642215",
-                        "firstName": "Weston",
-                        "lastName": "Wilson",
-                        "primaryNumber": "31",
-                        "birthDate": "1994-09-11",
-                        "currentAge": 31,
-                        "birthCity": "High Point",
-                        "birthStateProvince": "NC",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Weston",
-                        "useLastName": "Wilson",
-                        "middleName": "Graham",
-                        "boxscoreName": "Wilson, W",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2016,
-                        "mlbDebutDate": "2023-08-09",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Weston Wilson",
-                        "nameSlug": "weston-wilson-642215",
-                        "firstLastName": "Weston Wilson",
-                        "lastFirstName": "Wilson, Weston",
-                        "lastInitName": "Wilson, W",
-                        "initLastName": "W Wilson",
-                        "fullFMLName": "Weston Graham Wilson",
-                        "fullLFMName": "Wilson, Weston Graham",
-                        "strikeZoneTop": 3.343,
-                        "strikeZoneBottom": 1.687
-                    },
-                    "second": {
-                        "id": 621493,
-                        "fullName": "Taylor Ward",
-                        "link": "/api/v1/people/621493",
-                        "firstName": "Joseph",
-                        "lastName": "Ward",
-                        "primaryNumber": "27",
-                        "birthDate": "1993-12-14",
-                        "currentAge": 32,
-                        "birthCity": "Dayton",
-                        "birthStateProvince": "OH",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 205,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Taylor",
-                        "useLastName": "Ward",
-                        "middleName": "Taylor",
-                        "boxscoreName": "Ward, T",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2018-08-14",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Taylor Ward",
-                        "nameSlug": "taylor-ward-621493",
-                        "firstLastName": "Taylor Ward",
-                        "lastFirstName": "Ward, Taylor",
-                        "lastInitName": "Ward, T",
-                        "initLastName": "T Ward",
-                        "fullFMLName": "Joseph Taylor Ward",
-                        "fullLFMName": "Ward, Joseph Taylor",
-                        "strikeZoneTop": 3.19,
-                        "strikeZoneBottom": 1.61
-                    },
-                    "third": {
-                        "id": 647304,
-                        "fullName": "Josh Naylor",
-                        "link": "/api/v1/people/647304",
-                        "firstName": "Joshua-Douglas",
-                        "lastName": "Naylor",
-                        "primaryNumber": "12",
-                        "birthDate": "1997-06-22",
-                        "currentAge": 29,
-                        "birthCity": "Mississauga",
-                        "birthStateProvince": "ON",
-                        "birthCountry": "Canada",
-                        "height": "5' 10\"",
-                        "weight": 235,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Josh",
-                        "useLastName": "Naylor",
-                        "middleName": "James",
-                        "boxscoreName": "Naylor, J",
-                        "nickName": "Naylz",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2019-05-24",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Josh Naylor",
-                        "nameSlug": "josh-naylor-647304",
-                        "firstLastName": "Josh Naylor",
-                        "lastFirstName": "Naylor, Josh",
-                        "lastInitName": "Naylor, J",
-                        "initLastName": "J Naylor",
-                        "fullFMLName": "Joshua-Douglas James Naylor",
-                        "fullLFMName": "Naylor, Joshua-Douglas James",
-                        "strikeZoneTop": 3.11,
-                        "strikeZoneBottom": 1.57
-                    },
-                    "pitcher": {
-                        "id": 669302,
-                        "fullName": "Logan Gilbert",
-                        "link": "/api/v1/people/669302",
-                        "firstName": "Logan",
-                        "lastName": "Gilbert",
-                        "primaryNumber": "36",
-                        "birthDate": "1997-05-05",
-                        "currentAge": 29,
-                        "birthCity": "Winter Park",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "6' 6\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Logan",
-                        "useLastName": "Gilbert",
-                        "middleName": "Keith",
-                        "boxscoreName": "Gilbert, L",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2021-05-13",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Logan Gilbert",
-                        "nameSlug": "logan-gilbert-669302",
-                        "firstLastName": "Logan Gilbert",
-                        "lastFirstName": "Gilbert, Logan",
-                        "lastInitName": "Gilbert, L",
-                        "initLastName": "L Gilbert",
-                        "fullFMLName": "Logan Keith Gilbert",
-                        "fullLFMName": "Gilbert, Logan Keith",
-                        "strikeZoneTop": 3.478,
-                        "strikeZoneBottom": 1.755
-                    },
-                    "battingOrder": 6,
-                    "team": {
-                        "id": 136,
-                        "name": "Seattle Mariners",
-                        "link": "/api/v1/teams/136"
-                    }
-                },
-                "balls": 3,
-                "strikes": 0,
+                "balls": 2,
+                "strikes": 1,
                 "outs": 0
             },
             "venue": {
@@ -9210,8 +9371,8 @@
                 }
             },
             "linescore": {
-                "currentInning": 3,
-                "currentInningOrdinal": "3rd",
+                "currentInning": 4,
+                "currentInningOrdinal": "4th",
                 "inningState": "Bottom",
                 "inningHalf": "Bottom",
                 "isTopInning": false,
@@ -9253,15 +9414,31 @@
                         "num": 3,
                         "ordinalNum": "3rd",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 0,
                             "hits": 1,
                             "errors": 0,
                             "leftOnBase": 2
+                        }
+                    },
+                    {
+                        "num": 4,
+                        "ordinalNum": "4th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "runs": 0,
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
                         }
                     }
                 ],
@@ -9270,7 +9447,7 @@
                         "runs": 5,
                         "hits": 7,
                         "errors": 0,
-                        "leftOnBase": 1
+                        "leftOnBase": 2
                     },
                     "away": {
                         "runs": 0,
@@ -9369,21 +9546,21 @@
                         "link": "/api/v1/people/668709"
                     },
                     "batter": {
-                        "id": 663886,
-                        "fullName": "Tyler Stephenson",
-                        "link": "/api/v1/people/663886"
+                        "id": 668709,
+                        "fullName": "JJ Bleday",
+                        "link": "/api/v1/people/668709"
                     },
                     "onDeck": {
-                        "id": 553993,
-                        "fullName": "Eugenio Su\u00e1rez",
-                        "link": "/api/v1/people/553993"
+                        "id": 624431,
+                        "fullName": "Jose Trevino",
+                        "link": "/api/v1/people/624431"
                     },
                     "inHole": {
-                        "id": 680574,
-                        "fullName": "Matt McLain",
-                        "link": "/api/v1/people/680574"
+                        "id": 671155,
+                        "fullName": "Ivan Johnson",
+                        "link": "/api/v1/people/671155"
                     },
-                    "battingOrder": 4,
+                    "battingOrder": 7,
                     "team": {
                         "id": 113,
                         "name": "Cincinnati Reds",
@@ -9392,55 +9569,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 694376,
-                        "fullName": "Shay Whitcomb",
-                        "link": "/api/v1/people/694376",
-                        "firstName": "Shay",
-                        "lastName": "Whitcomb",
-                        "primaryNumber": "13",
-                        "birthDate": "1998-09-28",
-                        "currentAge": 27,
-                        "birthCity": "Thousand Oaks",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 202,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Shay",
-                        "useLastName": "Whitcomb",
-                        "middleName": "Lane",
-                        "boxscoreName": "Whitcomb",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2020,
-                        "mlbDebutDate": "2024-08-17",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Shay Whitcomb",
-                        "nameSlug": "shay-whitcomb-694376",
-                        "firstLastName": "Shay Whitcomb",
-                        "lastFirstName": "Whitcomb, Shay",
-                        "lastInitName": "Whitcomb, S",
-                        "initLastName": "S Whitcomb",
-                        "fullFMLName": "Shay Lane Whitcomb",
-                        "fullLFMName": "Whitcomb, Shay Lane",
-                        "strikeZoneTop": 3.23,
-                        "strikeZoneBottom": 1.63
-                    },
-                    "onDeck": {
                         "id": 687529,
                         "fullName": "Grant McCray",
                         "link": "/api/v1/people/687529",
@@ -9489,7 +9617,7 @@
                         "strikeZoneTop": 3.24,
                         "strikeZoneBottom": 1.64
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 683766,
                         "fullName": "Christian Koss",
                         "link": "/api/v1/people/683766",
@@ -9537,20 +9665,20 @@
                         "strikeZoneTop": 3.25,
                         "strikeZoneBottom": 1.64
                     },
-                    "second": {
-                        "id": 806367,
-                        "fullName": "Turner Hill",
-                        "link": "/api/v1/people/806367",
-                        "firstName": "Turner",
-                        "lastName": "Hill",
-                        "primaryNumber": "52",
-                        "birthDate": "1999-04-04",
-                        "currentAge": 27,
-                        "birthCity": "Marietta",
-                        "birthStateProvince": "OH",
+                    "inHole": {
+                        "id": 687551,
+                        "fullName": "Drew Gilbert",
+                        "link": "/api/v1/people/687551",
+                        "firstName": "Andrew",
+                        "lastName": "Gilbert",
+                        "primaryNumber": "0",
+                        "birthDate": "2000-09-27",
+                        "currentAge": 25,
+                        "birthCity": "St. Paul",
+                        "birthStateProvince": "MN",
                         "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 198,
+                        "height": "5' 9\"",
+                        "weight": 195,
                         "active": true,
                         "primaryPosition": {
                             "code": "8",
@@ -9558,13 +9686,15 @@
                             "type": "Outfielder",
                             "abbreviation": "CF"
                         },
-                        "useName": "Turner",
-                        "useLastName": "Hill",
-                        "boxscoreName": "Hill",
+                        "useName": "Drew",
+                        "useLastName": "Gilbert",
+                        "middleName": "Christopher",
+                        "boxscoreName": "Gilbert",
                         "gender": "M",
                         "isPlayer": true,
-                        "isVerified": false,
-                        "mlbDebutDate": "2026-08-15",
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2025-08-08",
                         "batSide": {
                             "code": "L",
                             "description": "Left"
@@ -9573,16 +9703,16 @@
                             "code": "L",
                             "description": "Left"
                         },
-                        "nameFirstLast": "Turner Hill",
-                        "nameSlug": "turner-hill-806367",
-                        "firstLastName": "Turner Hill",
-                        "lastFirstName": "Hill, Turner",
-                        "lastInitName": "Hill, T",
-                        "initLastName": "T Hill",
-                        "fullFMLName": "Turner Hill",
-                        "fullLFMName": "Hill, Turner",
-                        "strikeZoneTop": 3.14,
-                        "strikeZoneBottom": 1.58
+                        "nameFirstLast": "Drew Gilbert",
+                        "nameSlug": "drew-gilbert-687551",
+                        "firstLastName": "Drew Gilbert",
+                        "lastFirstName": "Gilbert, Drew",
+                        "lastInitName": "Gilbert, D",
+                        "initLastName": "D Gilbert",
+                        "fullFMLName": "Andrew Christopher Gilbert",
+                        "fullLFMName": "Gilbert, Andrew Christopher",
+                        "strikeZoneTop": 3.06,
+                        "strikeZoneBottom": 1.54
                     },
                     "pitcher": {
                         "id": 671345,
@@ -9632,16 +9762,16 @@
                         "strikeZoneTop": 3.388,
                         "strikeZoneBottom": 1.71
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 8,
                     "team": {
                         "id": 137,
                         "name": "San Francisco Giants",
                         "link": "/api/v1/teams/137"
                     }
                 },
-                "balls": 3,
-                "strikes": 2,
-                "outs": 2
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 2395,

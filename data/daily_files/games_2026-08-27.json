@@ -2089,9 +2089,10 @@
             "status": {
                 "abstractGameState": "Preview",
                 "codedGameState": "P",
-                "detailedState": "Pre-Game",
-                "statusCode": "P",
+                "detailedState": "Delayed Start",
+                "statusCode": "PR",
                 "startTimeTBD": false,
+                "reason": "Rain",
                 "abstractGameCode": "P"
             },
             "teams": {
@@ -3891,11 +3892,11 @@
             ]
         },
         "wind": {
-            "text": "Roof Closed",
-            "cssClass": "bg-secondary text-white",
-            "arrow": ""
+            "text": "In from Left",
+            "cssClass": "bg-in",
+            "arrow": "\u2198"
         },
-        "roof": true,
+        "roof": false,
         "roofPending": false,
         "lineupHandedness": {},
         "lineupPositions": {}
@@ -3910,12 +3911,12 @@
             "gameDate": "2026-08-27T23:10:00Z",
             "officialDate": "2026-08-27",
             "status": {
-                "abstractGameState": "Preview",
+                "abstractGameState": "Live",
                 "codedGameState": "P",
-                "detailedState": "Pre-Game",
-                "statusCode": "P",
+                "detailedState": "Warmup",
+                "statusCode": "PW",
                 "startTimeTBD": false,
-                "abstractGameCode": "P"
+                "abstractGameCode": "L"
             },
             "teams": {
                 "away": {
@@ -4059,17 +4060,34 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0
+                        "errors": 0,
+                        "leftOnBase": 0
                     }
                 },
                 "defense": {
@@ -4164,6 +4182,22 @@
                         "fullName": "Carson Benge",
                         "link": "/api/v1/people/701807"
                     },
+                    "batter": {
+                        "id": 805999,
+                        "fullName": "A.J. Ewing",
+                        "link": "/api/v1/people/805999"
+                    },
+                    "onDeck": {
+                        "id": 596019,
+                        "fullName": "Francisco Lindor",
+                        "link": "/api/v1/people/596019"
+                    },
+                    "inHole": {
+                        "id": 701807,
+                        "fullName": "Carson Benge",
+                        "link": "/api/v1/people/701807"
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 121,
                         "name": "New York Mets",
@@ -4316,6 +4350,56 @@
                         "fullLFMName": "Contreras, William Jesus",
                         "strikeZoneTop": 3.13,
                         "strikeZoneBottom": 1.58
+                    },
+                    "pitcher": {
+                        "id": 694819,
+                        "fullName": "Jacob Misiorowski",
+                        "link": "/api/v1/people/694819",
+                        "firstName": "Jacob",
+                        "lastName": "Misiorowski",
+                        "primaryNumber": "32",
+                        "birthDate": "2002-04-03",
+                        "currentAge": 24,
+                        "birthCity": "Blue Springs",
+                        "birthStateProvince": "MO",
+                        "birthCountry": "USA",
+                        "height": "6' 7\"",
+                        "weight": 201,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Jacob",
+                        "useLastName": "Misiorowski",
+                        "middleName": "Walter",
+                        "boxscoreName": "Misiorowski",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "pronunciation": "miz-uh-R\u014eW-skee",
+                        "mlbDebutDate": "2025-06-12",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Jacob Misiorowski",
+                        "nameSlug": "jacob-misiorowski-694819",
+                        "firstLastName": "Jacob Misiorowski",
+                        "lastFirstName": "Misiorowski, Jacob",
+                        "lastInitName": "Misiorowski, J",
+                        "initLastName": "J Misiorowski",
+                        "fullFMLName": "Jacob Walter Misiorowski",
+                        "fullLFMName": "Misiorowski, Jacob Walter",
+                        "strikeZoneTop": 3.522,
+                        "strikeZoneBottom": 1.778
                     },
                     "battingOrder": 1,
                     "team": {

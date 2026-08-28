@@ -1050,9 +1050,9 @@
             "officialDate": "2026-08-28",
             "status": {
                 "abstractGameState": "Live",
-                "codedGameState": "P",
-                "detailedState": "Warmup",
-                "statusCode": "PW",
+                "codedGameState": "I",
+                "detailedState": "In Progress",
+                "statusCode": "I",
                 "startTimeTBD": false,
                 "abstractGameCode": "L"
             },
@@ -1544,7 +1544,7 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 0,
+                "strikes": 1,
                 "outs": 0
             },
             "venue": {
@@ -7074,7 +7074,7 @@
                     },
                     {
                         "id": 660670,
-                        "fullName": "Ronald Acu\u00f1a",
+                        "fullName": "Ronald Acu\u00f1a Jr.",
                         "link": "/api/v1/people/660670",
                         "firstName": "Ronald",
                         "lastName": "Acu\u00f1a",
@@ -7088,7 +7088,7 @@
                     },
                     {
                         "id": 671739,
-                        "fullName": "Michael Harris",
+                        "fullName": "Michael Harris II",
                         "link": "/api/v1/people/671739",
                         "firstName": "Michael",
                         "lastName": "Harris",
@@ -9210,11 +9210,11 @@
             ]
         },
         "wind": {
-            "text": "Roof Closed",
-            "cssClass": "bg-secondary text-white",
-            "arrow": ""
+            "text": "Out to Left",
+            "cssClass": "bg-out",
+            "arrow": "\u2196"
         },
-        "roof": true,
+        "roof": false,
         "roofPending": false,
         "lineupHandedness": {},
         "lineupPositions": {}
@@ -12878,6 +12878,7 @@
                         "ties": 0,
                         "pct": ".526"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 684442,
                         "fullName": "Kohl Drake",
@@ -12942,6 +12943,7 @@
                         "ties": 0,
                         "pct": ".410"
                     },
+                    "score": 0,
                     "probablePitcher": {
                         "id": 694918,
                         "fullName": "Blade Tidwell",
@@ -12996,26 +12998,362 @@
                 }
             },
             "linescore": {
+                "currentInning": 1,
+                "currentInningOrdinal": "1st",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [],
+                "innings": [
+                    {
+                        "num": 1,
+                        "ordinalNum": "1st",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
+                    }
+                ],
                 "teams": {
-                    "home": {},
-                    "away": {}
+                    "home": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    },
+                    "away": {
+                        "runs": 0,
+                        "hits": 0,
+                        "errors": 0,
+                        "leftOnBase": 0
+                    }
                 },
                 "defense": {
+                    "pitcher": {
+                        "id": 694918,
+                        "fullName": "Blade Tidwell",
+                        "link": "/api/v1/people/694918",
+                        "firstName": "Janzen",
+                        "lastName": "Tidwell",
+                        "primaryNumber": "46",
+                        "birthDate": "2001-06-08",
+                        "currentAge": 25,
+                        "birthCity": "Columbia",
+                        "birthStateProvince": "TN",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 244,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Blade",
+                        "useLastName": "Tidwell",
+                        "middleName": "Blade",
+                        "boxscoreName": "Tidwell",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2025-05-04",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Blade Tidwell",
+                        "nameSlug": "blade-tidwell-694918",
+                        "firstLastName": "Blade Tidwell",
+                        "lastFirstName": "Tidwell, Blade",
+                        "lastInitName": "Tidwell, B",
+                        "initLastName": "B Tidwell",
+                        "fullFMLName": "Janzen Blade Tidwell",
+                        "fullLFMName": "Tidwell, Janzen Blade",
+                        "strikeZoneTop": 3.344,
+                        "strikeZoneBottom": 1.688
+                    },
+                    "catcher": {
+                        "id": 668800,
+                        "fullName": "Andrew Knizner",
+                        "link": "/api/v1/people/668800"
+                    },
+                    "first": {
+                        "id": 646240,
+                        "fullName": "Rafael Devers",
+                        "link": "/api/v1/people/646240"
+                    },
+                    "second": {
+                        "id": 678545,
+                        "fullName": "Osleivis Basabe",
+                        "link": "/api/v1/people/678545"
+                    },
+                    "third": {
+                        "id": 694376,
+                        "fullName": "Shay Whitcomb",
+                        "link": "/api/v1/people/694376"
+                    },
+                    "shortstop": {
+                        "id": 683766,
+                        "fullName": "Christian Koss",
+                        "link": "/api/v1/people/683766"
+                    },
+                    "left": {
+                        "id": 806367,
+                        "fullName": "Turner Hill",
+                        "link": "/api/v1/people/806367"
+                    },
+                    "center": {
+                        "id": 813841,
+                        "fullName": "Jonah Cox",
+                        "link": "/api/v1/people/813841"
+                    },
+                    "right": {
+                        "id": 808982,
+                        "fullName": "Jung Hoo Lee",
+                        "link": "/api/v1/people/808982"
+                    },
+                    "batter": {
+                        "id": 813841,
+                        "fullName": "Jonah Cox",
+                        "link": "/api/v1/people/813841"
+                    },
+                    "onDeck": {
+                        "id": 646240,
+                        "fullName": "Rafael Devers",
+                        "link": "/api/v1/people/646240"
+                    },
+                    "inHole": {
+                        "id": 805811,
+                        "fullName": "Bryce Eldridge",
+                        "link": "/api/v1/people/805811"
+                    },
+                    "battingOrder": 1,
+                    "team": {
+                        "id": 137,
+                        "name": "San Francisco Giants",
+                        "link": "/api/v1/teams/137"
+                    }
+                },
+                "offense": {
+                    "batter": {
+                        "id": 663457,
+                        "fullName": "Lars Nootbaar",
+                        "link": "/api/v1/people/663457",
+                        "firstName": "Lars",
+                        "lastName": "Nootbaar",
+                        "primaryNumber": "21",
+                        "birthDate": "1997-09-08",
+                        "currentAge": 28,
+                        "birthCity": "El Segundo",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 205,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Lars",
+                        "useLastName": "Nootbaar",
+                        "middleName": "Taylor-Tatsuji",
+                        "boxscoreName": "Nootbaar",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "pronunciation": "NUTE-bahr",
+                        "mlbDebutDate": "2021-06-22",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Lars Nootbaar",
+                        "nameSlug": "lars-nootbaar-663457",
+                        "firstLastName": "Lars Nootbaar",
+                        "lastFirstName": "Nootbaar, Lars",
+                        "lastInitName": "Nootbaar, L",
+                        "initLastName": "L Nootbaar",
+                        "fullFMLName": "Lars Taylor-Tatsuji Nootbaar",
+                        "fullLFMName": "Nootbaar, Lars Taylor-Tatsuji",
+                        "strikeZoneTop": 3.259,
+                        "strikeZoneBottom": 1.645
+                    },
+                    "onDeck": {
+                        "id": 682998,
+                        "fullName": "Corbin Carroll",
+                        "link": "/api/v1/people/682998",
+                        "firstName": "Corbin",
+                        "lastName": "Carroll",
+                        "primaryNumber": "7",
+                        "birthDate": "2000-08-21",
+                        "currentAge": 26,
+                        "birthCity": "Seattle",
+                        "birthStateProvince": "WA",
+                        "birthCountry": "USA",
+                        "height": "5' 10\"",
+                        "weight": 180,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Corbin",
+                        "useLastName": "Carroll",
+                        "middleName": "Franklin",
+                        "boxscoreName": "Carroll",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2022-08-29",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Corbin Carroll",
+                        "nameSlug": "corbin-carroll-682998",
+                        "firstLastName": "Corbin Carroll",
+                        "lastFirstName": "Carroll, Corbin",
+                        "lastInitName": "Carroll, C",
+                        "initLastName": "C Carroll",
+                        "fullFMLName": "Corbin Franklin Carroll",
+                        "fullLFMName": "Carroll, Corbin Franklin",
+                        "strikeZoneTop": 3.1,
+                        "strikeZoneBottom": 1.57
+                    },
+                    "inHole": {
+                        "id": 672515,
+                        "fullName": "Gabriel Moreno",
+                        "link": "/api/v1/people/672515",
+                        "firstName": "Gabriel",
+                        "lastName": "Moreno",
+                        "primaryNumber": "14",
+                        "birthDate": "2000-02-14",
+                        "currentAge": 26,
+                        "birthCity": "Barquisimeto",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 9\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Gabriel",
+                        "useLastName": "Moreno",
+                        "middleName": "Jose",
+                        "boxscoreName": "Moreno",
+                        "gender": "M",
+                        "nameMatrilineal": "Marquez",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "MO-rain-oh",
+                        "mlbDebutDate": "2022-06-11",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Gabriel Moreno",
+                        "nameSlug": "gabriel-moreno-672515",
+                        "firstLastName": "Gabriel Moreno",
+                        "lastFirstName": "Moreno, Gabriel",
+                        "lastInitName": "Moreno, G",
+                        "initLastName": "G Moreno",
+                        "fullFMLName": "Gabriel Jose Moreno",
+                        "fullLFMName": "Moreno, Gabriel Jose",
+                        "strikeZoneTop": 3.07,
+                        "strikeZoneBottom": 1.55
+                    },
+                    "pitcher": {
+                        "id": 684442,
+                        "fullName": "Kohl Drake",
+                        "link": "/api/v1/people/684442",
+                        "firstName": "Kohl",
+                        "lastName": "Drake",
+                        "primaryNumber": "58",
+                        "birthDate": "2000-07-17",
+                        "currentAge": 26,
+                        "birthCity": "Orem",
+                        "birthStateProvince": "UT",
+                        "birthCountry": "USA",
+                        "height": "6' 5\"",
+                        "weight": 220,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "1",
+                            "name": "Pitcher",
+                            "type": "Pitcher",
+                            "abbreviation": "P"
+                        },
+                        "useName": "Kohl",
+                        "useLastName": "Drake",
+                        "middleName": "Everett-Scott",
+                        "boxscoreName": "Drake",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "mlbDebutDate": "2026-07-21",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Kohl Drake",
+                        "nameSlug": "kohl-drake-684442",
+                        "firstLastName": "Kohl Drake",
+                        "lastFirstName": "Drake, Kohl",
+                        "lastInitName": "Drake, K",
+                        "initLastName": "K Drake",
+                        "fullFMLName": "Kohl Everett-Scott Drake",
+                        "fullLFMName": "Drake, Kohl Everett-Scott",
+                        "strikeZoneTop": 3.433,
+                        "strikeZoneBottom": 1.733
+                    },
+                    "battingOrder": 1,
                     "team": {
                         "id": 109,
                         "name": "Arizona Diamondbacks",
                         "link": "/api/v1/teams/109"
                     }
                 },
-                "offense": {
-                    "team": {
-                        "id": 137,
-                        "name": "San Francisco Giants",
-                        "link": "/api/v1/teams/137"
-                    }
-                }
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
             },
             "venue": {
                 "id": 2395,
@@ -13171,6 +13509,134 @@
                             "abbreviation": "2B"
                         },
                         "useName": "Osleivis"
+                    }
+                ],
+                "awayPlayers": [
+                    {
+                        "id": 663457,
+                        "fullName": "Lars Nootbaar",
+                        "link": "/api/v1/people/663457",
+                        "firstName": "Lars",
+                        "lastName": "Nootbaar",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Lars"
+                    },
+                    {
+                        "id": 682998,
+                        "fullName": "Corbin Carroll",
+                        "link": "/api/v1/people/682998",
+                        "firstName": "Corbin",
+                        "lastName": "Carroll",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Corbin"
+                    },
+                    {
+                        "id": 672515,
+                        "fullName": "Gabriel Moreno",
+                        "link": "/api/v1/people/672515",
+                        "firstName": "Gabriel",
+                        "lastName": "Moreno",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Gabriel"
+                    },
+                    {
+                        "id": 672695,
+                        "fullName": "Geraldo Perdomo",
+                        "link": "/api/v1/people/672695",
+                        "firstName": "Geraldo",
+                        "lastName": "Perdomo",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Geraldo"
+                    },
+                    {
+                        "id": 694374,
+                        "fullName": "Tim Tawa",
+                        "link": "/api/v1/people/694374",
+                        "firstName": "Timothy",
+                        "lastName": "Tawa",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Tim"
+                    },
+                    {
+                        "id": 699912,
+                        "fullName": "Jose Fernandez",
+                        "link": "/api/v1/people/699912",
+                        "firstName": "Jose",
+                        "lastName": "Fernandez",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Jose"
+                    },
+                    {
+                        "id": 543510,
+                        "fullName": "James McCann",
+                        "link": "/api/v1/people/543510",
+                        "firstName": "James",
+                        "lastName": "McCann",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "James"
+                    },
+                    {
+                        "id": 545121,
+                        "fullName": "Ildemaro Vargas",
+                        "link": "/api/v1/people/545121",
+                        "firstName": "Ildemaro",
+                        "lastName": "Vargas",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Ildemaro"
+                    },
+                    {
+                        "id": 691783,
+                        "fullName": "Jordan Lawlar",
+                        "link": "/api/v1/people/691783",
+                        "firstName": "Jordan",
+                        "lastName": "Lawlar",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Jordan"
                     }
                 ]
             }

@@ -75,9 +75,22 @@
 <body>
     <nav class="navbar shadow-sm py-2 mb-0 sticky-top" style="background-color: #0f172a;">
         <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <a href="/" class="navbar-brand text-white fw-bold m-0" style="font-style: italic; font-size: 1.6rem;">
-                Weather <span style="color: #5ac8fa;">MLB</span>
-            </a>
+            <div class="d-flex align-items-center gap-2">
+                <a href="/" class="navbar-brand text-white fw-bold m-0" style="font-style: italic; font-size: 1.6rem;">
+                    Weather <span style="color: #5ac8fa;">MLB</span>
+                </a>
+                <div class="d-flex align-items-center gap-1 ms-1 ps-2" style="border-left: 1px solid rgba(255, 255, 255, 0.2);">
+                    <a href="https://weathernfl.com" class="p-1 text-decoration-none" title="Weather NFL" aria-label="Weather NFL">
+                        <img src="https://weathernfl.com/apple-touch-icon.png" alt="Weather NFL" style="width: 26px; height: 26px; border-radius: 6px; display: block;">
+                    </a>
+                    <a href="https://weathercfb.com" class="p-1 text-decoration-none" title="Weather CFB" aria-label="Weather CFB">
+                        <img src="https://weathercfb.com/apple-touch-icon.png" alt="Weather CFB" style="width: 26px; height: 26px; border-radius: 6px; display: block;">
+                    </a>
+                    <a href="https://weatherfootball.com" class="p-1 text-decoration-none" title="Weather Football" aria-label="Weather Football">
+                        <img src="https://weatherfootball.com/apple-touch-icon.png" alt="Weather Football" style="width: 26px; height: 26px; border-radius: 6px; display: block;">
+                    </a>
+                </div>
+            </div>
             <div class="d-flex align-items-center gap-2">
                 <select id="team-nav-select" class="form-select form-select-sm fw-bold" style="background-color: #1e293b; color: #adb5bd; border: 1px solid #334155; cursor: pointer; max-width: 180px;" onchange="if(this.value) window.location.href=this.value;">
                     <option value="">Switch Team</option>

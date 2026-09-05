@@ -346,6 +346,50 @@ def get_weather_emoji_string(data):
         return f"Roof Closed 🌡️{temp}° 💧{hum}%"
     return f"🌧️{rain}% 🌡️{temp}° 💧{hum}% {arrow}{wind_spd}mph"
 
+def get_weather_blurb(data):
+    stadium = data.get('stadium') or {}
+    is_roof_closed = data.get('roof', False)
+    is_roof_pending = data.get('roofPending', False)
+    weather = data.get('weather') or {}
+    wind_info = data.get('wind') or {}
+    
+    if is_roof_closed or stadium.get('dome'):
+        return "This game is played indoors or with the roof closed. Weather conditions will not directly impact the field."
+    if weather.get('status') == "too_early" or weather.get('temp') == '--' or not weather:
+        return "A detailed weather forecast is not yet available for this game. Check back closer to first pitch."
+        
+    temp = weather.get('temp', 70)
+    wind_spd = weather.get('windSpeed', 0)
+    wind_dir_text = wind_info.get('text', '')
+    max_pop = weather.get('maxPrecipChance', 0)
+    is_thunder = weather.get('isThunderstorm', False)
+    is_snow = weather.get('isSnow', False)
+    
+    blurb = f"Expect temperatures around {temp}°F at first pitch with {wind_spd} mph winds"
+    if wind_dir_text and wind_dir_text != "Unknown":
+        blurb += f" ({wind_dir_text}). "
+    else:
+        blurb += ". "
+    
+    if is_thunder:
+        blurb += f"There is a risk of thunderstorms and a {max_pop}% chance of rain, making delays possible."
+    elif is_snow:
+        blurb += f"Snow is possible with a {max_pop}% chance of precipitation."
+    elif max_pop >= 30:
+        blurb += f"There is a {max_pop}% chance of rain during the game."
+    else:
+        blurb += "Conditions look mostly clear with a minimal chance of rain."
+        
+    if wind_spd >= 10 and "Blowing OUT" in wind_dir_text:
+        blurb += " Wind blowing out creates highly favorable hitting conditions for home runs."
+    elif wind_spd >= 10 and "Blowing IN" in wind_dir_text:
+        blurb += " Wind blowing in will knock down deep fly balls."
+        
+    if is_roof_pending:
+        blurb += " Note: The stadium roof status is pending due to borderline weather."
+        
+    return blurb
+
 def generate_matchup_analysis(weather, wind_info, is_roof_closed, is_roof_pending, stadium):
     if is_roof_closed:
         return "✅ <b>Roof Closed:</b> Controlled environment with zero weather impact."
@@ -1230,14 +1274,40 @@ def main():
         '''
 
     # Step 4: Write Main index.html
-    main_schema = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Weather MLB",
-      "alternateName": ["WeatherMLB"],
-      "url": "https://weathermlb.com/"
-    }
-    main_schema_json = f'<script type="application/ld+json">\n{json.dumps(main_schema, indent=4)}\n    </script>'
+    schema_list = []
+    if games_data:
+        for data in games_data:
+            game = data['gameRaw']
+            home_team = game['teams']['home']['team']['name']
+            away_team = game['teams']['away']['team']['name']
+            game_date_iso = game['gameDate']
+            actual_stadium = game.get('venue', {}).get('name', 'Unknown Stadium')
+            
+            event_schema = {
+                "@context": "https://schema.org",
+                "@type": "SportsEvent",
+                "name": f"{away_team} at {home_team}",
+                "description": get_weather_blurb(data),
+                "startDate": game_date_iso,
+                "location": {
+                    "@type": "Place",
+                    "name": actual_stadium
+                },
+                "homeTeam": {"@type": "SportsTeam", "name": home_team},
+                "awayTeam": {"@type": "SportsTeam", "name": away_team}
+            }
+            schema_list.append(event_schema)
+            
+    if not schema_list:
+        schema_list = {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Weather MLB",
+            "alternateName": ["WeatherMLB"],
+            "url": "https://weathermlb.com/"
+        }
+        
+    main_schema_json = f'<script type="application/ld+json">\n{json.dumps(schema_list, indent=4)}\n    </script>'
 
     main_html = MAIN_SITE_TEMPLATE.format(
         schema_json=main_schema_json,
@@ -1273,9 +1343,7 @@ def main():
             home_name = target_game['gameRaw']['teams']['home']['team']['name']
             away_name = target_game['gameRaw']['teams']['away']['team']['name']
             
-            weather_desc = "Forecast unavailable."
-            if target_game.get('weather') and target_game['weather'].get('temp') != '--':
-                weather_desc = f"Game weather forecast: {target_game['weather'].get('temp')}°F, {target_game['weather'].get('maxPrecipChance')}% chance of rain, winds {target_game['weather'].get('windSpeed')}mph."
+            weather_description = get_weather_blurb(target_game)
             
             schema_dict = {
                 "@context": "https://schema.org",
@@ -1288,7 +1356,7 @@ def main():
                 },
                 "homeTeam": {"@type": "SportsTeam", "name": home_name},
                 "awayTeam": {"@type": "SportsTeam", "name": away_name},
-                "description": f"Live weather, lineups, and odds for {away_name} at {home_name}. {weather_desc}"
+                "description": weather_description
             }
         else:
             actual_stadium = team['stadium']

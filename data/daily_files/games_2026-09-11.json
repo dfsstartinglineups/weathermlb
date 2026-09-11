@@ -9,12 +9,12 @@
             "gameDate": "2026-09-11T18:20:00Z",
             "officialDate": "2026-09-11",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 74,
-                        "losses": 73,
+                        "losses": 74,
                         "ties": 0,
-                        "pct": ".503"
+                        "pct": ".500"
                     },
                     "score": 2,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 696062,
                         "fullName": "Wilber Dotel",
@@ -88,12 +89,13 @@
                         "link": "/api/v1/teams/112"
                     },
                     "leagueRecord": {
-                        "wins": 81,
+                        "wins": 82,
                         "losses": 66,
                         "ties": 0,
-                        "pct": ".551"
+                        "pct": ".554"
                     },
                     "score": 12,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 684007,
                         "fullName": "Shota Imanaga",
@@ -290,9 +292,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -307,7 +310,7 @@
                         "runs": 2,
                         "hits": 7,
                         "errors": 1,
-                        "leftOnBase": 6
+                        "leftOnBase": 7
                     }
                 },
                 "defense": {
@@ -425,56 +428,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 669707,
-                        "fullName": "Jared Triolo",
-                        "link": "/api/v1/people/669707",
-                        "firstName": "Jared",
-                        "lastName": "Triolo",
-                        "primaryNumber": "19",
-                        "birthDate": "1998-02-08",
-                        "currentAge": 28,
-                        "birthCity": "Nashua",
-                        "birthStateProvince": "NH",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 212,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Jared",
-                        "useLastName": "Triolo",
-                        "middleName": "Robert",
-                        "boxscoreName": "Triolo",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "pronunciation": "TREE-olo",
-                        "mlbDebutDate": "2023-06-28",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jared Triolo",
-                        "nameSlug": "jared-triolo-669707",
-                        "firstLastName": "Jared Triolo",
-                        "lastFirstName": "Triolo, Jared",
-                        "lastInitName": "Triolo, J",
-                        "initLastName": "J Triolo",
-                        "fullFMLName": "Jared Robert Triolo",
-                        "fullLFMName": "Triolo, Jared Robert",
-                        "strikeZoneTop": 3.34,
-                        "strikeZoneBottom": 1.69
-                    },
-                    "onDeck": {
                         "id": 656811,
                         "fullName": "Ryan O'Hearn",
                         "link": "/api/v1/people/656811",
@@ -524,7 +477,7 @@
                         "strikeZoneTop": 3.289,
                         "strikeZoneBottom": 1.66
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 804606,
                         "fullName": "Konnor Griffin",
                         "link": "/api/v1/people/804606",
@@ -573,20 +526,20 @@
                         "strikeZoneTop": 3.335,
                         "strikeZoneBottom": 1.683
                     },
-                    "first": {
-                        "id": 669707,
-                        "fullName": "Jared Triolo",
-                        "link": "/api/v1/people/669707",
-                        "firstName": "Jared",
-                        "lastName": "Triolo",
-                        "primaryNumber": "19",
-                        "birthDate": "1998-02-08",
-                        "currentAge": 28,
-                        "birthCity": "Nashua",
-                        "birthStateProvince": "NH",
+                    "inHole": {
+                        "id": 694378,
+                        "fullName": "Jacob Gonzalez",
+                        "link": "/api/v1/people/694378",
+                        "firstName": "Jacob",
+                        "lastName": "Gonzalez",
+                        "primaryNumber": "26",
+                        "birthDate": "2002-05-30",
+                        "currentAge": 24,
+                        "birthCity": "Glendora",
+                        "birthStateProvince": "CA",
                         "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 212,
+                        "height": "6' 2\"",
+                        "weight": 205,
                         "active": true,
                         "primaryPosition": {
                             "code": "6",
@@ -594,34 +547,33 @@
                             "type": "Infielder",
                             "abbreviation": "SS"
                         },
-                        "useName": "Jared",
-                        "useLastName": "Triolo",
-                        "middleName": "Robert",
-                        "boxscoreName": "Triolo",
+                        "useName": "Jacob",
+                        "useLastName": "Gonzalez",
+                        "middleName": "Jesus",
+                        "boxscoreName": "Gonzalez, J",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2019,
-                        "pronunciation": "TREE-olo",
-                        "mlbDebutDate": "2023-06-28",
+                        "draftYear": 2023,
+                        "mlbDebutDate": "2026-05-31",
                         "batSide": {
-                            "code": "R",
-                            "description": "Right"
+                            "code": "L",
+                            "description": "Left"
                         },
                         "pitchHand": {
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Jared Triolo",
-                        "nameSlug": "jared-triolo-669707",
-                        "firstLastName": "Jared Triolo",
-                        "lastFirstName": "Triolo, Jared",
-                        "lastInitName": "Triolo, J",
-                        "initLastName": "J Triolo",
-                        "fullFMLName": "Jared Robert Triolo",
-                        "fullLFMName": "Triolo, Jared Robert",
-                        "strikeZoneTop": 3.34,
-                        "strikeZoneBottom": 1.69
+                        "nameFirstLast": "Jacob Gonzalez",
+                        "nameSlug": "jacob-gonzalez-694378",
+                        "firstLastName": "Jacob Gonzalez",
+                        "lastFirstName": "Gonzalez, Jacob",
+                        "lastInitName": "Gonzalez, J",
+                        "initLastName": "J Gonzalez",
+                        "fullFMLName": "Jacob Jesus Gonzalez",
+                        "fullLFMName": "Gonzalez, Jacob Jesus",
+                        "strikeZoneTop": 3.29,
+                        "strikeZoneBottom": 1.66
                     },
                     "pitcher": {
                         "id": 699008,
@@ -670,16 +622,16 @@
                         "strikeZoneTop": 3.121,
                         "strikeZoneBottom": 1.575
                     },
-                    "battingOrder": 8,
+                    "battingOrder": 9,
                     "team": {
                         "id": 134,
                         "name": "Pittsburgh Pirates",
                         "link": "/api/v1/teams/134"
                     }
                 },
-                "balls": 0,
+                "balls": 1,
                 "strikes": 0,
-                "outs": 2
+                "outs": 3
             },
             "venue": {
                 "id": 17,
@@ -691,6 +643,7 @@
             "content": {
                 "link": "/api/v1/game/824631/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -10278,16 +10231,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 136,
-                        "name": "Seattle Mariners",
-                        "link": "/api/v1/teams/136"
+                        "id": 133,
+                        "name": "Athletics",
+                        "link": "/api/v1/teams/133"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 133,
-                        "name": "Athletics",
-                        "link": "/api/v1/teams/133"
+                        "id": 136,
+                        "name": "Seattle Mariners",
+                        "link": "/api/v1/teams/136"
                     }
                 }
             },
@@ -11034,16 +10987,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 135,
-                        "name": "San Diego Padres",
-                        "link": "/api/v1/teams/135"
+                        "id": 137,
+                        "name": "San Francisco Giants",
+                        "link": "/api/v1/teams/137"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 137,
-                        "name": "San Francisco Giants",
-                        "link": "/api/v1/teams/137"
+                        "id": 135,
+                        "name": "San Diego Padres",
+                        "link": "/api/v1/teams/135"
                     }
                 }
             },

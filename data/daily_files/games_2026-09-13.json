@@ -1672,9 +1672,9 @@
             "officialDate": "2026-09-13",
             "status": {
                 "abstractGameState": "Preview",
-                "codedGameState": "S",
-                "detailedState": "Scheduled",
-                "statusCode": "S",
+                "codedGameState": "P",
+                "detailedState": "Pre-Game",
+                "statusCode": "P",
                 "startTimeTBD": false,
                 "abstractGameCode": "P"
             },
@@ -1817,16 +1817,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 147,
-                        "name": "New York Yankees",
-                        "link": "/api/v1/teams/147"
+                        "id": 121,
+                        "name": "New York Mets",
+                        "link": "/api/v1/teams/121"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 121,
-                        "name": "New York Mets",
-                        "link": "/api/v1/teams/121"
+                        "id": 147,
+                        "name": "New York Yankees",
+                        "link": "/api/v1/teams/147"
                     }
                 }
             },
@@ -1856,7 +1856,137 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {
+                "homePlayers": [
+                    {
+                        "id": 700250,
+                        "fullName": "Ben Rice",
+                        "link": "/api/v1/people/700250",
+                        "firstName": "Benjamin",
+                        "lastName": "Rice",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Ben"
+                    },
+                    {
+                        "id": 641355,
+                        "fullName": "Cody Bellinger",
+                        "link": "/api/v1/people/641355",
+                        "firstName": "Cody",
+                        "lastName": "Bellinger",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Cody"
+                    },
+                    {
+                        "id": 592450,
+                        "fullName": "Aaron Judge",
+                        "link": "/api/v1/people/592450",
+                        "firstName": "Aaron",
+                        "lastName": "Judge",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Aaron"
+                    },
+                    {
+                        "id": 671277,
+                        "fullName": "Luis Garc\u00eda Jr.",
+                        "link": "/api/v1/people/671277",
+                        "firstName": "Luis",
+                        "lastName": "Garc\u00eda",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Luis"
+                    },
+                    {
+                        "id": 682987,
+                        "fullName": "Spencer Jones",
+                        "link": "/api/v1/people/682987",
+                        "firstName": "Spencer",
+                        "lastName": "Jones",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Spencer"
+                    },
+                    {
+                        "id": 683011,
+                        "fullName": "Anthony Volpe",
+                        "link": "/api/v1/people/683011",
+                        "firstName": "Anthony",
+                        "lastName": "Volpe",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Anthony"
+                    },
+                    {
+                        "id": 641857,
+                        "fullName": "Ryan McMahon",
+                        "link": "/api/v1/people/641857",
+                        "firstName": "Ryan",
+                        "lastName": "McMahon",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Ryan"
+                    },
+                    {
+                        "id": 669224,
+                        "fullName": "Austin Wells",
+                        "link": "/api/v1/people/669224",
+                        "firstName": "Austin",
+                        "lastName": "Wells",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Austin"
+                    },
+                    {
+                        "id": 676609,
+                        "fullName": "Jos\u00e9 Caballero",
+                        "link": "/api/v1/people/676609",
+                        "firstName": "Jos\u00e9",
+                        "lastName": "Caballero",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Jos\u00e9"
+                    }
+                ]
+            }
         },
         "stadium": {
             "id": 3313,
@@ -2362,7 +2492,7 @@
             "maxPrecipChance": 10,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 7,
+            "windSpeed": 0,
             "windDir": 300,
             "hourly": [
                 {
@@ -2408,11 +2538,11 @@
             ]
         },
         "wind": {
-            "text": "In from Left",
-            "cssClass": "bg-in",
-            "arrow": "\u2198"
+            "text": "Roof Closed",
+            "cssClass": "bg-secondary text-white",
+            "arrow": ""
         },
-        "roof": false,
+        "roof": true,
         "roofPending": false,
         "lineupHandedness": {},
         "lineupPositions": {}
@@ -2428,9 +2558,9 @@
             "officialDate": "2026-09-13",
             "status": {
                 "abstractGameState": "Preview",
-                "codedGameState": "S",
-                "detailedState": "Scheduled",
-                "statusCode": "S",
+                "codedGameState": "P",
+                "detailedState": "Pre-Game",
+                "statusCode": "P",
                 "startTimeTBD": false,
                 "abstractGameCode": "P"
             },
@@ -2572,16 +2702,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 139,
-                        "name": "Tampa Bay Rays",
-                        "link": "/api/v1/teams/139"
+                        "id": 117,
+                        "name": "Houston Astros",
+                        "link": "/api/v1/teams/117"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 117,
-                        "name": "Houston Astros",
-                        "link": "/api/v1/teams/117"
+                        "id": 139,
+                        "name": "Tampa Bay Rays",
+                        "link": "/api/v1/teams/139"
                     }
                 }
             },
@@ -2611,7 +2741,137 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {
+                "homePlayers": [
+                    {
+                        "id": 650490,
+                        "fullName": "Yandy D\u00edaz",
+                        "link": "/api/v1/people/650490",
+                        "firstName": "Yandy",
+                        "lastName": "D\u00edaz",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Yandy"
+                    },
+                    {
+                        "id": 666018,
+                        "fullName": "Jonathan Aranda",
+                        "link": "/api/v1/people/666018",
+                        "firstName": "Jonathan",
+                        "lastName": "Aranda",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Jonathan"
+                    },
+                    {
+                        "id": 691406,
+                        "fullName": "Junior Caminero",
+                        "link": "/api/v1/people/691406",
+                        "firstName": "Junior",
+                        "lastName": "Caminero",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Junior"
+                    },
+                    {
+                        "id": 683748,
+                        "fullName": "Victor Mesa Jr.",
+                        "link": "/api/v1/people/683748",
+                        "firstName": "Victor",
+                        "lastName": "Mesa",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Victor"
+                    },
+                    {
+                        "id": 802415,
+                        "fullName": "Chandler Simpson",
+                        "link": "/api/v1/people/802415",
+                        "firstName": "Chandler",
+                        "lastName": "Simpson",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Chandler"
+                    },
+                    {
+                        "id": 676356,
+                        "fullName": "Jonny DeLuca",
+                        "link": "/api/v1/people/676356",
+                        "firstName": "Jonathan",
+                        "lastName": "DeLuca",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Jonny"
+                    },
+                    {
+                        "id": 680700,
+                        "fullName": "Richie Palacios",
+                        "link": "/api/v1/people/680700",
+                        "firstName": "Richard",
+                        "lastName": "Palacios",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Richie"
+                    },
+                    {
+                        "id": 663611,
+                        "fullName": "Nick Madrigal",
+                        "link": "/api/v1/people/663611",
+                        "firstName": "Nicklaus",
+                        "lastName": "Madrigal",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Nick"
+                    },
+                    {
+                        "id": 663743,
+                        "fullName": "Nick Fortes",
+                        "link": "/api/v1/people/663743",
+                        "firstName": "Nicholas",
+                        "lastName": "Fortes",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Nick"
+                    }
+                ]
+            }
         },
         "stadium": {
             "id": 12,

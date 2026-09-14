@@ -14592,12 +14592,12 @@
             "gameDate": "2026-09-13T23:20:00Z",
             "officialDate": "2026-09-13",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -14607,12 +14607,13 @@
                         "link": "/api/v1/teams/135"
                     },
                     "leagueRecord": {
-                        "wins": 80,
+                        "wins": 81,
                         "losses": 68,
                         "ties": 0,
-                        "pct": ".541"
+                        "pct": ".544"
                     },
                     "score": 6,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 601713,
                         "fullName": "Nick Pivetta",
@@ -14674,11 +14675,12 @@
                     },
                     "leagueRecord": {
                         "wins": 62,
-                        "losses": 87,
+                        "losses": 88,
                         "ties": 0,
-                        "pct": ".416"
+                        "pct": ".413"
                     },
                     "score": 4,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 657277,
                         "fullName": "Logan Webb",
@@ -14872,14 +14874,15 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 0,
                             "hits": 1,
-                            "errors": 0,
+                            "errors": 1,
                             "leftOnBase": 0
                         }
                     }
@@ -14889,12 +14892,12 @@
                         "runs": 4,
                         "hits": 9,
                         "errors": 0,
-                        "leftOnBase": 8
+                        "leftOnBase": 9
                     },
                     "away": {
                         "runs": 6,
                         "hits": 9,
-                        "errors": 1,
+                        "errors": 2,
                         "leftOnBase": 3
                     }
                 },
@@ -15154,55 +15157,6 @@
                         "strikeZoneTop": 3.23,
                         "strikeZoneBottom": 1.63
                     },
-                    "second": {
-                        "id": 805811,
-                        "fullName": "Bryce Eldridge",
-                        "link": "/api/v1/people/805811",
-                        "firstName": "Bryson",
-                        "lastName": "Eldridge",
-                        "primaryNumber": "8",
-                        "birthDate": "2004-10-20",
-                        "currentAge": 21,
-                        "birthCity": "Fairfax",
-                        "birthStateProvince": "VA",
-                        "birthCountry": "USA",
-                        "height": "6' 7\"",
-                        "weight": 251,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Bryce",
-                        "useLastName": "Eldridge",
-                        "middleName": "Edward",
-                        "boxscoreName": "Eldridge",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2023,
-                        "mlbDebutDate": "2025-09-15",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Bryce Eldridge",
-                        "nameSlug": "bryce-eldridge-805811",
-                        "firstLastName": "Bryce Eldridge",
-                        "lastFirstName": "Eldridge, Bryce",
-                        "lastInitName": "Eldridge, B",
-                        "initLastName": "B Eldridge",
-                        "fullFMLName": "Bryson Edward Eldridge",
-                        "fullLFMName": "Eldridge, Bryson Edward",
-                        "strikeZoneTop": 3.54,
-                        "strikeZoneBottom": 1.79
-                    },
                     "pitcher": {
                         "id": 805345,
                         "fullName": "Trent Harris",
@@ -15260,8 +15214,8 @@
                     }
                 },
                 "balls": 2,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 2395,
@@ -15273,6 +15227,7 @@
             "content": {
                 "link": "/api/v1/game/823171/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

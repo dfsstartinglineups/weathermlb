@@ -2089,12 +2089,12 @@
             "gameDate": "2026-09-17T17:10:00Z",
             "officialDate": "2026-09-17",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -2105,11 +2105,12 @@
                     },
                     "leagueRecord": {
                         "wins": 61,
-                        "losses": 91,
+                        "losses": 92,
                         "ties": 0,
-                        "pct": ".401"
+                        "pct": ".399"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 605488,
                         "fullName": "Jeffrey Springs",
@@ -2169,12 +2170,13 @@
                         "link": "/api/v1/teams/139"
                     },
                     "leagueRecord": {
-                        "wins": 92,
+                        "wins": 93,
                         "losses": 59,
                         "ties": 0,
-                        "pct": ".609"
+                        "pct": ".612"
                     },
                     "score": 10,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 656876,
                         "fullName": "Drew Rasmussen",
@@ -2374,6 +2376,7 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -2507,56 +2510,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 675961,
-                        "fullName": "Alika Williams",
-                        "link": "/api/v1/people/675961",
-                        "firstName": "Alexander",
-                        "lastName": "Williams",
-                        "primaryNumber": "12",
-                        "birthDate": "1999-03-12",
-                        "currentAge": 27,
-                        "birthCity": "San Diego",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 183,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Alika",
-                        "useLastName": "Williams",
-                        "middleName": "David",
-                        "boxscoreName": "Williams",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2020,
-                        "pronunciation": "ah-LEEK-uh",
-                        "mlbDebutDate": "2023-07-25",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Alika Williams",
-                        "nameSlug": "alika-williams-675961",
-                        "firstLastName": "Alika Williams",
-                        "lastFirstName": "Williams, Alika",
-                        "lastInitName": "Williams, A",
-                        "initLastName": "A Williams",
-                        "fullFMLName": "Alexander David Williams",
-                        "fullLFMName": "Williams, Alexander David",
-                        "strikeZoneTop": 3.24,
-                        "strikeZoneBottom": 1.63
-                    },
-                    "onDeck": {
                         "id": 641680,
                         "fullName": "Jonah Heim",
                         "link": "/api/v1/people/641680",
@@ -2605,7 +2558,7 @@
                         "strikeZoneTop": 3.375,
                         "strikeZoneBottom": 1.703
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 672016,
                         "fullName": "Denzel Clarke",
                         "link": "/api/v1/people/672016",
@@ -2653,6 +2606,55 @@
                         "fullLFMName": "Clarke, Denzel Leslie",
                         "strikeZoneTop": 3.363,
                         "strikeZoneBottom": 1.697
+                    },
+                    "inHole": {
+                        "id": 703607,
+                        "fullName": "Henry Bolte",
+                        "link": "/api/v1/people/703607",
+                        "firstName": "Henry",
+                        "lastName": "Bolte",
+                        "primaryNumber": "33",
+                        "birthDate": "2003-08-04",
+                        "currentAge": 23,
+                        "birthCity": "San Francisco",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 195,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Henry",
+                        "useLastName": "Bolte",
+                        "boxscoreName": "Bolte",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "pronunciation": "BOL-tay",
+                        "mlbDebutDate": "2026-05-13",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Henry Bolte",
+                        "nameSlug": "henry-bolte-703607",
+                        "firstLastName": "Henry Bolte",
+                        "lastFirstName": "Bolte, Henry",
+                        "lastInitName": "Bolte, H",
+                        "initLastName": "H Bolte",
+                        "fullFMLName": "Henry Bolte",
+                        "fullLFMName": "Bolte, Henry",
+                        "strikeZoneTop": 3.33,
+                        "strikeZoneBottom": 1.68
                     },
                     "pitcher": {
                         "id": 680723,
@@ -2704,7 +2706,7 @@
                         "strikeZoneTop": 3.255,
                         "strikeZoneBottom": 1.643
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 8,
                     "team": {
                         "id": 133,
                         "name": "Athletics",
@@ -2713,7 +2715,7 @@
                 },
                 "balls": 1,
                 "strikes": 2,
-                "outs": 1
+                "outs": 3
             },
             "venue": {
                 "id": 12,
@@ -2725,6 +2727,7 @@
             "content": {
                 "link": "/api/v1/game/822924/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -3270,9 +3273,9 @@
             "linescore": {
                 "currentInning": 2,
                 "currentInningOrdinal": "2nd",
-                "inningState": "Middle",
-                "inningHalf": "Top",
-                "isTopInning": true,
+                "inningState": "Bottom",
+                "inningHalf": "Bottom",
+                "isTopInning": false,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -3295,7 +3298,7 @@
                         "num": 2,
                         "ordinalNum": "2nd",
                         "home": {
-                            "hits": 0,
+                            "hits": 1,
                             "errors": 0,
                             "leftOnBase": 0
                         },
@@ -3310,7 +3313,7 @@
                 "teams": {
                     "home": {
                         "runs": 1,
-                        "hits": 2,
+                        "hits": 3,
                         "errors": 0,
                         "leftOnBase": 1
                     },
@@ -3435,105 +3438,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 666160,
-                        "fullName": "Mickey Moniak",
-                        "link": "/api/v1/people/666160",
-                        "firstName": "McKenzie",
-                        "lastName": "Moniak",
-                        "primaryNumber": "22",
-                        "birthDate": "1998-05-13",
-                        "currentAge": 28,
-                        "birthCity": "Encinitas",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 209,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Mickey",
-                        "useLastName": "Moniak",
-                        "middleName": "Matthew",
-                        "boxscoreName": "Moniak",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2016,
-                        "pronunciation": "MO-nee-ak",
-                        "mlbDebutDate": "2020-09-16",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Mickey Moniak",
-                        "nameSlug": "mickey-moniak-666160",
-                        "firstLastName": "Mickey Moniak",
-                        "lastFirstName": "Moniak, Mickey",
-                        "lastInitName": "Moniak, M",
-                        "initLastName": "M Moniak",
-                        "fullFMLName": "McKenzie Matthew Moniak",
-                        "fullLFMName": "Moniak, McKenzie Matthew",
-                        "strikeZoneTop": 3.25,
-                        "strikeZoneBottom": 1.64
-                    },
-                    "onDeck": {
-                        "id": 687859,
-                        "fullName": "Troy Johnston",
-                        "link": "/api/v1/people/687859",
-                        "firstName": "Troy",
-                        "lastName": "Johnston",
-                        "primaryNumber": "20",
-                        "birthDate": "1997-06-22",
-                        "currentAge": 29,
-                        "birthCity": "Tacoma",
-                        "birthStateProvince": "WA",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 206,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Troy",
-                        "useLastName": "Johnston",
-                        "middleName": "Michael",
-                        "boxscoreName": "Johnston, T",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "mlbDebutDate": "2025-07-29",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Troy Johnston",
-                        "nameSlug": "troy-johnston-687859",
-                        "firstLastName": "Troy Johnston",
-                        "lastFirstName": "Johnston, Troy",
-                        "lastInitName": "Johnston, T",
-                        "initLastName": "T Johnston",
-                        "fullFMLName": "Troy Michael Johnston",
-                        "fullLFMName": "Johnston, Troy Michael",
-                        "strikeZoneTop": 3.16,
-                        "strikeZoneBottom": 1.59
-                    },
-                    "inHole": {
                         "id": 664954,
                         "fullName": "Brett Sullivan",
                         "link": "/api/v1/people/664954",
@@ -3581,6 +3485,104 @@
                         "fullLFMName": "Sullivan, Brett Charles",
                         "strikeZoneTop": 3.17,
                         "strikeZoneBottom": 1.6
+                    },
+                    "onDeck": {
+                        "id": 691728,
+                        "fullName": "Zac Veen",
+                        "link": "/api/v1/people/691728",
+                        "firstName": "Zachary",
+                        "lastName": "Veen",
+                        "primaryNumber": "13",
+                        "birthDate": "2001-12-12",
+                        "currentAge": 24,
+                        "birthCity": "Port Orange",
+                        "birthStateProvince": "FL",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 243,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Zac",
+                        "useLastName": "Veen",
+                        "middleName": "Richard",
+                        "boxscoreName": "Veen",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2025-04-08",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Zac Veen",
+                        "nameSlug": "zac-veen-691728",
+                        "firstLastName": "Zac Veen",
+                        "lastFirstName": "Veen, Zac",
+                        "lastInitName": "Veen, Z",
+                        "initLastName": "Z Veen",
+                        "fullFMLName": "Zachary Richard Veen",
+                        "fullLFMName": "Veen, Zachary Richard",
+                        "strikeZoneTop": 3.36,
+                        "strikeZoneBottom": 1.7
+                    },
+                    "inHole": {
+                        "id": 664983,
+                        "fullName": "Jake McCarthy",
+                        "link": "/api/v1/people/664983",
+                        "firstName": "Jacob",
+                        "lastName": "McCarthy",
+                        "primaryNumber": "31",
+                        "birthDate": "1997-07-30",
+                        "currentAge": 29,
+                        "birthCity": "Scranton",
+                        "birthStateProvince": "PA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 213,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Jake",
+                        "useLastName": "McCarthy",
+                        "middleName": "Joseph",
+                        "boxscoreName": "McCarthy",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2021-08-27",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Jake McCarthy",
+                        "nameSlug": "jake-mccarthy-664983",
+                        "firstLastName": "Jake McCarthy",
+                        "lastFirstName": "McCarthy, Jake",
+                        "lastInitName": "McCarthy, J",
+                        "initLastName": "J McCarthy",
+                        "fullFMLName": "Jacob Joseph McCarthy",
+                        "fullLFMName": "McCarthy, Jacob Joseph",
+                        "strikeZoneTop": 3.23,
+                        "strikeZoneBottom": 1.63
                     },
                     "pitcher": {
                         "id": 685299,
@@ -3631,16 +3633,16 @@
                         "strikeZoneTop": 3.433,
                         "strikeZoneBottom": 1.733
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 8,
                     "team": {
                         "id": 115,
                         "name": "Colorado Rockies",
                         "link": "/api/v1/teams/115"
                     }
                 },
-                "balls": 3,
+                "balls": 2,
                 "strikes": 2,
-                "outs": 3
+                "outs": 2
             },
             "venue": {
                 "id": 19,
@@ -3982,61 +3984,61 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1789671660.809158,
-            "temp": 78,
-            "humidity": 34,
-            "maxPrecipChance": 10,
+            "lastUpdated": 1789675266.452931,
+            "temp": 79,
+            "humidity": 29,
+            "maxPrecipChance": 17,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 5,
-            "windDir": 344,
+            "windSpeed": 6,
+            "windDir": 340,
             "hourly": [
                 {
                     "timestamp": "2026-09-17T18:00:00Z",
-                    "temp": 77,
-                    "precipChance": 10,
+                    "temp": 78,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1009
                 },
                 {
                     "timestamp": "2026-09-17T19:00:00Z",
-                    "temp": 78,
-                    "precipChance": 7,
-                    "isThunderstorm": false,
-                    "isSnow": false,
-                    "weatherCode": 1006
-                },
-                {
-                    "timestamp": "2026-09-17T20:00:00Z",
-                    "temp": 82,
-                    "precipChance": 9,
+                    "temp": 79,
+                    "precipChance": 8,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1009
                 },
                 {
+                    "timestamp": "2026-09-17T20:00:00Z",
+                    "temp": 82,
+                    "precipChance": 17,
+                    "isThunderstorm": false,
+                    "isSnow": false,
+                    "weatherCode": 1063
+                },
+                {
                     "timestamp": "2026-09-17T21:00:00Z",
-                    "temp": 78,
-                    "precipChance": 2,
+                    "temp": 80,
+                    "precipChance": 1,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1000
                 },
                 {
                     "timestamp": "2026-09-17T22:00:00Z",
-                    "temp": 82,
+                    "temp": 84,
                     "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1009
+                    "weatherCode": 1063
                 }
             ]
         },
         "wind": {
-            "text": "Blowing IN",
+            "text": "In from Left",
             "cssClass": "bg-in",
-            "arrow": "\u2b07"
+            "arrow": "\u2198"
         },
         "roof": false,
         "roofPending": false,
@@ -4895,54 +4897,54 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1789671661.132722,
+            "lastUpdated": 1789675266.798058,
             "temp": 88,
-            "humidity": 57,
-            "maxPrecipChance": 26,
+            "humidity": 63,
+            "maxPrecipChance": 59,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 135,
+            "windDir": 139,
             "hourly": [
                 {
                     "timestamp": "2026-09-17T22:00:00Z",
-                    "temp": 90,
-                    "precipChance": 12,
-                    "isThunderstorm": false,
-                    "isSnow": false,
-                    "weatherCode": 1009
-                },
-                {
-                    "timestamp": "2026-09-17T23:00:00Z",
-                    "temp": 88,
-                    "precipChance": 26,
+                    "temp": 89,
+                    "precipChance": 59,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1240
                 },
                 {
+                    "timestamp": "2026-09-17T23:00:00Z",
+                    "temp": 88,
+                    "precipChance": 15,
+                    "isThunderstorm": false,
+                    "isSnow": false,
+                    "weatherCode": 1009
+                },
+                {
                     "timestamp": "2026-09-18T00:00:00Z",
-                    "temp": 86,
-                    "precipChance": 14,
+                    "temp": 85,
+                    "precipChance": 17,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1009
                 },
                 {
                     "timestamp": "2026-09-18T01:00:00Z",
-                    "temp": 85,
-                    "precipChance": 8,
+                    "temp": 84,
+                    "precipChance": 16,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1003
+                    "weatherCode": 1009
                 },
                 {
                     "timestamp": "2026-09-18T02:00:00Z",
-                    "temp": 85,
-                    "precipChance": 10,
+                    "temp": 84,
+                    "precipChance": 17,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1006
+                    "weatherCode": 1009
                 }
             ]
         },
@@ -5339,14 +5341,14 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1789671661.460448,
-            "temp": 78,
-            "humidity": 65,
-            "maxPrecipChance": 12,
+            "lastUpdated": 1789675267.17241,
+            "temp": 79,
+            "humidity": 67,
+            "maxPrecipChance": 24,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 7,
-            "windDir": 147,
+            "windSpeed": 9,
+            "windDir": 167,
             "hourly": [
                 {
                     "timestamp": "2026-09-17T22:00:00Z",
@@ -5358,32 +5360,32 @@
                 },
                 {
                     "timestamp": "2026-09-17T23:00:00Z",
-                    "temp": 78,
-                    "precipChance": 6,
+                    "temp": 79,
+                    "precipChance": 13,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1000
+                    "weatherCode": 1006
                 },
                 {
                     "timestamp": "2026-09-18T00:00:00Z",
-                    "temp": 78,
-                    "precipChance": 5,
+                    "temp": 79,
+                    "precipChance": 17,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1000
+                    "weatherCode": 1063
                 },
                 {
                     "timestamp": "2026-09-18T01:00:00Z",
                     "temp": 79,
-                    "precipChance": 5,
+                    "precipChance": 18,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1000
+                    "weatherCode": 1063
                 },
                 {
                     "timestamp": "2026-09-18T02:00:00Z",
-                    "temp": 78,
-                    "precipChance": 12,
+                    "temp": 77,
+                    "precipChance": 24,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1063
@@ -5391,9 +5393,9 @@
             ]
         },
         "wind": {
-            "text": "Cross (R to L)",
-            "cssClass": "bg-cross",
-            "arrow": "\u2b05"
+            "text": "Out to Left",
+            "cssClass": "bg-out",
+            "arrow": "\u2196"
         },
         "roof": false,
         "roofPending": false,
@@ -5782,54 +5784,54 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1789671661.779387,
+            "lastUpdated": 1789675267.518623,
             "temp": 70,
-            "humidity": 78,
-            "maxPrecipChance": 38,
+            "humidity": 80,
+            "maxPrecipChance": 47,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 8,
-            "windDir": 37,
+            "windSpeed": 7,
+            "windDir": 48,
             "hourly": [
                 {
                     "timestamp": "2026-09-17T22:00:00Z",
-                    "temp": 74,
-                    "precipChance": 16,
+                    "temp": 73,
+                    "precipChance": 20,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1009
+                    "weatherCode": 1063
                 },
                 {
                     "timestamp": "2026-09-17T23:00:00Z",
                     "temp": 70,
-                    "precipChance": 25,
+                    "precipChance": 47,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1063
+                    "weatherCode": 1153
                 },
                 {
                     "timestamp": "2026-09-18T00:00:00Z",
-                    "temp": 67,
-                    "precipChance": 36,
-                    "isThunderstorm": false,
-                    "isSnow": false,
-                    "weatherCode": 1063
-                },
-                {
-                    "timestamp": "2026-09-18T01:00:00Z",
-                    "temp": 67,
+                    "temp": 68,
                     "precipChance": 38,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1063
                 },
                 {
-                    "timestamp": "2026-09-18T02:00:00Z",
-                    "temp": 66,
+                    "timestamp": "2026-09-18T01:00:00Z",
+                    "temp": 68,
                     "precipChance": 28,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1009
+                    "weatherCode": 1063
+                },
+                {
+                    "timestamp": "2026-09-18T02:00:00Z",
+                    "temp": 68,
+                    "precipChance": 27,
+                    "isThunderstorm": false,
+                    "isSnow": false,
+                    "weatherCode": 1063
                 }
             ]
         },
@@ -6097,26 +6099,26 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1789671662.097082,
-            "temp": 96,
-            "humidity": 30,
-            "maxPrecipChance": 7,
+            "lastUpdated": 1789675267.864379,
+            "temp": 95,
+            "humidity": 32,
+            "maxPrecipChance": 9,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 140,
+            "windDir": 65,
             "hourly": [
                 {
                     "timestamp": "2026-09-17T23:00:00Z",
-                    "temp": 97,
-                    "precipChance": 4,
+                    "temp": 95,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1003
+                    "weatherCode": 1009
                 },
                 {
                     "timestamp": "2026-09-18T00:00:00Z",
-                    "temp": 96,
+                    "temp": 95,
                     "precipChance": 7,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -6125,26 +6127,26 @@
                 {
                     "timestamp": "2026-09-18T01:00:00Z",
                     "temp": 94,
-                    "precipChance": 1,
+                    "precipChance": 2,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1000
                 },
                 {
                     "timestamp": "2026-09-18T02:00:00Z",
-                    "temp": 93,
-                    "precipChance": 1,
+                    "temp": 92,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1000
+                    "weatherCode": 1009
                 },
                 {
                     "timestamp": "2026-09-18T03:00:00Z",
                     "temp": 92,
-                    "precipChance": 3,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1003
+                    "weatherCode": 1009
                 }
             ]
         },
@@ -6408,9 +6410,9 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1789671662.482067,
+            "lastUpdated": 1789675268.225869,
             "temp": 74,
-            "humidity": 55,
+            "humidity": 57,
             "maxPrecipChance": 4,
             "isThunderstorm": false,
             "isSnow": false,
@@ -6419,8 +6421,8 @@
             "hourly": [
                 {
                     "timestamp": "2026-09-18T00:00:00Z",
-                    "temp": 75,
-                    "precipChance": 2,
+                    "temp": 74,
+                    "precipChance": 3,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1000
@@ -6428,7 +6430,7 @@
                 {
                     "timestamp": "2026-09-18T01:00:00Z",
                     "temp": 74,
-                    "precipChance": 2,
+                    "precipChance": 3,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1000
@@ -6451,7 +6453,7 @@
                 },
                 {
                     "timestamp": "2026-09-18T04:00:00Z",
-                    "temp": 71,
+                    "temp": 72,
                     "precipChance": 4,
                     "isThunderstorm": false,
                     "isSnow": false,

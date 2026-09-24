@@ -3132,12 +3132,12 @@
             "gameDate": "2026-09-24T18:35:00Z",
             "officialDate": "2026-09-24",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "F",
+                "detailedState": "Final",
+                "statusCode": "F",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -3148,11 +3148,12 @@
                     },
                     "leagueRecord": {
                         "wins": 73,
-                        "losses": 85,
+                        "losses": 86,
                         "ties": 0,
-                        "pct": ".462"
+                        "pct": ".459"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 804267,
                         "fullName": "Zac Thornton",
@@ -3212,12 +3213,13 @@
                         "link": "/api/v1/teams/140"
                     },
                     "leagueRecord": {
-                        "wins": 78,
+                        "wins": 79,
                         "losses": 80,
                         "ties": 0,
-                        "pct": ".494"
+                        "pct": ".497"
                     },
                     "score": 3,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 677958,
                         "fullName": "Kumar Rocker",
@@ -3416,6 +3418,7 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -3759,8 +3762,8 @@
                     }
                 },
                 "balls": 2,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 5325,
@@ -3772,6 +3775,7 @@
             "content": {
                 "link": "/api/v1/game/822842/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -4194,7 +4198,7 @@
                         "ties": 0,
                         "pct": ".532"
                     },
-                    "score": 11,
+                    "score": 12,
                     "probablePitcher": {
                         "id": 593958,
                         "fullName": "Eduardo Rodriguez",
@@ -4314,11 +4318,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 5,
-                "currentInningOrdinal": "5th",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 6,
+                "currentInningOrdinal": "6th",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -4400,6 +4404,21 @@
                             "errors": 0,
                             "leftOnBase": 2
                         }
+                    },
+                    {
+                        "num": 6,
+                        "ordinalNum": "6th",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "runs": 1,
+                            "hits": 1,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
                     }
                 ],
                 "teams": {
@@ -4410,8 +4429,8 @@
                         "leftOnBase": 6
                     },
                     "away": {
-                        "runs": 11,
-                        "hits": 15,
+                        "runs": 12,
+                        "hits": 16,
                         "errors": 0,
                         "leftOnBase": 8
                     }
@@ -4531,19 +4550,67 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 543510,
-                        "fullName": "James McCann",
-                        "link": "/api/v1/people/543510",
-                        "firstName": "James",
-                        "lastName": "McCann",
-                        "primaryNumber": "8",
-                        "birthDate": "1990-06-13",
-                        "currentAge": 36,
-                        "birthCity": "Santa Barbara",
-                        "birthStateProvince": "CA",
+                        "id": 814439,
+                        "fullName": "Ryan Waldschmidt",
+                        "link": "/api/v1/people/814439",
+                        "firstName": "Ryan",
+                        "lastName": "Waldschmidt",
+                        "primaryNumber": "15",
+                        "birthDate": "2002-10-07",
+                        "currentAge": 23,
+                        "birthCity": "Sarasota",
+                        "birthStateProvince": "FL",
                         "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 235,
+                        "height": "6' 0\"",
+                        "weight": 205,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Ryan",
+                        "useLastName": "Waldschmidt",
+                        "middleName": "Jeffery",
+                        "boxscoreName": "Waldschmidt",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2024,
+                        "mlbDebutDate": "2026-05-08",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ryan Waldschmidt",
+                        "nameSlug": "ryan-waldschmidt-814439",
+                        "firstLastName": "Ryan Waldschmidt",
+                        "lastFirstName": "Waldschmidt, Ryan",
+                        "lastInitName": "Waldschmidt, R",
+                        "initLastName": "R Waldschmidt",
+                        "fullFMLName": "Ryan Waldschmidt",
+                        "fullLFMName": "Waldschmidt, Ryan ",
+                        "strikeZoneTop": 3.2,
+                        "strikeZoneBottom": 1.62
+                    },
+                    "onDeck": {
+                        "id": 672515,
+                        "fullName": "Gabriel Moreno",
+                        "link": "/api/v1/people/672515",
+                        "firstName": "Gabriel",
+                        "lastName": "Moreno",
+                        "primaryNumber": "14",
+                        "birthDate": "2000-02-14",
+                        "currentAge": 26,
+                        "birthCity": "Barquisimeto",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 9\"",
+                        "weight": 200,
                         "active": true,
                         "primaryPosition": {
                             "code": "2",
@@ -4551,16 +4618,16 @@
                             "type": "Catcher",
                             "abbreviation": "C"
                         },
-                        "useName": "James",
-                        "useLastName": "McCann",
-                        "middleName": "Thomas",
-                        "boxscoreName": "McCann",
-                        "nickName": "McCannon",
+                        "useName": "Gabriel",
+                        "useLastName": "Moreno",
+                        "middleName": "Jose",
+                        "boxscoreName": "Moreno",
                         "gender": "M",
+                        "nameMatrilineal": "Marquez",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2011,
-                        "mlbDebutDate": "2014-09-01",
+                        "pronunciation": "MO-rain-oh",
+                        "mlbDebutDate": "2022-06-11",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -4569,115 +4636,65 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "James McCann",
-                        "nameSlug": "james-mccann-543510",
-                        "firstLastName": "James McCann",
-                        "lastFirstName": "McCann, James",
-                        "lastInitName": "McCann, J",
-                        "initLastName": "J McCann",
-                        "fullFMLName": "James Thomas McCann",
-                        "fullLFMName": "McCann, James Thomas",
-                        "strikeZoneTop": 3.281,
-                        "strikeZoneBottom": 1.656
-                    },
-                    "onDeck": {
-                        "id": 694374,
-                        "fullName": "Tim Tawa",
-                        "link": "/api/v1/people/694374",
-                        "firstName": "Timothy",
-                        "lastName": "Tawa",
-                        "primaryNumber": "13",
-                        "birthDate": "1999-04-07",
-                        "currentAge": 27,
-                        "birthCity": "West Linn",
-                        "birthStateProvince": "OR",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 205,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Tim",
-                        "useLastName": "Tawa",
-                        "middleName": "John",
-                        "boxscoreName": "Tawa",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2021,
-                        "mlbDebutDate": "2025-04-05",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Tim Tawa",
-                        "nameSlug": "tim-tawa-694374",
-                        "firstLastName": "Tim Tawa",
-                        "lastFirstName": "Tawa, Tim",
-                        "lastInitName": "Tawa, T",
-                        "initLastName": "T Tawa",
-                        "fullFMLName": "Timothy John Tawa",
-                        "fullLFMName": "Tawa, Timothy John",
-                        "strikeZoneTop": 3.16,
-                        "strikeZoneBottom": 1.6
+                        "nameFirstLast": "Gabriel Moreno",
+                        "nameSlug": "gabriel-moreno-672515",
+                        "firstLastName": "Gabriel Moreno",
+                        "lastFirstName": "Moreno, Gabriel",
+                        "lastInitName": "Moreno, G",
+                        "initLastName": "G Moreno",
+                        "fullFMLName": "Gabriel Jose Moreno",
+                        "fullLFMName": "Moreno, Gabriel Jose",
+                        "strikeZoneTop": 3.07,
+                        "strikeZoneBottom": 1.55
                     },
                     "inHole": {
-                        "id": 663457,
-                        "fullName": "Lars Nootbaar",
-                        "link": "/api/v1/people/663457",
-                        "firstName": "Lars",
-                        "lastName": "Nootbaar",
-                        "primaryNumber": "21",
-                        "birthDate": "1997-09-08",
-                        "currentAge": 29,
-                        "birthCity": "El Segundo",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 205,
+                        "id": 672695,
+                        "fullName": "Geraldo Perdomo",
+                        "link": "/api/v1/people/672695",
+                        "firstName": "Geraldo",
+                        "lastName": "Perdomo",
+                        "primaryNumber": "2",
+                        "birthDate": "1999-10-22",
+                        "currentAge": 26,
+                        "birthCity": "Santo Domingo",
+                        "birthCountry": "Dominican Republic",
+                        "height": "6' 2\"",
+                        "weight": 210,
                         "active": true,
                         "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
                         },
-                        "useName": "Lars",
-                        "useLastName": "Nootbaar",
-                        "middleName": "Taylor-Tatsuji",
-                        "boxscoreName": "Nootbaar",
+                        "useName": "Geraldo",
+                        "useLastName": "Perdomo",
+                        "middleName": "Rafael",
+                        "boxscoreName": "Perdomo",
                         "gender": "M",
+                        "nameMatrilineal": "Fonnieur",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2018,
-                        "pronunciation": "NUTE-bahr",
-                        "mlbDebutDate": "2021-06-22",
+                        "pronunciation": "HER-all-doh per-DOH-mo",
+                        "mlbDebutDate": "2021-04-03",
                         "batSide": {
-                            "code": "L",
-                            "description": "Left"
+                            "code": "S",
+                            "description": "Switch"
                         },
                         "pitchHand": {
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Lars Nootbaar",
-                        "nameSlug": "lars-nootbaar-663457",
-                        "firstLastName": "Lars Nootbaar",
-                        "lastFirstName": "Nootbaar, Lars",
-                        "lastInitName": "Nootbaar, L",
-                        "initLastName": "L Nootbaar",
-                        "fullFMLName": "Lars Taylor-Tatsuji Nootbaar",
-                        "fullLFMName": "Nootbaar, Lars Taylor-Tatsuji",
-                        "strikeZoneTop": 3.259,
-                        "strikeZoneBottom": 1.645
+                        "nameFirstLast": "Geraldo Perdomo",
+                        "nameSlug": "geraldo-perdomo-672695",
+                        "firstLastName": "Geraldo Perdomo",
+                        "lastFirstName": "Perdomo, Geraldo",
+                        "lastInitName": "Perdomo, G",
+                        "initLastName": "G Perdomo",
+                        "fullFMLName": "Geraldo Rafael Perdomo",
+                        "fullLFMName": "Perdomo, Geraldo Rafael",
+                        "strikeZoneTop": 3.32,
+                        "strikeZoneBottom": 1.67
                     },
                     "pitcher": {
                         "id": 593958,
@@ -4728,16 +4745,16 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 8,
+                    "battingOrder": 2,
                     "team": {
                         "id": 109,
                         "name": "Arizona Diamondbacks",
                         "link": "/api/v1/teams/109"
                     }
                 },
-                "balls": 1,
-                "strikes": 2,
-                "outs": 3
+                "balls": 0,
+                "strikes": 1,
+                "outs": 2
             },
             "venue": {
                 "id": 19,

@@ -9,12 +9,12 @@
             "gameDate": "2026-09-25T17:05:00Z",
             "officialDate": "2026-09-25",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 88,
-                        "losses": 71,
+                        "losses": 72,
                         "ties": 0,
-                        "pct": ".553"
+                        "pct": ".550"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 605280,
                         "fullName": "Clay Holmes",
@@ -89,12 +90,13 @@
                         "link": "/api/v1/teams/111"
                     },
                     "leagueRecord": {
-                        "wins": 85,
+                        "wins": 86,
                         "losses": 74,
                         "ties": 0,
-                        "pct": ".535"
+                        "pct": ".538"
                     },
                     "score": 4,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 687941,
                         "fullName": "Alec Gamboa",
@@ -293,6 +295,7 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -426,56 +429,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 691718,
-                        "fullName": "Pete Crow-Armstrong",
-                        "link": "/api/v1/people/691718",
-                        "firstName": "Pete",
-                        "lastName": "Crow-Armstrong",
-                        "primaryNumber": "4",
-                        "birthDate": "2002-03-25",
-                        "currentAge": 24,
-                        "birthCity": "Sherman Oaks",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 184,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "8",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "CF"
-                        },
-                        "useName": "Pete",
-                        "useLastName": "Crow-Armstrong",
-                        "middleName": "Henry",
-                        "boxscoreName": "Crow-Armstrong",
-                        "nickName": "PCA",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2020,
-                        "mlbDebutDate": "2023-09-11",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Pete Crow-Armstrong",
-                        "nameSlug": "pete-crow-armstrong-691718",
-                        "firstLastName": "Pete Crow-Armstrong",
-                        "lastFirstName": "Crow-Armstrong, Pete",
-                        "lastInitName": "Crow-Armstrong, P",
-                        "initLastName": "P Crow-Armstrong",
-                        "fullFMLName": "Pete Henry Crow-Armstrong",
-                        "fullLFMName": "Crow-Armstrong, Pete Henry",
-                        "strikeZoneTop": 3.202,
-                        "strikeZoneBottom": 1.616
-                    },
-                    "onDeck": {
                         "id": 673548,
                         "fullName": "Seiya Suzuki",
                         "link": "/api/v1/people/673548",
@@ -522,7 +475,7 @@
                         "strikeZoneTop": 3.178,
                         "strikeZoneBottom": 1.604
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 608324,
                         "fullName": "Alex Bregman",
                         "link": "/api/v1/people/608324",
@@ -572,6 +525,56 @@
                         "fullLFMName": "Bregman, Alexander David",
                         "strikeZoneTop": 3.126,
                         "strikeZoneBottom": 1.578
+                    },
+                    "inHole": {
+                        "id": 664023,
+                        "fullName": "Ian Happ",
+                        "link": "/api/v1/people/664023",
+                        "firstName": "Ian",
+                        "lastName": "Happ",
+                        "primaryNumber": "8",
+                        "birthDate": "1994-08-12",
+                        "currentAge": 32,
+                        "birthCity": "Pittsburgh",
+                        "birthStateProvince": "PA",
+                        "birthCountry": "USA",
+                        "height": "5' 10\"",
+                        "weight": 205,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Ian",
+                        "useLastName": "Happ",
+                        "middleName": "Edward",
+                        "boxscoreName": "Happ",
+                        "nickName": "Happer",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2015,
+                        "mlbDebutDate": "2017-05-13",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ian Happ",
+                        "nameSlug": "ian-happ-664023",
+                        "firstLastName": "Ian Happ",
+                        "lastFirstName": "Happ, Ian",
+                        "lastInitName": "Happ, I",
+                        "initLastName": "I Happ",
+                        "fullFMLName": "Ian Edward Happ",
+                        "fullLFMName": "Happ, Ian Edward",
+                        "strikeZoneTop": 3.137,
+                        "strikeZoneBottom": 1.583
                     },
                     "pitcher": {
                         "id": 650644,
@@ -623,7 +626,7 @@
                         "strikeZoneTop": 3.255,
                         "strikeZoneBottom": 1.643
                     },
-                    "battingOrder": 1,
+                    "battingOrder": 2,
                     "team": {
                         "id": 112,
                         "name": "Chicago Cubs",
@@ -631,8 +634,8 @@
                     }
                 },
                 "balls": 2,
-                "strikes": 2,
-                "outs": 1
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 3,
@@ -644,6 +647,7 @@
             "content": {
                 "link": "/api/v1/game/824703/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "S",
@@ -1062,9 +1066,9 @@
                     },
                     "leagueRecord": {
                         "wins": 88,
-                        "losses": 71,
+                        "losses": 72,
                         "ties": 0,
-                        "pct": ".553"
+                        "pct": ".550"
                     },
                     "probablePitcher": {
                         "id": 656849,
@@ -1125,10 +1129,10 @@
                         "link": "/api/v1/teams/111"
                     },
                     "leagueRecord": {
-                        "wins": 85,
+                        "wins": 86,
                         "losses": 74,
                         "ties": 0,
-                        "pct": ".535"
+                        "pct": ".538"
                     },
                     "probablePitcher": {
                         "id": 678394,
@@ -3887,9 +3891,9 @@
             "officialDate": "2026-09-25",
             "status": {
                 "abstractGameState": "Preview",
-                "codedGameState": "S",
-                "detailedState": "Scheduled",
-                "statusCode": "S",
+                "codedGameState": "P",
+                "detailedState": "Pre-Game",
+                "statusCode": "P",
                 "startTimeTBD": false,
                 "abstractGameCode": "P"
             },
@@ -3983,16 +3987,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 120,
-                        "name": "Washington Nationals",
-                        "link": "/api/v1/teams/120"
+                        "id": 121,
+                        "name": "New York Mets",
+                        "link": "/api/v1/teams/121"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 121,
-                        "name": "New York Mets",
-                        "link": "/api/v1/teams/121"
+                        "id": 120,
+                        "name": "Washington Nationals",
+                        "link": "/api/v1/teams/120"
                     }
                 }
             },
@@ -4023,7 +4027,136 @@
             "recordSource": "S",
             "ifNecessary": "N",
             "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "lineups": {
+                "homePlayers": [
+                    {
+                        "id": 695578,
+                        "fullName": "James Wood",
+                        "link": "/api/v1/people/695578",
+                        "firstName": "James",
+                        "lastName": "Wood",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "James"
+                    },
+                    {
+                        "id": 665953,
+                        "fullName": "Andr\u00e9s Chaparro",
+                        "link": "/api/v1/people/665953",
+                        "firstName": "Andr\u00e9s",
+                        "lastName": "Chaparro",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Andr\u00e9s"
+                    },
+                    {
+                        "id": 691781,
+                        "fullName": "Brady House",
+                        "link": "/api/v1/people/691781",
+                        "firstName": "Brady",
+                        "lastName": "House",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Brady"
+                    },
+                    {
+                        "id": 686611,
+                        "fullName": "Dylan Crews",
+                        "link": "/api/v1/people/686611",
+                        "firstName": "Dylan",
+                        "lastName": "Crews",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Dylan"
+                    },
+                    {
+                        "id": 682928,
+                        "fullName": "CJ Abrams",
+                        "link": "/api/v1/people/682928",
+                        "firstName": "Paul",
+                        "lastName": "Abrams",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "CJ"
+                    },
+                    {
+                        "id": 696285,
+                        "fullName": "Jacob Young",
+                        "link": "/api/v1/people/696285",
+                        "firstName": "Jacob",
+                        "lastName": "Young",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Jacob"
+                    },
+                    {
+                        "id": 695734,
+                        "fullName": "Daylen Lile",
+                        "link": "/api/v1/people/695734",
+                        "firstName": "Daylen",
+                        "lastName": "Lile",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Daylen"
+                    },
+                    {
+                        "id": 660688,
+                        "fullName": "Keibert Ruiz",
+                        "link": "/api/v1/people/660688",
+                        "firstName": "Keibert",
+                        "lastName": "Ruiz",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Keibert"
+                    },
+                    {
+                        "id": 678391,
+                        "fullName": "Jorbit Vivas",
+                        "link": "/api/v1/people/678391",
+                        "firstName": "Jorbit",
+                        "lastName": "Vivas",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Jorbit"
+                    }
+                ]
+            }
         },
         "stadium": {
             "id": 3309,
@@ -5620,16 +5753,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 145,
-                        "name": "Chicago White Sox",
-                        "link": "/api/v1/teams/145"
+                        "id": 115,
+                        "name": "Colorado Rockies",
+                        "link": "/api/v1/teams/115"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 115,
-                        "name": "Colorado Rockies",
-                        "link": "/api/v1/teams/115"
+                        "id": 145,
+                        "name": "Chicago White Sox",
+                        "link": "/api/v1/teams/145"
                     }
                 }
             },
@@ -5788,9 +5921,9 @@
             "officialDate": "2026-09-25",
             "status": {
                 "abstractGameState": "Preview",
-                "codedGameState": "S",
-                "detailedState": "Scheduled",
-                "statusCode": "S",
+                "codedGameState": "P",
+                "detailedState": "Pre-Game",
+                "statusCode": "P",
                 "startTimeTBD": false,
                 "abstractGameCode": "P"
             },
@@ -5933,16 +6066,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 158,
-                        "name": "Milwaukee Brewers",
-                        "link": "/api/v1/teams/158"
+                        "id": 138,
+                        "name": "St. Louis Cardinals",
+                        "link": "/api/v1/teams/138"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 138,
-                        "name": "St. Louis Cardinals",
-                        "link": "/api/v1/teams/138"
+                        "id": 158,
+                        "name": "Milwaukee Brewers",
+                        "link": "/api/v1/teams/158"
                     }
                 }
             },
@@ -5973,7 +6106,136 @@
             "recordSource": "S",
             "ifNecessary": "N",
             "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "lineups": {
+                "awayPlayers": [
+                    {
+                        "id": 802139,
+                        "fullName": "JJ Wetherholt",
+                        "link": "/api/v1/people/802139",
+                        "firstName": "Jonathan",
+                        "lastName": "Wetherholt",
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "JJ"
+                    },
+                    {
+                        "id": 671056,
+                        "fullName": "Iv\u00e1n Herrera",
+                        "link": "/api/v1/people/671056",
+                        "firstName": "Ivan",
+                        "lastName": "Herrera",
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Iv\u00e1n"
+                    },
+                    {
+                        "id": 691023,
+                        "fullName": "Jordan Walker",
+                        "link": "/api/v1/people/691023",
+                        "firstName": "Jordan",
+                        "lastName": "Walker",
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Jordan"
+                    },
+                    {
+                        "id": 699024,
+                        "fullName": "Leo Bernal",
+                        "link": "/api/v1/people/699024",
+                        "firstName": "Leonardo",
+                        "lastName": "Bernal",
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Leo"
+                    },
+                    {
+                        "id": 665877,
+                        "fullName": "Jos\u00e9 Ferm\u00edn",
+                        "link": "/api/v1/people/665877",
+                        "firstName": "Jos\u00e9",
+                        "lastName": "Ferm\u00edn",
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Jos\u00e9"
+                    },
+                    {
+                        "id": 695336,
+                        "fullName": "Thomas Saggese",
+                        "link": "/api/v1/people/695336",
+                        "firstName": "Thomas",
+                        "lastName": "Saggese",
+                        "primaryPosition": {
+                            "code": "5",
+                            "name": "Third Base",
+                            "type": "Infielder",
+                            "abbreviation": "3B"
+                        },
+                        "useName": "Thomas"
+                    },
+                    {
+                        "id": 691026,
+                        "fullName": "Masyn Winn",
+                        "link": "/api/v1/people/691026",
+                        "firstName": "Masyn",
+                        "lastName": "Winn",
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Masyn"
+                    },
+                    {
+                        "id": 686780,
+                        "fullName": "Pedro Pag\u00e9s",
+                        "link": "/api/v1/people/686780",
+                        "firstName": "Pedro",
+                        "lastName": "Pag\u00e9s",
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Pedro"
+                    },
+                    {
+                        "id": 687363,
+                        "fullName": "Victor Scott II",
+                        "link": "/api/v1/people/687363",
+                        "firstName": "Victor",
+                        "lastName": "Scott",
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Victor"
+                    }
+                ]
+            }
         },
         "stadium": {
             "id": 32,
@@ -6036,7 +6298,7 @@
             "maxPrecipChance": 4,
             "isThunderstorm": false,
             "isSnow": false,
-            "windSpeed": 4,
+            "windSpeed": 0,
             "windDir": 85,
             "hourly": [
                 {
@@ -6082,11 +6344,11 @@
             ]
         },
         "wind": {
-            "text": "In from Left",
-            "cssClass": "bg-in",
-            "arrow": "\u2198"
+            "text": "Roof Closed",
+            "cssClass": "bg-secondary text-white",
+            "arrow": ""
         },
-        "roof": false,
+        "roof": true,
         "roofPending": false,
         "lineupHandedness": {},
         "lineupPositions": {}
@@ -6248,16 +6510,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 142,
-                        "name": "Minnesota Twins",
-                        "link": "/api/v1/teams/142"
+                        "id": 140,
+                        "name": "Texas Rangers",
+                        "link": "/api/v1/teams/140"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 140,
-                        "name": "Texas Rangers",
-                        "link": "/api/v1/teams/140"
+                        "id": 142,
+                        "name": "Minnesota Twins",
+                        "link": "/api/v1/teams/142"
                     }
                 }
             },
@@ -6560,16 +6822,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 133,
-                        "name": "Athletics",
-                        "link": "/api/v1/teams/133"
+                        "id": 117,
+                        "name": "Houston Astros",
+                        "link": "/api/v1/teams/117"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 117,
-                        "name": "Houston Astros",
-                        "link": "/api/v1/teams/117"
+                        "id": 133,
+                        "name": "Athletics",
+                        "link": "/api/v1/teams/133"
                     }
                 }
             },
@@ -6599,7 +6861,8 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {}
         },
         "stadium": {
             "id": 2529,
@@ -6824,16 +7087,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 135,
-                        "name": "San Diego Padres",
-                        "link": "/api/v1/teams/135"
+                        "id": 109,
+                        "name": "Arizona Diamondbacks",
+                        "link": "/api/v1/teams/109"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 109,
-                        "name": "Arizona Diamondbacks",
-                        "link": "/api/v1/teams/109"
+                        "id": 135,
+                        "name": "San Diego Padres",
+                        "link": "/api/v1/teams/135"
                     }
                 }
             },
@@ -7137,16 +7400,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 136,
-                        "name": "Seattle Mariners",
-                        "link": "/api/v1/teams/136"
+                        "id": 108,
+                        "name": "Los Angeles Angels",
+                        "link": "/api/v1/teams/108"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 108,
-                        "name": "Los Angeles Angels",
-                        "link": "/api/v1/teams/108"
+                        "id": 136,
+                        "name": "Seattle Mariners",
+                        "link": "/api/v1/teams/136"
                     }
                 }
             },
@@ -7450,16 +7713,16 @@
                 },
                 "defense": {
                     "team": {
-                        "id": 137,
-                        "name": "San Francisco Giants",
-                        "link": "/api/v1/teams/137"
+                        "id": 119,
+                        "name": "Los Angeles Dodgers",
+                        "link": "/api/v1/teams/119"
                     }
                 },
                 "offense": {
                     "team": {
-                        "id": 119,
-                        "name": "Los Angeles Dodgers",
-                        "link": "/api/v1/teams/119"
+                        "id": 137,
+                        "name": "San Francisco Giants",
+                        "link": "/api/v1/teams/137"
                     }
                 }
             },
@@ -7489,8 +7752,7 @@
             "seriesDescription": "Regular Season",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game",
-            "lineups": {}
+            "ifNecessaryDescription": "Normal Game"
         },
         "stadium": {
             "id": 2395,

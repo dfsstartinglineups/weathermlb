@@ -3136,12 +3136,12 @@
             "gameDate": "2026-09-26T20:05:00Z",
             "officialDate": "2026-09-26",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -3151,12 +3151,13 @@
                         "link": "/api/v1/teams/119"
                     },
                     "leagueRecord": {
-                        "wins": 98,
+                        "wins": 99,
                         "losses": 62,
                         "ties": 0,
-                        "pct": ".613"
+                        "pct": ".615"
                     },
                     "score": 4,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 605483,
                         "fullName": "Blake Snell",
@@ -3218,11 +3219,12 @@
                     },
                     "leagueRecord": {
                         "wins": 65,
-                        "losses": 95,
+                        "losses": 96,
                         "ties": 0,
-                        "pct": ".406"
+                        "pct": ".404"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 683363,
                         "fullName": "Matt Wilkinson",
@@ -3417,9 +3419,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
-                            "hits": 0,
+                            "runs": 0,
+                            "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 1,
@@ -3432,9 +3435,9 @@
                 "teams": {
                     "home": {
                         "runs": 3,
-                        "hits": 8,
+                        "hits": 9,
                         "errors": 0,
-                        "leftOnBase": 5
+                        "leftOnBase": 6
                     },
                     "away": {
                         "runs": 4,
@@ -3558,55 +3561,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 701852,
-                        "fullName": "Drew Cavanaugh",
-                        "link": "/api/v1/people/701852",
-                        "firstName": "Drew",
-                        "lastName": "Cavanaugh",
-                        "primaryNumber": "61",
-                        "birthDate": "2002-01-27",
-                        "currentAge": 24,
-                        "birthCity": "Troy",
-                        "birthStateProvince": "MI",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 219,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Drew",
-                        "useLastName": "Cavanaugh",
-                        "middleName": "Michael",
-                        "boxscoreName": "Cavanaugh",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2023,
-                        "mlbDebutDate": "2026-06-26",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Drew Cavanaugh",
-                        "nameSlug": "drew-cavanaugh-701852",
-                        "firstLastName": "Drew Cavanaugh",
-                        "lastFirstName": "Cavanaugh, Drew",
-                        "lastInitName": "Cavanaugh, D",
-                        "initLastName": "D Cavanaugh",
-                        "fullFMLName": "Drew Michael Cavanaugh",
-                        "fullLFMName": "Cavanaugh, Drew Michael",
-                        "strikeZoneTop": 3.203,
-                        "strikeZoneBottom": 1.617
-                    },
-                    "onDeck": {
                         "id": 683766,
                         "fullName": "Christian Koss",
                         "link": "/api/v1/people/683766",
@@ -3654,7 +3608,7 @@
                         "strikeZoneTop": 3.25,
                         "strikeZoneBottom": 1.64
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 813841,
                         "fullName": "Jonah Cox",
                         "link": "/api/v1/people/813841",
@@ -3702,6 +3656,53 @@
                         "fullLFMName": "Cox, Jonah Abbott",
                         "strikeZoneTop": 3.29,
                         "strikeZoneBottom": 1.66
+                    },
+                    "inHole": {
+                        "id": 806367,
+                        "fullName": "Turner Hill",
+                        "link": "/api/v1/people/806367",
+                        "firstName": "Turner",
+                        "lastName": "Hill",
+                        "primaryNumber": "52",
+                        "birthDate": "1999-04-04",
+                        "currentAge": 27,
+                        "birthCity": "Marietta",
+                        "birthStateProvince": "OH",
+                        "birthCountry": "USA",
+                        "height": "5' 10\"",
+                        "weight": 198,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Turner",
+                        "useLastName": "Hill",
+                        "boxscoreName": "Hill",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "mlbDebutDate": "2026-08-15",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Turner Hill",
+                        "nameSlug": "turner-hill-806367",
+                        "firstLastName": "Turner Hill",
+                        "lastFirstName": "Hill, Turner",
+                        "lastInitName": "Hill, T",
+                        "initLastName": "T Hill",
+                        "fullFMLName": "Turner Hill",
+                        "fullLFMName": "Hill, Turner",
+                        "strikeZoneTop": 3.14,
+                        "strikeZoneBottom": 1.58
                     },
                     "pitcher": {
                         "id": 805345,
@@ -3752,16 +3753,16 @@
                         "strikeZoneTop": 3.255,
                         "strikeZoneBottom": 1.643
                     },
-                    "battingOrder": 8,
+                    "battingOrder": 9,
                     "team": {
                         "id": 137,
                         "name": "San Francisco Giants",
                         "link": "/api/v1/teams/137"
                     }
                 },
-                "balls": 2,
-                "strikes": 2,
-                "outs": 2
+                "balls": 0,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 2395,
@@ -3773,6 +3774,7 @@
             "content": {
                 "link": "/api/v1/game/823165/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -4318,11 +4320,11 @@
                 }
             },
             "linescore": {
-                "currentInning": 2,
-                "currentInningOrdinal": "2nd",
-                "inningState": "End",
-                "inningHalf": "Bottom",
-                "isTopInning": false,
+                "currentInning": 3,
+                "currentInningOrdinal": "3rd",
+                "inningState": "Top",
+                "inningHalf": "Top",
+                "isTopInning": true,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -4356,6 +4358,20 @@
                             "errors": 0,
                             "leftOnBase": 1
                         }
+                    },
+                    {
+                        "num": 3,
+                        "ordinalNum": "3rd",
+                        "home": {
+                            "hits": 0,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        },
+                        "away": {
+                            "hits": 1,
+                            "errors": 0,
+                            "leftOnBase": 0
+                        }
                     }
                 ],
                 "teams": {
@@ -4367,7 +4383,7 @@
                     },
                     "away": {
                         "runs": 4,
-                        "hits": 5,
+                        "hits": 6,
                         "errors": 0,
                         "leftOnBase": 1
                     }
@@ -4488,37 +4504,35 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 608369,
-                        "fullName": "Corey Seager",
-                        "link": "/api/v1/people/608369",
-                        "firstName": "Corey",
-                        "lastName": "Seager",
-                        "primaryNumber": "5",
-                        "birthDate": "1994-04-27",
-                        "currentAge": 32,
-                        "birthCity": "Charlotte",
-                        "birthStateProvince": "NC",
+                        "id": 670032,
+                        "fullName": "Nicky Lopez",
+                        "link": "/api/v1/people/670032",
+                        "firstName": "Nicholas",
+                        "lastName": "Lopez",
+                        "primaryNumber": "33",
+                        "birthDate": "1995-03-13",
+                        "currentAge": 31,
+                        "birthCity": "Naperville",
+                        "birthStateProvince": "IL",
                         "birthCountry": "USA",
-                        "height": "6' 4\"",
-                        "weight": 215,
+                        "height": "5' 10\"",
+                        "weight": 186,
                         "active": true,
                         "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
+                            "code": "4",
+                            "name": "Second Base",
                             "type": "Infielder",
-                            "abbreviation": "SS"
+                            "abbreviation": "2B"
                         },
-                        "useName": "Corey",
-                        "useLastName": "Seager",
-                        "middleName": "Drew",
-                        "boxscoreName": "Seager",
-                        "nickName": "Seags",
+                        "useName": "Nicky",
+                        "useLastName": "Lopez",
+                        "boxscoreName": "Lopez, N",
+                        "nickName": "Shorts",
                         "gender": "M",
                         "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2012,
-                        "pronunciation": "SEE-ger",
-                        "mlbDebutDate": "2015-09-03",
+                        "isVerified": false,
+                        "draftYear": 2016,
+                        "mlbDebutDate": "2019-05-14",
                         "batSide": {
                             "code": "L",
                             "description": "Left"
@@ -4527,47 +4541,49 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Corey Seager",
-                        "nameSlug": "corey-seager-608369",
-                        "firstLastName": "Corey Seager",
-                        "lastFirstName": "Seager, Corey",
-                        "lastInitName": "Seager, C",
-                        "initLastName": "C Seager",
-                        "fullFMLName": "Corey Drew Seager",
-                        "fullLFMName": "Seager, Corey Drew",
-                        "strikeZoneTop": 3.372,
-                        "strikeZoneBottom": 1.702
+                        "nameFirstLast": "Nicky Lopez",
+                        "nameSlug": "nicky-lopez-670032",
+                        "firstLastName": "Nicky Lopez",
+                        "lastFirstName": "Lopez, Nicky",
+                        "lastInitName": "Lopez, N",
+                        "initLastName": "N Lopez",
+                        "fullFMLName": "Nicholas Lopez",
+                        "fullLFMName": "Lopez, Nicholas",
+                        "strikeZoneTop": 3.12,
+                        "strikeZoneBottom": 1.58
                     },
                     "onDeck": {
-                        "id": 669394,
-                        "fullName": "Jake Burger",
-                        "link": "/api/v1/people/669394",
-                        "firstName": "Jacob",
-                        "lastName": "Burger",
-                        "primaryNumber": "21",
-                        "birthDate": "1996-04-10",
-                        "currentAge": 30,
-                        "birthCity": "St. Louis",
-                        "birthStateProvince": "MO",
+                        "id": 643376,
+                        "fullName": "Danny Jansen",
+                        "link": "/api/v1/people/643376",
+                        "firstName": "Daniel",
+                        "lastName": "Jansen",
+                        "primaryNumber": "9",
+                        "birthDate": "1995-04-15",
+                        "currentAge": 31,
+                        "birthCity": "Elmhurst",
+                        "birthStateProvince": "IL",
                         "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 230,
+                        "height": "6' 2\"",
+                        "weight": 240,
                         "active": true,
                         "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
                         },
-                        "useName": "Jake",
-                        "useLastName": "Burger",
-                        "middleName": "Michael",
-                        "boxscoreName": "Burger",
+                        "useName": "Danny",
+                        "useLastName": "Jansen",
+                        "middleName": "Robert",
+                        "boxscoreName": "Jansen, D",
+                        "nickName": "Jano",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2017,
-                        "mlbDebutDate": "2021-07-02",
+                        "draftYear": 2013,
+                        "pronunciation": "JAN-sin",
+                        "mlbDebutDate": "2018-08-13",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -4576,18 +4592,67 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Jake Burger",
-                        "nameSlug": "jake-burger-669394",
-                        "firstLastName": "Jake Burger",
-                        "lastFirstName": "Burger, Jake",
-                        "lastInitName": "Burger, J",
-                        "initLastName": "J Burger",
-                        "fullFMLName": "Jacob Michael Burger",
-                        "fullLFMName": "Burger, Jacob Michael",
-                        "strikeZoneTop": 3.23,
-                        "strikeZoneBottom": 1.63
+                        "nameFirstLast": "Danny Jansen",
+                        "nameSlug": "danny-jansen-643376",
+                        "firstLastName": "Danny Jansen",
+                        "lastFirstName": "Jansen, Danny",
+                        "lastInitName": "Jansen, D",
+                        "initLastName": "D Jansen",
+                        "fullFMLName": "Daniel Robert Jansen",
+                        "fullLFMName": "Jansen, Daniel Robert",
+                        "strikeZoneTop": 3.281,
+                        "strikeZoneBottom": 1.656
                     },
                     "inHole": {
+                        "id": 694497,
+                        "fullName": "Evan Carter",
+                        "link": "/api/v1/people/694497",
+                        "firstName": "Evan",
+                        "lastName": "Carter",
+                        "primaryNumber": "32",
+                        "birthDate": "2002-08-29",
+                        "currentAge": 24,
+                        "birthCity": "Elizabethton",
+                        "birthStateProvince": "TN",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Evan",
+                        "useLastName": "Carter",
+                        "middleName": "Jason",
+                        "boxscoreName": "Carter",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2023-09-08",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Evan Carter",
+                        "nameSlug": "evan-carter-694497",
+                        "firstLastName": "Evan Carter",
+                        "lastFirstName": "Carter, Evan",
+                        "lastInitName": "Carter, E",
+                        "initLastName": "E Carter",
+                        "fullFMLName": "Evan Jason Carter",
+                        "fullLFMName": "Carter, Evan Jason",
+                        "strikeZoneTop": 3.316,
+                        "strikeZoneBottom": 1.673
+                    },
+                    "first": {
                         "id": 677649,
                         "fullName": "Ezequiel Duran",
                         "link": "/api/v1/people/677649",
@@ -4686,7 +4751,7 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 3,
+                    "battingOrder": 6,
                     "team": {
                         "id": 140,
                         "name": "Texas Rangers",
@@ -4694,8 +4759,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 2,
-                "outs": 3
+                "strikes": 1,
+                "outs": 2
             },
             "venue": {
                 "id": 3312,
@@ -5109,9 +5174,9 @@
             "officialDate": "2026-09-26",
             "status": {
                 "abstractGameState": "Final",
-                "codedGameState": "O",
-                "detailedState": "Game Over",
-                "statusCode": "O",
+                "codedGameState": "F",
+                "detailedState": "Final",
+                "statusCode": "F",
                 "startTimeTBD": false,
                 "abstractGameCode": "F"
             },

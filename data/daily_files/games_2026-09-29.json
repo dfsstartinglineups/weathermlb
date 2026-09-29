@@ -9,12 +9,12 @@
             "gameDate": "2026-09-29T18:00:00Z",
             "officialDate": "2026-09-29",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 0,
-                        "losses": 0,
+                        "losses": 1,
                         "ties": 0,
                         "pct": ".000"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 666200,
                         "fullName": "Jes\u00fas Luzardo",
@@ -88,12 +89,13 @@
                         "link": "/api/v1/teams/144"
                     },
                     "leagueRecord": {
-                        "wins": 0,
+                        "wins": 1,
                         "losses": 0,
                         "ties": 0,
-                        "pct": ".000"
+                        "pct": "1.000"
                     },
                     "score": 5,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 519242,
                         "fullName": "Chris Sale",
@@ -293,6 +295,7 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
                             "leftOnBase": 0
@@ -631,9 +634,9 @@
                         "link": "/api/v1/teams/143"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 2
+                "balls": 1,
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 4705,
@@ -645,6 +648,7 @@
             "content": {
                 "link": "/api/v1/game/849845/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -3051,7 +3055,8 @@
             "seriesDescription": "NL Wild Card Series",
             "recordSource": "S",
             "ifNecessary": "N",
-            "ifNecessaryDescription": "Normal Game"
+            "ifNecessaryDescription": "Normal Game",
+            "lineups": {}
         },
         "stadium": {
             "id": 2680,

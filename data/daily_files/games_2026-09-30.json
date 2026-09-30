@@ -9,12 +9,12 @@
             "gameDate": "2026-09-30T18:00:00Z",
             "officialDate": "2026-09-30",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -24,12 +24,13 @@
                         "link": "/api/v1/teams/143"
                     },
                     "leagueRecord": {
-                        "wins": 0,
+                        "wins": 1,
                         "losses": 1,
                         "ties": 0,
-                        "pct": ".000"
+                        "pct": ".500"
                     },
                     "score": 4,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 650911,
                         "fullName": "Cristopher S\u00e1nchez",
@@ -90,11 +91,12 @@
                     },
                     "leagueRecord": {
                         "wins": 1,
-                        "losses": 0,
+                        "losses": 1,
                         "ties": 0,
-                        "pct": "1.000"
+                        "pct": ".500"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 641816,
                         "fullName": "Tyler Mahle",
@@ -306,9 +308,10 @@
                         "num": 10,
                         "ordinalNum": "10th",
                         "home": {
-                            "hits": 1,
+                            "runs": 0,
+                            "hits": 2,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 2
                         },
                         "away": {
                             "runs": 1,
@@ -321,9 +324,9 @@
                 "teams": {
                     "home": {
                         "runs": 3,
-                        "hits": 8,
+                        "hits": 9,
                         "errors": 0,
-                        "leftOnBase": 9
+                        "leftOnBase": 11
                     },
                     "away": {
                         "runs": 4,
@@ -446,35 +449,36 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 671739,
-                        "fullName": "Michael Harris II",
-                        "link": "/api/v1/people/671739",
-                        "firstName": "Michael",
-                        "lastName": "Harris",
-                        "primaryNumber": "23",
-                        "birthDate": "2001-03-07",
-                        "currentAge": 25,
-                        "birthCity": "DeKalb",
-                        "birthStateProvince": "GA",
+                        "id": 642086,
+                        "fullName": "Dominic Smith",
+                        "link": "/api/v1/people/642086",
+                        "firstName": "Dominic",
+                        "lastName": "Smith",
+                        "primaryNumber": "8",
+                        "birthDate": "1995-06-15",
+                        "currentAge": 31,
+                        "birthCity": "Los Angeles",
+                        "birthStateProvince": "CA",
                         "birthCountry": "USA",
                         "height": "5' 11\"",
-                        "weight": 195,
+                        "weight": 224,
                         "active": true,
                         "primaryPosition": {
-                            "code": "8",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "CF"
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
                         },
-                        "useName": "Michael",
-                        "useLastName": "Harris II",
-                        "middleName": "Machion",
-                        "boxscoreName": "Harris II",
+                        "useName": "Dominic",
+                        "useLastName": "Smith",
+                        "middleName": "David Rene",
+                        "boxscoreName": "Smith, D",
+                        "nickName": "Sug",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2019,
-                        "mlbDebutDate": "2022-05-28",
+                        "draftYear": 2013,
+                        "mlbDebutDate": "2017-08-11",
                         "batSide": {
                             "code": "L",
                             "description": "Left"
@@ -483,69 +487,18 @@
                             "code": "L",
                             "description": "Left"
                         },
-                        "nameFirstLast": "Michael Harris II",
-                        "nameTitle": "II",
-                        "nameSuffix": "II",
-                        "nameSlug": "michael-harris-ii-671739",
-                        "firstLastName": "Michael Harris II",
-                        "lastFirstName": "Harris II, Michael",
-                        "lastInitName": "Harris II, M",
-                        "initLastName": "M Harris II",
-                        "fullFMLName": "Michael Machion Harris II",
-                        "fullLFMName": "Harris II, Michael Machion",
-                        "strikeZoneTop": 3.181,
-                        "strikeZoneBottom": 1.606
+                        "nameFirstLast": "Dominic Smith",
+                        "nameSlug": "dominic-smith-642086",
+                        "firstLastName": "Dominic Smith",
+                        "lastFirstName": "Smith, Dominic",
+                        "lastInitName": "Smith, D",
+                        "initLastName": "D Smith",
+                        "fullFMLName": "Dominic David Rene Smith",
+                        "fullLFMName": "Smith, Dominic David Rene",
+                        "strikeZoneTop": 3.176,
+                        "strikeZoneBottom": 1.603
                     },
                     "onDeck": {
-                        "id": 669221,
-                        "fullName": "Sean Murphy",
-                        "link": "/api/v1/people/669221",
-                        "firstName": "Sean",
-                        "lastName": "Murphy",
-                        "primaryNumber": "12",
-                        "birthDate": "1994-10-04",
-                        "currentAge": 31,
-                        "birthCity": "Peekskill",
-                        "birthStateProvince": "NY",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 228,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Sean",
-                        "useLastName": "Murphy",
-                        "middleName": "Michael",
-                        "boxscoreName": "Murphy, S",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2016,
-                        "mlbDebutDate": "2019-05-19",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Sean Murphy",
-                        "nameSlug": "sean-murphy-669221",
-                        "firstLastName": "Sean Murphy",
-                        "lastFirstName": "Murphy, Sean",
-                        "lastInitName": "Murphy, S",
-                        "initLastName": "S Murphy",
-                        "fullFMLName": "Sean Michael Murphy",
-                        "fullLFMName": "Murphy, Sean Michael",
-                        "strikeZoneTop": 3.326,
-                        "strikeZoneBottom": 1.679
-                    },
-                    "inHole": {
                         "id": 573262,
                         "fullName": "Mike Yastrzemski",
                         "link": "/api/v1/people/573262",
@@ -596,36 +549,37 @@
                         "strikeZoneTop": 3.125,
                         "strikeZoneBottom": 1.577
                     },
-                    "first": {
-                        "id": 643289,
-                        "fullName": "Mauricio Dub\u00f3n",
-                        "link": "/api/v1/people/643289",
-                        "firstName": "Mauricio",
-                        "lastName": "Dub\u00f3n",
-                        "primaryNumber": "14",
-                        "birthDate": "1994-07-19",
-                        "currentAge": 32,
-                        "birthCity": "San Pedro Sula",
-                        "birthCountry": "Honduras",
-                        "height": "5' 11\"",
-                        "weight": 173,
+                    "inHole": {
+                        "id": 660670,
+                        "fullName": "Ronald Acu\u00f1a Jr.",
+                        "link": "/api/v1/people/660670",
+                        "firstName": "Ronald",
+                        "lastName": "Acu\u00f1a",
+                        "primaryNumber": "13",
+                        "birthDate": "1997-12-18",
+                        "currentAge": 28,
+                        "birthCity": "La Guaira",
+                        "birthCountry": "Venezuela",
+                        "height": "6' 0\"",
+                        "weight": 205,
                         "active": true,
                         "primaryPosition": {
-                            "code": "7",
+                            "code": "9",
                             "name": "Outfielder",
                             "type": "Outfielder",
-                            "abbreviation": "LF"
+                            "abbreviation": "RF"
                         },
-                        "useName": "Mauricio",
-                        "useLastName": "Dub\u00f3n",
-                        "middleName": "Andre",
-                        "boxscoreName": "Dub\u00f3n",
+                        "useName": "Ronald",
+                        "useLastName": "Acu\u00f1a Jr.",
+                        "middleName": "Jose",
+                        "boxscoreName": "Acu\u00f1a Jr.",
+                        "nickName": "El De La Sabana",
                         "gender": "M",
+                        "nameMatrilineal": "Blanco",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2013,
-                        "pronunciation": "doo-BAHN",
-                        "mlbDebutDate": "2019-07-07",
+                        "pronunciation": "ah-cuhn-YA",
+                        "mlbDebutDate": "2018-04-25",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -634,16 +588,18 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Mauricio Dub\u00f3n",
-                        "nameSlug": "mauricio-dubon-643289",
-                        "firstLastName": "Mauricio Dub\u00f3n",
-                        "lastFirstName": "Dub\u00f3n, Mauricio",
-                        "lastInitName": "Dub\u00f3n, M",
-                        "initLastName": "M Dub\u00f3n",
-                        "fullFMLName": "Mauricio Andre Dub\u00f3n",
-                        "fullLFMName": "Dub\u00f3n, Mauricio Andre",
-                        "strikeZoneTop": 3.171,
-                        "strikeZoneBottom": 1.6
+                        "nameFirstLast": "Ronald Acu\u00f1a Jr.",
+                        "nameTitle": "Jr.",
+                        "nameSuffix": "Jr.",
+                        "nameSlug": "ronald-acuna-jr-660670",
+                        "firstLastName": "Ronald Acu\u00f1a Jr.",
+                        "lastFirstName": "Acu\u00f1a Jr., Ronald",
+                        "lastInitName": "Acu\u00f1a Jr., R",
+                        "initLastName": "R Acu\u00f1a Jr.",
+                        "fullFMLName": "Ronald Jose Acu\u00f1a Jr.",
+                        "fullLFMName": "Acu\u00f1a Jr., Ronald Jose",
+                        "strikeZoneTop": 3.201,
+                        "strikeZoneBottom": 1.615
                     },
                     "pitcher": {
                         "id": 800311,
@@ -693,16 +649,16 @@
                         "strikeZoneTop": 3.21,
                         "strikeZoneBottom": 1.62
                     },
-                    "battingOrder": 7,
+                    "battingOrder": 8,
                     "team": {
                         "id": 144,
                         "name": "Atlanta Braves",
                         "link": "/api/v1/teams/144"
                     }
                 },
-                "balls": 1,
-                "strikes": 1,
-                "outs": 2
+                "balls": 0,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 4705,
@@ -714,6 +670,7 @@
             "content": {
                 "link": "/api/v1/game/849841/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -1136,7 +1093,7 @@
                         "ties": 0,
                         "pct": "1.000"
                     },
-                    "score": 1,
+                    "score": 3,
                     "probablePitcher": {
                         "id": 680732,
                         "fullName": "Sean Burke",
@@ -1268,12 +1225,12 @@
                         "ordinalNum": "1st",
                         "home": {
                             "hits": 0,
-                            "errors": 0,
+                            "errors": 2,
                             "leftOnBase": 0
                         },
                         "away": {
-                            "runs": 1,
-                            "hits": 2,
+                            "runs": 3,
+                            "hits": 3,
                             "errors": 0,
                             "leftOnBase": 0
                         }
@@ -1283,12 +1240,12 @@
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
+                        "errors": 2,
                         "leftOnBase": 0
                     },
                     "away": {
-                        "runs": 1,
-                        "hits": 2,
+                        "runs": 3,
+                        "hits": 3,
                         "errors": 0,
                         "leftOnBase": 0
                     }
@@ -1407,80 +1364,35 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 678246,
-                        "fullName": "Miguel Vargas",
-                        "link": "/api/v1/people/678246",
-                        "firstName": "Miguel",
-                        "lastName": "Vargas",
-                        "primaryNumber": "20",
-                        "birthDate": "1999-11-17",
+                        "id": 671976,
+                        "fullName": "Tristan Peters",
+                        "link": "/api/v1/people/671976",
+                        "firstName": "Tristan",
+                        "lastName": "Peters",
+                        "primaryNumber": "29",
+                        "birthDate": "2000-02-29",
                         "currentAge": 26,
-                        "birthCity": "Havana",
-                        "birthCountry": "Cuba",
-                        "height": "6' 2\"",
-                        "weight": 225,
+                        "birthCity": "Winkler",
+                        "birthStateProvince": "MB",
+                        "birthCountry": "Canada",
+                        "height": "6' 0\"",
+                        "weight": 180,
                         "active": true,
                         "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
                         },
-                        "useName": "Miguel",
-                        "useLastName": "Vargas",
-                        "middleName": "Antonio",
-                        "boxscoreName": "Vargas, M",
-                        "gender": "M",
-                        "nameMatrilineal": "Echarry",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "mlbDebutDate": "2022-08-03",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Miguel Vargas",
-                        "nameSlug": "miguel-vargas-678246",
-                        "firstLastName": "Miguel Vargas",
-                        "lastFirstName": "Vargas, Miguel",
-                        "lastInitName": "Vargas, M",
-                        "initLastName": "M Vargas",
-                        "fullFMLName": "Miguel Antonio Vargas",
-                        "fullLFMName": "Vargas, Miguel Antonio",
-                        "strikeZoneTop": 3.29,
-                        "strikeZoneBottom": 1.66
-                    },
-                    "onDeck": {
-                        "id": 808959,
-                        "fullName": "Munetaka Murakami",
-                        "link": "/api/v1/people/808959",
-                        "firstName": "Munetaka",
-                        "lastName": "Murakami",
-                        "primaryNumber": "5",
-                        "birthDate": "2000-02-02",
-                        "currentAge": 26,
-                        "birthCity": "Kumamoto",
-                        "birthCountry": "Japan",
-                        "height": "6' 2\"",
-                        "weight": 213,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Munetaka",
-                        "useLastName": "Murakami",
-                        "boxscoreName": "Murakami",
+                        "useName": "Tristan",
+                        "useLastName": "Peters",
+                        "middleName": "Dimitri",
+                        "boxscoreName": "Peters",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "mlbDebutDate": "2026-03-26",
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2025-08-08",
                         "batSide": {
                             "code": "L",
                             "description": "Left"
@@ -1489,18 +1401,117 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Munetaka Murakami",
-                        "nameSlug": "munetaka-murakami-808959",
-                        "firstLastName": "Munetaka Murakami",
-                        "lastFirstName": "Murakami, Munetaka",
-                        "lastInitName": "Murakami, M",
-                        "initLastName": "M Murakami",
-                        "fullFMLName": "Munetaka Murakami",
-                        "fullLFMName": "Murakami, Munetaka ",
-                        "strikeZoneTop": 3.3,
-                        "strikeZoneBottom": 1.66
+                        "nameFirstLast": "Tristan Peters",
+                        "nameSlug": "tristan-peters-671976",
+                        "firstLastName": "Tristan Peters",
+                        "lastFirstName": "Peters, Tristan",
+                        "lastInitName": "Peters, T",
+                        "initLastName": "T Peters",
+                        "fullFMLName": "Tristan Dimitri Peters",
+                        "fullLFMName": "Peters, Tristan Dimitri",
+                        "strikeZoneTop": 3.197,
+                        "strikeZoneBottom": 1.614
+                    },
+                    "onDeck": {
+                        "id": 805367,
+                        "fullName": "Chase Meidroth",
+                        "link": "/api/v1/people/805367",
+                        "firstName": "Chase",
+                        "lastName": "Meidroth",
+                        "primaryNumber": "10",
+                        "birthDate": "2001-07-23",
+                        "currentAge": 25,
+                        "birthCity": "Torrance",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "5' 9\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Chase",
+                        "useLastName": "Meidroth",
+                        "middleName": "Gregory",
+                        "boxscoreName": "Meidroth",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2022,
+                        "pronunciation": "MY-drawth",
+                        "mlbDebutDate": "2025-04-11",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Chase Meidroth",
+                        "nameSlug": "chase-meidroth-805367",
+                        "firstLastName": "Chase Meidroth",
+                        "lastFirstName": "Meidroth, Chase",
+                        "lastInitName": "Meidroth, C",
+                        "initLastName": "C Meidroth",
+                        "fullFMLName": "Chase Gregory Meidroth",
+                        "fullLFMName": "Meidroth, Chase Gregory",
+                        "strikeZoneTop": 3.07,
+                        "strikeZoneBottom": 1.55
                     },
                     "inHole": {
+                        "id": 695731,
+                        "fullName": "Braden Montgomery",
+                        "link": "/api/v1/people/695731",
+                        "firstName": "Braden",
+                        "lastName": "Montgomery",
+                        "primaryNumber": "24",
+                        "birthDate": "2003-04-16",
+                        "currentAge": 23,
+                        "birthCity": "Des Moines",
+                        "birthStateProvince": "IA",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 220,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Braden",
+                        "useLastName": "Montgomery",
+                        "middleName": "Abraham",
+                        "boxscoreName": "Montgomery, B",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2024,
+                        "mlbDebutDate": "2026-06-09",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Braden Montgomery",
+                        "nameSlug": "braden-montgomery-695731",
+                        "firstLastName": "Braden Montgomery",
+                        "lastFirstName": "Montgomery, Braden",
+                        "lastInitName": "Montgomery, B",
+                        "initLastName": "B Montgomery",
+                        "fullFMLName": "Braden Abraham Montgomery",
+                        "fullLFMName": "Montgomery, Braden Abraham",
+                        "strikeZoneTop": 3.28,
+                        "strikeZoneBottom": 1.66
+                    },
+                    "second": {
                         "id": 643217,
                         "fullName": "Andrew Benintendi",
                         "link": "/api/v1/people/643217",
@@ -1549,55 +1560,6 @@
                         "fullLFMName": "Benintendi, Andrew Sebastian",
                         "strikeZoneTop": 3.068,
                         "strikeZoneBottom": 1.548
-                    },
-                    "first": {
-                        "id": 691019,
-                        "fullName": "Kyle Teel",
-                        "link": "/api/v1/people/691019",
-                        "firstName": "Kyle",
-                        "lastName": "Teel",
-                        "primaryNumber": "8",
-                        "birthDate": "2002-02-15",
-                        "currentAge": 24,
-                        "birthCity": "Ridgewood",
-                        "birthStateProvince": "NJ",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 210,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "2",
-                            "name": "Catcher",
-                            "type": "Catcher",
-                            "abbreviation": "C"
-                        },
-                        "useName": "Kyle",
-                        "useLastName": "Teel",
-                        "middleName": "Henry",
-                        "boxscoreName": "Teel",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2023,
-                        "mlbDebutDate": "2025-06-06",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Kyle Teel",
-                        "nameSlug": "kyle-teel-691019",
-                        "firstLastName": "Kyle Teel",
-                        "lastFirstName": "Teel, Kyle",
-                        "lastInitName": "Teel, K",
-                        "initLastName": "K Teel",
-                        "fullFMLName": "Kyle Henry Teel",
-                        "fullLFMName": "Teel, Kyle Henry",
-                        "strikeZoneTop": 3.154,
-                        "strikeZoneBottom": 1.592
                     },
                     "pitcher": {
                         "id": 680732,
@@ -1648,16 +1610,16 @@
                         "strikeZoneTop": 3.58,
                         "strikeZoneBottom": 1.68
                     },
-                    "battingOrder": 3,
+                    "battingOrder": 6,
                     "team": {
                         "id": 145,
                         "name": "Chicago White Sox",
                         "link": "/api/v1/teams/145"
                     }
                 },
-                "balls": 2,
-                "strikes": 2,
-                "outs": 0
+                "balls": 1,
+                "strikes": 1,
+                "outs": 1
             },
             "venue": {
                 "id": 2392,

@@ -1073,12 +1073,12 @@
             "gameDate": "2026-09-30T21:00:00Z",
             "officialDate": "2026-09-30",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -1088,12 +1088,13 @@
                         "link": "/api/v1/teams/145"
                     },
                     "leagueRecord": {
-                        "wins": 1,
+                        "wins": 2,
                         "losses": 0,
                         "ties": 0,
                         "pct": "1.000"
                     },
                     "score": 7,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 680732,
                         "fullName": "Sean Burke",
@@ -1154,11 +1155,12 @@
                     },
                     "leagueRecord": {
                         "wins": 0,
-                        "losses": 1,
+                        "losses": 2,
                         "ties": 0,
                         "pct": ".000"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 686613,
                         "fullName": "Hunter Brown",
@@ -1352,6 +1354,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -1699,8 +1702,8 @@
                     }
                 },
                 "balls": 2,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 2392,
@@ -1712,6 +1715,7 @@
             "content": {
                 "link": "/api/v1/game/849846/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -2410,56 +2414,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 663330,
-                        "fullName": "Jahmai Jones",
-                        "link": "/api/v1/people/663330",
-                        "firstName": "Jahmai",
-                        "lastName": "Jones",
-                        "primaryNumber": "37",
-                        "birthDate": "1997-08-04",
-                        "currentAge": 29,
-                        "birthCity": "Roswell",
-                        "birthStateProvince": "GA",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 210,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Jahmai",
-                        "useLastName": "Jones",
-                        "middleName": "Fitzgerald",
-                        "boxscoreName": "Jones, Jah",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "pronunciation": "juh-MY",
-                        "mlbDebutDate": "2020-08-31",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jahmai Jones",
-                        "nameSlug": "jahmai-jones-663330",
-                        "firstLastName": "Jahmai Jones",
-                        "lastFirstName": "Jones, Jahmai",
-                        "lastInitName": "Jones, J",
-                        "initLastName": "J Jones",
-                        "fullFMLName": "Jahmai Fitzgerald Jones",
-                        "fullLFMName": "Jones, Jahmai Fitzgerald",
-                        "strikeZoneTop": 3.138,
-                        "strikeZoneBottom": 1.584
-                    },
-                    "onDeck": {
                         "id": 668939,
                         "fullName": "Adley Rutschman",
                         "link": "/api/v1/people/668939",
@@ -2508,7 +2462,7 @@
                         "strikeZoneTop": 3.253,
                         "strikeZoneBottom": 1.642
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 575929,
                         "fullName": "Willson Contreras",
                         "link": "/api/v1/people/575929",
@@ -2555,6 +2509,55 @@
                         "fullLFMName": "Contreras, Willson Eduardo",
                         "strikeZoneTop": 3.23,
                         "strikeZoneBottom": 1.63
+                    },
+                    "inHole": {
+                        "id": 677800,
+                        "fullName": "Wilyer Abreu",
+                        "link": "/api/v1/people/677800",
+                        "firstName": "Wilyer",
+                        "lastName": "Abreu",
+                        "primaryNumber": "52",
+                        "birthDate": "1999-06-24",
+                        "currentAge": 27,
+                        "birthCity": "Maracaibo",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 10\"",
+                        "weight": 215,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "9",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "RF"
+                        },
+                        "useName": "Wilyer",
+                        "useLastName": "Abreu",
+                        "middleName": "David",
+                        "boxscoreName": "Abreu, W",
+                        "gender": "M",
+                        "nameMatrilineal": "Villalobos",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "WHEEL-yurr",
+                        "mlbDebutDate": "2023-08-22",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Wilyer Abreu",
+                        "nameSlug": "wilyer-abreu-677800",
+                        "firstLastName": "Wilyer Abreu",
+                        "lastFirstName": "Abreu, Wilyer",
+                        "lastInitName": "Abreu, W",
+                        "initLastName": "W Abreu",
+                        "fullFMLName": "Wilyer David Abreu",
+                        "fullLFMName": "Abreu, Wilyer David",
+                        "strikeZoneTop": 3.117,
+                        "strikeZoneBottom": 1.573
                     },
                     "pitcher": {
                         "id": 543243,
@@ -2606,16 +2609,16 @@
                         "strikeZoneTop": 3.38,
                         "strikeZoneBottom": 1.57
                     },
-                    "battingOrder": 1,
+                    "battingOrder": 2,
                     "team": {
                         "id": 111,
                         "name": "Boston Red Sox",
                         "link": "/api/v1/teams/111"
                     }
                 },
-                "balls": 1,
-                "strikes": 1,
-                "outs": 0
+                "balls": 3,
+                "strikes": 2,
+                "outs": 1
             },
             "venue": {
                 "id": 3313,

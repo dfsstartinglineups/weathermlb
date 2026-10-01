@@ -2119,12 +2119,12 @@
             "gameDate": "2026-10-01T00:00:00Z",
             "officialDate": "2026-09-30",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -2135,11 +2135,12 @@
                     },
                     "leagueRecord": {
                         "wins": 0,
-                        "losses": 1,
+                        "losses": 2,
                         "ties": 0,
                         "pct": ".000"
                     },
                     "score": 2,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 543243,
                         "fullName": "Sonny Gray",
@@ -2200,12 +2201,13 @@
                         "link": "/api/v1/teams/147"
                     },
                     "leagueRecord": {
-                        "wins": 1,
+                        "wins": 2,
                         "losses": 0,
                         "ties": 0,
                         "pct": "1.000"
                     },
                     "score": 9,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 608331,
                         "fullName": "Max Fried",
@@ -2406,9 +2408,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -2423,7 +2426,7 @@
                         "runs": 2,
                         "hits": 4,
                         "errors": 1,
-                        "leftOnBase": 3
+                        "leftOnBase": 4
                     }
                 },
                 "defense": {
@@ -2541,103 +2544,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 677800,
-                        "fullName": "Wilyer Abreu",
-                        "link": "/api/v1/people/677800",
-                        "firstName": "Wilyer",
-                        "lastName": "Abreu",
-                        "primaryNumber": "52",
-                        "birthDate": "1999-06-24",
-                        "currentAge": 27,
-                        "birthCity": "Maracaibo",
-                        "birthCountry": "Venezuela",
-                        "height": "5' 10\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Wilyer",
-                        "useLastName": "Abreu",
-                        "middleName": "David",
-                        "boxscoreName": "Abreu, W",
-                        "gender": "M",
-                        "nameMatrilineal": "Villalobos",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "WHEEL-yurr",
-                        "mlbDebutDate": "2023-08-22",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Wilyer Abreu",
-                        "nameSlug": "wilyer-abreu-677800",
-                        "firstLastName": "Wilyer Abreu",
-                        "lastFirstName": "Abreu, Wilyer",
-                        "lastInitName": "Abreu, W",
-                        "initLastName": "W Abreu",
-                        "fullFMLName": "Wilyer David Abreu",
-                        "fullLFMName": "Abreu, Wilyer David",
-                        "strikeZoneTop": 3.117,
-                        "strikeZoneBottom": 1.573
-                    },
-                    "onDeck": {
-                        "id": 678882,
-                        "fullName": "Ceddanne Rafaela",
-                        "link": "/api/v1/people/678882",
-                        "firstName": "Ceddanne",
-                        "lastName": "Rafaela",
-                        "primaryNumber": "3",
-                        "birthDate": "2000-09-18",
-                        "currentAge": 26,
-                        "birthCity": "Willemstad",
-                        "birthCountry": "Curacao",
-                        "height": "5' 10\"",
-                        "weight": 165,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "8",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "CF"
-                        },
-                        "useName": "Ceddanne",
-                        "useLastName": "Rafaela",
-                        "middleName": "Chipper Nicasio Marte",
-                        "boxscoreName": "Rafaela",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "say-DAHN",
-                        "mlbDebutDate": "2023-08-28",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Ceddanne Rafaela",
-                        "nameSlug": "ceddanne-rafaela-678882",
-                        "firstLastName": "Ceddanne Rafaela",
-                        "lastFirstName": "Rafaela, Ceddanne",
-                        "lastInitName": "Rafaela, C",
-                        "initLastName": "C Rafaela",
-                        "fullFMLName": "Ceddanne Chipper Nicasio Marte Rafaela",
-                        "fullLFMName": "Rafaela, Ceddanne Chipper Nicasio Marte",
-                        "strikeZoneTop": 3.11,
-                        "strikeZoneBottom": 1.57
-                    },
-                    "inHole": {
                         "id": 702332,
                         "fullName": "Caleb Durbin",
                         "link": "/api/v1/people/702332",
@@ -2685,35 +2591,87 @@
                         "strikeZoneTop": 2.947,
                         "strikeZoneBottom": 1.487
                     },
-                    "first": {
-                        "id": 575929,
-                        "fullName": "Willson Contreras",
-                        "link": "/api/v1/people/575929",
-                        "firstName": "Willson",
-                        "lastName": "Contreras",
-                        "primaryNumber": "40",
-                        "birthDate": "1992-05-13",
-                        "currentAge": 34,
-                        "birthCity": "Puerto Cabello",
-                        "birthCountry": "Venezuela",
-                        "height": "6' 0\"",
-                        "weight": 240,
+                    "onDeck": {
+                        "id": 686765,
+                        "fullName": "Nick Sogard",
+                        "link": "/api/v1/people/686765",
+                        "firstName": "Nicholas",
+                        "lastName": "Sogard",
+                        "primaryNumber": "20",
+                        "birthDate": "1997-09-09",
+                        "currentAge": 29,
+                        "birthCity": "Los Angeles",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 189,
                         "active": true,
                         "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
+                            "code": "4",
+                            "name": "Second Base",
                             "type": "Infielder",
-                            "abbreviation": "1B"
+                            "abbreviation": "2B"
                         },
-                        "useName": "Willson",
-                        "useLastName": "Contreras",
-                        "middleName": "Eduardo",
-                        "boxscoreName": "Contreras, Wn",
-                        "nickName": "Venezuela",
+                        "useName": "Nick",
+                        "useLastName": "Sogard",
+                        "middleName": "John",
+                        "boxscoreName": "Sogard",
                         "gender": "M",
                         "isPlayer": true,
-                        "isVerified": false,
-                        "mlbDebutDate": "2016-06-17",
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "pronunciation": "SO-gard",
+                        "mlbDebutDate": "2024-08-02",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Nick Sogard",
+                        "nameSlug": "nick-sogard-686765",
+                        "firstLastName": "Nick Sogard",
+                        "lastFirstName": "Sogard, Nick",
+                        "lastInitName": "Sogard, N",
+                        "initLastName": "N Sogard",
+                        "fullFMLName": "Nicholas John Sogard",
+                        "fullLFMName": "Sogard, Nicholas John",
+                        "strikeZoneTop": 3.245,
+                        "strikeZoneBottom": 1.638
+                    },
+                    "inHole": {
+                        "id": 596115,
+                        "fullName": "Trevor Story",
+                        "link": "/api/v1/people/596115",
+                        "firstName": "Trevor",
+                        "lastName": "Story",
+                        "primaryNumber": "10",
+                        "birthDate": "1992-11-15",
+                        "currentAge": 33,
+                        "birthCity": "Irving",
+                        "birthStateProvince": "TX",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 209,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Trevor",
+                        "useLastName": "Story",
+                        "middleName": "John",
+                        "boxscoreName": "Story",
+                        "nickName": "True",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2011,
+                        "mlbDebutDate": "2016-04-04",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -2722,16 +2680,16 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Willson Contreras",
-                        "nameSlug": "willson-contreras-575929",
-                        "firstLastName": "Willson Contreras",
-                        "lastFirstName": "Contreras, Willson",
-                        "lastInitName": "Contreras, W",
-                        "initLastName": "W Contreras",
-                        "fullFMLName": "Willson Eduardo Contreras",
-                        "fullLFMName": "Contreras, Willson Eduardo",
-                        "strikeZoneTop": 3.23,
-                        "strikeZoneBottom": 1.63
+                        "nameFirstLast": "Trevor Story",
+                        "nameSlug": "trevor-story-596115",
+                        "firstLastName": "Trevor Story",
+                        "lastFirstName": "Story, Trevor",
+                        "lastInitName": "Story, T",
+                        "initLastName": "T Story",
+                        "fullFMLName": "Trevor John Story",
+                        "fullLFMName": "Story, Trevor John",
+                        "strikeZoneTop": 3.242,
+                        "strikeZoneBottom": 1.636
                     },
                     "pitcher": {
                         "id": 547973,
@@ -2783,7 +2741,7 @@
                         "strikeZoneTop": 3.388,
                         "strikeZoneBottom": 1.71
                     },
-                    "battingOrder": 4,
+                    "battingOrder": 6,
                     "team": {
                         "id": 111,
                         "name": "Boston Red Sox",
@@ -2791,8 +2749,8 @@
                     }
                 },
                 "balls": 2,
-                "strikes": 2,
-                "outs": 0
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 3313,
@@ -2804,6 +2762,7 @@
             "content": {
                 "link": "/api/v1/game/849848/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -3226,7 +3185,7 @@
                         "ties": 0,
                         "pct": ".000"
                     },
-                    "score": 0,
+                    "score": 1,
                     "probablePitcher": {
                         "id": 592332,
                         "fullName": "Kevin Gausman",
@@ -3413,7 +3372,8 @@
                             "leftOnBase": 0
                         },
                         "away": {
-                            "hits": 1,
+                            "runs": 1,
+                            "hits": 2,
                             "errors": 0,
                             "leftOnBase": 0
                         }
@@ -3427,27 +3387,26 @@
                         "leftOnBase": 2
                     },
                     "away": {
-                        "runs": 0,
-                        "hits": 2,
+                        "runs": 1,
+                        "hits": 3,
                         "errors": 0,
                         "leftOnBase": 2
                     }
                 },
                 "defense": {
                     "pitcher": {
-                        "id": 601713,
-                        "fullName": "Nick Pivetta",
-                        "link": "/api/v1/people/601713",
-                        "firstName": "Nicholas",
-                        "lastName": "Pivetta",
-                        "primaryNumber": "27",
-                        "birthDate": "1993-02-14",
-                        "currentAge": 33,
-                        "birthCity": "Victoria",
-                        "birthStateProvince": "BC",
-                        "birthCountry": "Canada",
-                        "height": "6' 5\"",
-                        "weight": 210,
+                        "id": 699134,
+                        "fullName": "Bradgley Rodriguez",
+                        "link": "/api/v1/people/699134",
+                        "firstName": "Bradgley",
+                        "lastName": "Rodriguez",
+                        "primaryNumber": "72",
+                        "birthDate": "2003-11-16",
+                        "currentAge": 22,
+                        "birthCity": "Petare",
+                        "birthCountry": "Venezuela",
+                        "height": "6' 1\"",
+                        "weight": 160,
                         "active": true,
                         "primaryPosition": {
                             "code": "1",
@@ -3455,16 +3414,16 @@
                             "type": "Pitcher",
                             "abbreviation": "P"
                         },
-                        "useName": "Nick",
-                        "useLastName": "Pivetta",
-                        "middleName": "Johncarlo",
-                        "boxscoreName": "Pivetta",
-                        "nickName": "Piv",
+                        "useName": "Bradgley",
+                        "useLastName": "Rodriguez",
+                        "middleName": "Eduardo",
+                        "boxscoreName": "Rodriguez, B",
                         "gender": "M",
+                        "nameMatrilineal": "Rodriguez",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2013,
-                        "mlbDebutDate": "2017-04-30",
+                        "pronunciation": "BRAD-glay",
+                        "mlbDebutDate": "2025-05-31",
                         "batSide": {
                             "code": "R",
                             "description": "Right"
@@ -3473,16 +3432,16 @@
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Nick Pivetta",
-                        "nameSlug": "nick-pivetta-601713",
-                        "firstLastName": "Nick Pivetta",
-                        "lastFirstName": "Pivetta, Nick",
-                        "lastInitName": "Pivetta, N",
-                        "initLastName": "N Pivetta",
-                        "fullFMLName": "Nicholas Johncarlo Pivetta",
-                        "fullLFMName": "Pivetta, Nicholas Johncarlo",
-                        "strikeZoneTop": 3.433,
-                        "strikeZoneBottom": 1.733
+                        "nameFirstLast": "Bradgley Rodriguez",
+                        "nameSlug": "bradgley-rodriguez-699134",
+                        "firstLastName": "Bradgley Rodriguez",
+                        "lastFirstName": "Rodriguez, Bradgley",
+                        "lastInitName": "Rodriguez, B",
+                        "initLastName": "B Rodriguez",
+                        "fullFMLName": "Bradgley Eduardo Rodriguez",
+                        "fullLFMName": "Rodriguez, Bradgley Eduardo",
+                        "strikeZoneTop": 3.255,
+                        "strikeZoneBottom": 1.643
                     },
                     "catcher": {
                         "id": 806956,
@@ -3548,55 +3507,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 663538,
-                        "fullName": "Nico Hoerner",
-                        "link": "/api/v1/people/663538",
-                        "firstName": "Nicholas",
-                        "lastName": "Hoerner",
-                        "primaryNumber": "2",
-                        "birthDate": "1997-05-13",
-                        "currentAge": 29,
-                        "birthCity": "Oakland",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 200,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "4",
-                            "name": "Second Base",
-                            "type": "Infielder",
-                            "abbreviation": "2B"
-                        },
-                        "useName": "Nico",
-                        "useLastName": "Hoerner",
-                        "middleName": "Mackie",
-                        "boxscoreName": "Hoerner",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2018,
-                        "mlbDebutDate": "2019-09-09",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Nico Hoerner",
-                        "nameSlug": "nico-hoerner-663538",
-                        "firstLastName": "Nico Hoerner",
-                        "lastFirstName": "Hoerner, Nico",
-                        "lastInitName": "Hoerner, N",
-                        "initLastName": "N Hoerner",
-                        "fullFMLName": "Nicholas Mackie Hoerner",
-                        "fullLFMName": "Hoerner, Nicholas Mackie",
-                        "strikeZoneTop": 3.186,
-                        "strikeZoneBottom": 1.608
-                    },
-                    "onDeck": {
                         "id": 807713,
                         "fullName": "Matt Shaw",
                         "link": "/api/v1/people/807713",
@@ -3645,7 +3555,7 @@
                         "strikeZoneTop": 3.105,
                         "strikeZoneBottom": 1.567
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 608348,
                         "fullName": "Carson Kelly",
                         "link": "/api/v1/people/608348",
@@ -3695,7 +3605,106 @@
                         "strikeZoneTop": 3.258,
                         "strikeZoneBottom": 1.644
                     },
+                    "inHole": {
+                        "id": 621020,
+                        "fullName": "Dansby Swanson",
+                        "link": "/api/v1/people/621020",
+                        "firstName": "James",
+                        "lastName": "Swanson",
+                        "primaryNumber": "7",
+                        "birthDate": "1994-02-11",
+                        "currentAge": 32,
+                        "birthCity": "Kennesaw",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "6' 0\"",
+                        "weight": 190,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Dansby",
+                        "useLastName": "Swanson",
+                        "middleName": "Dansby",
+                        "boxscoreName": "Swanson",
+                        "nickName": "Dans",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2015,
+                        "mlbDebutDate": "2016-08-17",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Dansby Swanson",
+                        "nameSlug": "dansby-swanson-621020",
+                        "firstLastName": "Dansby Swanson",
+                        "lastFirstName": "Swanson, Dansby",
+                        "lastInitName": "Swanson, D",
+                        "initLastName": "D Swanson",
+                        "fullFMLName": "James Dansby Swanson",
+                        "fullLFMName": "Swanson, James Dansby",
+                        "strikeZoneTop": 3.218,
+                        "strikeZoneBottom": 1.624
+                    },
                     "first": {
+                        "id": 663538,
+                        "fullName": "Nico Hoerner",
+                        "link": "/api/v1/people/663538",
+                        "firstName": "Nicholas",
+                        "lastName": "Hoerner",
+                        "primaryNumber": "2",
+                        "birthDate": "1997-05-13",
+                        "currentAge": 29,
+                        "birthCity": "Oakland",
+                        "birthStateProvince": "CA",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "4",
+                            "name": "Second Base",
+                            "type": "Infielder",
+                            "abbreviation": "2B"
+                        },
+                        "useName": "Nico",
+                        "useLastName": "Hoerner",
+                        "middleName": "Mackie",
+                        "boxscoreName": "Hoerner",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2018,
+                        "mlbDebutDate": "2019-09-09",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Nico Hoerner",
+                        "nameSlug": "nico-hoerner-663538",
+                        "firstLastName": "Nico Hoerner",
+                        "lastFirstName": "Hoerner, Nico",
+                        "lastInitName": "Hoerner, N",
+                        "initLastName": "N Hoerner",
+                        "fullFMLName": "Nicholas Mackie Hoerner",
+                        "fullLFMName": "Hoerner, Nicholas Mackie",
+                        "strikeZoneTop": 3.186,
+                        "strikeZoneBottom": 1.608
+                    },
+                    "second": {
                         "id": 664023,
                         "fullName": "Ian Happ",
                         "link": "/api/v1/people/664023",
@@ -3744,53 +3753,6 @@
                         "fullLFMName": "Happ, Ian Edward",
                         "strikeZoneTop": 3.137,
                         "strikeZoneBottom": 1.583
-                    },
-                    "second": {
-                        "id": 673548,
-                        "fullName": "Seiya Suzuki",
-                        "link": "/api/v1/people/673548",
-                        "firstName": "Seiya",
-                        "lastName": "Suzuki",
-                        "primaryNumber": "27",
-                        "birthDate": "1994-08-18",
-                        "currentAge": 32,
-                        "birthCity": "Arakawa",
-                        "birthCountry": "Japan",
-                        "height": "5' 11\"",
-                        "weight": 182,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Seiya",
-                        "useLastName": "Suzuki",
-                        "boxscoreName": "Suzuki",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "SAY-ya",
-                        "mlbDebutDate": "2022-04-07",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Seiya Suzuki",
-                        "nameSlug": "seiya-suzuki-673548",
-                        "firstLastName": "Seiya Suzuki",
-                        "lastFirstName": "Suzuki, Seiya",
-                        "lastInitName": "Suzuki, S",
-                        "initLastName": "S Suzuki",
-                        "fullFMLName": "Seiya Suzuki",
-                        "fullLFMName": "Suzuki, Seiya ",
-                        "strikeZoneTop": 3.178,
-                        "strikeZoneBottom": 1.604
                     },
                     "pitcher": {
                         "id": 592332,
@@ -3843,7 +3805,7 @@
                         "strikeZoneTop": 3.59,
                         "strikeZoneBottom": 1.67
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 7,
                     "team": {
                         "id": 112,
                         "name": "Chicago Cubs",

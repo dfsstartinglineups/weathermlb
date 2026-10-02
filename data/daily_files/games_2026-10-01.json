@@ -9,12 +9,12 @@
             "gameDate": "2026-10-02T00:00:00Z",
             "officialDate": "2026-10-01",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 1,
-                        "losses": 1,
+                        "losses": 2,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".333"
                     },
                     "score": 2,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 605400,
                         "fullName": "Aaron Nola",
@@ -91,12 +92,13 @@
                         "link": "/api/v1/teams/144"
                     },
                     "leagueRecord": {
-                        "wins": 1,
+                        "wins": 2,
                         "losses": 1,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".667"
                     },
                     "score": 6,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 678061,
                         "fullName": "Ray Kerr",
@@ -294,9 +296,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -311,7 +314,7 @@
                         "runs": 2,
                         "hits": 6,
                         "errors": 0,
-                        "leftOnBase": 4
+                        "leftOnBase": 5
                     }
                 },
                 "defense": {
@@ -577,56 +580,6 @@
                         "strikeZoneTop": 3.216,
                         "strikeZoneBottom": 1.623
                     },
-                    "second": {
-                        "id": 664761,
-                        "fullName": "Alec Bohm",
-                        "link": "/api/v1/people/664761",
-                        "firstName": "Alec",
-                        "lastName": "Bohm",
-                        "primaryNumber": "28",
-                        "birthDate": "1996-08-03",
-                        "currentAge": 30,
-                        "birthCity": "Omaha",
-                        "birthStateProvince": "NE",
-                        "birthCountry": "USA",
-                        "height": "6' 4\"",
-                        "weight": 218,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Alec",
-                        "useLastName": "Bohm",
-                        "middleName": "Daniel",
-                        "boxscoreName": "Bohm",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2018,
-                        "pronunciation": "bome; like home",
-                        "mlbDebutDate": "2020-08-13",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Alec Bohm",
-                        "nameSlug": "alec-bohm-664761",
-                        "firstLastName": "Alec Bohm",
-                        "lastFirstName": "Bohm, Alec",
-                        "lastInitName": "Bohm, A",
-                        "initLastName": "A Bohm",
-                        "fullFMLName": "Alec Daniel Bohm",
-                        "fullLFMName": "Bohm, Alec Daniel",
-                        "strikeZoneTop": 3.407,
-                        "strikeZoneBottom": 1.719
-                    },
                     "pitcher": {
                         "id": 661395,
                         "fullName": "Jhoan Duran",
@@ -684,8 +637,8 @@
                     }
                 },
                 "balls": 2,
-                "strikes": 2,
-                "outs": 2
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 4705,
@@ -697,6 +650,7 @@
             "content": {
                 "link": "/api/v1/game/849844/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

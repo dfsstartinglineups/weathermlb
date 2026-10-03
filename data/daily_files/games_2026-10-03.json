@@ -9,12 +9,12 @@
             "gameDate": "2026-10-03T17:00:00Z",
             "officialDate": "2026-10-03",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -24,12 +24,13 @@
                         "link": "/api/v1/teams/145"
                     },
                     "leagueRecord": {
-                        "wins": 0,
+                        "wins": 1,
                         "losses": 0,
                         "ties": 0,
-                        "pct": ".000"
+                        "pct": "1.000"
                     },
                     "score": 3,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 696146,
                         "fullName": "Hagen Smith",
@@ -90,11 +91,12 @@
                     },
                     "leagueRecord": {
                         "wins": 0,
-                        "losses": 0,
+                        "losses": 1,
                         "ties": 0,
                         "pct": ".000"
                     },
                     "score": 0,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 800048,
                         "fullName": "Parker Messick",
@@ -288,6 +290,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -428,55 +431,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 663993,
-                        "fullName": "Nathaniel Lowe",
-                        "link": "/api/v1/people/663993",
-                        "firstName": "David",
-                        "lastName": "Lowe",
-                        "primaryNumber": "46",
-                        "birthDate": "1995-07-07",
-                        "currentAge": 31,
-                        "birthCity": "Norfolk",
-                        "birthStateProvince": "VA",
-                        "birthCountry": "USA",
-                        "height": "6' 4\"",
-                        "weight": 220,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Nathaniel",
-                        "useLastName": "Lowe",
-                        "middleName": "Nathaniel",
-                        "boxscoreName": "Lowe, N",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2016,
-                        "mlbDebutDate": "2019-04-29",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Nathaniel Lowe",
-                        "nameSlug": "nathaniel-lowe-663993",
-                        "firstLastName": "Nathaniel Lowe",
-                        "lastFirstName": "Lowe, Nathaniel",
-                        "lastInitName": "Lowe, N",
-                        "initLastName": "N Lowe",
-                        "fullFMLName": "David Nathaniel Lowe",
-                        "fullLFMName": "Lowe, David Nathaniel",
-                        "strikeZoneTop": 3.367,
-                        "strikeZoneBottom": 1.699
-                    },
-                    "onDeck": {
                         "id": 683953,
                         "fullName": "Travis Bazzana",
                         "link": "/api/v1/people/683953",
@@ -525,7 +479,7 @@
                         "strikeZoneTop": 3.179,
                         "strikeZoneBottom": 1.604
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 672275,
                         "fullName": "Patrick Bailey",
                         "link": "/api/v1/people/672275",
@@ -573,6 +527,55 @@
                         "fullLFMName": "Bailey, Patrick Lee",
                         "strikeZoneTop": 3.22,
                         "strikeZoneBottom": 1.63
+                    },
+                    "inHole": {
+                        "id": 677587,
+                        "fullName": "Brayan Rocchio",
+                        "link": "/api/v1/people/677587",
+                        "firstName": "Brayan",
+                        "lastName": "Rocchio",
+                        "primaryNumber": "4",
+                        "birthDate": "2001-01-13",
+                        "currentAge": 25,
+                        "birthCity": "Caracas",
+                        "birthCountry": "Venezuela",
+                        "height": "5' 9\"",
+                        "weight": 170,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Brayan",
+                        "useLastName": "Rocchio",
+                        "middleName": "Hommy",
+                        "boxscoreName": "Rocchio",
+                        "gender": "M",
+                        "nameMatrilineal": "Zambrano",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "pronunciation": "Brian roak-E-O",
+                        "mlbDebutDate": "2023-05-16",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Brayan Rocchio",
+                        "nameSlug": "brayan-rocchio-677587",
+                        "firstLastName": "Brayan Rocchio",
+                        "lastFirstName": "Rocchio, Brayan",
+                        "lastInitName": "Rocchio, B",
+                        "initLastName": "B Rocchio",
+                        "fullFMLName": "Brayan Hommy Rocchio",
+                        "fullLFMName": "Rocchio, Brayan Hommy",
+                        "strikeZoneTop": 3.068,
+                        "strikeZoneBottom": 1.548
                     },
                     "pitcher": {
                         "id": 671922,
@@ -623,16 +626,16 @@
                         "strikeZoneTop": 3.433,
                         "strikeZoneBottom": 1.733
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 7,
                     "team": {
                         "id": 114,
                         "name": "Cleveland Guardians",
                         "link": "/api/v1/teams/114"
                     }
                 },
-                "balls": 1,
+                "balls": 0,
                 "strikes": 3,
-                "outs": 2
+                "outs": 3
             },
             "venue": {
                 "id": 5,
@@ -644,6 +647,7 @@
             "content": {
                 "link": "/api/v1/game/849829/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -1888,18 +1892,18 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1791054063.266315,
-            "temp": 98,
-            "humidity": 16,
+            "lastUpdated": 1791057656.26468,
+            "temp": 97,
+            "humidity": 18,
             "maxPrecipChance": 0,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 4,
-            "windDir": 199,
+            "windDir": 198,
             "hourly": [
                 {
                     "timestamp": "2026-10-03T19:00:00Z",
-                    "temp": 96,
+                    "temp": 95,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -1907,7 +1911,7 @@
                 },
                 {
                     "timestamp": "2026-10-03T20:00:00Z",
-                    "temp": 98,
+                    "temp": 97,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -1915,7 +1919,7 @@
                 },
                 {
                     "timestamp": "2026-10-03T21:00:00Z",
-                    "temp": 99,
+                    "temp": 98,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -1923,7 +1927,7 @@
                 },
                 {
                     "timestamp": "2026-10-03T22:00:00Z",
-                    "temp": 99,
+                    "temp": 97,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -1931,7 +1935,7 @@
                 },
                 {
                     "timestamp": "2026-10-03T23:00:00Z",
-                    "temp": 94,
+                    "temp": 93,
                     "precipChance": 0,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -2803,54 +2807,54 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1791054063.581609,
-            "temp": 83,
-            "humidity": 71,
-            "maxPrecipChance": 57,
+            "lastUpdated": 1791057656.596042,
+            "temp": 85,
+            "humidity": 70,
+            "maxPrecipChance": 70,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 0,
-            "windDir": 190,
+            "windDir": 204,
             "hourly": [
                 {
                     "timestamp": "2026-10-03T21:00:00Z",
                     "temp": 84,
-                    "precipChance": 52,
+                    "precipChance": 70,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1240
                 },
                 {
                     "timestamp": "2026-10-03T22:00:00Z",
-                    "temp": 83,
-                    "precipChance": 57,
+                    "temp": 85,
+                    "precipChance": 34,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1240
                 },
                 {
                     "timestamp": "2026-10-03T23:00:00Z",
-                    "temp": 83,
-                    "precipChance": 21,
-                    "isThunderstorm": false,
-                    "isSnow": false,
-                    "weatherCode": 1063
-                },
-                {
-                    "timestamp": "2026-10-04T00:00:00Z",
-                    "temp": 83,
-                    "precipChance": 16,
-                    "isThunderstorm": false,
-                    "isSnow": false,
-                    "weatherCode": 1006
-                },
-                {
-                    "timestamp": "2026-10-04T01:00:00Z",
-                    "temp": 83,
-                    "precipChance": 19,
+                    "temp": 84,
+                    "precipChance": 18,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1009
+                },
+                {
+                    "timestamp": "2026-10-04T00:00:00Z",
+                    "temp": 84,
+                    "precipChance": 18,
+                    "isThunderstorm": false,
+                    "isSnow": false,
+                    "weatherCode": 1009
+                },
+                {
+                    "timestamp": "2026-10-04T01:00:00Z",
+                    "temp": 84,
+                    "precipChance": 68,
+                    "isThunderstorm": false,
+                    "isSnow": false,
+                    "weatherCode": 1183
                 }
             ]
         },
@@ -3119,34 +3123,34 @@
         },
         "weather": {
             "status": "ok",
-            "lastUpdated": 1791054063.907202,
-            "temp": 55,
-            "humidity": 64,
-            "maxPrecipChance": 15,
+            "lastUpdated": 1791057656.920324,
+            "temp": 56,
+            "humidity": 68,
+            "maxPrecipChance": 21,
             "isThunderstorm": false,
             "isSnow": false,
             "windSpeed": 6,
-            "windDir": 159,
+            "windDir": 166,
             "hourly": [
                 {
                     "timestamp": "2026-10-03T23:00:00Z",
-                    "temp": 58,
-                    "precipChance": 15,
+                    "temp": 59,
+                    "precipChance": 10,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1009
+                    "weatherCode": 1003
                 },
                 {
                     "timestamp": "2026-10-04T00:00:00Z",
-                    "temp": 55,
-                    "precipChance": 7,
+                    "temp": 56,
+                    "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
                     "weatherCode": 1003
                 },
                 {
                     "timestamp": "2026-10-04T01:00:00Z",
-                    "temp": 54,
+                    "temp": 55,
                     "precipChance": 9,
                     "isThunderstorm": false,
                     "isSnow": false,
@@ -3154,19 +3158,19 @@
                 },
                 {
                     "timestamp": "2026-10-04T02:00:00Z",
-                    "temp": 53,
-                    "precipChance": 15,
+                    "temp": 54,
+                    "precipChance": 19,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1006
+                    "weatherCode": 1009
                 },
                 {
                     "timestamp": "2026-10-04T03:00:00Z",
-                    "temp": 53,
-                    "precipChance": 11,
+                    "temp": 54,
+                    "precipChance": 21,
                     "isThunderstorm": false,
                     "isSnow": false,
-                    "weatherCode": 1003
+                    "weatherCode": 1063
                 }
             ]
         },

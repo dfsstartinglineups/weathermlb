@@ -9,12 +9,12 @@
             "gameDate": "2026-10-07T20:00:00Z",
             "officialDate": "2026-10-07",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -24,12 +24,13 @@
                         "link": "/api/v1/teams/114"
                     },
                     "leagueRecord": {
-                        "wins": 0,
+                        "wins": 1,
                         "losses": 2,
                         "ties": 0,
-                        "pct": ".000"
+                        "pct": ".333"
                     },
                     "score": 9,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 682982,
                         "fullName": "Daniel Espino",
@@ -90,11 +91,12 @@
                     },
                     "leagueRecord": {
                         "wins": 2,
-                        "losses": 0,
+                        "losses": 1,
                         "ties": 0,
-                        "pct": "1.000"
+                        "pct": ".667"
                     },
                     "score": 3,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 656794,
                         "fullName": "Sean Newcomb",
@@ -152,9 +154,9 @@
             "linescore": {
                 "currentInning": 9,
                 "currentInningOrdinal": "9th",
-                "inningState": "Middle",
-                "inningHalf": "Top",
-                "isTopInning": true,
+                "inningState": "Bottom",
+                "inningHalf": "Bottom",
+                "isTopInning": false,
                 "scheduledInnings": 9,
                 "innings": [
                     {
@@ -289,6 +291,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -429,104 +432,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 695657,
-                        "fullName": "Colson Montgomery",
-                        "link": "/api/v1/people/695657",
-                        "firstName": "Colson",
-                        "lastName": "Montgomery",
-                        "primaryNumber": "12",
-                        "birthDate": "2002-02-27",
-                        "currentAge": 24,
-                        "birthCity": "Holland",
-                        "birthStateProvince": "IN",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 230,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "6",
-                            "name": "Shortstop",
-                            "type": "Infielder",
-                            "abbreviation": "SS"
-                        },
-                        "useName": "Colson",
-                        "useLastName": "Montgomery",
-                        "middleName": "Kade",
-                        "boxscoreName": "Montgomery, C",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2021,
-                        "mlbDebutDate": "2025-07-04",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Colson Montgomery",
-                        "nameSlug": "colson-montgomery-695657",
-                        "firstLastName": "Colson Montgomery",
-                        "lastFirstName": "Montgomery, Colson",
-                        "lastInitName": "Montgomery, C",
-                        "initLastName": "C Montgomery",
-                        "fullFMLName": "Colson Kade Montgomery",
-                        "fullLFMName": "Montgomery, Colson Kade",
-                        "strikeZoneTop": 3.34,
-                        "strikeZoneBottom": 1.686
-                    },
-                    "onDeck": {
-                        "id": 803011,
-                        "fullName": "Sam Antonacci",
-                        "link": "/api/v1/people/803011",
-                        "firstName": "Samuel",
-                        "lastName": "Antonacci",
-                        "primaryNumber": "17",
-                        "birthDate": "2003-02-06",
-                        "currentAge": 23,
-                        "birthCity": "Springfield",
-                        "birthStateProvince": "IL",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 193,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Sam",
-                        "useLastName": "Antonacci",
-                        "middleName": "Joseph",
-                        "boxscoreName": "Antonacci",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2024,
-                        "mlbDebutDate": "2026-04-15",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Sam Antonacci",
-                        "nameSlug": "sam-antonacci-803011",
-                        "firstLastName": "Sam Antonacci",
-                        "lastFirstName": "Antonacci, Sam",
-                        "lastInitName": "Antonacci, S",
-                        "initLastName": "S Antonacci",
-                        "fullFMLName": "Samuel Joseph Antonacci",
-                        "fullLFMName": "Antonacci, Samuel Joseph",
-                        "strikeZoneTop": 3.15,
-                        "strikeZoneBottom": 1.59
-                    },
-                    "inHole": {
                         "id": 678246,
                         "fullName": "Miguel Vargas",
                         "link": "/api/v1/people/678246",
@@ -573,6 +478,101 @@
                         "fullLFMName": "Vargas, Miguel Antonio",
                         "strikeZoneTop": 3.29,
                         "strikeZoneBottom": 1.66
+                    },
+                    "onDeck": {
+                        "id": 808959,
+                        "fullName": "Munetaka Murakami",
+                        "link": "/api/v1/people/808959",
+                        "firstName": "Munetaka",
+                        "lastName": "Murakami",
+                        "primaryNumber": "5",
+                        "birthDate": "2000-02-02",
+                        "currentAge": 26,
+                        "birthCity": "Kumamoto",
+                        "birthCountry": "Japan",
+                        "height": "6' 2\"",
+                        "weight": 213,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Munetaka",
+                        "useLastName": "Murakami",
+                        "boxscoreName": "Murakami",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2026-03-26",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Munetaka Murakami",
+                        "nameSlug": "munetaka-murakami-808959",
+                        "firstLastName": "Munetaka Murakami",
+                        "lastFirstName": "Murakami, Munetaka",
+                        "lastInitName": "Murakami, M",
+                        "initLastName": "M Murakami",
+                        "fullFMLName": "Munetaka Murakami",
+                        "fullLFMName": "Murakami, Munetaka ",
+                        "strikeZoneTop": 3.3,
+                        "strikeZoneBottom": 1.66
+                    },
+                    "inHole": {
+                        "id": 691019,
+                        "fullName": "Kyle Teel",
+                        "link": "/api/v1/people/691019",
+                        "firstName": "Kyle",
+                        "lastName": "Teel",
+                        "primaryNumber": "8",
+                        "birthDate": "2002-02-15",
+                        "currentAge": 24,
+                        "birthCity": "Ridgewood",
+                        "birthStateProvince": "NJ",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 210,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Kyle",
+                        "useLastName": "Teel",
+                        "middleName": "Henry",
+                        "boxscoreName": "Teel",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2023,
+                        "mlbDebutDate": "2025-06-06",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Kyle Teel",
+                        "nameSlug": "kyle-teel-691019",
+                        "firstLastName": "Kyle Teel",
+                        "lastFirstName": "Teel, Kyle",
+                        "lastInitName": "Teel, K",
+                        "initLastName": "K Teel",
+                        "fullFMLName": "Kyle Henry Teel",
+                        "fullLFMName": "Teel, Kyle Henry",
+                        "strikeZoneTop": 3.154,
+                        "strikeZoneBottom": 1.592
                     },
                     "pitcher": {
                         "id": 663436,
@@ -623,15 +623,15 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 9,
+                    "battingOrder": 2,
                     "team": {
                         "id": 145,
                         "name": "Chicago White Sox",
                         "link": "/api/v1/teams/145"
                     }
                 },
-                "balls": 2,
-                "strikes": 2,
+                "balls": 0,
+                "strikes": 3,
                 "outs": 3
             },
             "venue": {
@@ -644,6 +644,7 @@
             "content": {
                 "link": "/api/v1/game/849833/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -1406,105 +1407,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 571970,
-                        "fullName": "Max Muncy",
-                        "link": "/api/v1/people/571970",
-                        "firstName": "Maxwell",
-                        "lastName": "Muncy",
-                        "primaryNumber": "13",
-                        "birthDate": "1990-08-25",
-                        "currentAge": 36,
-                        "birthCity": "Midland",
-                        "birthStateProvince": "TX",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Max",
-                        "useLastName": "Muncy",
-                        "middleName": "Steven",
-                        "boxscoreName": "Muncy",
-                        "nickName": "Funky Muncy",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2012,
-                        "mlbDebutDate": "2015-04-25",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Max Muncy",
-                        "nameSlug": "max-muncy-571970",
-                        "firstLastName": "Max Muncy",
-                        "lastFirstName": "Muncy, Max",
-                        "lastInitName": "Muncy, M",
-                        "initLastName": "M Muncy",
-                        "fullFMLName": "Maxwell Steven Muncy",
-                        "fullLFMName": "Muncy, Maxwell Steven",
-                        "strikeZoneTop": 3.128,
-                        "strikeZoneBottom": 1.579
-                    },
-                    "onDeck": {
-                        "id": 571771,
-                        "fullName": "Enrique Hern\u00e1ndez",
-                        "link": "/api/v1/people/571771",
-                        "firstName": "Enrique",
-                        "lastName": "Hern\u00e1ndez",
-                        "primaryNumber": "8",
-                        "birthDate": "1991-08-24",
-                        "currentAge": 35,
-                        "birthCity": "San Juan",
-                        "birthCountry": "Puerto Rico",
-                        "height": "5' 10\"",
-                        "weight": 195,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "5",
-                            "name": "Third Base",
-                            "type": "Infielder",
-                            "abbreviation": "3B"
-                        },
-                        "useName": "Enrique",
-                        "useLastName": "Hern\u00e1ndez",
-                        "middleName": "J.",
-                        "boxscoreName": "Hern\u00e1ndez, E",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2009,
-                        "pronunciation": "KEE-kay",
-                        "mlbDebutDate": "2014-07-01",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Enrique Hern\u00e1ndez",
-                        "nameSlug": "enrique-hernandez-571771",
-                        "firstLastName": "Enrique Hern\u00e1ndez",
-                        "lastFirstName": "Hern\u00e1ndez, Enrique",
-                        "lastInitName": "Hern\u00e1ndez, E",
-                        "initLastName": "E Hern\u00e1ndez",
-                        "fullFMLName": "Enrique J. Hern\u00e1ndez",
-                        "fullLFMName": "Hern\u00e1ndez, Enrique J.",
-                        "strikeZoneTop": 3.131,
-                        "strikeZoneBottom": 1.58
-                    },
-                    "inHole": {
                         "id": 663656,
                         "fullName": "Kyle Tucker",
                         "link": "/api/v1/people/663656",
@@ -1552,6 +1454,103 @@
                         "fullLFMName": "Tucker, Kyle Daniel",
                         "strikeZoneTop": 3.351,
                         "strikeZoneBottom": 1.691
+                    },
+                    "onDeck": {
+                        "id": 681624,
+                        "fullName": "Andy Pages",
+                        "link": "/api/v1/people/681624",
+                        "firstName": "Andy",
+                        "lastName": "Pages",
+                        "primaryNumber": "44",
+                        "birthDate": "2000-12-08",
+                        "currentAge": 25,
+                        "birthCity": "Havana",
+                        "birthCountry": "Cuba",
+                        "height": "6' 1\"",
+                        "weight": 212,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Andy",
+                        "useLastName": "Pages",
+                        "boxscoreName": "Pages, A",
+                        "gender": "M",
+                        "nameMatrilineal": "Abreu",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "pronunciation": "PAH-hez",
+                        "mlbDebutDate": "2024-04-16",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Andy Pages",
+                        "nameSlug": "andy-pages-681624",
+                        "firstLastName": "Andy Pages",
+                        "lastFirstName": "Pages, Andy",
+                        "lastInitName": "Pages, A",
+                        "initLastName": "A Pages",
+                        "fullFMLName": "Andy Pages",
+                        "fullLFMName": "Pages, Andy ",
+                        "strikeZoneTop": 3.237,
+                        "strikeZoneBottom": 1.633
+                    },
+                    "inHole": {
+                        "id": 605141,
+                        "fullName": "Mookie Betts",
+                        "link": "/api/v1/people/605141",
+                        "firstName": "Markus",
+                        "lastName": "Betts",
+                        "primaryNumber": "50",
+                        "birthDate": "1992-10-07",
+                        "currentAge": 34,
+                        "birthCity": "Nashville",
+                        "birthStateProvince": "TN",
+                        "birthCountry": "USA",
+                        "height": "5' 9\"",
+                        "weight": 180,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Mookie",
+                        "useLastName": "Betts",
+                        "middleName": "Lynn",
+                        "boxscoreName": "Betts",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2011,
+                        "mlbDebutDate": "2014-06-29",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Mookie Betts",
+                        "nameSlug": "mookie-betts-605141",
+                        "firstLastName": "Mookie Betts",
+                        "lastFirstName": "Betts, Mookie",
+                        "lastInitName": "Betts, M",
+                        "initLastName": "M Betts",
+                        "fullFMLName": "Markus Lynn Betts",
+                        "fullLFMName": "Betts, Markus Lynn",
+                        "strikeZoneTop": 3.096,
+                        "strikeZoneBottom": 1.563
                     },
                     "pitcher": {
                         "id": 607192,
@@ -1604,16 +1603,16 @@
                         "strikeZoneTop": 3.567,
                         "strikeZoneBottom": 1.8
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 8,
                     "team": {
                         "id": 119,
                         "name": "Los Angeles Dodgers",
                         "link": "/api/v1/teams/119"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 0
+                "balls": 1,
+                "strikes": 1,
+                "outs": 2
             },
             "venue": {
                 "id": 4705,

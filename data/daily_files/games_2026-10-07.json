@@ -309,13 +309,15 @@
                         "runs": 3,
                         "hits": 6,
                         "errors": 0,
-                        "leftOnBase": 8
+                        "leftOnBase": 8,
+                        "isWinner": false
                     },
                     "away": {
                         "runs": 9,
                         "hits": 11,
                         "errors": 0,
-                        "leftOnBase": 10
+                        "leftOnBase": 10,
+                        "isWinner": true
                     }
                 },
                 "defense": {
@@ -1047,12 +1049,12 @@
             "gameDate": "2026-10-07T22:00:00Z",
             "officialDate": "2026-10-07",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -1062,12 +1064,13 @@
                         "link": "/api/v1/teams/119"
                     },
                     "leagueRecord": {
-                        "wins": 2,
+                        "wins": 3,
                         "losses": 1,
                         "ties": 0,
-                        "pct": ".667"
+                        "pct": ".750"
                     },
                     "score": 4,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 607192,
                         "fullName": "Tyler Glasnow",
@@ -1130,11 +1133,12 @@
                     },
                     "leagueRecord": {
                         "wins": 1,
-                        "losses": 2,
+                        "losses": 3,
                         "ties": 0,
-                        "pct": ".333"
+                        "pct": ".250"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 641816,
                         "fullName": "Tyler Mahle",
@@ -1330,6 +1334,7 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -1470,105 +1475,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 657041,
-                        "fullName": "Lane Thomas",
-                        "link": "/api/v1/people/657041",
-                        "firstName": "Lane",
-                        "lastName": "Thomas",
-                        "primaryNumber": "20",
-                        "birthDate": "1995-08-23",
-                        "currentAge": 31,
-                        "birthCity": "Knoxville",
-                        "birthStateProvince": "TN",
-                        "birthCountry": "USA",
-                        "height": "5' 11\"",
-                        "weight": 195,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Lane",
-                        "useLastName": "Thomas",
-                        "middleName": "Michael",
-                        "boxscoreName": "Thomas, L",
-                        "nickName": "Laner",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2014,
-                        "mlbDebutDate": "2019-04-17",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Lane Thomas",
-                        "nameSlug": "lane-thomas-657041",
-                        "firstLastName": "Lane Thomas",
-                        "lastFirstName": "Thomas, Lane",
-                        "lastInitName": "Thomas, L",
-                        "initLastName": "L Thomas",
-                        "fullFMLName": "Lane Michael Thomas",
-                        "fullLFMName": "Thomas, Lane Michael",
-                        "strikeZoneTop": 3.146,
-                        "strikeZoneBottom": 1.588
-                    },
-                    "onDeck": {
-                        "id": 643289,
-                        "fullName": "Mauricio Dub\u00f3n",
-                        "link": "/api/v1/people/643289",
-                        "firstName": "Mauricio",
-                        "lastName": "Dub\u00f3n",
-                        "primaryNumber": "14",
-                        "birthDate": "1994-07-19",
-                        "currentAge": 32,
-                        "birthCity": "San Pedro Sula",
-                        "birthCountry": "Honduras",
-                        "height": "5' 11\"",
-                        "weight": 173,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "7",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "LF"
-                        },
-                        "useName": "Mauricio",
-                        "useLastName": "Dub\u00f3n",
-                        "middleName": "Andre",
-                        "boxscoreName": "Dub\u00f3n",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2013,
-                        "pronunciation": "doo-BAHN",
-                        "mlbDebutDate": "2019-07-07",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Mauricio Dub\u00f3n",
-                        "nameSlug": "mauricio-dubon-643289",
-                        "firstLastName": "Mauricio Dub\u00f3n",
-                        "lastFirstName": "Dub\u00f3n, Mauricio",
-                        "lastInitName": "Dub\u00f3n, M",
-                        "initLastName": "M Dub\u00f3n",
-                        "fullFMLName": "Mauricio Andre Dub\u00f3n",
-                        "fullLFMName": "Dub\u00f3n, Mauricio Andre",
-                        "strikeZoneTop": 3.171,
-                        "strikeZoneBottom": 1.6
-                    },
-                    "inHole": {
                         "id": 663586,
                         "fullName": "Austin Riley",
                         "link": "/api/v1/people/663586",
@@ -1617,6 +1523,106 @@
                         "fullLFMName": "Riley, Michael Austin",
                         "strikeZoneTop": 3.274,
                         "strikeZoneBottom": 1.652
+                    },
+                    "onDeck": {
+                        "id": 669221,
+                        "fullName": "Sean Murphy",
+                        "link": "/api/v1/people/669221",
+                        "firstName": "Sean",
+                        "lastName": "Murphy",
+                        "primaryNumber": "12",
+                        "birthDate": "1994-10-04",
+                        "currentAge": 32,
+                        "birthCity": "Peekskill",
+                        "birthStateProvince": "NY",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 228,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Sean",
+                        "useLastName": "Murphy",
+                        "middleName": "Michael",
+                        "boxscoreName": "Murphy, S",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "draftYear": 2016,
+                        "mlbDebutDate": "2019-05-19",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Sean Murphy",
+                        "nameSlug": "sean-murphy-669221",
+                        "firstLastName": "Sean Murphy",
+                        "lastFirstName": "Murphy, Sean",
+                        "lastInitName": "Murphy, S",
+                        "initLastName": "S Murphy",
+                        "fullFMLName": "Sean Michael Murphy",
+                        "fullLFMName": "Murphy, Sean Michael",
+                        "strikeZoneTop": 3.326,
+                        "strikeZoneBottom": 1.679
+                    },
+                    "inHole": {
+                        "id": 671739,
+                        "fullName": "Michael Harris II",
+                        "link": "/api/v1/people/671739",
+                        "firstName": "Michael",
+                        "lastName": "Harris",
+                        "primaryNumber": "23",
+                        "birthDate": "2001-03-07",
+                        "currentAge": 25,
+                        "birthCity": "DeKalb",
+                        "birthStateProvince": "GA",
+                        "birthCountry": "USA",
+                        "height": "5' 11\"",
+                        "weight": 195,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "8",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "CF"
+                        },
+                        "useName": "Michael",
+                        "useLastName": "Harris II",
+                        "middleName": "Machion",
+                        "boxscoreName": "Harris II",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2019,
+                        "mlbDebutDate": "2022-05-28",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "nameFirstLast": "Michael Harris II",
+                        "nameTitle": "II",
+                        "nameSuffix": "II",
+                        "nameSlug": "michael-harris-ii-671739",
+                        "firstLastName": "Michael Harris II",
+                        "lastFirstName": "Harris II, Michael",
+                        "lastInitName": "Harris II, M",
+                        "initLastName": "M Harris II",
+                        "fullFMLName": "Michael Machion Harris II",
+                        "fullLFMName": "Harris II, Michael Machion",
+                        "strikeZoneTop": 3.181,
+                        "strikeZoneBottom": 1.606
                     },
                     "pitcher": {
                         "id": 628452,
@@ -1667,16 +1673,16 @@
                         "strikeZoneTop": 3.299,
                         "strikeZoneBottom": 1.665
                     },
-                    "battingOrder": 6,
+                    "battingOrder": 8,
                     "team": {
                         "id": 144,
                         "name": "Atlanta Braves",
                         "link": "/api/v1/teams/144"
                     }
                 },
-                "balls": 1,
-                "strikes": 0,
-                "outs": 0
+                "balls": 0,
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 4705,
@@ -1688,6 +1694,7 @@
             "content": {
                 "link": "/api/v1/game/849822/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
@@ -2176,7 +2183,7 @@
                         "ties": 0,
                         "pct": ".000"
                     },
-                    "score": 0,
+                    "score": 1,
                     "probablePitcher": {
                         "id": 608331,
                         "fullName": "Max Fried",
@@ -2276,7 +2283,8 @@
                         "num": 3,
                         "ordinalNum": "3rd",
                         "home": {
-                            "hits": 0,
+                            "runs": 1,
+                            "hits": 2,
                             "errors": 0,
                             "leftOnBase": 0
                         },
@@ -2290,8 +2298,8 @@
                 ],
                 "teams": {
                     "home": {
-                        "runs": 0,
-                        "hits": 1,
+                        "runs": 1,
+                        "hits": 3,
                         "errors": 0,
                         "leftOnBase": 1
                     },
@@ -2417,104 +2425,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 700250,
-                        "fullName": "Ben Rice",
-                        "link": "/api/v1/people/700250",
-                        "firstName": "Benjamin",
-                        "lastName": "Rice",
-                        "primaryNumber": "22",
-                        "birthDate": "1999-02-22",
-                        "currentAge": 27,
-                        "birthCity": "Cohasset",
-                        "birthStateProvince": "MA",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 228,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Ben",
-                        "useLastName": "Rice",
-                        "middleName": "Kimball",
-                        "boxscoreName": "Rice",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2021,
-                        "mlbDebutDate": "2024-06-18",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Ben Rice",
-                        "nameSlug": "ben-rice-700250",
-                        "firstLastName": "Ben Rice",
-                        "lastFirstName": "Rice, Ben",
-                        "lastInitName": "Rice, B",
-                        "initLastName": "B Rice",
-                        "fullFMLName": "Benjamin Kimball Rice",
-                        "fullLFMName": "Rice, Benjamin Kimball",
-                        "strikeZoneTop": 3.281,
-                        "strikeZoneBottom": 1.656
-                    },
-                    "onDeck": {
-                        "id": 671277,
-                        "fullName": "Luis Garc\u00eda Jr.",
-                        "link": "/api/v1/people/671277",
-                        "firstName": "Luis",
-                        "lastName": "Garc\u00eda",
-                        "primaryNumber": "26",
-                        "birthDate": "2000-05-16",
-                        "currentAge": 26,
-                        "birthCity": "New York",
-                        "birthStateProvince": "NY",
-                        "birthCountry": "USA",
-                        "height": "6' 1\"",
-                        "weight": 216,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Luis",
-                        "useLastName": "Garc\u00eda Jr.",
-                        "middleName": "Victoriano",
-                        "boxscoreName": "Garc\u00eda Jr., L",
-                        "gender": "M",
-                        "nameMatrilineal": "Mendoza",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "mlbDebutDate": "2020-08-14",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Luis Garc\u00eda Jr.",
-                        "nameSlug": "luis-garcia-jr-671277",
-                        "firstLastName": "Luis Garc\u00eda Jr.",
-                        "lastFirstName": "Garc\u00eda Jr., Luis",
-                        "lastInitName": "Garc\u00eda Jr., L",
-                        "initLastName": "L Garc\u00eda Jr.",
-                        "fullFMLName": "Luis Victoriano Garc\u00eda Jr.",
-                        "fullLFMName": "Garc\u00eda Jr., Luis Victoriano",
-                        "strikeZoneTop": 3.248,
-                        "strikeZoneBottom": 1.639
-                    },
-                    "inHole": {
                         "id": 641355,
                         "fullName": "Cody Bellinger",
                         "link": "/api/v1/people/641355",
@@ -2564,54 +2474,203 @@
                         "strikeZoneTop": 3.345,
                         "strikeZoneBottom": 1.688
                     },
-                    "second": {
-                        "id": 682987,
-                        "fullName": "Spencer Jones",
-                        "link": "/api/v1/people/682987",
-                        "firstName": "Spencer",
-                        "lastName": "Jones",
-                        "primaryNumber": "78",
-                        "birthDate": "2001-05-14",
-                        "currentAge": 25,
-                        "birthCity": "Encinitas",
-                        "birthStateProvince": "CA",
+                    "onDeck": {
+                        "id": 806146,
+                        "fullName": "George Lombard Jr.",
+                        "link": "/api/v1/people/806146",
+                        "firstName": "George",
+                        "lastName": "Lombard",
+                        "primaryNumber": "96",
+                        "birthDate": "2005-06-02",
+                        "currentAge": 21,
+                        "birthCity": "Miami",
+                        "birthStateProvince": "FL",
                         "birthCountry": "USA",
-                        "height": "6' 7\"",
-                        "weight": 240,
+                        "height": "6' 2\"",
+                        "weight": 190,
                         "active": true,
                         "primaryPosition": {
-                            "code": "8",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "CF"
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
                         },
-                        "useName": "Spencer",
-                        "useLastName": "Jones",
-                        "middleName": "George",
-                        "boxscoreName": "Jones, S",
+                        "useName": "George",
+                        "useLastName": "Lombard Jr.",
+                        "middleName": "Alexander",
+                        "boxscoreName": "Lombard Jr.",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2022,
-                        "mlbDebutDate": "2026-05-08",
+                        "draftYear": 2023,
+                        "mlbDebutDate": "2026-08-04",
+                        "batSide": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "George Lombard Jr.",
+                        "nameTitle": "Jr.",
+                        "nameSuffix": "Jr.",
+                        "nameSlug": "george-lombard-jr-806146",
+                        "firstLastName": "George Lombard Jr.",
+                        "lastFirstName": "Lombard Jr., George",
+                        "lastInitName": "Lombard Jr., G",
+                        "initLastName": "G Lombard Jr.",
+                        "fullFMLName": "George Lombard Jr.",
+                        "fullLFMName": "Lombard Jr., George",
+                        "strikeZoneTop": 3.299,
+                        "strikeZoneBottom": 1.665
+                    },
+                    "inHole": {
+                        "id": 669224,
+                        "fullName": "Austin Wells",
+                        "link": "/api/v1/people/669224",
+                        "firstName": "Austin",
+                        "lastName": "Wells",
+                        "primaryNumber": "28",
+                        "birthDate": "1999-07-12",
+                        "currentAge": 27,
+                        "birthCity": "Scottsdale",
+                        "birthStateProvince": "AZ",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 220,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
+                        },
+                        "useName": "Austin",
+                        "useLastName": "Wells",
+                        "middleName": "Kenneth",
+                        "boxscoreName": "Wells, A",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2023-09-01",
                         "batSide": {
                             "code": "L",
                             "description": "Left"
                         },
                         "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Austin Wells",
+                        "nameSlug": "austin-wells-669224",
+                        "firstLastName": "Austin Wells",
+                        "lastFirstName": "Wells, Austin",
+                        "lastInitName": "Wells, A",
+                        "initLastName": "A Wells",
+                        "fullFMLName": "Austin Kenneth Wells",
+                        "fullLFMName": "Wells, Austin Kenneth",
+                        "strikeZoneTop": 3.254,
+                        "strikeZoneBottom": 1.642
+                    },
+                    "first": {
+                        "id": 671277,
+                        "fullName": "Luis Garc\u00eda Jr.",
+                        "link": "/api/v1/people/671277",
+                        "firstName": "Luis",
+                        "lastName": "Garc\u00eda",
+                        "primaryNumber": "26",
+                        "birthDate": "2000-05-16",
+                        "currentAge": 26,
+                        "birthCity": "New York",
+                        "birthStateProvince": "NY",
+                        "birthCountry": "USA",
+                        "height": "6' 1\"",
+                        "weight": 216,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "3",
+                            "name": "First Base",
+                            "type": "Infielder",
+                            "abbreviation": "1B"
+                        },
+                        "useName": "Luis",
+                        "useLastName": "Garc\u00eda Jr.",
+                        "middleName": "Victoriano",
+                        "boxscoreName": "Garc\u00eda Jr., L",
+                        "gender": "M",
+                        "nameMatrilineal": "Mendoza",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "mlbDebutDate": "2020-08-14",
+                        "batSide": {
                             "code": "L",
                             "description": "Left"
                         },
-                        "nameFirstLast": "Spencer Jones",
-                        "nameSlug": "spencer-jones-682987",
-                        "firstLastName": "Spencer Jones",
-                        "lastFirstName": "Jones, Spencer",
-                        "lastInitName": "Jones, S",
-                        "initLastName": "S Jones",
-                        "fullFMLName": "Spencer George Jones",
-                        "fullLFMName": "Jones, Spencer George",
-                        "strikeZoneTop": 3.5,
-                        "strikeZoneBottom": 1.77
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Luis Garc\u00eda Jr.",
+                        "nameSlug": "luis-garcia-jr-671277",
+                        "firstLastName": "Luis Garc\u00eda Jr.",
+                        "lastFirstName": "Garc\u00eda Jr., Luis",
+                        "lastInitName": "Garc\u00eda Jr., L",
+                        "initLastName": "L Garc\u00eda Jr.",
+                        "fullFMLName": "Luis Victoriano Garc\u00eda Jr.",
+                        "fullLFMName": "Garc\u00eda Jr., Luis Victoriano",
+                        "strikeZoneTop": 3.248,
+                        "strikeZoneBottom": 1.639
+                    },
+                    "second": {
+                        "id": 700250,
+                        "fullName": "Ben Rice",
+                        "link": "/api/v1/people/700250",
+                        "firstName": "Benjamin",
+                        "lastName": "Rice",
+                        "primaryNumber": "22",
+                        "birthDate": "1999-02-22",
+                        "currentAge": 27,
+                        "birthCity": "Cohasset",
+                        "birthStateProvince": "MA",
+                        "birthCountry": "USA",
+                        "height": "6' 2\"",
+                        "weight": 228,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "10",
+                            "name": "Designated Hitter",
+                            "type": "Hitter",
+                            "abbreviation": "DH"
+                        },
+                        "useName": "Ben",
+                        "useLastName": "Rice",
+                        "middleName": "Kimball",
+                        "boxscoreName": "Rice",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2024-06-18",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Ben Rice",
+                        "nameSlug": "ben-rice-700250",
+                        "firstLastName": "Ben Rice",
+                        "lastFirstName": "Rice, Ben",
+                        "lastInitName": "Rice, B",
+                        "initLastName": "B Rice",
+                        "fullFMLName": "Benjamin Kimball Rice",
+                        "fullLFMName": "Rice, Benjamin Kimball",
+                        "strikeZoneTop": 3.281,
+                        "strikeZoneBottom": 1.656
                     },
                     "pitcher": {
                         "id": 608331,
@@ -2664,7 +2723,7 @@
                         "strikeZoneTop": 3.37,
                         "strikeZoneBottom": 1.56
                     },
-                    "battingOrder": 2,
+                    "battingOrder": 4,
                     "team": {
                         "id": 147,
                         "name": "New York Yankees",
@@ -2672,7 +2731,7 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 0,
+                "strikes": 2,
                 "outs": 2
             },
             "venue": {
@@ -3235,34 +3294,17 @@
                 "inningHalf": "Top",
                 "isTopInning": true,
                 "scheduledInnings": 9,
-                "innings": [
-                    {
-                        "num": 1,
-                        "ordinalNum": "1st",
-                        "home": {
-                            "hits": 0,
-                            "errors": 0,
-                            "leftOnBase": 0
-                        },
-                        "away": {
-                            "hits": 0,
-                            "errors": 0,
-                            "leftOnBase": 0
-                        }
-                    }
-                ],
+                "innings": [],
                 "teams": {
                     "home": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
-                        "leftOnBase": 0
+                        "errors": 0
                     },
                     "away": {
                         "runs": 0,
                         "hits": 0,
-                        "errors": 0,
-                        "leftOnBase": 0
+                        "errors": 0
                     }
                 },
                 "defense": {
@@ -3357,22 +3399,6 @@
                         "fullName": "Fernando Tatis Jr.",
                         "link": "/api/v1/people/665487"
                     },
-                    "batter": {
-                        "id": 665487,
-                        "fullName": "Fernando Tatis Jr.",
-                        "link": "/api/v1/people/665487"
-                    },
-                    "onDeck": {
-                        "id": 701538,
-                        "fullName": "Jackson Merrill",
-                        "link": "/api/v1/people/701538"
-                    },
-                    "inHole": {
-                        "id": 592518,
-                        "fullName": "Manny Machado",
-                        "link": "/api/v1/people/592518"
-                    },
-                    "battingOrder": 1,
                     "team": {
                         "id": 135,
                         "name": "San Diego Padres",
@@ -3527,55 +3553,6 @@
                         "fullLFMName": "Contreras, William Jesus",
                         "strikeZoneTop": 3.13,
                         "strikeZoneBottom": 1.58
-                    },
-                    "pitcher": {
-                        "id": 688107,
-                        "fullName": "Robert Gasser",
-                        "link": "/api/v1/people/688107",
-                        "firstName": "Robert",
-                        "lastName": "Gasser",
-                        "primaryNumber": "54",
-                        "birthDate": "1999-05-31",
-                        "currentAge": 27,
-                        "birthCity": "El Dorado Hills",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "6' 0\"",
-                        "weight": 197,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "1",
-                            "name": "Pitcher",
-                            "type": "Pitcher",
-                            "abbreviation": "P"
-                        },
-                        "useName": "Robert",
-                        "useLastName": "Gasser",
-                        "middleName": "Riordan",
-                        "boxscoreName": "Gasser",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2021,
-                        "mlbDebutDate": "2024-05-10",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Robert Gasser",
-                        "nameSlug": "robert-gasser-688107",
-                        "firstLastName": "Robert Gasser",
-                        "lastFirstName": "Gasser, Robert",
-                        "lastInitName": "Gasser, R",
-                        "initLastName": "R Gasser",
-                        "fullFMLName": "Robert Riordan Gasser",
-                        "fullLFMName": "Gasser, Robert Riordan",
-                        "strikeZoneTop": 3.21,
-                        "strikeZoneBottom": 1.62
                     },
                     "battingOrder": 1,
                     "team": {

@@ -9,12 +9,12 @@
             "gameDate": "2026-10-11T00:00:00Z",
             "officialDate": "2026-10-10",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 2,
-                        "losses": 2,
+                        "losses": 3,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".400"
                     },
                     "score": 0,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 680732,
                         "fullName": "Sean Burke",
@@ -89,12 +90,13 @@
                         "link": "/api/v1/teams/114"
                     },
                     "leagueRecord": {
-                        "wins": 2,
+                        "wins": 3,
                         "losses": 2,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".600"
                     },
                     "score": 2,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 668909,
                         "fullName": "Gavin Williams",
@@ -293,6 +295,7 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
                             "leftOnBase": 0
@@ -427,56 +430,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 643217,
-                        "fullName": "Andrew Benintendi",
-                        "link": "/api/v1/people/643217",
-                        "firstName": "Andrew",
-                        "lastName": "Benintendi",
-                        "primaryNumber": "23",
-                        "birthDate": "1994-07-06",
-                        "currentAge": 32,
-                        "birthCity": "Cincinnati",
-                        "birthStateProvince": "OH",
-                        "birthCountry": "USA",
-                        "height": "5' 9\"",
-                        "weight": 185,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Andrew",
-                        "useLastName": "Benintendi",
-                        "middleName": "Sebastian",
-                        "boxscoreName": "Benintendi",
-                        "nickName": "Benny",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2016-08-02",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Andrew Benintendi",
-                        "nameSlug": "andrew-benintendi-643217",
-                        "firstLastName": "Andrew Benintendi",
-                        "lastFirstName": "Benintendi, Andrew",
-                        "lastInitName": "Benintendi, A",
-                        "initLastName": "A Benintendi",
-                        "fullFMLName": "Andrew Sebastian Benintendi",
-                        "fullLFMName": "Benintendi, Andrew Sebastian",
-                        "strikeZoneTop": 3.068,
-                        "strikeZoneBottom": 1.548
-                    },
-                    "onDeck": {
                         "id": 671976,
                         "fullName": "Tristan Peters",
                         "link": "/api/v1/people/671976",
@@ -525,7 +478,7 @@
                         "strikeZoneTop": 3.197,
                         "strikeZoneBottom": 1.614
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 805367,
                         "fullName": "Chase Meidroth",
                         "link": "/api/v1/people/805367",
@@ -574,6 +527,55 @@
                         "fullLFMName": "Meidroth, Chase Gregory",
                         "strikeZoneTop": 3.07,
                         "strikeZoneBottom": 1.55
+                    },
+                    "inHole": {
+                        "id": 695657,
+                        "fullName": "Colson Montgomery",
+                        "link": "/api/v1/people/695657",
+                        "firstName": "Colson",
+                        "lastName": "Montgomery",
+                        "primaryNumber": "12",
+                        "birthDate": "2002-02-27",
+                        "currentAge": 24,
+                        "birthCity": "Holland",
+                        "birthStateProvince": "IN",
+                        "birthCountry": "USA",
+                        "height": "6' 3\"",
+                        "weight": 230,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "6",
+                            "name": "Shortstop",
+                            "type": "Infielder",
+                            "abbreviation": "SS"
+                        },
+                        "useName": "Colson",
+                        "useLastName": "Montgomery",
+                        "middleName": "Kade",
+                        "boxscoreName": "Montgomery, C",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": true,
+                        "draftYear": 2021,
+                        "mlbDebutDate": "2025-07-04",
+                        "batSide": {
+                            "code": "L",
+                            "description": "Left"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Colson Montgomery",
+                        "nameSlug": "colson-montgomery-695657",
+                        "firstLastName": "Colson Montgomery",
+                        "lastFirstName": "Montgomery, Colson",
+                        "lastInitName": "Montgomery, C",
+                        "initLastName": "C Montgomery",
+                        "fullFMLName": "Colson Kade Montgomery",
+                        "fullLFMName": "Montgomery, Colson Kade",
+                        "strikeZoneTop": 3.34,
+                        "strikeZoneBottom": 1.686
                     },
                     "pitcher": {
                         "id": 691799,
@@ -624,16 +626,16 @@
                         "strikeZoneTop": 3.344,
                         "strikeZoneBottom": 1.688
                     },
-                    "battingOrder": 5,
+                    "battingOrder": 6,
                     "team": {
                         "id": 145,
                         "name": "Chicago White Sox",
                         "link": "/api/v1/teams/145"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 1
+                "balls": 2,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 5,
@@ -645,6 +647,7 @@
             "content": {
                 "link": "/api/v1/game/849831/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

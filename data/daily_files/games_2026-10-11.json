@@ -9,12 +9,12 @@
             "gameDate": "2026-10-12T00:00:00Z",
             "officialDate": "2026-10-11",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 0,
-                        "losses": 0,
+                        "losses": 1,
                         "ties": 0,
                         "pct": ".000"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 669373,
                         "fullName": "Tarik Skubal",
@@ -90,12 +91,13 @@
                         "link": "/api/v1/teams/158"
                     },
                     "leagueRecord": {
-                        "wins": 0,
+                        "wins": 1,
                         "losses": 0,
                         "ties": 0,
-                        "pct": ".000"
+                        "pct": "1.000"
                     },
                     "score": 2,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 694819,
                         "fullName": "Jacob Misiorowski",
@@ -295,9 +297,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 2
                         }
                     }
                 ],
@@ -312,7 +315,7 @@
                         "runs": 1,
                         "hits": 7,
                         "errors": 0,
-                        "leftOnBase": 7
+                        "leftOnBase": 9
                     }
                 },
                 "defense": {
@@ -431,55 +434,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 800543,
-                        "fullName": "Josue De Paula",
-                        "link": "/api/v1/people/800543",
-                        "firstName": "Josue",
-                        "lastName": "De Paula",
-                        "primaryNumber": "95",
-                        "birthDate": "2005-05-24",
-                        "currentAge": 21,
-                        "birthCity": "Brooklyn",
-                        "birthStateProvince": "NY",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 185,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
-                        },
-                        "useName": "Josue",
-                        "useLastName": "De Paula",
-                        "boxscoreName": "De Paula, J",
-                        "gender": "M",
-                        "nameMatrilineal": "Sanders",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "ho-SWAY deh-POW-lah",
-                        "mlbDebutDate": "2026-09-11",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Josue De Paula",
-                        "nameSlug": "josue-de-paula-800543",
-                        "firstLastName": "Josue De Paula",
-                        "lastFirstName": "De Paula, Josue",
-                        "lastInitName": "De Paula, J",
-                        "initLastName": "J De Paula",
-                        "fullFMLName": "Josue De Paula",
-                        "fullLFMName": "De Paula, Josue",
-                        "strikeZoneTop": 3.35,
-                        "strikeZoneBottom": 1.69
-                    },
-                    "onDeck": {
                         "id": 605141,
                         "fullName": "Mookie Betts",
                         "link": "/api/v1/people/605141",
@@ -528,7 +482,7 @@
                         "strikeZoneTop": 3.096,
                         "strikeZoneBottom": 1.563
                     },
-                    "inHole": {
+                    "onDeck": {
                         "id": 518692,
                         "fullName": "Freddie Freeman",
                         "link": "/api/v1/people/518692",
@@ -578,103 +532,55 @@
                         "strikeZoneTop": 3.382,
                         "strikeZoneBottom": 1.707
                     },
-                    "first": {
-                        "id": 800543,
-                        "fullName": "Josue De Paula",
-                        "link": "/api/v1/people/800543",
-                        "firstName": "Josue",
-                        "lastName": "De Paula",
-                        "primaryNumber": "95",
-                        "birthDate": "2005-05-24",
-                        "currentAge": 21,
-                        "birthCity": "Brooklyn",
-                        "birthStateProvince": "NY",
+                    "inHole": {
+                        "id": 669257,
+                        "fullName": "Will Smith",
+                        "link": "/api/v1/people/669257",
+                        "firstName": "William",
+                        "lastName": "Smith",
+                        "primaryNumber": "16",
+                        "birthDate": "1995-03-28",
+                        "currentAge": 31,
+                        "birthCity": "Louisville",
+                        "birthStateProvince": "KY",
                         "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 185,
+                        "height": "5' 10\"",
+                        "weight": 195,
                         "active": true,
                         "primaryPosition": {
-                            "code": "10",
-                            "name": "Designated Hitter",
-                            "type": "Hitter",
-                            "abbreviation": "DH"
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
                         },
-                        "useName": "Josue",
-                        "useLastName": "De Paula",
-                        "boxscoreName": "De Paula, J",
-                        "gender": "M",
-                        "nameMatrilineal": "Sanders",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "pronunciation": "ho-SWAY deh-POW-lah",
-                        "mlbDebutDate": "2026-09-11",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "nameFirstLast": "Josue De Paula",
-                        "nameSlug": "josue-de-paula-800543",
-                        "firstLastName": "Josue De Paula",
-                        "lastFirstName": "De Paula, Josue",
-                        "lastInitName": "De Paula, J",
-                        "initLastName": "J De Paula",
-                        "fullFMLName": "Josue De Paula",
-                        "fullLFMName": "De Paula, Josue",
-                        "strikeZoneTop": 3.35,
-                        "strikeZoneBottom": 1.69
-                    },
-                    "second": {
-                        "id": 663656,
-                        "fullName": "Kyle Tucker",
-                        "link": "/api/v1/people/663656",
-                        "firstName": "Kyle",
-                        "lastName": "Tucker",
-                        "primaryNumber": "23",
-                        "birthDate": "1997-01-17",
-                        "currentAge": 29,
-                        "birthCity": "Tampa",
-                        "birthStateProvince": "FL",
-                        "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 212,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Kyle",
-                        "useLastName": "Tucker",
-                        "middleName": "Daniel",
-                        "boxscoreName": "Tucker",
+                        "useName": "Will",
+                        "useLastName": "Smith",
+                        "middleName": "Dills",
+                        "boxscoreName": "Smith, W",
+                        "nickName": "Smitty",
                         "gender": "M",
                         "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2015,
-                        "mlbDebutDate": "2018-07-07",
+                        "isVerified": false,
+                        "draftYear": 2016,
+                        "mlbDebutDate": "2019-05-28",
                         "batSide": {
-                            "code": "L",
-                            "description": "Left"
+                            "code": "R",
+                            "description": "Right"
                         },
                         "pitchHand": {
                             "code": "R",
                             "description": "Right"
                         },
-                        "nameFirstLast": "Kyle Tucker",
-                        "nameSlug": "kyle-tucker-663656",
-                        "firstLastName": "Kyle Tucker",
-                        "lastFirstName": "Tucker, Kyle",
-                        "lastInitName": "Tucker, K",
-                        "initLastName": "K Tucker",
-                        "fullFMLName": "Kyle Daniel Tucker",
-                        "fullLFMName": "Tucker, Kyle Daniel",
-                        "strikeZoneTop": 3.351,
-                        "strikeZoneBottom": 1.691
+                        "nameFirstLast": "Will Smith",
+                        "nameSlug": "will-smith-669257",
+                        "firstLastName": "Will Smith",
+                        "lastFirstName": "Smith, Will",
+                        "lastInitName": "Smith, W",
+                        "initLastName": "W Smith",
+                        "fullFMLName": "William Dills Smith",
+                        "fullLFMName": "Smith, William Dills",
+                        "strikeZoneTop": 3.138,
+                        "strikeZoneBottom": 1.583
                     },
                     "pitcher": {
                         "id": 656945,
@@ -726,16 +632,16 @@
                         "strikeZoneTop": 3.21,
                         "strikeZoneBottom": 1.62
                     },
-                    "battingOrder": 9,
+                    "battingOrder": 1,
                     "team": {
                         "id": 119,
                         "name": "Los Angeles Dodgers",
                         "link": "/api/v1/teams/119"
                     }
                 },
-                "balls": 4,
-                "strikes": 1,
-                "outs": 2
+                "balls": 1,
+                "strikes": 0,
+                "outs": 3
             },
             "venue": {
                 "id": 32,
@@ -747,6 +653,7 @@
             "content": {
                 "link": "/api/v1/game/849809/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

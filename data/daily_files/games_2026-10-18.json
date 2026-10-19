@@ -11,12 +11,12 @@
             "rescheduledFrom": "2026-10-17T00:00:00Z",
             "rescheduledFromDate": "2026-10-16",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -26,12 +26,13 @@
                         "link": "/api/v1/teams/139"
                     },
                     "leagueRecord": {
-                        "wins": 2,
+                        "wins": 3,
                         "losses": 2,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".600"
                     },
                     "score": 3,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 656876,
                         "fullName": "Drew Rasmussen",
@@ -93,11 +94,12 @@
                     },
                     "leagueRecord": {
                         "wins": 2,
-                        "losses": 2,
+                        "losses": 3,
                         "ties": 0,
-                        "pct": ".500"
+                        "pct": ".400"
                     },
                     "score": 1,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 800048,
                         "fullName": "Parker Messick",
@@ -291,9 +293,10 @@
                         "num": 9,
                         "ordinalNum": "9th",
                         "home": {
+                            "runs": 0,
                             "hits": 0,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         },
                         "away": {
                             "runs": 0,
@@ -308,7 +311,7 @@
                         "runs": 1,
                         "hits": 5,
                         "errors": 0,
-                        "leftOnBase": 4
+                        "leftOnBase": 5
                     },
                     "away": {
                         "runs": 3,
@@ -431,106 +434,6 @@
                 },
                 "offense": {
                     "batter": {
-                        "id": 666176,
-                        "fullName": "Jo Adell",
-                        "link": "/api/v1/people/666176",
-                        "firstName": "Jordon",
-                        "lastName": "Adell",
-                        "primaryNumber": "7",
-                        "birthDate": "1999-04-08",
-                        "currentAge": 27,
-                        "birthCity": "Shelby",
-                        "birthStateProvince": "NC",
-                        "birthCountry": "USA",
-                        "height": "6' 2\"",
-                        "weight": 215,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Jo",
-                        "useLastName": "Adell",
-                        "middleName": "Scott",
-                        "boxscoreName": "Adell",
-                        "nickName": "Jo",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": false,
-                        "draftYear": 2017,
-                        "pronunciation": "Uh-DEL",
-                        "mlbDebutDate": "2020-08-04",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jo Adell",
-                        "nameSlug": "jo-adell-666176",
-                        "firstLastName": "Jo Adell",
-                        "lastFirstName": "Adell, Jo",
-                        "lastInitName": "Adell, J",
-                        "initLastName": "J Adell",
-                        "fullFMLName": "Jo Adell",
-                        "fullLFMName": "Adell, J",
-                        "strikeZoneTop": 3.305,
-                        "strikeZoneBottom": 1.668
-                    },
-                    "onDeck": {
-                        "id": 663993,
-                        "fullName": "Nathaniel Lowe",
-                        "link": "/api/v1/people/663993",
-                        "firstName": "David",
-                        "lastName": "Lowe",
-                        "primaryNumber": "46",
-                        "birthDate": "1995-07-07",
-                        "currentAge": 31,
-                        "birthCity": "Norfolk",
-                        "birthStateProvince": "VA",
-                        "birthCountry": "USA",
-                        "height": "6' 4\"",
-                        "weight": 220,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "3",
-                            "name": "First Base",
-                            "type": "Infielder",
-                            "abbreviation": "1B"
-                        },
-                        "useName": "Nathaniel",
-                        "useLastName": "Lowe",
-                        "middleName": "Nathaniel",
-                        "boxscoreName": "Lowe, N",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2016,
-                        "mlbDebutDate": "2019-04-29",
-                        "batSide": {
-                            "code": "L",
-                            "description": "Left"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Nathaniel Lowe",
-                        "nameSlug": "nathaniel-lowe-663993",
-                        "firstLastName": "Nathaniel Lowe",
-                        "lastFirstName": "Lowe, Nathaniel",
-                        "lastInitName": "Lowe, N",
-                        "initLastName": "N Lowe",
-                        "fullFMLName": "David Nathaniel Lowe",
-                        "fullLFMName": "Lowe, David Nathaniel",
-                        "strikeZoneTop": 3.367,
-                        "strikeZoneBottom": 1.699
-                    },
-                    "inHole": {
                         "id": 683953,
                         "fullName": "Travis Bazzana",
                         "link": "/api/v1/people/683953",
@@ -579,55 +482,101 @@
                         "strikeZoneTop": 3.179,
                         "strikeZoneBottom": 1.604
                     },
-                    "first": {
-                        "id": 800050,
-                        "fullName": "Chase DeLauter",
-                        "link": "/api/v1/people/800050",
-                        "firstName": "Chase",
-                        "lastName": "DeLauter",
-                        "primaryNumber": "24",
-                        "birthDate": "2001-10-08",
-                        "currentAge": 25,
-                        "birthCity": "Frederick",
-                        "birthStateProvince": "MD",
+                    "onDeck": {
+                        "id": 672275,
+                        "fullName": "Patrick Bailey",
+                        "link": "/api/v1/people/672275",
+                        "firstName": "Patrick",
+                        "lastName": "Bailey",
+                        "primaryNumber": "16",
+                        "birthDate": "1999-05-29",
+                        "currentAge": 27,
+                        "birthCity": "Greensboro",
+                        "birthStateProvince": "NC",
                         "birthCountry": "USA",
-                        "height": "6' 3\"",
-                        "weight": 235,
+                        "height": "6' 0\"",
+                        "weight": 223,
                         "active": true,
                         "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
+                            "code": "2",
+                            "name": "Catcher",
+                            "type": "Catcher",
+                            "abbreviation": "C"
                         },
-                        "useName": "Chase",
-                        "useLastName": "DeLauter",
-                        "middleName": "Daniel",
-                        "boxscoreName": "DeLauter",
+                        "useName": "Patrick",
+                        "useLastName": "Bailey",
+                        "middleName": "Lee",
+                        "boxscoreName": "Bailey",
                         "gender": "M",
                         "isPlayer": true,
                         "isVerified": true,
-                        "draftYear": 2022,
-                        "pronunciation": "DAH-law-ter",
-                        "mlbDebutDate": "2025-10-01",
+                        "draftYear": 2020,
+                        "mlbDebutDate": "2023-05-19",
                         "batSide": {
-                            "code": "L",
-                            "description": "Left"
+                            "code": "S",
+                            "description": "Switch"
                         },
                         "pitchHand": {
-                            "code": "L",
-                            "description": "Left"
+                            "code": "R",
+                            "description": "Right"
                         },
-                        "nameFirstLast": "Chase DeLauter",
-                        "nameSlug": "chase-delauter-800050",
-                        "firstLastName": "Chase DeLauter",
-                        "lastFirstName": "DeLauter, Chase",
-                        "lastInitName": "DeLauter, C",
-                        "initLastName": "C DeLauter",
-                        "fullFMLName": "Chase Daniel DeLauter",
-                        "fullLFMName": "DeLauter, Chase Daniel",
-                        "strikeZoneTop": 3.34,
-                        "strikeZoneBottom": 1.69
+                        "nameFirstLast": "Patrick Bailey",
+                        "nameSlug": "patrick-bailey-672275",
+                        "firstLastName": "Patrick Bailey",
+                        "lastFirstName": "Bailey, Patrick",
+                        "lastInitName": "Bailey, P",
+                        "initLastName": "P Bailey",
+                        "fullFMLName": "Patrick Lee Bailey",
+                        "fullLFMName": "Bailey, Patrick Lee",
+                        "strikeZoneTop": 3.22,
+                        "strikeZoneBottom": 1.63
+                    },
+                    "inHole": {
+                        "id": 682657,
+                        "fullName": "Angel Mart\u00ednez",
+                        "link": "/api/v1/people/682657",
+                        "firstName": "Angel",
+                        "lastName": "Mart\u00ednez",
+                        "primaryNumber": "1",
+                        "birthDate": "2002-01-27",
+                        "currentAge": 24,
+                        "birthCity": "Santo Domingo",
+                        "birthCountry": "Dominican Republic",
+                        "height": "5' 11\"",
+                        "weight": 200,
+                        "active": true,
+                        "primaryPosition": {
+                            "code": "7",
+                            "name": "Outfielder",
+                            "type": "Outfielder",
+                            "abbreviation": "LF"
+                        },
+                        "useName": "Angel",
+                        "useLastName": "Mart\u00ednez",
+                        "boxscoreName": "Mart\u00ednez, A",
+                        "gender": "M",
+                        "isPlayer": true,
+                        "isVerified": false,
+                        "pronunciation": "Ahn-hell",
+                        "mlbDebutDate": "2024-06-22",
+                        "batSide": {
+                            "code": "S",
+                            "description": "Switch"
+                        },
+                        "pitchHand": {
+                            "code": "R",
+                            "description": "Right"
+                        },
+                        "nameFirstLast": "Angel Mart\u00ednez",
+                        "nameSlug": "angel-martinez-682657",
+                        "firstLastName": "Angel Mart\u00ednez",
+                        "lastFirstName": "Mart\u00ednez, Angel",
+                        "lastInitName": "Mart\u00ednez, A",
+                        "initLastName": "A Mart\u00ednez",
+                        "fullFMLName": "Angel Mart\u00ednez",
+                        "fullLFMName": "Mart\u00ednez, Angel ",
+                        "strikeZoneTop": 3.178,
+                        "strikeZoneBottom": 1.604
                     },
                     "pitcher": {
                         "id": 671922,
@@ -678,7 +627,7 @@
                         "strikeZoneTop": 3.433,
                         "strikeZoneBottom": 1.733
                     },
-                    "battingOrder": 4,
+                    "battingOrder": 6,
                     "team": {
                         "id": 114,
                         "name": "Cleveland Guardians",
@@ -686,8 +635,8 @@
                     }
                 },
                 "balls": 0,
-                "strikes": 0,
-                "outs": 0
+                "strikes": 2,
+                "outs": 3
             },
             "venue": {
                 "id": 5,
@@ -699,6 +648,7 @@
             "content": {
                 "link": "/api/v1/game/849817/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",

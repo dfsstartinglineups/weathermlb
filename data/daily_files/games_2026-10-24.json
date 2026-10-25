@@ -9,12 +9,12 @@
             "gameDate": "2026-10-25T00:00:00Z",
             "officialDate": "2026-10-24",
             "status": {
-                "abstractGameState": "Live",
-                "codedGameState": "I",
-                "detailedState": "In Progress",
-                "statusCode": "I",
+                "abstractGameState": "Final",
+                "codedGameState": "O",
+                "detailedState": "Game Over",
+                "statusCode": "O",
                 "startTimeTBD": false,
-                "abstractGameCode": "L"
+                "abstractGameCode": "F"
             },
             "teams": {
                 "away": {
@@ -25,11 +25,12 @@
                     },
                     "leagueRecord": {
                         "wins": 0,
-                        "losses": 1,
+                        "losses": 2,
                         "ties": 0,
                         "pct": ".000"
                     },
                     "score": 4,
+                    "isWinner": false,
                     "probablePitcher": {
                         "id": 656876,
                         "fullName": "Drew Rasmussen",
@@ -90,12 +91,13 @@
                         "link": "/api/v1/teams/158"
                     },
                     "leagueRecord": {
-                        "wins": 1,
+                        "wins": 2,
                         "losses": 0,
                         "ties": 0,
                         "pct": "1.000"
                     },
                     "score": 5,
+                    "isWinner": true,
                     "probablePitcher": {
                         "id": 701656,
                         "fullName": "Logan Henderson",
@@ -294,9 +296,10 @@
                             "leftOnBase": 0
                         },
                         "away": {
+                            "runs": 0,
                             "hits": 1,
                             "errors": 0,
-                            "leftOnBase": 0
+                            "leftOnBase": 1
                         }
                     }
                 ],
@@ -311,7 +314,7 @@
                         "runs": 4,
                         "hits": 7,
                         "errors": 1,
-                        "leftOnBase": 5
+                        "leftOnBase": 6
                     }
                 },
                 "defense": {
@@ -574,55 +577,6 @@
                         "strikeZoneTop": 3.18,
                         "strikeZoneBottom": 1.6
                     },
-                    "third": {
-                        "id": 676356,
-                        "fullName": "Jonny DeLuca",
-                        "link": "/api/v1/people/676356",
-                        "firstName": "Jonathan",
-                        "lastName": "DeLuca",
-                        "primaryNumber": "21",
-                        "birthDate": "1998-07-10",
-                        "currentAge": 28,
-                        "birthCity": "Thousand Oaks",
-                        "birthStateProvince": "CA",
-                        "birthCountry": "USA",
-                        "height": "5' 10\"",
-                        "weight": 195,
-                        "active": true,
-                        "primaryPosition": {
-                            "code": "9",
-                            "name": "Outfielder",
-                            "type": "Outfielder",
-                            "abbreviation": "RF"
-                        },
-                        "useName": "Jonny",
-                        "useLastName": "DeLuca",
-                        "middleName": "Davis",
-                        "boxscoreName": "DeLuca",
-                        "gender": "M",
-                        "isPlayer": true,
-                        "isVerified": true,
-                        "draftYear": 2019,
-                        "mlbDebutDate": "2023-06-07",
-                        "batSide": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "pitchHand": {
-                            "code": "R",
-                            "description": "Right"
-                        },
-                        "nameFirstLast": "Jonny DeLuca",
-                        "nameSlug": "jonny-deluca-676356",
-                        "firstLastName": "Jonny DeLuca",
-                        "lastFirstName": "DeLuca, Jonny",
-                        "lastInitName": "DeLuca, J",
-                        "initLastName": "J DeLuca",
-                        "fullFMLName": "Jonathan Davis DeLuca",
-                        "fullLFMName": "DeLuca, Jonathan Davis",
-                        "strikeZoneTop": 3.13,
-                        "strikeZoneBottom": 1.58
-                    },
                     "pitcher": {
                         "id": 571927,
                         "fullName": "Steven Matz",
@@ -681,9 +635,9 @@
                         "link": "/api/v1/teams/139"
                     }
                 },
-                "balls": 0,
-                "strikes": 0,
-                "outs": 2
+                "balls": 3,
+                "strikes": 3,
+                "outs": 3
             },
             "venue": {
                 "id": 32,
@@ -695,6 +649,7 @@
             "content": {
                 "link": "/api/v1/game/849802/content"
             },
+            "isTie": false,
             "gameNumber": 1,
             "publicFacing": true,
             "doubleHeader": "N",
